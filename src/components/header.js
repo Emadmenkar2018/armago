@@ -24,8 +24,8 @@ const styles = StyleSheet.create({
   },
   oval: {
     width,
-    height: 160,
-    marginTop: -66,
+    height: 170,
+    marginTop: -80,
     position: 'absolute'
   },
   header: {
