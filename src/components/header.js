@@ -9,9 +9,9 @@ export default class Header extends Component {
       <View style={styles.container}>
         <Image source={images.oval} style={styles.oval}/>
         <View style={styles.header}>
-            <Image source={images.gear2} style={styles.icon}/>
+            <Image source={images.gear} style={styles.icon}/>
             <Image source={images.GameOn} style={styles.logo}/>
-            <Image source={images.chat2} style={styles.icon}/>
+            <Image source={images.chat} style={styles.icon}/>
         </View>
       </View>
     );
