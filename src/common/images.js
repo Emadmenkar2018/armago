@@ -25,6 +25,6 @@ const user7 = require('../../assets/user7.png');
 const user8 = require('../../assets/user8.png');
 
 export const images = {
-    chat, chat2, check, close, gear, gear2, group, logo, oval, racket, woman, GameOn, grape, user1, user2, user3, user4, user5, user9, remove, bottombar, oval3, msg,
+    chat, check, close, gear, group, logo, oval, racket, woman, GameOn, grape, user1, user2, user3, user4, user5, user9, remove, bottombar, oval3, msg,
     user6, user7, user8
 }
