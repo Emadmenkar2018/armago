@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image } from 'react-native';
+import { View, Text, StyleSheet, Image, ImageBackground } from 'react-native';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import { colors } from '../common/colors';
@@ -11,22 +11,24 @@ export default class Socials extends Component {
       <View style={styles.container}>
         <Header />
         <View style={styles.main}>
+          <ImageBackground source={images.mask} style={styles.backgroundImage}>
             <Image source={images.group} style={styles.groupImg}/>
             <Image source={images.grape} style={styles.img}/>
-            <View style={{ flex: 1, marginLeft: 6}}>
+            <View style={{ flex: 1,marginHorizontal: 20 ,marginVertical: 15}}>
                 <Text style={[styles.title, { marginTop: 5}]}>Bristol Tennis Social</Text>
                 <Text style={[styles.text, { marginVertical: 6}]}>{'Family Social\nGravity'}</Text>
                 <Text style={styles.text}>{'Swipe to join - Exclusive to app users'}</Text>
             </View>
             <View style={styles.bar}>
-                <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{ flexDirection: 'row',marginHorizontal: 20 ,marginVertical: 20}}>
                     <View style={styles.circle}>
                       <Text style={styles.text}>SAT</Text>
                     </View>
-                    <Text style={styles.text}>8PM</Text>
+                    <Text style={styles.text,{'marginTop' : 15, 'color': 'white'}}>8PM</Text>
                 </View>
                 <Image source={images.racket} style={styles.racket}/>
             </View>
+          </ImageBackground>
         </View>
         <Footer />
       </View>
@@ -40,12 +42,13 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    backgroundColor: '#3498DB',
-    margin: 20,
-    marginHorizontal: 30,
-    padding: 15,
-    borderRadius: 60,
-    elevation: 5
+    marginHorizontal: 45,
+    marginVertical: 0
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode : "cover",
+    marginVertical: 17
   },
   circle: {
     backgroundColor: colors.green,
@@ -57,9 +60,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 8
   },
   img: {
-      width: '100%',
-      height: 180,
-      borderRadius: 60
+    flex:1,
+    width: '90%',
+    left:'5%',
+    height: 180,
+    top: 20,
+    borderRadius: 60
   },
   groupImg: {
     position: 'absolute',
@@ -75,8 +81,9 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.white,
-    fontSize: 25,
-    fontFamily: 'Proxima Nova Bold'
+    fontSize: 30,
+    fontFamily: 'Proxima Nova Alt Bold',
+    marginTop: 10
   },
   bar: {
       flexDirection: 'row',
@@ -84,7 +91,8 @@ const styles = StyleSheet.create({
       justifyContent: 'space-between'
   },
   racket: {
-      width: 60,
-      height: 60
+    width: 50,
+    height: 50,
+    marginHorizontal: 20 
   }
 });

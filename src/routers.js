@@ -23,7 +23,7 @@ const HomeNavigator = createStackNavigator({
   LocationSwitch: { screen: LocationSwitch, navigationOptions },
   Messages: { screen: Messages, navigationOptions },
 }, {
-  initialRouteName: 'TrialBack'
+  initialRouteName: 'Messages'
 });
 
 export const Routers = createAppContainer(

@@ -28,22 +28,22 @@ export default class Messages extends Component {
           </View>
 
           <View style={{ flexDirection: 'row', marginTop: 12, height: 90 }} horizontal>
-            <View style={{ paddingRight: 14 }}>
+            <View style={{ paddingRight: 30 }}>
               <Image source={images.user1} style={styles.user} />
               <View style={styles.dot} />
               <Text style={[styles.name, { marginLeft: 10 }]}>Jeffery</Text>
             </View>
-            <View style={{ paddingRight: 14 }}>
+            <View style={{ paddingRight: 30 }}>
               <Image source={images.user2} style={styles.user} />
               <View style={styles.dot} />
               <Text style={styles.name}>Alan</Text>
             </View>
-            <View style={{ paddingRight: 14 }}>
+            <View style={{ paddingRight: 30 }}>
               <Image source={images.user3} style={styles.user} />
               <View style={styles.dot} />
               <Text style={styles.name}>Leo</Text>
             </View>
-            <View style={{ paddingRight: 14 }}>
+            <View style={{ paddingRight: 30 }}>
               <Image source={images.user4} style={styles.user} />
               <View style={styles.dot} />
               <Text style={styles.name}>Chris</Text>

@@ -33,7 +33,7 @@ export default class TimeEdit extends Component {
           <Text style={styles.text}>{'Tap the relevant time and day to update availability'}</Text>
 
           <View style={{ marginRight: 12, alignSelf: 'flex-end' }}>
-            <Text style={styles.text2}>{'06:00-12:00 12.00-18.00 18.00-23.00'}</Text>
+            <Text style={styles.text2}>{'06:00-12:00    12.00-18.00    18.00-23.00'}</Text>
           </View>
 
           <DateView data={'Monday'} value={[0, 0, 0]}/>
@@ -72,7 +72,7 @@ const styles = StyleSheet.create({
   text2: {
     color: 'grey',
     fontSize: 11,
-    marginLeft: 10,
+    marginLeft: 15,
     fontWeight: '300',
     marginTop: 12,
     fontFamily: 'ProximaNova-Regular'
@@ -95,7 +95,8 @@ const styles = StyleSheet.create({
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
-    marginRight: 50
+    marginRight: 40,
+    marginLeft: 10
   },
   item: {
     marginTop: 8,
@@ -113,12 +114,12 @@ const styles = StyleSheet.create({
     borderRadius: 21,
     justifyContent: 'center',
     alignItems: 'center',
-    marginHorizontal: 5,
+    marginHorizontal: 15,
     marginVertical: 1
   },
   largeBtn: {
     flex: 1, 
-    backgroundColor: 'orange', 
+    backgroundColor: '#e67e22', 
     borderRadius: 12, 
     width: '98%', 
     marginTop: 16,

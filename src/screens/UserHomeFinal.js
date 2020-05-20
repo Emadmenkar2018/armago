@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, Modal, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, ImageBackground, Modal, TouchableOpacity } from 'react-native';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import { colors } from '../common/colors';
@@ -82,24 +82,27 @@ export default class UserHomeFinal extends Component {
         <>
           <Header />
           <View style={styles.main}>
-            <Image source={images.group} style={styles.groupImg} />
-            <Image source={images.woman} style={styles.img} />
-            <View style={{ flex: 1, marginLeft: 6 }}>
-              <Text style={[styles.title]}>Alisha, 20</Text>
-              <Text style={[styles.text, { marginVertical: 6 }]}>Intermediate</Text>
-              <Text style={styles.text}>{'Studies at University of Bristol \n2 Miles Away'}</Text>
-            </View>
-            <View style={styles.bar}>
-              <View style={{ flexDirection: 'row' }}>
-                <TouchableOpacity style={styles.circle} onPress={() => this.setState({ simpleModal: true })}>
-                  <Text style={styles.text}>MON</Text>
-                </TouchableOpacity>
-                <TouchableOpacity style={styles.circle} onPress={() => this.setState({ showModal: true })}>
-                  <Text style={styles.text}>WED</Text>
-                </TouchableOpacity>
+            <ImageBackground source={images.mask} style={styles.backgroundImage}>
+
+              <Image source={images.group} style={styles.groupImg} />
+              <Image source={images.woman} style={styles.img} />
+              <View style={{ flex: 1, marginHorizontal: 20 ,marginVertical: 15}}>
+                <Text style={[styles.title]}>Alisha, 20</Text>
+                <Text style={[styles.text, { marginVertical: 6 }]}>Intermediate</Text>
+                <Text style={styles.text}>{'Studies at University of Bristol \n2 Miles Away'}</Text>
               </View>
-              <Image source={images.racket} style={styles.racket} />
-            </View>
+              <View style={styles.bar}>
+                <View style={{ flexDirection: 'row',marginHorizontal: 20 ,marginVertical: 20}}>
+                  <TouchableOpacity style={styles.circle} onPress={() => this.setState({ simpleModal: true })}>
+                    <Text style={styles.text}>MON</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity style={styles.circle} onPress={() => this.setState({ showModal: true })}>
+                    <Text style={styles.text}>WED</Text>
+                  </TouchableOpacity>
+                </View>
+                <Image source={images.racket} style={styles.racket} />
+              </View>
+            </ImageBackground>
           </View>
 
           {this.renderModal()}
@@ -125,11 +128,16 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    backgroundColor: colors.darkBlue,
-    margin: 20,
-    marginHorizontal: 30,
-    padding: 15,
-    borderRadius: 60,
+    marginHorizontal: 45,
+    marginVertical: 0
+  },
+  backgroundImage: {
+    flex: 1,
+    resizeMode : "cover",
+    marginVertical: 17
+  },
+  mask: {
+    width: '100%'
   },
   circle: {
     backgroundColor: colors.green,
@@ -141,8 +149,11 @@ const styles = StyleSheet.create({
     marginHorizontal: 8
   },
   img: {
-    width: '100%',
+    flex:1,
+    width: '90%',
+    left:'5%',
     height: 180,
+    top: 20,
     borderRadius: 60
   },
   groupImg: {
@@ -169,8 +180,9 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between'
   },
   racket: {
-    width: 60,
-    height: 60
+    width: 50,
+    height: 50,
+    marginHorizontal: 20 
   },
   modalContainer: {
     flex: 1,

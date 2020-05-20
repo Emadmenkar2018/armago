@@ -7,7 +7,7 @@ export default class TeamsView extends Component {
   render() {
     return (
       <View style={styles.container}>
-        <LongHeader title={'Teams'} color={'orange'}/>
+        <LongHeader title={'Teams'} color={'#e67e22'}/>
         <View style={styles.main}>
           <Text style={styles.text}>{'Here are the teams you have joined training with:'}</Text>
           <View style={styles.item}>

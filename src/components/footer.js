@@ -22,7 +22,7 @@ const styles = StyleSheet.create({
     width,
     height: width/2.2,
     position: 'absolute',
-    bottom: -width/4,
+    bottom: -width/3.8,
   },
   footer: {
     flexDirection: 'row',
@@ -30,8 +30,8 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginHorizontal: 12,
-    marginBottom: 8,
-    width: 60,
-    height: 60
+    marginBottom: 5,
+    width: 65,
+    height: 65
   },
 });

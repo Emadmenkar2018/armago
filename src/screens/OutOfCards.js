@@ -31,7 +31,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'grey',
-    fontSize: 15,
+    fontSize: 20,
     textAlign: 'center',
     fontFamily: 'ProximaNova-Regular'
   }  

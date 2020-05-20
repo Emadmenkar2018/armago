@@ -13,7 +13,7 @@ export default class LocationSwitch extends Component {
         </View>
         <View style={styles.category}>
           <Text style={styles.text2}>{'Current Location'}</Text>
-          <AntDesign name="check" size={20} color={"blue"} />
+          <AntDesign name="check" size={20} color={"#007aff"} />
         </View>
         <View style={[styles.category, {borderBottomWidth: 0}]}>
           <Text style={styles.text2}>{'Bristol'}</Text>
@@ -23,7 +23,7 @@ export default class LocationSwitch extends Component {
           <Text style={[styles.text2, { fontSize: 18, paddingTop: 6, color: 'white' }]}>{'Add New Location'}</Text>
         </View>
         <View style={{ flex: 1, backgroundColor: '#f8f8f8', paddingTop: 24, paddingHorizontal: 12}}>
-          <Text style={styles.text}>{'Here you can change your location so that you can swipe in a specific area.\n\nPlease note that by changing your location,\n\nsome cards such as training and event cards speific to you may no longer be seen.\n\nUp to 5 can be saved.'}</Text>
+          <Text style={styles.text}>{'Here you can change your location so that you can swipe in a specific area.\n\nPlease note that by changing your location,some cards such as training and event cards speific to you may no longer be seen.\n\nUp to 5 can be saved.'}</Text>
         </View>
 
       </View>
