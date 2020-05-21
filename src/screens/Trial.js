@@ -12,10 +12,8 @@ export default class TrialBack extends Component {
       <View style={styles.container}>
         <Header />
         <View style={styles.main}>
-          <ImageBackground source={images.mask} style={styles.backgroundImage}>
+          <Image source={images.group} style={styles.groupImg} />
           <FlipCard 
-            friction={6}
-            perspective={1000}
             flipHorizontal={true}
             flipVertical={false}
             flip={false}
@@ -25,19 +23,19 @@ export default class TrialBack extends Component {
             {/* Face Side */}
             <View style={{ flex: 1}}>
                   <Image source={images.trial_front} style={styles.frontimg} />
-                  <View style={{ flex: 1,marginHorizontal:20}}>
+                  <View style={{ flex: 1,marginHorizontal:20,marginVertical: 15}}>
                     <Text style={[styles.title]}>Advanced Trials</Text>
                     <Text style={[styles.text2, { marginVertical: 6 }]}>Swipe right to Sign Up</Text>
                   </View>
                   <View style={styles.bar}>
-                    <View style={{ flexDirection: 'row',marginHorizontal: 20 ,marginVertical: 20}}>
+                    <View style={{ flexDirection: 'row',marginHorizontal: 10 ,marginVertical: 10}}>
                       <TouchableOpacity style={styles.circle} onPress={() => this.setState({ simpleModal: true })}>
                         <Text style={styles.text3}>MON</Text>
                       </TouchableOpacity>
                     </View>
-                    
+                    <Image source={images.racket} style={styles.racket} />
                   </View>
-                  <Image source={images.racket} style={styles.racket} />
+                  
             </View>
             {/* Back Side */}
             <View>
@@ -51,7 +49,6 @@ export default class TrialBack extends Component {
             </View>
           </FlipCard>
             
-          </ImageBackground>
         </View>
         <Footer />
       </View>
@@ -66,15 +63,12 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    marginHorizontal: 45,
-    marginVertical: 0
-  },
-  backgroundImage: {
-    flex: 1,
-    resizeMode : "contain",
-    width: null,
-    height: null,
-    marginVertical: 17
+    backgroundColor: colors.darkBlue,
+    margin: 20,
+    marginHorizontal: 30,
+    padding: 15,
+    borderRadius: 60,
+    elevation: 5,
   },
   img: {
     width: 80,
@@ -85,10 +79,9 @@ const styles = StyleSheet.create({
   },
   frontimg: {
     
-    width:'86%',
+    width:'100%',
     height: 200,
-    left:'7%',
-    marginVertical: 20,
+    marginVertical: 10,
     borderRadius: 40
   },  
   text: {
@@ -110,7 +103,6 @@ const styles = StyleSheet.create({
     fontWeight: '700'
   },
   bar: {
-    flex: 1,
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'space-between'
@@ -118,9 +110,7 @@ const styles = StyleSheet.create({
   racket: {
     width: 50,
     height: 50,
-    position: 'absolute',
-    bottom: 30,
-    right: 20
+    marginHorizontal: 10 
   },
   text1: {
     color: colors.white,

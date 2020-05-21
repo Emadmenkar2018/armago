@@ -82,17 +82,16 @@ export default class UserHomeFinal extends Component {
         <>
           <Header />
           <View style={styles.main}>
-            <ImageBackground source={images.mask} style={styles.backgroundImage}>
 
               <Image source={images.group} style={styles.groupImg} />
               <Image source={images.woman} style={styles.img} />
-              <View style={{ flex: 1, marginHorizontal: 20 ,marginVertical: 15}}>
+              <View style={{ flex: 1, marginHorizontal: 20 ,marginVertical: 15 }}>
                 <Text style={[styles.title]}>Alisha, 20</Text>
                 <Text style={[styles.text, { marginVertical: 6 }]}>Intermediate</Text>
                 <Text style={styles.text}>{'Studies at University of Bristol \n2 Miles Away'}</Text>
               </View>
               <View style={styles.bar}>
-                <View style={{ flexDirection: 'row',marginHorizontal: 20 ,marginVertical: 20}}>
+                <View style={{ flexDirection: 'row',marginHorizontal: 10 ,marginVertical: 10}}>
                   <TouchableOpacity style={styles.circle} onPress={() => this.setState({ simpleModal: true })}>
                     <Text style={styles.text}>MON</Text>
                   </TouchableOpacity>
@@ -102,7 +101,6 @@ export default class UserHomeFinal extends Component {
                 </View>
                 <Image source={images.racket} style={styles.racket} />
               </View>
-            </ImageBackground>
           </View>
 
           {this.renderModal()}
@@ -125,11 +123,15 @@ export default class UserHomeFinal extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
+    flexDirection: "column"
+   },
   main: {
     flex: 1,
-    marginHorizontal: 45,
-    marginVertical: 0
+    backgroundColor: colors.darkBlue,
+    margin: 20,
+    marginHorizontal: 30,
+    padding: 15,
+    borderRadius: 60,
   },
   backgroundImage: {
     flex: 1,
@@ -153,8 +155,8 @@ const styles = StyleSheet.create({
     width: '90%',
     left:'5%',
     height: 180,
-    top: 20,
-    borderRadius: 60
+    top: 10,
+    borderRadius: 20
   },
   groupImg: {
     position: 'absolute',
@@ -182,7 +184,7 @@ const styles = StyleSheet.create({
   racket: {
     width: 50,
     height: 50,
-    marginHorizontal: 20 
+    marginHorizontal: 10 
   },
   modalContainer: {
     flex: 1,

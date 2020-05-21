@@ -11,7 +11,6 @@ export default class Socials extends Component {
       <View style={styles.container}>
         <Header />
         <View style={styles.main}>
-          <ImageBackground source={images.mask} style={styles.backgroundImage}>
             <Image source={images.group} style={styles.groupImg}/>
             <Image source={images.grape} style={styles.img}/>
             <View style={{ flex: 1,marginHorizontal: 20 ,marginVertical: 15}}>
@@ -20,7 +19,7 @@ export default class Socials extends Component {
                 <Text style={styles.text}>{'Swipe to join - Exclusive to app users'}</Text>
             </View>
             <View style={styles.bar}>
-                <View style={{ flexDirection: 'row',marginHorizontal: 20 ,marginVertical: 20}}>
+                <View style={{ flexDirection: 'row',marginHorizontal: 10 ,marginVertical: 10}}>
                     <View style={styles.circle}>
                       <Text style={styles.text}>SAT</Text>
                     </View>
@@ -28,7 +27,6 @@ export default class Socials extends Component {
                 </View>
                 <Image source={images.racket} style={styles.racket}/>
             </View>
-          </ImageBackground>
         </View>
         <Footer />
       </View>
@@ -42,8 +40,11 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    marginHorizontal: 45,
-    marginVertical: 0
+    backgroundColor: colors.darkBlue,
+    margin: 20,
+    marginHorizontal: 30,
+    padding: 15,
+    borderRadius: 60,
   },
   backgroundImage: {
     flex: 1,
@@ -64,8 +65,8 @@ const styles = StyleSheet.create({
     width: '90%',
     left:'5%',
     height: 180,
-    top: 20,
-    borderRadius: 60
+    top: 10,
+    borderRadius: 20
   },
   groupImg: {
     position: 'absolute',
@@ -93,6 +94,6 @@ const styles = StyleSheet.create({
   racket: {
     width: 50,
     height: 50,
-    marginHorizontal: 20 
+    marginHorizontal: 10 
   }
 });
