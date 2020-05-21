@@ -12,6 +12,7 @@ import LocationSwitch from './screens/LocationSwitch';
 import Messages from './screens/Messages';
 import AuthLoadingScreen from './screens/auth/AuthLoading';
 import SetDetail from './screens/auth/SetDetail';
+import SetProfile from './screens/auth/SetProfile';
 const navigationOptions = () => ({ header: null });
 
 const HomeNavigator = createStackNavigator({
@@ -28,7 +29,8 @@ const HomeNavigator = createStackNavigator({
 });
 const AuthStack = createStackNavigator({
   Signin : { screen: Signin, navigationOptions },
-  SetDetail: { screen: SetDetail, navigationOptions }
+  SetDetail: { screen: SetDetail, navigationOptions },
+  SetProfile : {screen: SetProfile, navigationOptions}
 })
 
 
@@ -40,6 +42,6 @@ export const Routers = createAppContainer(
     Auth : AuthStack
   }, 
   {
-    initialRouteName: 'AuthLoading'
+    initialRouteName: 'Home'
   })
 );

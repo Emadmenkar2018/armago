@@ -1,62 +1,96 @@
-import React, { Component,useEffect  } from 'react';
-import { View, Text, StyleSheet, Image, BackHandler } from 'react-native';
+import React, { useState,Component  } from 'react';
+import DateTimePicker from '@react-native-community/datetimepicker';
+import { View, Text, StyleSheet, Image, Platform } from 'react-native';
 import { colors } from '../../common/colors';
 import { images } from '../../common/images';
-import { Input, CheckBox, Button ,Icon  } from 'react-native-elements';
+import { Input,  Button ,Icon  } from 'react-native-elements';
 
-export default class SetDetail extends Component {
+const DatePicker = () => {
+    const [date, setDate] = useState(new Date(1598051730000));
+    const [mode, setMode] = useState('date');
+    const [show, setShow] = useState(true);
+   
+    const onChange = (event, selectedDate) => {
+      const currentDate = selectedDate || date;
+      setShow(Platform.OS === 'ios');
+      setDate(currentDate);
+    };
+   
+    const showMode = currentMode => {
+      setShow(true);
+      setMode(currentMode);
+    };
+   
+    const showDatepicker = () => {
+      showMode('date');
+    };
+   
+    const showTimepicker = () => {
+      showMode('time');
+    };
+   
+    return (
+      <View>
+        <View>
+          <Button onPress={showDatepicker} title="Show date picker!" />
+        </View>
+        {show && (
+          <DateTimePicker
+            testID="dateTimePicker"
+            timeZoneOffsetInMinutes={0}
+            value={date}
+            mode={mode}
+            is24Hour={true}
+            display="default"
+            onChange={onChange}
+          />
+        )}
+      </View>
+    );
+};
+export default class SetProfile extends Component {
     
     state = null;
+    
     constructor(props){
         super(props);
         this.state = {
-          phone: '',
-          email: '',
+          fname: '',
+          lname: '',
           checked1 : false,
           checked2: true
         }
-        
     }
     
     
     render() {
+        
+        
         const { navigate } = this.props.navigation;
+        
+        
         return (
         <View style={styles.container}>
             <View style={styles.main}>
                 <View style={styles.sectionTop}>
                     <Image source={images.logo} style={styles.logo}/>
-                    <Text style={styles.tlabel}>{'Enter your details'}</Text>
+                    <Text style={styles.tlabel}>{'Enter your personal info'}</Text>
                 </View>
                 <View style={styles.sectionMiddle}>
                         <Input
-                        label = "Phone"
-                        placeholder="Enter Your Phone Number"
+                        label = "First Name"
+                        placeholder="Enter Your First Name"
                         style={styles.input}
-                        onChangeText={value => this.setState({phone: value })}
+                        onChangeText={value => this.setState({fname: value })}
                         />
                         <Input
-                        label = "Email"
-                        placeholder="Enter Your Email"
+                        label = "Last Name"
+                        placeholder="Enter Your Last Name"
                         style={styles.input}
-                        onChangeText={value => this.setState({ email: value })}
+                        onChangeText={value => this.setState({ lname: value })}
                         />
-                        <CheckBox
-                        left
-                        checkedIcon={<Image source={images.checked} />}
-                        uncheckedIcon={<Image source={images.unchecked} />}
-                        title='By ticking this box you agree to the terms and conditions of GameOn and to the privacy policy'
-                        textStyle = {{width:'80%'}}
-                        checked={this.state.checked1}
-                        />
-                        <CheckBox
-                        left
-                        checkedIcon={<Image source={images.checked} />}
-                        uncheckedIcon={<Image source={images.unchecked} />}
-                        title='By ticking this box you agree you would like to receive marketing communications by email'
-                        textStyle = {{width:'80%'}}
-                        checked={this.state.checked2}
-                        />
+                    <DatePicker></DatePicker>
+                        
                 </View>
                 <View style={styles.sectionBottom}>
                     <View style={{ flex:1,alignItems:'flex-start'}}>
@@ -65,7 +99,7 @@ export default class SetDetail extends Component {
                     icon={
                         <Icon name={"chevron-left"}  size={60} color="#fff" />
                     }
-                    onPress = {() => navigate('Signin')}
+                    onPress = {() => navigate('SetDetail')}
                     />
                     </View>
                     <View style={{ flex:1,alignItems:'flex-end'}}>
@@ -74,13 +108,16 @@ export default class SetDetail extends Component {
                     icon={
                         <Icon name={"chevron-right"}  size={60} color="#fff" />
                     }
-                    onPress = {() => navigate('SetProfile')}
+                    onPress = {this.next()}
                     />
                     </View>
                 </View>
             </View>
         </View>
         );
+    }
+    next() {
+        console.log('next clicked')
     }
 }
 

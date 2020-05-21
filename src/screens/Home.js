@@ -199,8 +199,9 @@ const styles = StyleSheet.create({
     borderLeftWidth: 2,
     borderBottomWidth: 5,
     borderColor: colors.gray,
-    margin: 20,
     marginHorizontal: 30,
+    marginVertical  : '10%',
+    justifyContent: 'center',
     borderRadius: 60,
   },
   backgroundImage: {
@@ -221,12 +222,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 8
   },
   img: {
-    flex:1,
-    width: '90%',
-    left:'5%',
-    height: 180,
-    top: 10,
-    borderRadius: 20
+    flex:2,
+    width: '100%',
+    resizeMode: 'contain',
   },
   back_img: {
     width: 100,
