@@ -5,6 +5,28 @@ import Footer from '../components/footer';
 import { colors } from '../common/colors';
 import { images } from '../common/images';
 import { BlurView } from "@react-native-community/blur";
+import FlipCard from 'react-native-flip-card';
+
+function DateView(props) {
+  return (
+    <View style={styles.item}>
+      <View style={styles.btn_date}>
+        <Text style={styles.text3}>{props.data}</Text>
+      </View>
+      <View style={{ flexDirection: 'row' }}>
+        <View style={[styles.circle_date, { backgroundColor: props.value[0] ? colors.green : colors.red}]}>
+          <Text style={styles.text_date}>AM</Text>
+        </View>
+        <View style={[styles.circle_date, { backgroundColor: props.value[1] ? colors.green : colors.red}]}>
+          <Text style={styles.text_date}>PM</Text>
+        </View>
+        <View style={[styles.circle_date, { backgroundColor: props.value[2] ? colors.green : colors.red}]}>
+          <Text style={styles.text_date}>EVE</Text>
+        </View>
+      </View>
+    </View>
+  )
+}
 
 export default class UserHomeFinal extends Component {
   state = {
@@ -76,31 +98,76 @@ export default class UserHomeFinal extends Component {
       </Modal>
     );
   }
+  
   render() {
     return (
       <View style={styles.container}>
         <>
           <Header />
           <View style={styles.main}>
-
               <Image source={images.group} style={styles.groupImg} />
-              <Image source={images.woman} style={styles.img} />
-              <View style={{ flex: 1, marginHorizontal: 20 ,marginVertical: 15 }}>
-                <Text style={[styles.title]}>Alisha, 20</Text>
-                <Text style={[styles.text, { marginVertical: 6 }]}>Intermediate</Text>
-                <Text style={styles.text}>{'Studies at University of Bristol \n2 Miles Away'}</Text>
-              </View>
-              <View style={styles.bar}>
-                <View style={{ flexDirection: 'row',marginHorizontal: 10 ,marginVertical: 10}}>
-                  <TouchableOpacity style={styles.circle} onPress={() => this.setState({ simpleModal: true })}>
-                    <Text style={styles.text}>MON</Text>
-                  </TouchableOpacity>
-                  <TouchableOpacity style={styles.circle} onPress={() => this.setState({ showModal: true })}>
-                    <Text style={styles.text}>WED</Text>
-                  </TouchableOpacity>
+              
+              
+
+              <FlipCard 
+                flipHorizontal={true}
+                flipVertical={false}
+                flip={false}
+                clickable={true}
+                onFlipEnd={(isFlipEnd)=>{console.log('isFlipEnd', isFlipEnd)}}
+              >
+                {/* Face Side */}
+                <View style={{ flex: 1, padding: 15}}>
+                  <Image source={images.woman} style={styles.img} />
+                  <View style={{ flex: 1, marginHorizontal: 20 ,marginVertical: 15 }}>
+                    <Text style={[styles.title]}>Alisha, 20</Text>
+                    <Text style={[styles.text, { marginVertical: 6 }]}>Intermediate</Text>
+                    <Text style={styles.text}>{'Studies at University of Bristol \n2 Miles Away'}</Text>
+                  </View>
+                  <View style={styles.bar}>
+                    <View style={{ flexDirection: 'row',marginHorizontal: 10 ,marginVertical: 10}}>
+                      <TouchableOpacity style={styles.circle} onPress={() => this.setState({ simpleModal: true })}>
+                        <Text style={styles.text}>MON</Text>
+                      </TouchableOpacity>
+                      <TouchableOpacity style={styles.circle} onPress={() => this.setState({ showModal: true })}>
+                        <Text style={styles.text}>WED</Text>
+                      </TouchableOpacity>
+                    </View>
+                    <Image source={images.racket} style={styles.racket} />
+                  </View>
                 </View>
-                <Image source={images.racket} style={styles.racket} />
-              </View>
+                {/* Back Side */}
+                <View style={{flex:1}}>
+                  <View style={{ flex: 1,flexDirection: 'column', padding: 10}}>
+                    
+                    <View style={{flex: 1, flexDirection : 'row'}}>
+                      <Image source={images.woman} style={styles.back_img} />
+                      <Text style={styles.text1}>Alisha, 20</Text>
+                    </View>
+                    <Text style={styles.text2}>{"Hi I'm Alisha! I love to meet new people through tennis!"}</Text>
+                  </View>
+                  
+                  <View style={{width:'100%',flex: 1, backgroundColor : colors.darkBlue , padding: 15}}>
+                    <Text style={styles.text6}>{"Matching"}</Text>
+                    <DateView data={'Monday'} value={[0, 1, 0]}/>
+                    <DateView data={'Wednesday'} value={[0, 1, 0]}/>
+                  </View>
+                  <View style={{flex: 1,  padding: 15}}>
+                    <Text style={styles.text6}>{"Mutual Friends"}</Text>
+                    <View style={{flex: 1, flexDirection : 'row', padding: 15}}>
+                      <View style={styles.m_avatar}>
+                        <Image source={images.user10} />
+                        <Text style={styles.text7}>Jess Jones</Text>
+                      </View>
+                      <View style={styles.m_avatar}>
+                        <Image source={images.user11}/>
+                        <Text style={styles.text7}>Jack Norrow</Text>
+                      </View>
+                    </View>
+                  </View>
+                  
+                </View>
+              </FlipCard>
           </View>
 
           {this.renderModal()}
@@ -127,14 +194,13 @@ const styles = StyleSheet.create({
    },
   main: {
     flex: 1,
-    backgroundColor: colors.darkBlue,
+    backgroundColor: colors.lightBlue,
     borderRightWidth: 3,
     borderLeftWidth: 2,
     borderBottomWidth: 5,
     borderColor: colors.gray,
     margin: 20,
     marginHorizontal: 30,
-    padding: 15,
     borderRadius: 60,
   },
   backgroundImage: {
@@ -162,6 +228,13 @@ const styles = StyleSheet.create({
     top: 10,
     borderRadius: 20
   },
+  back_img: {
+    width: 100,
+    height: 80,
+    top:10,
+    left:10,
+    borderRadius: 20
+  },
   groupImg: {
     position: 'absolute',
     right: -6,
@@ -169,10 +242,39 @@ const styles = StyleSheet.create({
     width: 40,
     height: 40
   },
+  m_avatar: {
+    flex: 0.2,
+    textAlign: 'center',
+    padding: 10
+  },
   text: {
     color: colors.white,
     fontSize: 12,
     fontFamily: 'Proxima Nova Alt Bold'
+  },
+  text1: {
+    color: colors.white,
+    fontSize: 35,
+    fontWeight: '700',
+    left:20,
+    top: 20
+  },
+  text2: {
+    flex:1,
+    color: colors.white,
+    fontSize: 15,
+    top: 20,
+    marginHorizontal: 10
+  },
+  text6 : {
+    color: colors.white,
+    fontSize: 20,
+    fontWeight: '700'
+  },
+  text7: {
+    color: colors.white,
+    fontSize: 10,
+    textAlign: 'center',
   },
   title: {
     color: colors.white,
@@ -244,5 +346,41 @@ const styles = StyleSheet.create({
     fontSize: 18, 
     fontFamily: 'ProximaNova-Regular',
     textAlign: 'center'
+  },
+  item: {
+    marginTop: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  btn_date: {
+    width: 100,
+    height: 40,
+    backgroundColor: '#34495E',
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 40,
+    marginLeft: 10
+  },
+  text3: {
+    color: '#fff',
+    fontSize: 16,
+    fontFamily: 'ProximaNova-Regular',
+    fontWeight: '700'
+  },
+  circle_date : {
+    backgroundColor: colors.green,
+    width: 35,
+    height: 35,
+    borderRadius: 21,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 5,
+    marginVertical: 1
+  },
+  text_date : {
+    color: '#fff',
+    fontSize: 12,
+    fontFamily: 'ProximaNova-Regular'
   }
 });

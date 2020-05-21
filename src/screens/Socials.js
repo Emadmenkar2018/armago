@@ -40,7 +40,7 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    backgroundColor: colors.darkBlue,
+    backgroundColor: colors.lightBlue,
     borderRightWidth: 3,
     borderLeftWidth: 2,
     borderBottomWidth: 5,
