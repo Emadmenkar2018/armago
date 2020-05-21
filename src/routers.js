@@ -24,9 +24,11 @@ const HomeNavigator = createStackNavigator({
   Socials: { screen: Socials, navigationOptions },
   LocationSwitch: { screen: LocationSwitch, navigationOptions },
   Messages: { screen: Messages, navigationOptions },
-  AbilityEdit: { screen: AbilityEdit, navigationOptions },
-  
-});
+  AbilityEdit: { screen: AbilityEdit, navigationOptions }
+},
+  {
+    initialRouteName: 'Home'
+  });
 const AuthStack = createStackNavigator({
   Signin : { screen: Signin, navigationOptions },
   SetDetail: { screen: SetDetail, navigationOptions },

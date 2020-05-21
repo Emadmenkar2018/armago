@@ -35,7 +35,8 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginTop: width/16
+    marginTop: height/20,
+
   },
   icon: {
     width: 36,

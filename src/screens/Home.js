@@ -1,12 +1,13 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, ImageBackground, Modal, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, ImageBackground, Modal, TouchableOpacity ,Dimensions} from 'react-native';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import { colors } from '../common/colors';
 import { images } from '../common/images';
 import { BlurView } from "@react-native-community/blur";
 import FlipCard from 'react-native-flip-card';
-
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+export const { width, height } = Dimensions.get('window');
 function DateView(props) {
   return (
     <View style={styles.item}>
@@ -200,7 +201,7 @@ const styles = StyleSheet.create({
     borderBottomWidth: 5,
     borderColor: colors.gray,
     marginHorizontal: 30,
-    marginVertical  : '10%',
+    marginVertical  : height/20,
     justifyContent: 'center',
     borderRadius: 60,
   },
@@ -222,9 +223,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 8
   },
   img: {
-    flex:2,
+    flex:1,
     width: '100%',
-    resizeMode: 'contain',
+    resizeMode: 'contain'
   },
   back_img: {
     width: 100,
@@ -247,7 +248,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: colors.white,
-    fontSize: 12,
+    fontSize: RFValue(12, 580),
     fontFamily: 'Proxima Nova Alt Bold'
   },
   text1: {
@@ -276,7 +277,7 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.white,
-    fontSize: 30,
+    fontSize: RFValue(30, 580),
     fontFamily: 'Proxima Nova Alt Bold',
     marginTop: 10
   },
