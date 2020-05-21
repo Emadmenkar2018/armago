@@ -17,6 +17,10 @@ const bottombar = require('../../assets/bottombar.png');
 const msg = require('../../assets/msg.png');
 const mask = require('../../assets/mask.png');
 const cycling = require('../../assets/cycling.png');
+const checked = require('../../assets/checked.png');
+const unchecked = require('../../assets/unchecked.png');
+const back = require('../../assets/back.png');
+const next = require('../../assets/next.png');
 
 const user1 = require('../../assets/user1.png');
 const user2 = require('../../assets/user2.png');
@@ -32,5 +36,5 @@ const user11 = require('../../assets/user11.png');
 
 export const images = {
     chat, check, close, gear, group, logo, oval, racket, woman, GameOn, grape, user1, user2, user3, user4, user5, user9, remove, bottombar, oval3, msg,
-    user6, user7, user8, user10, user11, mask, trial_front, trial_back, cycling
+    user6, user7, user8, user10, user11, mask, trial_front, trial_back, cycling, checked, unchecked, back, next
 }

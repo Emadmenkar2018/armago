@@ -7,15 +7,15 @@ import OutOfCards from './screens/OutOfCards';
 import TeamsView from './screens/TeamsView';
 import TimeEdit from './screens/TimeEdit';
 import AbilityEdit from './screens/AbilityEdit';
-import Signin from './screens/Signin';
+import Signin from './screens/auth/Signin';
 import LocationSwitch from './screens/LocationSwitch';
 import Messages from './screens/Messages';
-
+import AuthLoadingScreen from './screens/auth/AuthLoading';
+import SetDetail from './screens/auth/SetDetail';
 const navigationOptions = () => ({ header: null });
 
 const HomeNavigator = createStackNavigator({
   Home: { screen: Home, navigationOptions },
-  Signin: { screen: Signin, navigationOptions },
   TimeEdit: { screen: TimeEdit, navigationOptions },
   TeamsView: { screen: TeamsView, navigationOptions },
   OutOfCards: { screen: OutOfCards, navigationOptions },
@@ -24,12 +24,22 @@ const HomeNavigator = createStackNavigator({
   LocationSwitch: { screen: LocationSwitch, navigationOptions },
   Messages: { screen: Messages, navigationOptions },
   AbilityEdit: { screen: AbilityEdit, navigationOptions },
-}, {
-  initialRouteName: 'AbilityEdit'
+  
 });
+const AuthStack = createStackNavigator({
+  Signin : { screen: Signin, navigationOptions },
+  SetDetail: { screen: SetDetail, navigationOptions }
+})
+
+
 
 export const Routers = createAppContainer(
   createSwitchNavigator({
+    AuthLoading: AuthLoadingScreen,
     Home: HomeNavigator,
+    Auth : AuthStack
+  }, 
+  {
+    initialRouteName: 'AuthLoading'
   })
 );

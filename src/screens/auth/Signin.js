@@ -1,14 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
-import { images } from '../common/images';
+import { View, Text, StyleSheet, Image, Dimensions,TouchableOpacity } from 'react-native';
+import { images } from '../../common/images';
 import AntDesign from 'react-native-vector-icons/AntDesign'
-import { colors } from '../common/colors';
+import { colors } from '../../common/colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'; 
-
+import AsyncStorage from '@react-native-community/async-storage';
 export const { width, height } = Dimensions.get('window');
 
 export default class Signin extends Component {
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
         <View style={styles.main}>
@@ -25,11 +26,13 @@ export default class Signin extends Component {
           </View>
 
           <Text style={styles.text1}>{'- Or -'}</Text>
-
-          <View style={[styles.btn, { backgroundColor: '#f0f0f0', borderWidth: 0.3,}]}>
-            <FontAwesome name="phone" size={24} color="black" style={{ marginHorizontal: 12}}/>
-            <Text style={{ color: 'black', marginLeft: 24}}>Phone Number</Text>
-          </View>
+          <TouchableOpacity style={styles.circle} onPress={() => navigate('SetDetail')}>
+            <View style={[styles.btn, { backgroundColor: '#f0f0f0', borderWidth: 0.3,}]}>
+              <FontAwesome name="phone" size={24} color="black" style={{ marginHorizontal: 12}}/>
+              <Text style={{ color: 'black', marginLeft: 24}}>Phone Number</Text>
+            </View>
+          </TouchableOpacity>
+          
 
         </View>
         <Image source={images.bottombar} style={styles.oval}/>
@@ -37,6 +40,7 @@ export default class Signin extends Component {
       </View>
     );
   }
+ 
 }
 
 const styles = StyleSheet.create({
