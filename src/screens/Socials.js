@@ -1,10 +1,10 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, ImageBackground } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions } from 'react-native';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import { colors } from '../common/colors';
 import { images } from '../common/images';
-
+export const { width, height } = Dimensions.get('window');
 export default class Socials extends Component {
   render() {
     return (
@@ -45,7 +45,7 @@ const styles = StyleSheet.create({
     borderLeftWidth: 2,
     borderBottomWidth: 5,
     borderColor: colors.gray,
-    margin: 20,
+    marginVertical  : height/20,
     marginHorizontal: 30,
     padding: 15,
     borderRadius: 60,
@@ -70,7 +70,7 @@ const styles = StyleSheet.create({
     left:'5%',
     height: 180,
     top: 10,
-    borderRadius: 20
+    borderRadius: 60
   },
   groupImg: {
     position: 'absolute',
