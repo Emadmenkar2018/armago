@@ -225,8 +225,8 @@ const styles = StyleSheet.create({
     borderRadius:50
   },
   back_img: {
-    width: 100,
-    height: 80,
+    width: width / 4.5,
+    height: 60,
     top:10,
     left:10,
     borderRadius: 20
@@ -253,7 +253,7 @@ const styles = StyleSheet.create({
     fontSize: 35,
     fontWeight: '700',
     left:20,
-    top: 20
+    top:15
   },
   text2: {
     flex:1,
