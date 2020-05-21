@@ -118,7 +118,9 @@ const styles = StyleSheet.create({
     marginVertical: 1
   },
   largeBtn: {
-    flex: 1, 
+    height: 50,
+    bottom: 0,
+    position: 'absolute',
     backgroundColor: '#e67e22', 
     borderRadius: 12, 
     width: '98%', 

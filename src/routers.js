@@ -6,6 +6,7 @@ import Trial from './screens/Trial';
 import OutOfCards from './screens/OutOfCards';
 import TeamsView from './screens/TeamsView';
 import TimeEdit from './screens/TimeEdit';
+import AbilityEdit from './screens/AbilityEdit';
 import Signin from './screens/Signin';
 import LocationSwitch from './screens/LocationSwitch';
 import Messages from './screens/Messages';
@@ -22,8 +23,9 @@ const HomeNavigator = createStackNavigator({
   Socials: { screen: Socials, navigationOptions },
   LocationSwitch: { screen: LocationSwitch, navigationOptions },
   Messages: { screen: Messages, navigationOptions },
+  AbilityEdit: { screen: AbilityEdit, navigationOptions },
 }, {
-  initialRouteName: 'Home'
+  initialRouteName: 'AbilityEdit'
 });
 
 export const Routers = createAppContainer(
