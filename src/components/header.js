@@ -41,6 +41,7 @@ const styles = StyleSheet.create({
   icon: {
     width: 36,
     height: 36,
+    marginTop: -10
   },
   logo: {
     width: 150,

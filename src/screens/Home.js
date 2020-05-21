@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, ImageBackground, Modal, TouchableOpacity ,Dimensions} from 'react-native';
+import { View, Text, StyleSheet, Image,  Modal, TouchableOpacity ,Dimensions} from 'react-native';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import { colors } from '../common/colors';
@@ -202,11 +202,6 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 60,
   },
-  backgroundImage: {
-    flex: 1,
-    resizeMode : "cover",
-    marginVertical: 17
-  },
   mask: {
     width: '100%'
   },
@@ -220,7 +215,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 8
   },
   img: {
-    flex:1,
+    flex:1.5,
     width: '100%',
     borderRadius:50
   },
@@ -250,7 +245,7 @@ const styles = StyleSheet.create({
   },
   text1: {
     color: colors.white,
-    fontSize: 35,
+    fontSize: 30,
     fontWeight: '700',
     left:20,
     top:15
