@@ -128,6 +128,10 @@ const styles = StyleSheet.create({
   main: {
     flex: 1,
     backgroundColor: colors.darkBlue,
+    borderRightWidth: 3,
+    borderLeftWidth: 2,
+    borderBottomWidth: 5,
+    borderColor: colors.gray,
     margin: 20,
     marginHorizontal: 30,
     padding: 15,
