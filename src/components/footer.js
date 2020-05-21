@@ -20,7 +20,7 @@ export default class Footer extends Component {
 const styles = StyleSheet.create({
   oval: {
     width,
-    height: width/2.2,
+    height: width/2,
     position: 'absolute',
     bottom: -width/3.8,
   },
@@ -30,7 +30,7 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginHorizontal: 12,
-    marginBottom: 5,
+    marginBottom: 10,
     width: 65,
     height: 65
   },

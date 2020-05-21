@@ -107,9 +107,6 @@ export default class Home extends Component {
           <Header />
           <View style={styles.main}>
               <Image source={images.group} style={styles.groupImg} />
-              
-              
-
               <FlipCard 
                 flipHorizontal={true}
                 flipVertical={false}
@@ -225,7 +222,7 @@ const styles = StyleSheet.create({
   img: {
     flex:1,
     width: '100%',
-    resizeMode: 'contain'
+    borderRadius:50
   },
   back_img: {
     width: 100,
