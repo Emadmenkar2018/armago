@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, Dimensions, Linking } from 'react-native
 import { Link } from "react-router-native";
 import { images } from '../common/images';
 export const { width, height } = Dimensions.get('window');
-import UserHomeFinal from '../screens/UserHomeFinal';
+import Home from '../screens/Home';
 
 
 export default class Header extends Component {

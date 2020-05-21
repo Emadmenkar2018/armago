@@ -1,6 +1,6 @@
 import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
-import UserHomeFinal from './screens/UserHomeFinal';
+import Home from './screens/Home';
 import Socials from './screens/Socials';
 import Trial from './screens/Trial';
 import OutOfCards from './screens/OutOfCards';
@@ -13,7 +13,7 @@ import Messages from './screens/Messages';
 const navigationOptions = () => ({ header: null });
 
 const HomeNavigator = createStackNavigator({
-  UserHomeFinal: { screen: UserHomeFinal, navigationOptions },
+  Home: { screen: Home, navigationOptions },
   Signin: { screen: Signin, navigationOptions },
   TimeEdit: { screen: TimeEdit, navigationOptions },
   TeamsView: { screen: TeamsView, navigationOptions },
@@ -23,7 +23,7 @@ const HomeNavigator = createStackNavigator({
   LocationSwitch: { screen: LocationSwitch, navigationOptions },
   Messages: { screen: Messages, navigationOptions },
 }, {
-  initialRouteName: 'UserHomeFinal'
+  initialRouteName: 'Home'
 });
 
 export const Routers = createAppContainer(

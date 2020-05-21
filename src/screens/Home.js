@@ -28,7 +28,7 @@ function DateView(props) {
   )
 }
 
-export default class UserHomeFinal extends Component {
+export default class Home extends Component {
   state = {
     showModal: false,
     simpleModal: false,
