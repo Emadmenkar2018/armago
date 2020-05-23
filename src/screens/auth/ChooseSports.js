@@ -1,54 +1,11 @@
 import React, { useState,Component  } from 'react';
-import DateTimePicker from '@react-native-community/datetimepicker';
 import { View, Text, StyleSheet, Image, Platform } from 'react-native';
 import { colors } from '../../common/colors';
 import { images } from '../../common/images';
 import { Input,  Button ,Icon  } from 'react-native-elements';
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 
-const DatePicker = () => {
-    const [date, setDate] = useState(new Date(1598051730000));
-    const [mode, setMode] = useState('date');
-    const [show, setShow] = useState(true);
-   
-    const onChange = (event, selectedDate) => {
-      const currentDate = selectedDate || date;
-      setShow(Platform.OS === 'ios');
-      setDate(currentDate);
-    };
-   
-    const showMode = currentMode => {
-      setShow(true);
-      setMode(currentMode);
-    };
-   
-    const showDatepicker = () => {
-      showMode('date');
-    };
-   
-    const showTimepicker = () => {
-      showMode('time');
-    };
-   
-    return (
-      <View>
-        <View>
-          <Button onPress={showDatepicker} title="Show date picker!" />
-        </View>
-        {show && (
-          <DateTimePicker
-            testID="dateTimePicker"
-            timeZoneOffsetInMinutes={0}
-            value={date}
-            mode={mode}
-            is24Hour={true}
-            display="default"
-            onChange={onChange}
-          />
-        )}
-      </View>
-    );
-};
-export default class SetProfile extends Component {
+export default class ChooseSports extends Component {
     
     state = null;
     
@@ -62,7 +19,6 @@ export default class SetProfile extends Component {
         }
     }
     
-    
     render() {
         
         
@@ -74,22 +30,13 @@ export default class SetProfile extends Component {
             <View style={styles.main}>
                 <View style={styles.sectionTop}>
                     <Image source={images.logo} style={styles.logo}/>
-                    <Text style={styles.tlabel}>{'Enter your personal info'}</Text>
+                    <Text style={styles.tlabel}>{'Choose which sports '}</Text>
+                    <Text style={styles.tlabel}>{'you’d like to play'}</Text>
+                    <Text style={styles.tlabel}>{'_'}</Text>
+                    <Text style={styles.sublabel}>{'We’ll be adding more sports soon'}</Text>
                 </View>
                 <View style={styles.sectionMiddle}>
-                        <Input
-                        label = "First Name"
-                        placeholder="Enter Your First Name"
-                        style={styles.input}
-                        onChangeText={value => this.setState({fname: value })}
-                        />
-                        <Input
-                        label = "Last Name"
-                        placeholder="Enter Your Last Name"
-                        style={styles.input}
-                        onChangeText={value => this.setState({ lname: value })}
-                        />
-                    <DatePicker></DatePicker>
+                        
                         
                 </View>
                 <View style={styles.sectionBottom}>
@@ -133,13 +80,13 @@ const styles = StyleSheet.create({
     marginTop: 8
   },
   sectionTop: {
-      flex : 1,
+      flex : 2,
       alignItems: 'center',
       marginHorizontal: 50,
       marginVertical: 50
   },
   sectionMiddle: {
-      flex : 2,
+      flex : 3,
       width: '100%',
       alignItems: 'center',
       justifyContent: 'center',
@@ -153,7 +100,7 @@ const styles = StyleSheet.create({
       paddingVertical: 20
   },
   logo : {
-      flex: 1,
+      flex: 3,
       width:250,
       height:50,
       resizeMode: 'contain'
@@ -161,10 +108,17 @@ const styles = StyleSheet.create({
   tlabel : {
     flex: 1,
     color: 'grey',
-    fontSize: 20,
+    fontSize: RFValue(14, 580),
     fontWeight: '300',
     fontFamily: 'ProximaNova-Regular'
   },
+  sublabel : {
+    // flex: 1,
+    color: 'grey',
+    fontSize: RFValue(12, 580),
+    fontWeight: '300',
+    fontFamily: 'ProximaNova-Regular'
+ },
   input : {
       width: '100%'
   },
