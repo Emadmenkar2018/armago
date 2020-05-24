@@ -11,6 +11,8 @@ import Signin from './screens/auth/Signin';
 import LocationSwitch from './screens/LocationSwitch';
 import Messages from './screens/Messages';
 import AuthLoadingScreen from './screens/auth/AuthLoading';
+import SetPhone from './screens/auth/SetPhone';
+import SetSmsCode from './screens/auth/SetSmsCode';
 import SetDetail from './screens/auth/SetDetail';
 import ChooseSports from './screens/auth/ChooseSports';
 const navigationOptions = () => ({ header: null });
@@ -31,6 +33,8 @@ const HomeNavigator = createStackNavigator({
   });
 const AuthStack = createStackNavigator({
   Signin : { screen: Signin, navigationOptions },
+  SetPhone: { screen: SetPhone, navigationOptions },
+  SetSmsCode: { screen: SetSmsCode, navigationOptions },
   SetDetail: { screen: SetDetail, navigationOptions },
   ChooseSports : { screen:ChooseSports, navigationOptions}
 })

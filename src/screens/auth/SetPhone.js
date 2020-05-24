@@ -4,8 +4,7 @@ import { colors } from '../../common/colors';
 import { images } from '../../common/images';
 import { Input, CheckBox, Button ,Icon  } from 'react-native-elements';
 
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-export default class SetDetail extends Component {
+export default class SetPhone extends Component {
     
     state = null;
     constructor(props){
@@ -27,33 +26,16 @@ export default class SetDetail extends Component {
             <View style={styles.main}>
                 <View style={styles.sectionTop}>
                     <Image source={images.logo} style={styles.logo}/>
-                    <Text style={styles.tlabel}>{'Enter your details'}</Text>
+                    <Text style={styles.tlabel}>{'Get Started'}</Text>
                 </View>
                 <View style={styles.sectionMiddle}>
-                        
                         <Input
-                        label = "Email"
-                        placeholder="Enter Your Email"
+                        label = "Phone"
+                        placeholder="Enter Your Phone Number"
                         style={styles.input}
-                        onChangeText={value => this.setState({ email: value })}
+                        onChangeText={value => this.setState({phone: value })}
                         />
-                        <Text style={styles.label}>{'Marketing Consent'}</Text>
-                        <CheckBox
-                        left
-                        checkedIcon={<Image source={images.checked} />}
-                        uncheckedIcon={<Image source={images.unchecked} />}
-                        title='By ticking this box you agree to the terms and conditions of GameOn and to the privacy policy'
-                        textStyle = {{width:'80%'}}
-                        checked={this.state.checked1}
-                        />
-                        <CheckBox
-                        left
-                        checkedIcon={<Image source={images.checked} />}
-                        uncheckedIcon={<Image source={images.unchecked} />}
-                        title='By ticking this box you agree you would like to receive marketing communications by email'
-                        textStyle = {{width:'80%'}}
-                        checked={this.state.checked2}
-                        />
+                        
                 </View>
                 <View style={styles.sectionBottom}>
                     <View style={{ flex:1,alignItems:'flex-start'}}>
@@ -62,7 +44,7 @@ export default class SetDetail extends Component {
                     icon={
                         <Icon name={"chevron-left"}  size={60} color="#fff" />
                     }
-                    onPress = {() => navigate('SetSmsCode')}
+                    onPress = {() => navigate('Signin')}
                     />
                     </View>
                     <View style={{ flex:1,alignItems:'flex-end'}}>
@@ -71,7 +53,7 @@ export default class SetDetail extends Component {
                     icon={
                         <Icon name={"chevron-right"}  size={60} color="#fff" />
                     }
-                    onPress = {() => navigate('ChooseSports')}
+                    onPress = {() => navigate('SetSmsCode')}
                     />
                     </View>
                 </View>
@@ -102,7 +84,7 @@ const styles = StyleSheet.create({
       flex : 2,
       width: '100%',
       alignItems: 'center',
-      justifyContent: 'center',
+      justifyContent: 'flex-start',
       marginHorizontal: 20
   },
   sectionBottom: {
@@ -124,16 +106,6 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontWeight: '300',
     fontFamily: 'ProximaNova-Regular'
-  },
-  label : {
-        width: '100%',
-        marginLeft: 15,
-        color: 'grey',
-        textAlign: 'left',
-        fontSize: RFValue(13, 580),
-        color: '#86939e',
-        fontWeight: '300',
-        fontFamily: 'ProximaNova-Regular'
   },
   input : {
       width: '100%'

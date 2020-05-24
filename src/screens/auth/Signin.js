@@ -26,7 +26,7 @@ export default class Signin extends Component {
           </View>
 
           <Text style={styles.text1}>{'- Or -'}</Text>
-          <TouchableOpacity style={styles.circle} onPress={() => navigate('SetDetail')}>
+          <TouchableOpacity style={styles.circle} onPress={() => navigate('SetPhone')}>
             <View style={[styles.btn, { backgroundColor: '#f0f0f0', borderWidth: 0.3,}]}>
               <FontAwesome name="phone" size={24} color="black" style={{ marginHorizontal: 12}}/>
               <Text style={{ color: 'black', marginLeft: 24}}>Phone Number</Text>
