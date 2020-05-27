@@ -1,26 +1,24 @@
 import React, { useState,Component  } from 'react';
-import { View, Text, StyleSheet, Image, Platform,TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, Picker,TouchableOpacity } from 'react-native';
 import { colors } from '../../common/colors';
 import { images } from '../../common/images';
 import { Input,  Button ,Icon, Slider } from 'react-native-elements';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import DropDownPicker from 'react-native-dropdown-picker';
 
-export default class ChooseAbility extends Component {
-    
+export default class SetBioUniversity extends Component {
+
     state = null;
-  constructor(props){
-    super(props);
-    this.state = {
-      value: 0,
-      min: 0,
-      max: 3
+
+    
+
+    constructor(props){
+      super(props)
+      this.state = {
+        bio : ''
+      }
     }
-    this.state1 = {
-      value: 1,
-      min: 0,
-      max: 3
-    }
-  }
+    
     
 
     render() {
@@ -30,47 +28,29 @@ export default class ChooseAbility extends Component {
             <View style={styles.main}>
                 <View style={styles.sectionTop}>
                     <Image source={images.logo} style={styles.logo}/>
-                    <Text style={styles.tlabel}>{'Choose Ability'}</Text>
-                    <Text style={styles.tlabel}>{'_'}</Text>
-                    <Text style={styles.sublabel}>{'We’ll match you with players of a similar skill level. Select your rough ability.'}</Text>
+                    <Text style={styles.tlabel}>{'Bio and University'}</Text>
                 </View>
                 <View style={styles.sectionMiddle}>
-                    <View style={{ flexDirection: 'row',  alignItems: 'center'}}>
-                        <Image source={images.racket} style={styles.racket}/>
-                        <Text style={styles.mlabel}>{'Tennis'}</Text>
-                    </View>
-                    <Slider
-                        step={1}
-                        minimumValue={this.state.min}
-                        maximumValue={this.state.max}
-                        value={this.state.value}
-                        thumbTintColor='#2ecc71'
-                        onValueChange={val => this.setState({ value : val })}
-                    />
-                    <View style={styles.textCon}>
-                        <Text style={styles.label}>Beginner</Text>
-                        <Text style={styles.label}>Intermediate</Text>
-                        <Text style={styles.label}>Advanced</Text>
-                        <Text style={styles.label}>Team</Text>
-                    </View>
-                    <View style={{ flexDirection: 'row',  alignItems: 'center', marginTop:10}}>
-                        <Image source={images.cycling} style={styles.racket}/>
-                        <Text style={styles.mlabel}>{'Cycling'}</Text>
-                    </View>
-                    <Slider
-                        step={1}
-                        minimumValue={this.state1.min}
-                        maximumValue={this.state1.max}
-                        value={this.state1.value}
-                        thumbTintColor='#2ecc71'
-                        onValueChange={val => this.setState1({ value : val })}
-                    />
-                    <View style={styles.textCon}>
-                        <Text style={styles.label}>Beginner</Text>
-                        <Text style={styles.label}>Intermediate</Text>
-                        <Text style={styles.label}>Advanced</Text>
-                        <Text style={styles.label}>Team</Text>
-                    </View>
+                  <Input
+                      label = "Bio"
+                      multiline
+                      placeholder='Describe yourself and your sporting ability. E.g. I’m in first year and I’m a social tennis player who likes to play twice a week.'
+                      style={styles.input}
+                       onChangeText={value => this.setState({ bio: value })}
+                  />
+                  <DropDownPicker
+                      items={[
+                          {label: 'Item 1', value: 'item1'},
+                          {label: 'Item 2', value: 'item2'},
+                      ]}
+                      defaultNull
+                      placeholder = "Select your university"
+                      containerStyle={{height: 40}}
+                      labelStyle = {{color:'grey', fontSize: RFValue(12, 580),alignItems : 'flex-start'}}
+                      placeholderStyle={{fontWeight: 'bold'}}
+                      onChangeItem={item => console.log(item.label, item.value)}
+                  />
+                  <Text style={styles.label1}>{'We will be adding more universities soon'}</Text>
                 </View>
                 <View style={styles.sectionBottom}>
                     <View style={{ flex:1,alignItems:'flex-start'}}>
@@ -79,7 +59,7 @@ export default class ChooseAbility extends Component {
                     icon={
                         <Icon name={"chevron-left"}  size={60} color="#fff" />
                     }
-                    onPress = {() => navigate('ChooseSports')}
+                    onPress = {() => navigate('ChooseAbility')}
                     />
                     </View>
                     <View style={{ flex:1,alignItems:'flex-end'}}>
@@ -88,7 +68,7 @@ export default class ChooseAbility extends Component {
                     icon={
                         <Icon name={"chevron-right"}  size={60} color="#fff" />
                     }
-                    onPress = {() => navigate('SetBioUniversity')}
+                    onPress = {this.next}
                     />
                     </View>
                 </View>
@@ -96,11 +76,25 @@ export default class ChooseAbility extends Component {
         </View>
         );
     }
+    next() {
+        console.log('next clicked')
+    }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  textareaContainer: {
+    height: 180,
+    padding: 5,
+    backgroundColor: '#F5FCFF',
+  },
+  textarea: {
+    textAlignVertical: 'top', 
+    height: 170,
+    fontSize: 14,
+    color: '#333',
   },
   main: {
     flex: 1,
@@ -141,6 +135,15 @@ const styles = StyleSheet.create({
     fontSize: RFValue(14, 580),
     fontWeight: '300',
     fontFamily: 'ProximaNova-Regular'
+  },
+  label1 : {
+    flex: 1,
+    color: 'grey',
+    fontSize: RFValue(13, 580),
+    textAlign: 'center',
+    fontWeight: '300',
+    fontFamily: 'ProximaNova-Regular',
+    marginVertical: 20
   },
   sublabel : {
     // flex: 1,

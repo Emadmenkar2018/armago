@@ -16,6 +16,7 @@ import SetSmsCode from './screens/auth/SetSmsCode';
 import SetDetail from './screens/auth/SetDetail';
 import ChooseSports from './screens/auth/ChooseSports';
 import ChooseAbility from './screens/auth/ChooseAbility';
+import SetBioUniversity from './screens/auth/SetBioUniversity';
 const navigationOptions = () => ({ header: null });
 
 const HomeNavigator = createStackNavigator({
@@ -38,7 +39,8 @@ const AuthStack = createStackNavigator({
   SetSmsCode: { screen: SetSmsCode, navigationOptions },
   SetDetail: { screen: SetDetail, navigationOptions },
   ChooseSports : { screen:ChooseSports, navigationOptions},
-  ChooseAbility : { screen: ChooseAbility, navigationOptions}
+  ChooseAbility : { screen: ChooseAbility, navigationOptions},
+  SetBioUniversity : { screen: SetBioUniversity, navigationOptions}
 })
 
 
