@@ -1,5 +1,5 @@
 import React, { useState,Component  } from 'react';
-import { View, Text, StyleSheet, Image, Platform } from 'react-native';
+import { View, Text, StyleSheet, Image, Platform,TouchableOpacity } from 'react-native';
 import { colors } from '../../common/colors';
 import { images } from '../../common/images';
 import { Input,  Button ,Icon  } from 'react-native-elements';
@@ -8,23 +8,26 @@ import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 export default class ChooseSports extends Component {
     
     state = null;
-    
     constructor(props){
         super(props);
         this.state = {
-          fname: '',
-          lname: '',
-          checked1 : false,
-          checked2: true
+            showSelected : false
         }
     }
     
+    seleted_item (){
+        if(this.state.showSelected){
+            return (
+            <Image source={images.sport_selected} style={styles.sport_selected}></Image>
+            );
+        }
+        else{
+            return null;
+        }
+    }
+
     render() {
-        
-        
         const { navigate } = this.props.navigation;
-        
-        
         return (
         <View style={styles.container}>
             <View style={styles.main}>
@@ -36,8 +39,54 @@ export default class ChooseSports extends Component {
                     <Text style={styles.sublabel}>{'We’ll be adding more sports soon'}</Text>
                 </View>
                 <View style={styles.sectionMiddle}>
+                    <View style={styles.middleSection}>
+                        <View style={styles.item}>
+                            <View>
+                                <Image source={images.sports_gym}></Image>
+                                <Text style={styles.sports_label}>{'Gym'}</Text>
+                            </View>
+                            <Image source={images.sport_comiong_soon} style={{position:'absolute',top:0}}></Image>
+                        </View>
+                        <TouchableOpacity onPress={() => {
+                            this.setState({
+                                showSelected : !this.state.showSelected
+                            });
+                        }}>
+                            <View style={styles.item}>
+                                <View>
+                                    {this.seleted_item()}
+                                    <Image source={images.sports_racket}></Image>
+                                    <Text style={styles.sports_label}>{'Tennis'}</Text>
+                                </View>
+                            </View>
+                        </TouchableOpacity>
                         
-                        
+                        <View style={styles.item}>
+                            <View>
+                                <Image source={images.sports_runner}></Image>
+                                <Text style={styles.sports_label}>{'Running'}</Text>
+                            </View>
+                            <Image source={images.sport_comiong_soon} style={{position:'absolute',top:0}}></Image>
+                        </View>
+                    </View>
+                    <View style={styles.middleSection}>
+                        <View style={styles.item}>
+                            <View >
+                                
+                                <Image source={images.sports_basketball}></Image>
+                                <Text style={styles.sports_label}>{'Basketball'}</Text>
+                            </View>
+                            <Image source={images.sport_comiong_soon} style={{position:'absolute',top:0}}></Image>
+                            
+                        </View>
+                        <View style={styles.item}>
+                            <View>
+                                <Image source={images.sports_cycling}></Image>
+                                <Text style={styles.sports_label}>{'Cycling'}</Text>
+                            </View>
+                            <Image source={images.sport_comiong_soon} style={{position:'absolute',top:0}}></Image>
+                        </View>
+                    </View>
                 </View>
                 <View style={styles.sectionBottom}>
                     <View style={{ flex:1,alignItems:'flex-start'}}>
@@ -55,7 +104,7 @@ export default class ChooseSports extends Component {
                     icon={
                         <Icon name={"chevron-right"}  size={60} color="#fff" />
                     }
-                    onPress = {this.next()}
+                    onPress = {this.next}
                     />
                     </View>
                 </View>
@@ -87,16 +136,45 @@ const styles = StyleSheet.create({
   },
   sectionMiddle: {
       flex : 3,
+      flexDirection: 'column',
       width: '100%',
       alignItems: 'center',
       justifyContent: 'center',
       marginHorizontal: 20
   },
+  middleSection : 
+  {
+      flex:1,
+      flexDirection: 'row',
+      alignItems: 'center',
+      justifyContent: 'center'
+    },
+  item: {
+        marginHorizontal: 10,
+        paddingVertical: 10,
+        justifyContent: 'center',
+        alignItems: 'center'
+  },
+  coming_label : {
+    position: 'absolute'
+  },
+  sports_label : {
+    fontSize: RFValue(12, 580),
+    color: 'grey',
+    textAlign: 'center',
+    marginTop: 20
+  },
+  sport_selected : {
+    position : 'absolute',
+    top:-13,
+    left:-13
+  },
   sectionBottom: {
       flex : 1,
       width: '100%',
       flexDirection: 'row',
-      alignItems: 'flex-end',
+      alignItems: 'center',
+      paddingHorizontal: 20,
       paddingVertical: 20
   },
   logo : {

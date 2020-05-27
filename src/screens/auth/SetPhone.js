@@ -81,7 +81,7 @@ const styles = StyleSheet.create({
       marginVertical: 50
   },
   sectionMiddle: {
-      flex : 2,
+      flex : 3,
       width: '100%',
       alignItems: 'center',
       justifyContent: 'flex-start',
@@ -91,7 +91,8 @@ const styles = StyleSheet.create({
       flex : 1,
       width: '100%',
       flexDirection: 'row',
-      alignItems: 'flex-end',
+      alignItems: 'center',
+      paddingHorizontal: 20,
       paddingVertical: 20
   },
   logo : {
