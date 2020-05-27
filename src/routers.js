@@ -15,6 +15,7 @@ import SetPhone from './screens/auth/SetPhone';
 import SetSmsCode from './screens/auth/SetSmsCode';
 import SetDetail from './screens/auth/SetDetail';
 import ChooseSports from './screens/auth/ChooseSports';
+import ChooseAbility from './screens/auth/ChooseAbility';
 const navigationOptions = () => ({ header: null });
 
 const HomeNavigator = createStackNavigator({
@@ -36,7 +37,8 @@ const AuthStack = createStackNavigator({
   SetPhone: { screen: SetPhone, navigationOptions },
   SetSmsCode: { screen: SetSmsCode, navigationOptions },
   SetDetail: { screen: SetDetail, navigationOptions },
-  ChooseSports : { screen:ChooseSports, navigationOptions}
+  ChooseSports : { screen:ChooseSports, navigationOptions},
+  ChooseAbility : { screen: ChooseAbility, navigationOptions}
 })
 
 

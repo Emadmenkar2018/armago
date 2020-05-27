@@ -104,16 +104,13 @@ export default class ChooseSports extends Component {
                     icon={
                         <Icon name={"chevron-right"}  size={60} color="#fff" />
                     }
-                    onPress = {this.next}
+                    onPress = {() => navigate('ChooseAbility')}
                     />
                     </View>
                 </View>
             </View>
         </View>
         );
-    }
-    next() {
-        console.log('next clicked')
     }
 }
 
