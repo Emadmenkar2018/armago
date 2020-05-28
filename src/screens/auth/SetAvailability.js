@@ -142,7 +142,7 @@ export default class SetAvailability extends Component {
                     icon={
                         <Icon name={"chevron-right"}  size={60} color="#fff" />
                     }
-                    onPress = {() => navigate('')}
+                    onPress = {() => navigate('Permission')}
                     />
                     </View>
                 </View>
