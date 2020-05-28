@@ -5,21 +5,53 @@ import { images } from '../../common/images';
 import { Input,  Button ,Icon, Slider } from 'react-native-elements';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 function DateView(props) {
+  
   return (
     <View style={styles.item}>
       <View style={styles.btn}>
         <Text style={styles.text3}>{props.data}</Text>
       </View>
       <View style={{ flexDirection: 'row' }}>
-        <View style={[styles.circle, { backgroundColor: props.value[0] ? colors.green : colors.red}]}>
-          <Text style={styles.text4}>AM</Text>
+        <TouchableOpacity onPress={() => {
+          var key = props.data.toString();
+            props.object.setState(prevState => ({
+              [key] : {                   // object that we want to update
+                  ...prevState[key],    // keep all other key-value pairs
+                  am: !prevState[key]['am']    // update the value of specific key
+              }
+          }))
+                        }}>
+            <View style={[styles.circle, { backgroundColor: props.value.am ? colors.green : colors.red}]}>
+              <Text style={styles.text4}>AM</Text>
+            </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+                  var key = props.data.toString();
+                  props.object.setState(prevState => ({
+                    [key] : {                   // object that we want to update
+                        ...prevState[key],    // keep all other key-value pairs
+                        pm: !prevState[key]['pm']    // update the value of specific key
+                    }
+                }))
+            }}>
+          <View style={[styles.circle, { backgroundColor: props.value.pm ? colors.green : colors.red}]}>
+            <Text style={styles.text4}>PM</Text>
+          </View>
+        </TouchableOpacity>
+        <TouchableOpacity onPress={() => {
+                  var key = props.data.toString();
+                  props.object.setState(prevState => ({
+                    [key] : {                   // object that we want to update
+                        ...prevState[key],    // keep all other key-value pairs
+                        eve: !prevState[key]['eve']    // update the value of specific key
+                    }
+                }))
+            }}>
+            <View style={[styles.circle, { backgroundColor: props.value.eve ? colors.green : colors.red}]}>
+            <Text style={styles.text4}>EVE</Text>
         </View>
-        <View style={[styles.circle, { backgroundColor: props.value[1] ? colors.green : colors.red}]}>
-          <Text style={styles.text4}>PM</Text>
-        </View>
-        <View style={[styles.circle, { backgroundColor: props.value[2] ? colors.green : colors.red}]}>
-          <Text style={styles.text4}>EVE</Text>
-        </View>
+        </TouchableOpacity>
+        
       </View>
     </View>
   )
@@ -27,18 +59,47 @@ function DateView(props) {
 export default class SetAvailability extends Component {
 
     state = null;
-
     
-
     constructor(props){
       super(props)
       this.state = {
-        bio : ''
+        Monday : {
+          'am' : 1,
+          'pm' : 1,
+          'eve' : 1
+        },
+        Tuesday : {
+          'am' : 1,
+          'pm' : 1,
+          'eve' : 1
+        },
+        Wednesday : {
+          'am' : 1,
+          'pm' : 1,
+          'eve' : 1
+        },
+        Thursday : {
+          'am' : 1,
+          'pm' : 1,
+          'eve' : 1
+        },
+        Friday : {
+          'am' : 1,
+          'pm' : 1,
+          'eve' : 1
+        },
+        Saturday : {
+          'am' : 1,
+          'pm' : 1,
+          'eve' : 1
+        },
+        Sunday : {
+          'am' : 1,
+          'pm' : 1,
+          'eve' : 1
+        }
       }
     }
-    
-    
-
     render() {
         const { navigate } = this.props.navigation;
         return (
@@ -47,20 +108,19 @@ export default class SetAvailability extends Component {
                 <View style={styles.sectionTop}>
                     <Image source={images.logo} style={styles.logo}/>
                     <Text style={styles.tlabel}>{'Tap the relevant time and day to update availability. Please put times you are NOT available - you can update later'}</Text>
-                    
                 </View>
                 <View style={styles.sectionMiddle}>
                   <View style={{ marginRight: 0, alignSelf: 'flex-end' }}>
                     <Text style={styles.text2}>{'06:00-12:00    12.00-18.00    18.00-23.00'}</Text>
                   </View>
 
-                  <DateView data={'Monday'} value={[0, 0, 0]}/>
-                  <DateView data={'Tuesday'} value={[0, 0, 0]}/>
-                  <DateView data={'Wednesday'} value={[0, 1, 0]}/>
-                  <DateView data={'Thursday'} value={[0, 1, 0]}/>
-                  <DateView data={'Friday'} value={[0, 0, 0]}/>
-                  <DateView data={'Saturday'} value={[0, 1, 1]}/>
-                  <DateView data={'Sunday'} value={[0, 0, 0]}/>
+                  <DateView data={'Monday'} value={this.state.Monday} object={this}/>
+                  <DateView data={'Tuesday'} value={this.state.Tuesday} object={this}/>
+                  <DateView data={'Wednesday'} value={this.state.Wednesday} object={this}/>
+                  <DateView data={'Thursday'} value={this.state.Thursday} object={this}/>
+                  <DateView data={'Friday'} value={this.state.Friday} object={this}/>
+                  <DateView data={'Saturday'} value={this.state.Saturday} object={this}/>
+                  <DateView data={'Sunday'} value={this.state.Sunday} object={this}/>
 
                   <View style={styles.largeBtn}>
                     <Text style={{ color: 'white', fontFamily: 'ProximaNova-Regular'}}>Save</Text>
@@ -105,7 +165,7 @@ const styles = StyleSheet.create({
     textAlignVertical: 'top', 
     height: 170,
     fontSize: 14,
-    color: '#333',
+    color: '#333'
   },
   main: {
     flex: 1,
