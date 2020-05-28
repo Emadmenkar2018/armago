@@ -7,6 +7,8 @@ import { images } from '../common/images';
 import { BlurView } from "@react-native-community/blur";
 import FlipCard from 'react-native-flip-card';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import AsyncStorage from '@react-native-community/async-storage';
+
 export const { width, height } = Dimensions.get('window');
 function DateView(props) {
   return (
@@ -30,50 +32,78 @@ function DateView(props) {
 }
 
 export default class Home extends Component {
-  state = {
-    showModal: false,
-    simpleModal: false,
+  // state = {
+  //   showModal: false,
+  //   simpleModal: false,
+  // }
+  state = null
+  constructor(props){
+    super(props);
+    super(props);
+    this.state = {
+      modalVisible: false
+    };
+    
   }
-  onModal() {
-    const { showModal } = this.state;
-    this.setState({ showModal: !showModal });
+  componentDidMount() {
+    AsyncStorage.getItem('pagekey', (err, result) => {
+      if (err) {
+      } else {
+        if (result == null) {
+          console.log("null value recieved", result);
+          this.setModalVisible(true);
+        } else {
+          console.log("result", result);
+        }
+      }
+    });
+    AsyncStorage.setItem('pagekey', JSON.stringify({"value":"true"}), (err,result) => {
+            console.log("error",err,"result",result);
+            });
   }
+  setModalVisible(visible) {
+    this.setState({ modalVisible: visible });
+  }
+  // onModal() {
+  //   const { showModal } = this.state;
+  //   this.setState({ showModal: !showModal });
+  // }
   onModal2() {
-    const { simpleModal } = this.state;
-    this.setState({ simpleModal: !simpleModal });
+    this.setModalVisible(false);
   }
-  renderModal() {
-    return (
-      <Modal
-        visible={this.state.showModal}
-        transparent
-        onRequestClose={() => this.closeModal()}
-      >
-        <View style={styles.modalContainer}>
-          <View style={styles.modal}>
-            <Text style={{ color: 'white', fontSize: 32, fontWeight: '700' }}>GAMEON!</Text>
-            <Text style={{ color: 'white', fontSize: 18, fontWeight: '700' }}>IT'S A MATCH!</Text>
-            <Image source={images.user5} style={{ width: 120, height: 120, marginTop: 10 }} />
-            <Text style={{ color: 'white', marginTop: 12, fontSize: 18, fontFamily: 'ProximaNova-Regular' }}>Alisha</Text>
-            <View style={styles.dot} />
-            <View style={styles.dot} />
-            <View style={styles.dot} />
-            <Image source={images.user9} style={{ width: 80, height: 80, marginTop: 16 }} />
-            <TouchableOpacity style={styles.btn} onPress={() => this.onModal()} >
-              <Text style={{ color: 'white', fontFamily: 'ProximaNova-Regular', fontSize: 17 }}>See Availability and Chat</Text>
-            </TouchableOpacity>
-            <View style={[styles.btn, { backgroundColor: 'orange' }]}>
-              <Text style={{ color: 'white', fontFamily: 'ProximaNova-Regular', fontSize: 17 }}>Keep Browsing</Text>
-            </View>
-          </View>
-        </View>
-      </Modal>
-    );
-  }
+  // renderModal() {
+  //   return (
+  //     <Modal
+  //       visible={this.state.showModal}
+  //       transparent
+  //       onRequestClose={() => this.closeModal()}
+  //     >
+  //       <View style={styles.modalContainer}>
+  //         <View style={styles.modal}>
+  //           <Text style={{ color: 'white', fontSize: 32, fontWeight: '700' }}>GAMEON!</Text>
+  //           <Text style={{ color: 'white', fontSize: 18, fontWeight: '700' }}>IT'S A MATCH!</Text>
+  //           <Image source={images.user5} style={{ width: 120, height: 120, marginTop: 10 }} />
+  //           <Text style={{ color: 'white', marginTop: 12, fontSize: 18, fontFamily: 'ProximaNova-Regular' }}>Alisha</Text>
+  //           <View style={styles.dot} />
+  //           <View style={styles.dot} />
+  //           <View style={styles.dot} />
+  //           <Image source={images.user9} style={{ width: 80, height: 80, marginTop: 16 }} />
+  //           <TouchableOpacity style={styles.btn} onPress={() => this.onModal()} >
+  //             <Text style={{ color: 'white', fontFamily: 'ProximaNova-Regular', fontSize: 17 }}>See Availability and Chat</Text>
+  //           </TouchableOpacity>
+  //           <View style={[styles.btn, { backgroundColor: 'orange' }]}>
+  //             <Text style={{ color: 'white', fontFamily: 'ProximaNova-Regular', fontSize: 17 }}>Keep Browsing</Text>
+  //           </View>
+  //         </View>
+  //       </View>
+  //     </Modal>
+  //   );
+  // }
   simpleModal() {
     return (
       <Modal
-        visible={this.state.simpleModal}
+        animationType={"slide"}
+        visible={this.state.modalVisible}
         transparent
         onRequestClose={() => this.closeModal()}
       >
@@ -101,6 +131,7 @@ export default class Home extends Component {
   }
   
   render() {
+    
     return (
       <View style={styles.container}>
         <>
@@ -124,7 +155,7 @@ export default class Home extends Component {
                   </View>
                   <View style={styles.bar}>
                     <View style={{ flexDirection: 'row',marginHorizontal: 10 ,marginVertical: 10}}>
-                      <TouchableOpacity style={styles.circle} onPress={() => this.setState({ simpleModal: true })}>
+                      <TouchableOpacity style={styles.circle}>
                         <Text style={styles.text}>MON</Text>
                       </TouchableOpacity>
                       <TouchableOpacity style={styles.circle} onPress={() => this.setState({ showModal: true })}>
@@ -168,12 +199,11 @@ export default class Home extends Component {
               </FlipCard>
           </View>
 
-          {this.renderModal()}
           {this.simpleModal()}
 
           <Footer />
         </>
-        {(this.state.showModal || this.state.simpleModal) && <BlurView
+        {(this.state.showModal || this.state.modalVisible) && <BlurView
           style={styles.absolute}
           viewRef={this.state.viewRef}
           blurType="light"
@@ -298,7 +328,7 @@ const styles = StyleSheet.create({
     bottom: 0,
     paddingBottom: 15,
     alignItems: 'center',
-
+    paddingHorizontal : 20
     // opacity: 0.2
   },
   absolute: {

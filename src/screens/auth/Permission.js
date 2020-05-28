@@ -15,10 +15,6 @@ export default class Permission extends Component {
             showSelected : false
         }
     }
-    _signInAsync = async () => {
-        await AsyncStorage.setItem('userToken', 'abc');
-        this.props.navigation('Home') 
-    }
         
 
     render() {

@@ -31,9 +31,7 @@ const HomeNavigator = createStackNavigator({
   Socials: { screen: Socials, navigationOptions },
   LocationSwitch: { screen: LocationSwitch, navigationOptions },
   Messages: { screen: Messages, navigationOptions },
-  AbilityEdit: { screen: AbilityEdit, navigationOptions },
-  SetAvailability : { screen : SetAvailability, navigationOptions},
-  Permission: {screen : Permission, navigationOptions}
+  AbilityEdit: { screen: AbilityEdit, navigationOptions }
 },
   {
     initialRouteName: 'Home'
@@ -45,7 +43,9 @@ const AuthStack = createStackNavigator({
   SetDetail: { screen: SetDetail, navigationOptions },
   ChooseSports : { screen:ChooseSports, navigationOptions},
   ChooseAbility : { screen: ChooseAbility, navigationOptions},
-  SetBioUniversity : { screen: SetBioUniversity, navigationOptions}
+  SetBioUniversity : { screen: SetBioUniversity, navigationOptions},
+  SetAvailability : { screen : SetAvailability, navigationOptions},
+  Permission: {screen : Permission, navigationOptions}
 })
 
 
