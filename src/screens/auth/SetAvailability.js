@@ -4,9 +4,27 @@ import { colors } from '../../common/colors';
 import { images } from '../../common/images';
 import { Input,  Button ,Icon, Slider } from 'react-native-elements';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-import DropDownPicker from 'react-native-dropdown-picker';
-
-export default class SetBioUniversity extends Component {
+function DateView(props) {
+  return (
+    <View style={styles.item}>
+      <View style={styles.btn}>
+        <Text style={styles.text3}>{props.data}</Text>
+      </View>
+      <View style={{ flexDirection: 'row' }}>
+        <View style={[styles.circle, { backgroundColor: props.value[0] ? colors.green : colors.red}]}>
+          <Text style={styles.text4}>AM</Text>
+        </View>
+        <View style={[styles.circle, { backgroundColor: props.value[1] ? colors.green : colors.red}]}>
+          <Text style={styles.text4}>PM</Text>
+        </View>
+        <View style={[styles.circle, { backgroundColor: props.value[2] ? colors.green : colors.red}]}>
+          <Text style={styles.text4}>EVE</Text>
+        </View>
+      </View>
+    </View>
+  )
+}
+export default class SetAvailability extends Component {
 
     state = null;
 
@@ -28,29 +46,25 @@ export default class SetBioUniversity extends Component {
             <View style={styles.main}>
                 <View style={styles.sectionTop}>
                     <Image source={images.logo} style={styles.logo}/>
-                    <Text style={styles.tlabel}>{'Bio and University'}</Text>
+                    <Text style={styles.tlabel}>{'Tap the relevant time and day to update availability. Please put times you are NOT available - you can update later'}</Text>
+                    
                 </View>
                 <View style={styles.sectionMiddle}>
-                  <Input
-                      label = "Bio"
-                      multiline
-                      placeholder='Describe yourself and your sporting ability. E.g. I’m in first year and I’m a social tennis player who likes to play twice a week.'
-                      style={styles.input}
-                       onChangeText={value => this.setState({ bio: value })}
-                  />
-                  <DropDownPicker
-                      items={[
-                          {label: 'Item 1', value: 'item1'},
-                          {label: 'Item 2', value: 'item2'},
-                      ]}
-                      defaultNull
-                      placeholder = "Select your university"
-                      containerStyle={{height: 40}}
-                      labelStyle = {{color:'grey', fontSize: RFValue(12, 580),alignItems : 'flex-start'}}
-                      placeholderStyle={{fontWeight: 'bold'}}
-                      onChangeItem={item => console.log(item.label, item.value)}
-                  />
-                  <Text style={styles.label1}>{'We will be adding more universities soon'}</Text>
+                  <View style={{ marginRight: 0, alignSelf: 'flex-end' }}>
+                    <Text style={styles.text2}>{'06:00-12:00    12.00-18.00    18.00-23.00'}</Text>
+                  </View>
+
+                  <DateView data={'Monday'} value={[0, 0, 0]}/>
+                  <DateView data={'Tuesday'} value={[0, 0, 0]}/>
+                  <DateView data={'Wednesday'} value={[0, 1, 0]}/>
+                  <DateView data={'Thursday'} value={[0, 1, 0]}/>
+                  <DateView data={'Friday'} value={[0, 0, 0]}/>
+                  <DateView data={'Saturday'} value={[0, 1, 1]}/>
+                  <DateView data={'Sunday'} value={[0, 0, 0]}/>
+
+                  <View style={styles.largeBtn}>
+                    <Text style={{ color: 'white', fontFamily: 'ProximaNova-Regular'}}>Save</Text>
+                  </View>
                 </View>
                 <View style={styles.sectionBottom}>
                     <View style={{ flex:1,alignItems:'flex-start'}}>
@@ -59,7 +73,7 @@ export default class SetBioUniversity extends Component {
                     icon={
                         <Icon name={"chevron-left"}  size={60} color="#fff" />
                     }
-                    onPress = {() => navigate('ChooseAbility')}
+                    onPress = {() => navigate('SetBioUniversity')}
                     />
                     </View>
                     <View style={{ flex:1,alignItems:'flex-end'}}>
@@ -68,7 +82,7 @@ export default class SetBioUniversity extends Component {
                     icon={
                         <Icon name={"chevron-right"}  size={60} color="#fff" />
                     }
-                    onPress = {() => navigate('SetAvailability')}
+                    onPress = {() => navigate('')}
                     />
                     </View>
                 </View>
@@ -101,16 +115,16 @@ const styles = StyleSheet.create({
     marginTop: 8
   },
   sectionTop: {
-      flex : 2,
+      flex : 1,
       alignItems: 'center',
-      marginHorizontal: 50,
-      marginVertical: 50
+      marginHorizontal: 20,
+      marginVertical: 30,
   },
   sectionMiddle: {
       flex : 3,
       width: '100%',
       justifyContent: 'flex-start',
-      paddingHorizontal: 20
+      paddingHorizontal: 20,
   },
   sectionBottom: {
       flex : 1,
@@ -118,20 +132,22 @@ const styles = StyleSheet.create({
       flexDirection: 'row',
       alignItems: 'center',
       paddingHorizontal: 20,
-      paddingVertical: 20
+      paddingVertical: 20,
   },
   logo : {
-      flex: 3,
+      flex: 1,
       width:250,
-      height:50,
+      height: 50,
       resizeMode: 'contain'
   },
   tlabel : {
-    flex: 1,
     color: 'grey',
-    fontSize: RFValue(14, 580),
+    textAlign: 'center',
+    fontSize: RFValue(12, 580),
     fontWeight: '300',
-    fontFamily: 'ProximaNova-Regular'
+    fontFamily: 'ProximaNova-Regular',
+    justifyContent:'center',
+    alignItems: 'center'
   },
   label1 : {
     flex: 1,
@@ -164,8 +180,8 @@ const styles = StyleSheet.create({
     height: 80,
     backgroundColor: colors.lightgreen,
     borderRadius: 50
-},
-mlabel: {
+  },
+  mlabel: {
     alignItems: 'center',
     fontSize: 18,
     left: 10
@@ -181,5 +197,47 @@ mlabel: {
   label: {
     alignItems: 'center',
     fontSize: 15
+  },
+  btn: {
+    width: 100,
+    height: 40,
+    backgroundColor: '#34495E',
+    borderRadius: 8,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginRight: 40
+  },
+  item: {
+    marginTop: 8,
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
+  circle: {
+    backgroundColor: colors.green,
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 15,
+    marginVertical: 1
+  },
+  text2: {
+    color: 'grey',
+    fontSize: 11,
+    marginLeft: 10,
+    fontWeight: '300',
+    fontFamily: 'ProximaNova-Regular'
+  },
+  text3: {
+    color: '#fff',
+    fontSize: 16,
+    fontFamily: 'ProximaNova-Regular',
+    fontWeight: '700'
+  },
+  text4: {
+    color: '#ddd',
+    fontSize: 12,
+    fontFamily: 'ProximaNova-Regular'
   }
 });

@@ -17,6 +17,8 @@ import SetDetail from './screens/auth/SetDetail';
 import ChooseSports from './screens/auth/ChooseSports';
 import ChooseAbility from './screens/auth/ChooseAbility';
 import SetBioUniversity from './screens/auth/SetBioUniversity';
+import SetAvailability from './screens/auth/SetAvailability';
+
 const navigationOptions = () => ({ header: null });
 
 const HomeNavigator = createStackNavigator({
@@ -28,7 +30,8 @@ const HomeNavigator = createStackNavigator({
   Socials: { screen: Socials, navigationOptions },
   LocationSwitch: { screen: LocationSwitch, navigationOptions },
   Messages: { screen: Messages, navigationOptions },
-  AbilityEdit: { screen: AbilityEdit, navigationOptions }
+  AbilityEdit: { screen: AbilityEdit, navigationOptions },
+  SetAvailability : { screen : SetAvailability, navigationOptions}
 },
   {
     initialRouteName: 'Home'
