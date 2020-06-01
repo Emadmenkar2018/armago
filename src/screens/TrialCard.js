@@ -1,8 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image,TouchableOpacity,Dimensions } from 'react-native';
 import FlipCard from 'react-native-flip-card';
-import Header from '../components/header';
-import Footer from '../components/footer';
 import { colors } from '../common/colors';
 import { images } from '../common/images';
 export const { width, height } = Dimensions.get('window');
