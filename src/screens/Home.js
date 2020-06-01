@@ -9,7 +9,7 @@ import FlipCard from 'react-native-flip-card';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import AsyncStorage from '@react-native-community/async-storage';
 import CardStack, { Card } from 'react-native-card-stack-swiper';
-
+import TrialCard from './TrialCard';
 export const { width, height } = Dimensions.get('window');
 function DateView(props) {
   return (
@@ -146,9 +146,11 @@ export default class Home extends Component {
               clickable={true}
               onFlipEnd={(isFlipEnd)=>{console.log('isFlipEnd', isFlipEnd)}}
             >
+              
               {/* Face Side */}
               <View style={styles.main}>
                 <Image source={images.group} style={styles.groupImg} />
+                
                 <View style={{ flex: 1, padding: 15}}>
                   <Image source={images.woman} style={styles.img} />
                   <View style={{ flex: 1, marginHorizontal: 20 ,marginVertical: 15 }}>
@@ -172,6 +174,8 @@ export default class Home extends Component {
               
               {/* Back Side */}
               <View style={styles.main}>
+                <Image source={images.group} style={styles.groupImg} />
+
                 {/* <View style={{flex:1}}> */}
                   <View style={{ flex: 1,flexDirection: 'column', padding: 10}}>
                     
@@ -203,6 +207,9 @@ export default class Home extends Component {
                 {/* </View> */}
               </View>
             </FlipCard>
+            </Card>
+            <Card style={styles.card}>
+              <TrialCard></TrialCard>
             </Card>
           </CardStack>
           

@@ -2,7 +2,7 @@ import { createAppContainer, createSwitchNavigator } from 'react-navigation';
 import { createStackNavigator } from 'react-navigation-stack';
 import Home from './screens/Home';
 import Socials from './screens/Socials';
-import Trial from './screens/Trial';
+import TrialCard from './screens/TrialCard';
 import OutOfCards from './screens/OutOfCards';
 import TeamsView from './screens/TeamsView';
 import TimeEdit from './screens/TimeEdit';
@@ -27,7 +27,7 @@ const HomeNavigator = createStackNavigator({
   TimeEdit: { screen: TimeEdit, navigationOptions },
   TeamsView: { screen: TeamsView, navigationOptions },
   OutOfCards: { screen: OutOfCards, navigationOptions },
-  Trial: { screen: Trial, navigationOptions },
+  TrialCard: { screen: TrialCard, navigationOptions },
   Socials: { screen: Socials, navigationOptions },
   LocationSwitch: { screen: LocationSwitch, navigationOptions },
   Messages: { screen: Messages, navigationOptions },
