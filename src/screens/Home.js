@@ -11,6 +11,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 import CardStack, { Card } from 'react-native-card-stack-swiper';
 import TrialCard from './TrialCard';
 import TeamCard from './TeamCard';
+import TrainingCard from './TrainingCard';
+
 export const { width, height } = Dimensions.get('window');
 function DateView(props) {
   return (
@@ -211,6 +213,9 @@ export default class Home extends Component {
             </Card>
             <Card style={styles.card}>
               <TeamCard></TeamCard>
+            </Card>
+            <Card style={styles.card}>
+              <TrainingCard></TrainingCard>
             </Card>
             <Card style={styles.card}>
               <TrialCard></TrialCard>

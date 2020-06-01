@@ -7,5 +7,6 @@ export const colors = {
   lightgreen: '#2ecc71',
   gray: '#979797',
   orange: '#e67e22',
-  darkOrange: '#9c511f'
+  darkOrange: '#9c511f',
+  lightpurple : '#9b59b6'
 };

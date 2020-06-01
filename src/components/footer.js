@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, StyleSheet, Image, Dimensions } from 'react-native';
+import { View, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
 import { images } from '../common/images';
 export const { width, height } = Dimensions.get('window');
 
@@ -9,8 +9,12 @@ export default class Footer extends Component {
       <View>
         <Image source={images.oval} style={styles.oval}/>
         <View style={styles.footer}>
+          <TouchableOpacity onPress={() => console.log('declined')}>
             <Image source={images.close} style={styles.icon}/>
+          </TouchableOpacity>
+          <TouchableOpacity onPress={() => console.log('accepted')}>
             <Image source={images.check} style={styles.icon}/>
+          </TouchableOpacity>
         </View>
       </View>
     );
