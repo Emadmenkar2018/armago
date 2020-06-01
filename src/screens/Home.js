@@ -8,6 +8,7 @@ import { BlurView } from "@react-native-community/blur";
 import FlipCard from 'react-native-flip-card';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import AsyncStorage from '@react-native-community/async-storage';
+import CardStack, { Card } from 'react-native-card-stack-swiper';
 
 export const { width, height } = Dimensions.get('window');
 function DateView(props) {
@@ -131,21 +132,23 @@ export default class Home extends Component {
   }
   
   render() {
-    
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
         <>
-          <Header />
-          <View style={styles.main}>
-              <Image source={images.group} style={styles.groupImg} />
+          <Header navigate= {navigate} />
+          <CardStack style={styles.cardstack} ref={swiper => { this.swiper = swiper }}>
+            <Card style={styles.card}>
               <FlipCard 
-                flipHorizontal={true}
-                flipVertical={false}
-                flip={false}
-                clickable={true}
-                onFlipEnd={(isFlipEnd)=>{console.log('isFlipEnd', isFlipEnd)}}
-              >
-                {/* Face Side */}
+              flipHorizontal={true}
+              flipVertical={false}
+              flip={false}
+              clickable={true}
+              onFlipEnd={(isFlipEnd)=>{console.log('isFlipEnd', isFlipEnd)}}
+            >
+              {/* Face Side */}
+              <View style={styles.main}>
+                <Image source={images.group} style={styles.groupImg} />
                 <View style={{ flex: 1, padding: 15}}>
                   <Image source={images.woman} style={styles.img} />
                   <View style={{ flex: 1, marginHorizontal: 20 ,marginVertical: 15 }}>
@@ -165,8 +168,11 @@ export default class Home extends Component {
                     <Image source={images.racket} style={styles.racket} />
                   </View>
                 </View>
-                {/* Back Side */}
-                <View style={{flex:1}}>
+              </View>
+              
+              {/* Back Side */}
+              <View style={styles.main}>
+                {/* <View style={{flex:1}}> */}
                   <View style={{ flex: 1,flexDirection: 'column', padding: 10}}>
                     
                     <View style={{flex: 1, flexDirection : 'row'}}>
@@ -194,10 +200,13 @@ export default class Home extends Component {
                       </View>
                     </View>
                   </View>
-                  
-                </View>
-              </FlipCard>
-          </View>
+                {/* </View> */}
+              </View>
+            </FlipCard>
+            </Card>
+          </CardStack>
+          
+              
 
           {this.simpleModal()}
 
@@ -232,6 +241,16 @@ const styles = StyleSheet.create({
     justifyContent: 'center',
     borderRadius: 60,
   },
+  cardstack: {
+    flex: 1,
+    
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  card:{
+    width: width ,
+    height: height * 0.75
+  },
   mask: {
     width: '100%'
   },
@@ -245,8 +264,9 @@ const styles = StyleSheet.create({
     marginHorizontal: 8
   },
   img: {
-    flex:1.5,
+    flex:1,
     width: '100%',
+    // height: 300,
     borderRadius:50
   },
   back_img: {

@@ -4,7 +4,6 @@ import { images } from '../../common/images';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { colors } from '../../common/colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome'; 
-import AsyncStorage from '@react-native-community/async-storage';
 export const { width, height } = Dimensions.get('window');
 
 export default class Signin extends Component {

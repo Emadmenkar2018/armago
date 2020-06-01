@@ -1,21 +1,21 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, Linking } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
 import { Link } from "react-router-native";
 import { images } from '../common/images';
 export const { width, height } = Dimensions.get('window');
-import Home from '../screens/Home';
 
 
 export default class Header extends Component {
   render() {
-
     return (
       <View style={styles.container}>
         <Image source={images.oval} style={styles.oval}/>
         <View style={styles.header}>
             <Image source={images.gear} style={styles.icon}/>
             <Image source={images.GameOn} style={styles.logo}/>
-            <Image source={images.chat} style={styles.icon}/>
+            <TouchableOpacity onPress={() => this.props.navigate('Messages')}>
+              <Image source={images.chat} style={styles.icon}/>
+            </TouchableOpacity>
         </View>
       </View>
     );
