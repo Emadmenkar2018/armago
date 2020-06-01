@@ -35,7 +35,7 @@ const styles = StyleSheet.create({
   text: {
     color: 'grey',
     fontSize: 17,
-    fontFamily: 'Proxima Nova Bold'
+    fontFamily: "ProximaNova-Bold"
   },
   text2: {
     color: 'grey',

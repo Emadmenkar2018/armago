@@ -21,7 +21,7 @@ export default class Messages extends Component {
           </View>
           <TextInput style={styles.input} placeholder={'🔍 Search 8 matches'} />
           <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 12 }}>
-            <Text style={{ color: 'white', fontFamily: 'Proxima Nova Bold', fontSize: 16 }}>New Matches</Text>
+            <Text style={{ color: 'white', fontFamily: "ProximaNova-Bold", fontSize: 16 }}>New Matches</Text>
             <View style={styles.circle}>
               <Text style={{ color: colors.lightgreen, fontSize: 18, fontWeight: '600' }}>5</Text>
             </View>
@@ -51,7 +51,7 @@ export default class Messages extends Component {
           </View>
 
           <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 12 }}>
-            <Text style={{ color: colors.lightgreen, fontFamily: 'Proxima Nova Bold', fontSize: 16 }}>Messages</Text>
+            <Text style={{ color: colors.lightgreen, fontFamily: "ProximaNova-Bold", fontSize: 16 }}>Messages</Text>
             <View style={[styles.circle, { backgroundColor: colors.lightgreen}]}>
               <Text style={{ color: colors.white, fontSize: 18, fontWeight: '600' }}>2</Text>
             </View>
@@ -61,7 +61,7 @@ export default class Messages extends Component {
             <Image source={images.user6} style={styles.user}/>
             <View style={[styles.dot, { left: 59}]} />
             <View style={styles.listborder}>
-              <Text style={{ fontSize: 20, fontFamily: 'Proxima Nova Bold', color: '#666'}}>Mathew</Text>
+              <Text style={{ fontSize: 20, fontFamily: "ProximaNova-Bold", color: '#666'}}>Mathew</Text>
               <Text style={{ fontSize: 16, fontFamily: 'ProximaNova-Regular', color: '#999'}}>Still up for tonight?</Text>
             </View>
           </View>
@@ -70,7 +70,7 @@ export default class Messages extends Component {
             <Image source={images.user7} style={styles.user}/>
             <View style={[styles.dot, { left: 59}]} />
             <View style={styles.listborder}>
-              <Text style={{ fontSize: 20, fontFamily: 'Proxima Nova Bold', color: '#666'}}>Mathew</Text>
+              <Text style={{ fontSize: 20, fontFamily: "ProximaNova-Bold", color: '#666'}}>Mathew</Text>
               <Text style={{ fontSize: 16, fontFamily: 'ProximaNova-Regular', color: '#999'}}>Still up for tonight?</Text>
             </View>
           </View>
@@ -79,7 +79,7 @@ export default class Messages extends Component {
             <Image source={images.user8} style={styles.user}/>
             <View style={[styles.dot, { left: 59}]} />
             <View style={styles.listborder}>
-              <Text style={{ fontSize: 20, fontFamily: 'Proxima Nova Bold', color: '#666'}}>Mathew</Text>
+              <Text style={{ fontSize: 20, fontFamily: "ProximaNova-Bold", color: '#666'}}>Mathew</Text>
               <Text style={{ fontSize: 16, fontFamily: 'ProximaNova-Regular', color: '#999'}}>Still up for tonight?</Text>
             </View>
           </View>

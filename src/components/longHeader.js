@@ -28,7 +28,7 @@ const styles = StyleSheet.create({
   },
   text: {
     color: 'white',
-    fontFamily: 'Proxima Nova Bold',
+    fontFamily: "ProximaNova-Bold",
     fontSize: 20
   }
 });

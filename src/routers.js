@@ -5,6 +5,7 @@ import Socials from './screens/Socials';
 import TrialCard from './screens/TrialCard';
 import TeamCard from './screens/TeamCard';
 import TrainingCard from './screens/TrainingCard';
+import EventCard from './screens/EventCard';
 import OutOfCards from './screens/OutOfCards';
 import TeamsView from './screens/TeamsView';
 import TimeEdit from './screens/TimeEdit';
@@ -31,6 +32,7 @@ const HomeNavigator = createStackNavigator({
   OutOfCards: { screen: OutOfCards, navigationOptions },
   TrialCard: { screen: TrialCard, navigationOptions },
   TeamCard: { screen: TeamCard, navigationOptions },
+  EventCard: { screen: EventCard, navigationOptions },
   TrainingCard : { screen: TrainingCard, navigationOptions },
   Socials: { screen: Socials, navigationOptions },
   LocationSwitch: { screen: LocationSwitch, navigationOptions },
