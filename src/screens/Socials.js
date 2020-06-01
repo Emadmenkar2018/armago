@@ -87,7 +87,7 @@ const styles = StyleSheet.create({
   title: {
     color: colors.white,
     fontSize: 30,
-    fontFamily: 'Proxima Nova Alt Bold',
+    fontFamily: 'ProximaNova-Bold',
     marginTop: 10
   },
   bar: {

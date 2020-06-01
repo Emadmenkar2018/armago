@@ -311,7 +311,7 @@ const styles = StyleSheet.create({
   text: {
     color: colors.white,
     fontSize: RFValue(12, 580),
-    fontFamily: 'Proxima Nova Alt Bold'
+    fontFamily: 'ProximaNova-Bold'
   },
   text1: {
     color: colors.white,
@@ -340,7 +340,7 @@ const styles = StyleSheet.create({
   title: {
     color: colors.white,
     fontSize: RFValue(30, 580),
-    fontFamily: 'Proxima Nova Alt Bold',
+    fontFamily: 'ProximaNova-Bold',
     marginTop: 10
   },
   bar: {
