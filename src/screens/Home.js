@@ -344,9 +344,8 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.white,
-    fontSize: RFValue(30, 580),
-    fontFamily: 'ProximaNova-Bold',
-    marginTop: 10
+    fontSize: RFValue(25, 580),
+    fontWeight: '700'
   },
   bar: {
     flexDirection: 'row',

@@ -167,8 +167,7 @@ const styles = StyleSheet.create({
   text2: {
     color: colors.white,
     fontSize: 15,
-    fontWeight: '700',
-    top: 10
+    fontWeight: '700'
   },
   groupImg: {
     position: 'absolute',
