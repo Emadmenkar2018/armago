@@ -4,6 +4,7 @@ import FlipCard from 'react-native-flip-card';
 import { colors } from '../common/colors';
 import { images } from '../common/images';
 export const { width, height } = Dimensions.get('window');
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 function DateView(props) {
   return (
     <View style={styles.item}>
@@ -86,7 +87,6 @@ const styles = StyleSheet.create({
     borderLeftWidth: 2,
     borderBottomWidth: 5,
     borderColor: colors.gray,
-    marginVertical  : height/20,
     marginHorizontal: 30,
     borderRadius: 60,
   },
@@ -100,10 +100,12 @@ const styles = StyleSheet.create({
     marginHorizontal: 8
   },
   img: {
-    flex:1,
-    width: '100%',
-    // height: 300,
-    borderRadius:50
+    flex: 1.5,
+    width:'100%',
+    // height: 200,
+    marginVertical: 10,
+    borderRadius: 50,
+    resizeMode: 'cover'
   },
   img_back : {
     width: 80,
@@ -126,7 +128,8 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.white,
-    fontSize: 25,
+    fontSize: RFValue(23, 580),
+    fontFamily: 'ProximaNova-Bold',
     fontWeight: '700'
   },
   bar: {
@@ -141,7 +144,7 @@ const styles = StyleSheet.create({
   },
   text1: {
     color: colors.white,
-    fontSize: 30,
+    fontSize: 25,
     fontWeight: '700',
     left:20,
     top:15

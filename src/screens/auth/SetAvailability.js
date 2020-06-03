@@ -175,13 +175,13 @@ const styles = StyleSheet.create({
     marginTop: 8
   },
   sectionTop: {
-      flex : 1,
+      flex : 1.5,
       alignItems: 'center',
       marginHorizontal: 20,
-      marginVertical: 30,
+      marginBottom: 20,
   },
   sectionMiddle: {
-      flex : 3,
+      flex : 5,
       width: '100%',
       justifyContent: 'flex-start',
       paddingHorizontal: 20,

@@ -1,5 +1,5 @@
 import React, { useState,Component  } from 'react';
-import { View, Text, StyleSheet, Image, Platform,TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, Platform,TouchableOpacity, Alert } from 'react-native';
 import { colors } from '../../common/colors';
 import { images } from '../../common/images';
 import { Input,  Button ,Icon  } from 'react-native-elements';
@@ -104,7 +104,7 @@ export default class ChooseSports extends Component {
                     icon={
                         <Icon name={"chevron-right"}  size={60} color="#fff" />
                     }
-                    onPress = {() => navigate('ChooseAbility')}
+                    onPress = {() => (this.state.showSelected) ? navigate('ChooseAbility') : Alert.alert('select at least one')}
                     />
                     </View>
                 </View>

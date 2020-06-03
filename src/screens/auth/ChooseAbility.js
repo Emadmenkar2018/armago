@@ -53,7 +53,7 @@ export default class ChooseAbility extends Component {
                         <Text style={styles.label}>Advanced</Text>
                         <Text style={styles.label}>Team</Text>
                     </View>
-                    <View style={{ flexDirection: 'row',  alignItems: 'center', marginTop:10}}>
+                    {/* <View style={{ flexDirection: 'row',  alignItems: 'center', marginTop:10}}>
                         <Image source={images.cycling} style={styles.racket}/>
                         <Text style={styles.mlabel}>{'Cycling'}</Text>
                     </View>
@@ -70,7 +70,7 @@ export default class ChooseAbility extends Component {
                         <Text style={styles.label}>Intermediate</Text>
                         <Text style={styles.label}>Advanced</Text>
                         <Text style={styles.label}>Team</Text>
-                    </View>
+                    </View> */}
                 </View>
                 <View style={styles.sectionBottom}>
                     <View style={{ flex:1,alignItems:'flex-start'}}>

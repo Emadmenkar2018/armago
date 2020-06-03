@@ -13,6 +13,12 @@ import TrialCard from './TrialCard';
 import TeamCard from './TeamCard';
 import TrainingCard from './TrainingCard';
 import EventCard from './EventCard';
+import {
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+  responsiveScreenFontSize,
+  responsiveHeight
+} from "react-native-responsive-dimensions";
 
 export const { width, height } = Dimensions.get('window');
 function DateView(props) {
@@ -195,14 +201,14 @@ export default class Home extends Component {
                     <Text style={styles.text2}>{"Hi I'm Alisha! I love to meet new people through tennis!"}</Text>
                   </View>
                   
-                  <View style={{width:'100%',flex: 1, backgroundColor : colors.darkBlue , padding: 15}}>
+                  <View style={{width:'100%',flex: 1.5, backgroundColor : colors.darkBlue , paddingHorizontal: 15, paddingTop:10}}>
                     <Text style={styles.text6}>{"Matching"}</Text>
                     <DateView data={'Monday'} value={[0, 1, 0]}/>
                     <DateView data={'Wednesday'} value={[0, 1, 0]}/>
                   </View>
-                  <View style={{flex: 1,  padding: 15}}>
+                  <View style={{flex: 1,  paddingHorizontal: 15}}>
                     <Text style={styles.text6}>{"Mutual Friends"}</Text>
-                    <View style={{flex: 1, flexDirection : 'row', padding: 15}}>
+                    <View style={{flex: 1, flexDirection : 'row', paddingHorizontal: 15}}>
                       <View style={styles.m_avatar}>
                         <Image source={images.user10} />
                         <Text style={styles.text7}>Jess Jones</Text>
@@ -230,9 +236,6 @@ export default class Home extends Component {
               <TrialCard></TrialCard>
             </Card>
           </CardStack>
-          
-              
-
           {this.simpleModal()}
 
           <Footer />
@@ -240,9 +243,9 @@ export default class Home extends Component {
         {(this.state.showModal || this.state.modalVisible) && <BlurView
           style={styles.absolute}
           viewRef={this.state.viewRef}
-          blurType="light"
-          blurAmount={4}
-          reducedTransparencyFallbackColor="white"
+          blurType="dark"
+          blurAmount={1}
+          reducedTransparencyFallbackColor="black"
         />}
       </View>
     );
@@ -262,19 +265,19 @@ const styles = StyleSheet.create({
     borderBottomWidth: 5,
     borderColor: colors.gray,
     marginHorizontal: 30,
-    marginVertical  : height/20,
     justifyContent: 'center',
     borderRadius: 60,
   },
   cardstack: {
     flex: 1,
-    
     alignItems: 'center',
     justifyContent: 'center',
+    bottom: 10
+    // marginVertical : 10,
   },
   card:{
     width: width ,
-    height: height * 0.75
+    height: responsiveHeight(63) 
   },
   mask: {
     width: '100%'
@@ -289,7 +292,7 @@ const styles = StyleSheet.create({
     marginHorizontal: 8
   },
   img: {
-    flex:1,
+    flex:1.5,
     width: '100%',
     // height: 300,
     borderRadius:50
@@ -321,6 +324,7 @@ const styles = StyleSheet.create({
   text1: {
     color: colors.white,
     fontSize: 30,
+    fontFamily: 'ProximaNova-Bold',
     fontWeight: '700',
     left:20,
     top:15
@@ -330,21 +334,27 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 15,
     top: 20,
-    marginHorizontal: 10
+    marginHorizontal: 10,
+    fontFamily: 'ProximaNova-Bold',
+    fontWeight: '700'
   },
   text6 : {
     color: colors.white,
     fontSize: 20,
+    fontFamily: 'ProximaNova-Bold',
     fontWeight: '700'
   },
   text7: {
     color: colors.white,
     fontSize: 10,
+    fontFamily: 'ProximaNova-Bold',
+    fontWeight: '700',
     textAlign: 'center',
   },
   title: {
     color: colors.white,
-    fontSize: RFValue(25, 580),
+    fontSize: RFValue(23, 580),
+    fontFamily: 'ProximaNova-Bold',
     fontWeight: '700'
   },
   bar: {
@@ -403,14 +413,16 @@ const styles = StyleSheet.create({
     marginTop: 6, 
     fontSize: 30, 
     fontFamily: 'ProximaNova-Regular',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontWeight: '700'
   },
   text5: {
     color: 'white', 
     marginTop: 12, 
     fontSize: 18, 
     fontFamily: 'ProximaNova-Regular',
-    textAlign: 'center'
+    textAlign: 'center',
+    fontWeight: '700'
   },
   item: {
     marginTop: 8,

@@ -3,7 +3,7 @@ import { View, Text, StyleSheet, Image, BackHandler } from 'react-native';
 import { colors } from '../../common/colors';
 import { images } from '../../common/images';
 import { Input, CheckBox, Button ,Icon  } from 'react-native-elements';
-
+import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 export default class SetPhone extends Component {
     
     state = null;
@@ -22,43 +22,45 @@ export default class SetPhone extends Component {
     render() {
         const { navigate } = this.props.navigation;
         return (
-        <View style={styles.container}>
-            <View style={styles.main}>
-                <View style={styles.sectionTop}>
-                    <Image source={images.logo} style={styles.logo}/>
-                    <Text style={styles.tlabel}>{'Get Started'}</Text>
-                </View>
-                <View style={styles.sectionMiddle}>
-                        <Input
-                        label = "Phone"
-                        placeholder="Enter Your Phone Number"
-                        style={styles.input}
-                        onChangeText={value => this.setState({phone: value })}
-                        />
-                        
-                </View>
-                <View style={styles.sectionBottom}>
-                    <View style={{ flex:1,alignItems:'flex-start'}}>
-                    <Button
-                    buttonStyle = {styles.navBtn_prev}
-                    icon={
-                        <Icon name={"chevron-left"}  size={60} color="#fff" />
-                    }
-                    onPress = {() => navigate('Signin')}
-                    />
+            <View style={styles.container}>
+                <View style={styles.main}>
+                    <View style={styles.sectionTop}>
+                        <Image source={images.logo} style={styles.logo}/>
+                        <Text style={styles.tlabel}>{'Get Started'}</Text>
                     </View>
-                    <View style={{ flex:1,alignItems:'flex-end'}}>
-                    <Button
-                    buttonStyle = {styles.navBtn_next}
-                    icon={
-                        <Icon name={"chevron-right"}  size={60} color="#fff" />
+                    <View style={styles.sectionMiddle}>
+                            <Input
+                            label = "Phone"
+                            placeholder="Enter Your Phone Number"
+                            style={styles.input}
+                            onChangeText={value => this.setState({phone: value })}
+                            keyboardType={'numeric'}
+                            />
+                            
+                    </View>
+                    <View style={styles.sectionBottom}>
+                        <View style={{ flex:1,alignItems:'flex-start'}}>
+                        <Button
+                        buttonStyle = {styles.navBtn_prev}
+                        icon={
+                            <Icon name={"chevron-left"}  size={60} color="#fff" />
+                        }
+                        onPress = {() => navigate('Signin')}
+                        />
+                        </View>
+                        <View style={{ flex:1,alignItems:'flex-end'}}>
+                        <Button
+                        buttonStyle = {styles.navBtn_next}
+                        icon={
+                            <Icon name={"chevron-right"}  size={60} color="#fff" />
                     }
                     onPress = {() => navigate('SetSmsCode')}
                     />
                     </View>
                 </View>
             </View>
-        </View>
+            </View>
+        
         );
     }
 }

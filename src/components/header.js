@@ -1,23 +1,38 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, TouchableOpacity,SafeAreaView  } from 'react-native';
 import { Link } from "react-router-native";
 import { images } from '../common/images';
+import AppStatusBar from './AppStatusBar';
+import { colors } from '../common/colors';
 export const { width, height } = Dimensions.get('window');
+import {
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+  responsiveScreenFontSize,
+  responsiveHeight
+} from "react-native-responsive-dimensions";
 
+const THEME_COLOR = colors.lightgreen;
 
 export default class Header extends Component {
   render() {
     return (
-      <View style={styles.container}>
-        <Image source={images.oval} style={styles.oval}/>
-        <View style={styles.header}>
-            <Image source={images.gear} style={styles.icon}/>
-            <Image source={images.GameOn} style={styles.logo}/>
-            <TouchableOpacity onPress={() => this.props.navigate('Messages')}>
-              <Image source={images.chat} style={styles.icon}/>
-            </TouchableOpacity>
-        </View>
-      </View>
+      <>
+      <SafeAreaView style={styles.topSafeArea} />
+            <SafeAreaView style={styles.bottomSafeArea}>
+                <AppStatusBar backgroundColor={THEME_COLOR} barStyle="light-content" />
+                <View style={styles.container}>
+                  <Image source={images.oval} style={styles.oval}/>
+                  <View style={styles.header}>
+                      <Image source={images.gear} style={styles.icon}/>
+                      <Image source={images.GameOn} style={styles.logo}/>
+                      <TouchableOpacity onPress={() => this.props.navigate('Messages')}>
+                        <Image source={images.chat} style={styles.icon}/>
+                      </TouchableOpacity>
+                  </View>
+                </View>
+            </SafeAreaView>
+      </>
     );
   }
 }
@@ -28,24 +43,24 @@ const styles = StyleSheet.create({
   },
   oval: {
     width,
-    height: 210,
-    marginTop: -90,
+    height: responsiveScreenWidth(45),
+    marginTop: -100,
     position: 'absolute'
   },
   header: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginTop: height/20,
-
+    marginTop: responsiveHeight(3)
   },
   icon: {
     width: 36,
     height: 36,
-    marginTop: -10
+    // marginTop: -10
+    top: -25
   },
   logo: {
-    width: 150,
+    width: 180,
     height: 35,
-    top:5
+    top:-20
   }
 });

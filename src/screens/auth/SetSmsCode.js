@@ -34,6 +34,7 @@ export default class SetSmsCode extends Component {
                         placeholder="Code"
                         style={styles.input}
                         onChangeText={value => this.setState({phone: value })}
+                        keyboardType={'numeric'}
                         />
                         
                 </View>
@@ -102,11 +103,12 @@ const styles = StyleSheet.create({
       resizeMode: 'contain'
   },
   tlabel : {
-    flex: 1,
     color: 'grey',
     fontSize: 20,
     fontWeight: '300',
-    fontFamily: 'ProximaNova-Regular'
+    top: 20,
+    fontFamily: 'ProximaNova-Regular',
+    textAlign: 'center'
   },
   input : {
       width: '100%'

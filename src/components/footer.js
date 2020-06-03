@@ -2,6 +2,12 @@ import React, { Component } from 'react';
 import { View, StyleSheet, Image, Dimensions, TouchableOpacity } from 'react-native';
 import { images } from '../common/images';
 export const { width, height } = Dimensions.get('window');
+import {
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+  responsiveScreenFontSize,
+  responsiveHeight
+} from "react-native-responsive-dimensions";
 
 export default class Footer extends Component {
   render() {
@@ -26,7 +32,7 @@ const styles = StyleSheet.create({
     width,
     height: width/2,
     position: 'absolute',
-    bottom: -width/3.8,
+    bottom: -width/4,
   },
   footer: {
     flexDirection: 'row',
@@ -34,8 +40,8 @@ const styles = StyleSheet.create({
   },
   icon: {
     marginHorizontal: 12,
-    marginBottom: 10,
-    width: 65,
-    height: 65
+    marginBottom: responsiveHeight(2),
+    width: responsiveHeight(9),
+    height: responsiveHeight(9)
   },
 });

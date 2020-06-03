@@ -65,7 +65,7 @@ export default class TeamCard extends Component {
             {/* Back Side */}
             <View style={styles.main}>
                 <Image source={images.group} style={styles.groupImg} />
-                <View style={{ flex: 1,flexDirection: 'column', padding: 10}}>
+                <View style={{ flex: 1,flexDirection: 'column', paddingHorizontal: 10}}>
                     <View style={{flex: 1, flexDirection : 'row'}}>
                       <Image source={images.trial_back} style={styles.img} />
                       <Text style={styles.text1}>Bristol Advanced Squad</Text>
@@ -112,7 +112,6 @@ const styles = StyleSheet.create({
     borderLeftWidth: 2,
     borderBottomWidth: 5,
     borderColor: colors.gray,
-    marginVertical  : height/20,
     marginHorizontal: 30,
     borderRadius: 60,
   },
@@ -124,7 +123,7 @@ const styles = StyleSheet.create({
     borderRadius: 20
   },
   frontimg: {
-    
+    flex: 1.5,
     width:'100%',
     height: 200,
     marginVertical: 10,
@@ -145,7 +144,8 @@ const styles = StyleSheet.create({
   },
   title: {
     color: colors.white,
-    fontSize: 25,
+    fontSize: RFValue(23, 580),
+    fontFamily: 'ProximaNova-Bold',
     fontWeight: '700'
   },
   bar: {
@@ -160,14 +160,14 @@ const styles = StyleSheet.create({
   },
   text1: {
     color: colors.white,
-    fontSize: 18,
+    fontSize: 17,
     fontWeight: '700',
-    left:30,
-    top: 10
+    left:20,
+    top: 20
   },
   text2: {
     color: colors.white,
-    fontSize: 15,
+    fontSize: 13,
     fontWeight: '700'
   },
   groupImg: {

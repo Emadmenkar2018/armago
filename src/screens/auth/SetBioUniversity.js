@@ -107,7 +107,7 @@ const styles = StyleSheet.create({
       marginVertical: 50
   },
   sectionMiddle: {
-      flex : 3,
+      flex : 4,
       width: '100%',
       justifyContent: 'flex-start',
       paddingHorizontal: 20
