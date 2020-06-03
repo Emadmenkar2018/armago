@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, TextInput, ScrollView } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, TextInput, ScrollView, TouchableOpacity } from 'react-native';
 import { images } from '../common/images';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { colors } from '../common/colors';
@@ -9,13 +9,14 @@ export const { width, height } = Dimensions.get('window');
 
 export default class Messages extends Component {
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
         <Image source={images.oval3} style={styles.oval1} />
         <View style={styles.main}>
 
           <View style={{ flexDirection: 'row', alignItems: 'center', justifyContent: 'space-around' }}>
-            <AntDesign name="home" size={26} color={"white"} />
+            <TouchableOpacity onPress={() => navigate('Home')}><AntDesign name="home" size={26} color={"white"} /></TouchableOpacity>
             <Image source={images.msg} style={styles.msg} />
             <AntDesign name="home" size={26} color={"white"} style={{ opacity: 0 }} />
           </View>

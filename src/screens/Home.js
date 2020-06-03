@@ -141,7 +141,12 @@ export default class Home extends Component {
       <View style={styles.container}>
         <>
           <Header navigate= {navigate} />
-          <CardStack style={styles.cardstack} ref={swiper => { this.swiper = swiper }}>
+          <CardStack 
+            style={styles.cardstack} ref={swiper => { this.swiper = swiper }}
+            disableTopSwipe = {true}
+            disableBottomSwipe = {true}
+            verticalSwipe = {false}
+          >
             <Card style={styles.card}>
               <FlipCard 
               flipHorizontal={true}
