@@ -12,6 +12,7 @@ import AbilityEdit from './screens/AbilityEdit';
 import Signin from './screens/auth/Signin';
 import LocationSwitch from './screens/LocationSwitch';
 import Messages from './screens/Messages';
+import Chat from './screens/Chat';
 import AuthLoadingScreen from './screens/auth/AuthLoading';
 import SetPhone from './screens/auth/SetPhone';
 import SetSmsCode from './screens/auth/SetSmsCode';
@@ -35,6 +36,7 @@ const HomeNavigator = createStackNavigator({
   TrainingCard : { screen: TrainingCard, navigationOptions },
   LocationSwitch: { screen: LocationSwitch, navigationOptions },
   Messages: { screen: Messages, navigationOptions },
+  Chat: { screen: Chat, navigationOptions },
   AbilityEdit: { screen: AbilityEdit, navigationOptions }
 },
   {

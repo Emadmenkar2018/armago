@@ -29,26 +29,37 @@ export default class Messages extends Component {
           </View>
 
           <View style={{ flexDirection: 'row', marginTop: 12, height: 90 }} horizontal>
-            <View style={{ paddingRight: 30 }}>
-              <Image source={images.user1} style={styles.user} />
-              <View style={styles.dot} />
-              <Text style={[styles.name, { marginLeft: 10 }]}>Jeffery</Text>
-            </View>
+            <TouchableOpacity onPress={() => navigate('Chat',{user : 'Jeffery'})}>
+              <View style={{ paddingRight: 30}}>
+                <Image source={images.user1} style={styles.user} />
+                <View style={styles.dot} />
+                <Text style={[styles.name, { marginLeft: 10 }]}>Jeffery</Text>
+              </View>
+            </TouchableOpacity>
+            <TouchableOpacity onPress={() => navigate('Chat',{user : 'Alan'})}>
             <View style={{ paddingRight: 30 }}>
               <Image source={images.user2} style={styles.user} />
               <View style={styles.dot} />
               <Text style={styles.name}>Alan</Text>
             </View>
+            </TouchableOpacity>
+            
+            <TouchableOpacity onPress={() => navigate('Chat',{user : 'Leo'})}>
             <View style={{ paddingRight: 30 }}>
               <Image source={images.user3} style={styles.user} />
               <View style={styles.dot} />
               <Text style={styles.name}>Leo</Text>
             </View>
+            </TouchableOpacity>
+            
+            <TouchableOpacity onPress={() => navigate('Chat',{user : 'Chris'})}>
             <View style={{ paddingRight: 30 }}>
               <Image source={images.user4} style={styles.user} />
               <View style={styles.dot} />
               <Text style={styles.name}>Chris</Text>
             </View>
+            </TouchableOpacity>
+            
           </View>
 
           <View style={{ flexDirection: 'row', alignItems: 'center', marginTop: 12 }}>
@@ -161,7 +172,7 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 10,
     position: 'absolute',
-    right: 5,
+    right:10,
     top: 26,
   },
   name: {

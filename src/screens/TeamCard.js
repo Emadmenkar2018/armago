@@ -4,6 +4,7 @@ import FlipCard from 'react-native-flip-card';
 import { colors } from '../common/colors';
 import { images } from '../common/images';
 export const { width, height } = Dimensions.get('window');
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 function DateView(props) {
     return (
       <View style={styles.item}>
@@ -49,10 +50,10 @@ export default class TeamCard extends Component {
                   <View style={styles.bar}>
                     <View style={{ flexDirection: 'row',marginHorizontal: 10 ,marginVertical: 10}}>
                       <TouchableOpacity style={styles.circle} onPress={() => console.log('Mon Clicked')}>
-                        <Text style={styles.text3}>MON</Text>
+                        <Text style={styles.text_date}>MON</Text>
                       </TouchableOpacity>
                       <TouchableOpacity style={styles.circle} onPress={() => console.log('Fri Clicked')}>
-                        <Text style={styles.text3}>Fri</Text>
+                        <Text style={styles.text_date}>FRI</Text>
                       </TouchableOpacity>
                     </View>
                     <Image source={images.racket} style={styles.racket} />
@@ -139,8 +140,8 @@ const styles = StyleSheet.create({
   },
   text3: {
     color: colors.white,
-    fontSize: 13,
-    fontFamily: 'ProximaNova-Regular'
+    fontSize: RFValue(12, 580),
+    fontFamily: 'ProximaNova-Bold'
   },
   title: {
     color: colors.white,

@@ -50,7 +50,7 @@ export default class TrainingCard extends Component {
                   <View style={styles.bar}>
                     <View style={{ flexDirection: 'row',marginHorizontal: 10 ,marginVertical: 10}}>
                       <TouchableOpacity style={styles.circle} onPress={() => console.log('Mon Clicked')}>
-                        <Text style={styles.text3}>MON</Text>
+                        <Text style={styles.text_date}>MON</Text>
                       </TouchableOpacity>
                       <Text style={[styles.text2]}>3pm ~ 4pm</Text>
                       {/* <TouchableOpacity style={styles.circle} onPress={() => console.log('Fri Clicked')}>

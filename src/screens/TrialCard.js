@@ -27,7 +27,7 @@ export default class TrialCard extends Component {
                   <View style={styles.bar}>
                     <View style={{ flexDirection: 'row',marginHorizontal: 10 ,marginVertical: 10}}>
                       <TouchableOpacity style={styles.circle} onPress={() => this.setState({ simpleModal: true })}>
-                        <Text style={styles.text3}>MON</Text>
+                        <Text style={styles.text_date}>MON</Text>
                       </TouchableOpacity>
                     </View>
                     <Image source={images.racket} style={styles.racket} />
@@ -110,6 +110,11 @@ const styles = StyleSheet.create({
     width: 50,
     height: 50,
     marginHorizontal: 10 
+  },
+  text_date : {
+    color: '#fff',
+    fontSize: 12,
+    fontFamily: 'ProximaNova-Regular'
   },
   text1: {
     color: colors.white,

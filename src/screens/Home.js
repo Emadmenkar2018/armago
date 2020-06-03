@@ -170,10 +170,10 @@ export default class Home extends Component {
                   <View style={styles.bar}>
                     <View style={{ flexDirection: 'row',marginHorizontal: 10 ,marginVertical: 10}}>
                       <TouchableOpacity style={styles.circle}>
-                        <Text style={styles.text}>MON</Text>
+                        <Text style={styles.text_date}>MON</Text>
                       </TouchableOpacity>
                       <TouchableOpacity style={styles.circle} onPress={() => this.setState({ showModal: true })}>
-                        <Text style={styles.text}>WED</Text>
+                        <Text style={styles.text_date}>WED</Text>
                       </TouchableOpacity>
                     </View>
                     <Image source={images.racket} style={styles.racket} />
