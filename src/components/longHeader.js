@@ -4,13 +4,19 @@ import { images } from '../common/images';
 export const { width, height } = Dimensions.get('window');
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { colors } from '../common/colors';
-
+import {
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+  responsiveScreenFontSize,
+  responsiveHeight
+} from "react-native-responsive-dimensions";
 export function LongHeader(props) {
     return (
       <View style={styles.container}>
         <View style={[styles.header, { backgroundColor: props.color, borderBottomWidth : 0.3, borderBottomColor : props.bcolor}]}>
-          <TouchableOpacity onPress={() => props.navigate(props.route)}>
+          <TouchableOpacity onPress={() => props.navigate(props.route)} style={{'flexDirection' : 'row'}}>
             <AntDesign name="left" size={25} color={props.left ? props.left :"white"} />
+            <Text style ={{'color' : props.left, top : 3}}>{props.leftText}</Text>
           </TouchableOpacity>
           <View style={styles.top_middle}>
             <Image source={props.avatar} style={styles.user} />
@@ -48,8 +54,11 @@ const styles = StyleSheet.create({
   },
   top_middle:{
     flex: 1,
+    alignSelf : 'center',
+    // position : 'absolute',
+    // marginHorizontal : 10,
+    // left: responsiveScreenWidth(40),
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent : 'center',
   }
 });

@@ -1,12 +1,12 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image,  Modal, TouchableOpacity ,Dimensions} from 'react-native';
+import { View, Text, StyleSheet, Image,  Modal, TouchableOpacity ,Dimensions, Linking} from 'react-native';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import { colors } from '../common/colors';
 import { images } from '../common/images';
 import { BlurView } from "@react-native-community/blur";
 import FlipCard from 'react-native-flip-card';
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import {  RFValue } from "react-native-responsive-fontsize";
 import AsyncStorage from '@react-native-community/async-storage';
 import CardStack, { Card } from 'react-native-card-stack-swiper';
 import TrialCard from './TrialCard';
@@ -19,7 +19,6 @@ import {
   responsiveScreenFontSize,
   responsiveHeight
 } from "react-native-responsive-dimensions";
-
 export const { width, height } = Dimensions.get('window');
 function DateView(props) {
   return (
@@ -226,10 +225,13 @@ export default class Home extends Component {
             <Card style={styles.card}>
               <TeamCard></TeamCard>
             </Card>
-            <Card style={styles.card}>
+            <Card 
+              style={styles.card}
+              onSwipedRight = {() => navigate('TrainingAccept')}
+            >
               <TrainingCard></TrainingCard>
             </Card>
-            <Card style={styles.card}>
+            <Card style={styles.card} onSwipedRight = {() => navigate('EventAccept')}>
               <EventCard></EventCard>
             </Card>
             <Card style={styles.card}>

@@ -1,26 +1,11 @@
-import React, { Component,useCallback   } from 'react';
+import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, Linking, Alert, TouchableOpacity } from 'react-native';
 import { colors } from '../../common/colors';
 import { images } from '../../common/images';
 import { Input, CheckBox ,Icon, Button  } from 'react-native-elements';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
-const OpenURLButton = ({ url, children }) => {
-    const handlePress = useCallback(async () => {
-      // Checking if the link is supported for links with custom URL scheme.
-      const supported = await Linking.canOpenURL(url);
-  
-      if (supported) {
-        // Opening the link with some app, if the URL scheme is "http" the web link should be opened
-        // by some browser in the mobile
-        await Linking.openURL(url);
-      } else {
-        Alert.alert(`Don't know how to open this URL: ${url}`);
-      }
-    }, [url]);
-  
-    return <TouchableOpacity onPress={handlePress}>{children}</TouchableOpacity>;
-  };
+import { OpenURLButton } from '../../components/openWebLinking';
 const supportedURL = "https://google.com";
 export default class SetDetail extends Component {
     
