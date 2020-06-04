@@ -14,18 +14,26 @@ export function LongHeader(props) {
     return (
       <View style={styles.container}>
         <View style={[styles.header, { backgroundColor: props.color, borderBottomWidth : 0.3, borderBottomColor : props.bcolor}]}>
+          {(!props.removeLeft) && 
           <TouchableOpacity onPress={() => props.navigate(props.route)} style={{'flexDirection' : 'row'}}>
             <AntDesign name="left" size={25} color={props.left ? props.left :"white"} />
             <Text style ={{'color' : props.left, top : 3}}>{props.leftText}</Text>
-          </TouchableOpacity>
+          </TouchableOpacity>}
+          
           <View style={styles.top_middle}>
-            <Image source={props.avatar} style={styles.user} />
+            {(props.avatar) &&<Image source={props.avatar} style={styles.user} />}
             <Text style={[styles.text, props.dark && { color: 'black'}]}>{props.title}</Text>
             {/* <Text style={styles.text}>{'         '}</Text> */}
           </View>
+
+          {(!props.removeRightIcon) && 
           <TouchableOpacity onPress={() => console.log('ok')}>
             <AntDesign name="ellipsis1" size={30} color={props.left ? props.left :"white"} />
-          </TouchableOpacity>
+          </TouchableOpacity>}
+          {(props.removeRightIcon) && 
+          <TouchableOpacity onPress={() => console.log('ok')}>
+            <Text style ={{'color' : props.left, top : 3}}>{props.rightText}</Text>
+          </TouchableOpacity>}
         </View>
       </View>
     );
@@ -59,6 +67,8 @@ const styles = StyleSheet.create({
     // marginHorizontal : 10,
     // left: responsiveScreenWidth(40),
     flexDirection: 'row',
+    textAlign: 'center',
+    justifyContent : 'center',
     alignItems: 'center',
   }
 });

@@ -5,6 +5,7 @@ import EventCard from './screens/EventCard';
 import TrialCard from './screens/TrialCard';
 import TeamCard from './screens/TeamCard';
 import TrainingCard from './screens/TrainingCard';
+import Settings from './screens/Settings';
 import TrainingAccept from './screens/TrainingAccept';
 import EventAccept from './screens/EventAccept';
 import OutOfCards from './screens/OutOfCards';
@@ -41,6 +42,7 @@ const HomeNavigator = createStackNavigator({
   LocationSwitch: { screen: LocationSwitch, navigationOptions },
   Messages: { screen: Messages, navigationOptions },
   Chat: { screen: Chat, navigationOptions },
+  Settings: { screen : Settings, navigationOptions},
   AbilityEdit: { screen: AbilityEdit, navigationOptions }
 },
   {
