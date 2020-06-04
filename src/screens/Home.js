@@ -19,6 +19,7 @@ import {
   responsiveScreenFontSize,
   responsiveHeight
 } from "react-native-responsive-dimensions";
+import OutOfCards from './OutOfCards';
 export const { width, height } = Dimensions.get('window');
 function DateView(props) {
   return (
@@ -148,6 +149,8 @@ export default class Home extends Component {
           <Header navigate= {navigate} />
           <CardStack 
             style={styles.cardstack} ref={swiper => { this.swiper = swiper }}
+
+            renderNoMoreCards = {() => {return <OutOfCards></OutOfCards>}}
             disableTopSwipe = {true}
             disableBottomSwipe = {true}
             verticalSwipe = {false}
