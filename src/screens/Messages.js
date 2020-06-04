@@ -29,14 +29,14 @@ export default class Messages extends Component {
           </View>
 
           <View style={{ flexDirection: 'row', marginTop: 12, height: 90 }} horizontal>
-            <TouchableOpacity onPress={() => navigate('Chat',{user : 'Jeffery'})}>
+            <TouchableOpacity onPress={() => navigate('Chat',{user : 'Jeffery', avatar : images.user1})}>
               <View style={{ paddingRight: 30}}>
                 <Image source={images.user1} style={styles.user} />
                 <View style={styles.dot} />
                 <Text style={[styles.name, { marginLeft: 10 }]}>Jeffery</Text>
               </View>
             </TouchableOpacity>
-            <TouchableOpacity onPress={() => navigate('Chat',{user : 'Alan'})}>
+            <TouchableOpacity onPress={() => navigate('Chat',{user : 'Alan', avatar : images.user2})}>
             <View style={{ paddingRight: 30 }}>
               <Image source={images.user2} style={styles.user} />
               <View style={styles.dot} />
@@ -44,7 +44,7 @@ export default class Messages extends Component {
             </View>
             </TouchableOpacity>
             
-            <TouchableOpacity onPress={() => navigate('Chat',{user : 'Leo'})}>
+            <TouchableOpacity onPress={() => navigate('Chat',{user : 'Leo', avatar : images.user3})}>
             <View style={{ paddingRight: 30 }}>
               <Image source={images.user3} style={styles.user} />
               <View style={styles.dot} />
@@ -52,7 +52,7 @@ export default class Messages extends Component {
             </View>
             </TouchableOpacity>
             
-            <TouchableOpacity onPress={() => navigate('Chat',{user : 'Chris'})}>
+            <TouchableOpacity onPress={() => navigate('Chat',{user : 'Chris', avatar : images.user4})}>
             <View style={{ paddingRight: 30 }}>
               <Image source={images.user4} style={styles.user} />
               <View style={styles.dot} />

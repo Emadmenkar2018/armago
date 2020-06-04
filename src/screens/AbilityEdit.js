@@ -24,7 +24,7 @@ export default class AbilityEdit extends Component {
     
     return (
       <View style={styles.container}>
-        <LongHeader title={'Ability'} color={colors.red} />
+        <LongHeader title={'Ability'} color={colors.red} bcolor={colors.red}/>
         <View style={styles.main}>
           <View style={{flex:1}}>
             <Text style={styles.text}>{'Set your perceived ability level:If you frequently play competitively then advanced is for you.'}</Text>

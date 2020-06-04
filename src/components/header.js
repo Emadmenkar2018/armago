@@ -50,17 +50,17 @@ const styles = StyleSheet.create({
   header: {
     flexDirection: 'row',
     justifyContent: 'space-around',
-    marginTop: responsiveHeight(3)
+    marginTop: responsiveHeight(1)
   },
   icon: {
     width: 36,
     height: 36,
     // marginTop: -10
-    top: -25
+    top: -5
   },
   logo: {
     width: 180,
     height: 35,
-    top:-20
+    top:-5
   }
 });
