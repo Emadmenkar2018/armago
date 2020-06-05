@@ -12,9 +12,11 @@ import OutOfCards from './screens/OutOfCards';
 import TeamsView from './screens/TeamsView';
 import TimeEdit from './screens/TimeEdit';
 import AbilityEdit from './screens/AbilityEdit';
+import BioEdit from './screens/BioEdit';
 import Signin from './screens/auth/Signin';
 import LocationSwitch from './screens/LocationSwitch';
 import EditGender from './screens/EditGender';
+import EditProfile from './screens/EditProfile';
 import Messages from './screens/Messages';
 import Chat from './screens/Chat';
 import AuthLoadingScreen from './screens/auth/AuthLoading';
@@ -42,10 +44,12 @@ const HomeNavigator = createStackNavigator({
   EventAccept :  { screen : EventAccept , navigationOptions},
   LocationSwitch: { screen: LocationSwitch, navigationOptions },
   EditGender: { screen: EditGender, navigationOptions },
+  EditProfile : { screen: EditProfile, navigationOptions },
   Messages: { screen: Messages, navigationOptions },
   Chat: { screen: Chat, navigationOptions },
   Settings: { screen : Settings, navigationOptions},
-  AbilityEdit: { screen: AbilityEdit, navigationOptions }
+  AbilityEdit: { screen: AbilityEdit, navigationOptions },
+  BioEdit: { screen: BioEdit, navigationOptions }
 },
   {
     initialRouteName: 'Home'

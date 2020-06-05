@@ -40,12 +40,14 @@ export default class Settings extends Component {
         <SafeAreaView style={styles.container}>
             <LongHeader title={'Settings'} dark={true} left={colors.lightgreen} route={'Messages'} navigate= {navigate} bcolor = {colors.gray} removeLeft = {true} removeRightIcon= {true} rightText = {'Done'}/>
             <ScrollView  style={styles.scrollView}> 
-                
+                <TouchableOpacity onPress={() => navigate('EditProfile')}>
                     <View style={[styles.row, styles.divider]}>
                         <Image  source={images.user1} style={styles.avatar}></Image>
                         <Text style={styles.text}>{'Edit My Profile'}</Text>
                         <AntDesign name="right" size={25} color={colors.gray} />
                     </View>
+                </TouchableOpacity>
+                    
                     <View style={[styles.row,styles.divider]}>
                         <Text style={styles.label}>{'Discover Settings'}</Text>
                     </View>
@@ -207,7 +209,7 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   scrollView : {
-    marginTop: -10
+    // marginTop: -10
   },
   main: {
     

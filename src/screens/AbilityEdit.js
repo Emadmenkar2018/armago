@@ -21,10 +21,10 @@ export default class AbilityEdit extends Component {
     }
   }
   render() {
-    
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        <LongHeader title={'Ability'} color={colors.red} bcolor={colors.red}/>
+        <LongHeader title={'Ability'} color={colors.red} bcolor={colors.red} route={'EditProfile'} navigate= {navigate} />
         <View style={styles.main}>
           <View style={{flex:1}}>
             <Text style={styles.text}>{'Set your perceived ability level:If you frequently play competitively then advanced is for you.'}</Text>

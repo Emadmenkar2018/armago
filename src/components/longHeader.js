@@ -31,7 +31,7 @@ export function LongHeader(props) {
             <AntDesign name="ellipsis1" size={30} color={props.left ? props.left :"white"} />
           </TouchableOpacity>}
           {(props.removeRightIcon) && 
-          <TouchableOpacity onPress={() => console.log('ok')}>
+          <TouchableOpacity onPress={() => props.navigate('Home')}>
             <Text style ={{'color' : props.left, top : 3}}>{props.rightText}</Text>
           </TouchableOpacity>}
         </View>
@@ -41,7 +41,7 @@ export function LongHeader(props) {
 
 const styles = StyleSheet.create({
   container: {
-    marginBottom: 10
+    // marginBottom: 10
   },
   header: {
     flexDirection: 'row',
