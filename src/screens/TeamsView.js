@@ -5,9 +5,10 @@ import { images } from '../common/images';
 
 export default class TeamsView extends Component {
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        <LongHeader title={'Teams'} color={'#e67e22'}/>
+        <LongHeader title={'Teams'} color={'#e67e22'}  route={'EditProfile'} navigate= {navigate}/>
         <View style={styles.main}>
           <Text style={styles.text}>{'Here are the teams you have joined training with:'}</Text>
           <View style={styles.item}>
