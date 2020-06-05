@@ -13,6 +13,7 @@ import TeamsView from './screens/TeamsView';
 import TimeEdit from './screens/TimeEdit';
 import AbilityEdit from './screens/AbilityEdit';
 import BioEdit from './screens/BioEdit';
+import SportsEdit from './screens/SportsEdit';
 import Signin from './screens/auth/Signin';
 import LocationSwitch from './screens/LocationSwitch';
 import EditGender from './screens/EditGender';
@@ -45,6 +46,7 @@ const HomeNavigator = createStackNavigator({
   LocationSwitch: { screen: LocationSwitch, navigationOptions },
   EditGender: { screen: EditGender, navigationOptions },
   EditProfile : { screen: EditProfile, navigationOptions },
+  SportsEdit : { screen: SportsEdit, navigationOptions },
   Messages: { screen: Messages, navigationOptions },
   Chat: { screen: Chat, navigationOptions },
   Settings: { screen : Settings, navigationOptions},

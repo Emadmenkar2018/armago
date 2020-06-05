@@ -19,7 +19,7 @@ export default class EditProfile extends Component {
             </View>
             <View style = {styles.top_right}>
               <View style = {styles.top_right_top}>
-              <TouchableOpacity onPress={() => navigate('BioEdit')}><Image source={images.ProfileSports} style={styles.profile_img} /></TouchableOpacity>
+              <TouchableOpacity onPress={() => navigate('SportsEdit')}><Image source={images.ProfileSports} style={styles.profile_img} /></TouchableOpacity>
               </View>
               <View style = {styles.top_right_down}>
               <TouchableOpacity onPress={() => navigate('BioEdit')}><Image source={images.ProfileBio} style={styles.profile_img} /></TouchableOpacity>
