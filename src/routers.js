@@ -14,6 +14,7 @@ import TimeEdit from './screens/TimeEdit';
 import AbilityEdit from './screens/AbilityEdit';
 import Signin from './screens/auth/Signin';
 import LocationSwitch from './screens/LocationSwitch';
+import EditGender from './screens/EditGender';
 import Messages from './screens/Messages';
 import Chat from './screens/Chat';
 import AuthLoadingScreen from './screens/auth/AuthLoading';
@@ -40,6 +41,7 @@ const HomeNavigator = createStackNavigator({
   TrainingAccept : { screen : TrainingAccept , navigationOptions},
   EventAccept :  { screen : EventAccept , navigationOptions},
   LocationSwitch: { screen: LocationSwitch, navigationOptions },
+  EditGender: { screen: EditGender, navigationOptions },
   Messages: { screen: Messages, navigationOptions },
   Chat: { screen: Chat, navigationOptions },
   Settings: { screen : Settings, navigationOptions},

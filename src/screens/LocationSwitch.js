@@ -5,9 +5,10 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 
 export default class LocationSwitch extends Component {
   render() {
+    const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        <LongHeader title={'Location'} color={'white'} left={'green'} dark />
+        <LongHeader title={'Location'} color={'white'} left={'green'}  route={'Settings'} navigate= {navigate} removeRightIcon dark />
         <View style={[styles.bar, { marginTop: -12 }]}>
           <Text style={[styles.text2, { fontSize: 18, paddingTop: 6 }]}>{'Set Location'}</Text>
         </View>

@@ -31,7 +31,10 @@ const sport_selected = require('../../assets/item_selected.png');
 const sport_comiong_soon = require('../../assets/Coming_Soon.png');
 const gps = require('../../assets/gps.png');
 const bell = require('../../assets/bell.png');
-
+const genderM = require('../../assets/genderM.png');
+const genderW = require('../../assets/genderW.png');
+const genderB = require('../../assets/genderB.png');
+const genderSelected = require('../../assets/genderSelected.png');
 const user1 = require('../../assets/user1.png');
 const user2 = require('../../assets/user2.png');
 const user3 = require('../../assets/user3.png');
@@ -46,5 +49,5 @@ const user11 = require('../../assets/user11.png');
 
 export const images = {
     chat, check, close, gear, group, logo, oval, racket, woman, GameOn, grape, user1, user2, user3, user4, user5, user9, remove, bottombar, oval3, msg,
-    user6, user7, user8, user10, user11, mask, trial_front, trial_back,training_front, cycling, checked, unchecked, back, next, sports_racket, sports_gym, sports_runner, sports_basketball, sports_cycling, sport_selected, sport_comiong_soon, gps, bell
+    user6, user7, user8, user10, user11, mask, trial_front, trial_back,training_front, cycling, checked, unchecked, back, next, sports_racket, sports_gym, sports_runner, sports_basketball, sports_cycling, sport_selected, sport_comiong_soon, gps, bell, genderM, genderW, genderB, genderSelected
 }

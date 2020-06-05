@@ -49,11 +49,14 @@ export default class Settings extends Component {
                     <View style={[styles.row,styles.divider]}>
                         <Text style={styles.label}>{'Discover Settings'}</Text>
                     </View>
-                    <View style={[styles.row, styles.divider]}>
-                        <Text style={styles.label}>{'Location'}</Text>
-                        <Text style={styles.text}>{'My Current Location'}{"\n"}<Text style={styles.subtext}>{'Bristal, UK'}</Text></Text>
-                        
-                    </View>
+                    <TouchableOpacity onPress={() => navigate('LocationSwitch')} >
+                        <View style={[styles.row, styles.divider]}>
+                            <Text style={styles.label}>{'Location'}</Text>
+                            <Text style={styles.text}>{'My Current Location'}{"\n"}<Text style={styles.subtext}>{'Bristal, UK'}</Text></Text>
+                            
+                        </View>
+                    </TouchableOpacity>
+                    
                     <View style={[styles.row]}>
                         <Text style={styles.label}>{'Maximum Distance'}</Text>
                     </View>
@@ -74,11 +77,13 @@ export default class Settings extends Component {
                                 }}
                             />
                     </View>
-                    <View style={[styles.row]}>
-                        <Text style={styles.label}>{'Gender'}</Text>
-                        <Text style={styles.text}>{'Select'}</Text>
-                        <AntDesign name="right" size={25} color={colors.gray} />
-                    </View>
+                    <TouchableOpacity onPress={() => navigate('EditGender')} >
+                        <View style={[styles.row]}>
+                            <Text style={styles.label}>{'Gender'}</Text>
+                            <Text style={styles.text}>{'Select'}</Text>
+                            <AntDesign name="right" size={25} color={colors.gray} />
+                        </View>
+                    </TouchableOpacity>
                     <View style={[styles.row]}>
                         <Text style={styles.label}>{'Age Range'}</Text>
                     </View>
