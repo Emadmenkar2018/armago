@@ -28,7 +28,7 @@ export default class EditProfile extends Component {
           </View>
           <View style={styles.middle}>
             <View style = {styles.middle_left}>
-            <TouchableOpacity onPress={() => navigate('BioEdit')}><Image source={images.ProfileAvaila} style={styles.profile_img} /></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigate('AvailabilityEdit')}><Image source={images.ProfileAvaila} style={styles.profile_img} /></TouchableOpacity>
             </View>
             <View style = {styles.middle_right}>
             <TouchableOpacity onPress={() => navigate('BioEdit')}><Image source={images.ProfileTeams} style={styles.profile_img} /></TouchableOpacity>
