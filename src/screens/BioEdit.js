@@ -1,10 +1,11 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, Button,TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { LongHeader } from '../components/longHeader';
 import { colors } from '../common/colors';
 import { images } from '../common/images';
-import { Slider } from 'react-native-elements';
-
+import { Slider, Icon ,Input,Button} from 'react-native-elements';
+import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import DropDownPicker from 'react-native-dropdown-picker';
 export default class BioEdit extends Component {
   state = null;
   constructor(props){
@@ -24,11 +25,11 @@ export default class BioEdit extends Component {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        <LongHeader title={'Bio'} color={colors.red} bcolor={colors.red} route={'EditProfile'} navigate= {navigate} />
+        <LongHeader title={'Bio'} color={colors.lightBlue} bcolor={colors.red} route={'EditProfile'} navigate= {navigate} />
             <View style={styles.main}>
                 <View style={styles.sectionTop}>
-                    <Image source={images.logo} style={styles.logo}/>
-                    <Text style={styles.tlabel}>{'Bio and University'}</Text>
+                    {/* <Image source={images.logo} style={styles.logo}/>
+                    <Text style={styles.tlabel}>{'Bio and University'}</Text> */}
                 </View>
                 <View style={styles.sectionMiddle}>
                   <Input
@@ -173,7 +174,7 @@ const styles = StyleSheet.create({
     color: '#333',
   },
   sectionTop: {
-      flex : 2,
+      flex : 0.5,
       alignItems: 'center',
       marginHorizontal: 50,
       marginVertical: 50
