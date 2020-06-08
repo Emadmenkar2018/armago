@@ -18,8 +18,8 @@ export default class Header extends Component {
   render() {
     return (
       <>
-      <SafeAreaView style={styles.topSafeArea} />
-            <SafeAreaView style={styles.bottomSafeArea}>
+      <SafeAreaView/>
+            <SafeAreaView>
                 <AppStatusBar backgroundColor={THEME_COLOR} barStyle="light-content" />
                 <View style={styles.container}>
                   <Image source={images.oval} style={styles.oval}/>

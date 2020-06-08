@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
 import { LongHeader } from '../components/longHeader';
 import { colors } from '../common/colors';
+import AppStatusBar from '../components/AppStatusBar';
 import { images } from '../common/images';
 import { Slider, Icon ,Input,Button} from 'react-native-elements';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
@@ -24,8 +25,10 @@ export default class BioEdit extends Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
+      <>
+      <AppStatusBar backgroundColor={colors.lightBlue}></AppStatusBar>
       <View style={styles.container}>
-        <LongHeader title={'Bio'} color={colors.lightBlue} bcolor={colors.red} route={'EditProfile'} navigate= {navigate} />
+        <LongHeader title={'Bio'} color={colors.lightBlue} bcolor={colors.red} route={'EditProfile'} navigate= {navigate} removeRightIcon/>
             <View style={styles.main}>
                 <View style={styles.sectionTop}>
                     {/* <Image source={images.logo} style={styles.logo}/>
@@ -54,31 +57,19 @@ export default class BioEdit extends Component {
                   <Text style={styles.label1}>{'We will be adding more universities soon'}</Text>
                 </View>
                 <View style={styles.sectionBottom}>
-                    <View style={{ flex:1,alignItems:'flex-start'}}>
-                    <Button
-                    buttonStyle = {styles.navBtn_prev}
-                    icon={
-                        <Icon name={"chevron-left"}  size={60} color="#fff" />
-                    }
-                    onPress = {() => navigate('ChooseAbility')}
-                    />
-                    </View>
-                    <View style={{ flex:1,alignItems:'flex-end'}}>
-                    <Button
-                    buttonStyle = {styles.navBtn_next}
-                    icon={
-                        <Icon name={"chevron-right"}  size={60} color="#fff" />
-                    }
-                    onPress = {() => navigate('SetAvailability')}
-                    />
-                    </View>
+                  <View style={{width:'100%',borderRadius: 20}}>
+                    <TouchableOpacity style={styles.circle} onPress={() => this._handlePress(navigate)}>
+                      <Text style={{color: '#fff', fontSize: 18}}>Save</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
             </View>
       </View>
+      </>
     );
   }
-  _handlePress() {
-    console.log('clicked')
+  _handlePress(navigate) {
+    navigate('EditProfile')
   }
   setState1(value) {
     this.state1 = value
@@ -88,6 +79,8 @@ export default class BioEdit extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    position : 'absolute',
+    height: '100%'
   },
   main: {
     flex: 1,

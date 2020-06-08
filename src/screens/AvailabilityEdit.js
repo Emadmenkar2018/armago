@@ -2,6 +2,7 @@ import React, { useState,Component  } from 'react';
 import { View, Text, StyleSheet, Image, Picker,TouchableOpacity } from 'react-native';
 import { colors } from '../common/colors';
 import { images } from '../common/images';
+import AppStatusBar from '../components/AppStatusBar';
 import { Input,  Button ,Icon, Slider } from 'react-native-elements';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { LongHeader } from '../components/longHeader';
@@ -104,11 +105,12 @@ export default class AvailabilityEdit extends Component {
     render() {
         const { navigate } = this.props.navigation;
         return (
+          <>
+          <AppStatusBar backgroundColor={colors.lightpurple} />
         <View style={styles.container}>
-          <LongHeader title={'Time Edit'} color={colors.lightBlue} bcolor={colors.red} route={'EditProfile'} navigate= {navigate} />
+          <LongHeader title={'Time Edit'} color={colors.lightpurple} bcolor={colors.red} route={'EditProfile'} navigate= {navigate} removeRightIcon/>
             <View style={styles.main}>
                 <View style={styles.sectionTop}>
-                    <Image source={images.logo} style={styles.logo}/>
                     <Text style={styles.tlabel}>{'Tap the relevant time and day to update availability. Please put times you are NOT available - you can update later'}</Text>
                 </View>
                 <View style={styles.sectionMiddle}>
@@ -129,34 +131,27 @@ export default class AvailabilityEdit extends Component {
                   </View>
                 </View>
                 <View style={styles.sectionBottom}>
-                    <View style={{ flex:1,alignItems:'flex-start'}}>
-                    <Button
-                    buttonStyle = {styles.navBtn_prev}
-                    icon={
-                        <Icon name={"chevron-left"}  size={60} color="#fff" />
-                    }
-                    onPress = {() => navigate('SetBioUniversity')}
-                    />
-                    </View>
-                    <View style={{ flex:1,alignItems:'flex-end'}}>
-                    <Button
-                    buttonStyle = {styles.navBtn_next}
-                    icon={
-                        <Icon name={"chevron-right"}  size={60} color="#fff" />
-                    }
-                    onPress = {() => navigate('Permission')}
-                    />
-                    </View>
+                  <View style={{width:'100%',borderRadius: 20}}>
+                    <TouchableOpacity style={styles.btn_circle} onPress={() => this._handlePress(navigate)}>
+                      <Text style={{color: '#fff', fontSize: 18}}>Save</Text>
+                    </TouchableOpacity>
+                  </View>
                 </View>
             </View>
         </View>
+        </>
         );
     }
+    _handlePress(navigate) {
+      navigate('EditProfile')
+  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    position : 'absolute',
+    height: '100%'
   },
   textareaContainer: {
     height: 180,
@@ -283,6 +278,16 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     marginHorizontal: 15,
     marginVertical: 1
+  },
+  btn_circle : {
+      backgroundColor: colors.orange,
+      width: '100%',
+      height: 50,
+      
+      borderRadius: 10,
+      justifyContent: 'center',
+      alignItems: 'center',
+      marginVertical: 1
   },
   text2: {
     color: 'grey',

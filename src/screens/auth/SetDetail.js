@@ -25,8 +25,8 @@ export default class SetDetail extends Component {
     render() {
         const { navigate } = this.props.navigation;
         return (
-            <KeyboardAwareScrollView>
-                    <View style={styles.container}>
+            <KeyboardAwareScrollView style={styles.container}>
+                    <View >
                     <View style={styles.main}>
                         <View style={styles.sectionTop}>
                             <Image source={images.logo} style={styles.logo}/>
@@ -123,12 +123,11 @@ const styles = StyleSheet.create({
       marginHorizontal: 20
   },
   sectionBottom: {
-      flex : 1,
       width: '100%',
       flexDirection: 'row',
       alignItems: 'center',
       paddingHorizontal: 20,
-      paddingVertical: 20
+      paddingVertical: 20,
   },
   logo : {
       flex: 1,
@@ -160,7 +159,7 @@ const styles = StyleSheet.create({
     alignContent : 'flex-end'
   },
   sublabel: {
-      width:'40%',
+      width:'37%',
     color: 'grey',
     top:15,
     left:-15,

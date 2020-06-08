@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image, Button,TouchableOpacity } from 'react-native';
 import { LongHeader } from '../components/longHeader';
 import { colors } from '../common/colors';
+import AppStatusBar from '../components/AppStatusBar';
 import { images } from '../common/images';
 import { Slider } from 'react-native-elements';
 
@@ -23,6 +24,8 @@ export default class AbilityEdit extends Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
+      <>
+      <AppStatusBar backgroundColor={colors.red}></AppStatusBar>
       <View style={styles.container}>
         <LongHeader title={'Ability'} color={colors.red} bcolor={colors.red} route={'EditProfile'} navigate= {navigate} />
         <View style={styles.main}>
@@ -68,16 +71,17 @@ export default class AbilityEdit extends Component {
             </View>
           </View>
           <View style={{width:'100%',borderRadius: 20}}>
-            <TouchableOpacity style={styles.circle} onPress={() => this._handlePress()}>
+            <TouchableOpacity style={styles.circle} onPress={() => this._handlePress(navigate)}>
               <Text style={{color: '#fff', fontSize: 18}}>Save</Text>
             </TouchableOpacity>
           </View>
         </View>
       </View>
+      </>
     );
   }
-  _handlePress() {
-    console.log('clicked')
+  _handlePress(navigate) {
+    navigate('EditProfile')
   }
   setState1(value) {
     this.state1 = value
@@ -87,6 +91,8 @@ export default class AbilityEdit extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    position: 'absolute',
+    height: '100%'
   },
   main: {
     flex: 1,

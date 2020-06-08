@@ -31,7 +31,7 @@ export default class SportsEdit extends Component {
         const { navigate } = this.props.navigation;
         return (
         <View style={styles.container}>
-            <LongHeader title={'Sports'} color={colors.lightgreen} bcolor={colors.red} route={'EditProfile'} navigate= {navigate} />
+            <LongHeader title={'Sports'} color={colors.lightgreen} bcolor={colors.red} route={'EditProfile'} navigate= {navigate} removeRightIcon/>
             <View style={styles.main}>
                 <View style={styles.sectionTop}>
                     <Image source={images.logo} style={styles.logo}/>
@@ -91,23 +91,11 @@ export default class SportsEdit extends Component {
                     </View>
                 </View>
                 <View style={styles.sectionBottom}>
-                    <View style={{ flex:1,alignItems:'flex-start'}}>
-                    <Button
-                    buttonStyle = {styles.navBtn_prev}
-                    icon={
-                        <Icon name={"chevron-left"}  size={60} color="#fff" />
-                    }
-                    onPress = {() => navigate('SetDetail')}
-                    />
-                    </View>
-                    <View style={{ flex:1,alignItems:'flex-end'}}>
-                    <Button
-                    buttonStyle = {styles.navBtn_next}
-                    icon={
-                        <Icon name={"chevron-right"}  size={60} color="#fff" />
-                    }
-                    onPress = {() => (this.state.showSelected) ? navigate('ChooseAbility') : Alert.alert('select at least one')}
-                    />
+                    
+                    <View style={{width:'100%',borderRadius: 20}}>
+                        <TouchableOpacity style={styles.circle} onPress={() => (this.state.showSelected) ? navigate('EditProfile') : Alert.alert('select at least one')}>
+                        <Text style={{color: '#fff', fontSize: 18}}>Save</Text>
+                        </TouchableOpacity>
                     </View>
                 </View>
             </View>
@@ -210,5 +198,15 @@ const styles = StyleSheet.create({
     height: 80,
     backgroundColor: colors.lightgreen,
     borderRadius: 50
-}
+},
+circle: {
+    backgroundColor: colors.orange,
+    width: '100%',
+    height: 50,
+    
+    borderRadius: 10,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginVertical: 1
+  }
 });

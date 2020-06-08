@@ -2,11 +2,14 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet, Image } from 'react-native';
 import {LongHeader} from '../components/longHeader';
 import { images } from '../common/images';
+import AppStatusBar from '../components/AppStatusBar';
 
 export default class TeamsView extends Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
+<>
+      <AppStatusBar backgroundColor={'#e67e22'}></AppStatusBar>
       <View style={styles.container}>
         <LongHeader title={'Teams'} color={'#e67e22'}  route={'EditProfile'} navigate= {navigate}/>
         <View style={styles.main}>
@@ -20,6 +23,7 @@ export default class TeamsView extends Component {
           </View>
         </View>
       </View>
+      </>
     );
   }
 }
@@ -27,6 +31,8 @@ export default class TeamsView extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+    position: 'absolute',
+    height: '100%'
   },
   main: {
     flex: 1,
