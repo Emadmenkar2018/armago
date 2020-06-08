@@ -2,14 +2,15 @@ import React, { Component } from 'react';
 import { View, Text, StyleSheet } from 'react-native';
 import { LongHeader } from '../components/longHeader';
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import { colors } from '../common/colors';
 
 export default class LocationSwitch extends Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
       <View style={styles.container}>
-        <LongHeader title={'Location'} color={'white'} left={'green'}  route={'Settings'} navigate= {navigate} removeRightIcon dark />
-        <View style={[styles.bar, { marginTop: -12 }]}>
+        <LongHeader title={'Location'} color={'white'} bcolor={colors.gray} left={'green'}  route={'Settings'} navigate= {navigate} removeRightIcon dark />
+        <View style={[styles.bar]}>
           <Text style={[styles.text2, { fontSize: 18, paddingTop: 6 }]}>{'Set Location'}</Text>
         </View>
         <View style={styles.category}>
