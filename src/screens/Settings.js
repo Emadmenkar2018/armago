@@ -7,6 +7,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {  Slider } from 'react-native-elements';
 import RangeSlider from 'rn-range-slider';
 import AsyncStorage from '@react-native-community/async-storage';
+import AppStatusBar from '../components/AppStatusBar';
 export default class Settings extends Component {
     constructor(props){
         super(props);
@@ -37,6 +38,8 @@ export default class Settings extends Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
+        <>
+        <AppStatusBar backgroundColor={'black'} barStyle='dark-content'></AppStatusBar>
         <SafeAreaView style={styles.container}>
             <LongHeader title={'Settings'} dark={true} left={colors.lightgreen} route={'Messages'} navigate= {navigate} bcolor = {colors.gray} removeLeft = {true} removeRightIcon= {true} rightText = {'Done'}/>
             <ScrollView  style={styles.scrollView}> 
@@ -199,6 +202,7 @@ export default class Settings extends Component {
                     </View>
             </ScrollView>
         </SafeAreaView>
+        </>
     );
     
   }
