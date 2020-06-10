@@ -16,7 +16,7 @@ export default class SetDetail extends Component {
           phone: '',
           email: '',
           checked1 : false,
-          checked2: true
+          checked2: false
         }
         
     }

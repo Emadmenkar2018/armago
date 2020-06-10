@@ -20,6 +20,7 @@ import {
   responsiveHeight
 } from "react-native-responsive-dimensions";
 import OutOfCards from './OutOfCards';
+import AntDesign from 'react-native-vector-icons/AntDesign'
 export const { width, height } = Dimensions.get('window');
 function DateView(props) {
   return (
@@ -205,9 +206,13 @@ export default class Home extends Component {
                   </View>
                   
                   <View style={{width:'100%',flex: 1.5, backgroundColor : colors.darkBlue , paddingHorizontal: 15, paddingTop:10}}>
-                    <Text style={styles.text6}>{"Matching"}</Text>
+                    <Text style={styles.text6}>{"Matching Availability"}</Text>
                     <DateView data={'Monday'} value={[0, 1, 0]}/>
                     <DateView data={'Wednesday'} value={[0, 1, 0]}/>
+                    <AntDesign style={{position:'absolute', bottom:10,  left: 0, right: 0, 
+    alignSelf : 'center',
+    textAlign: 'center',
+    justifyContent : 'center'}} name="down" size={25} color={"white"} />
                   </View>
                   <View style={{flex: 1,  paddingHorizontal: 15}}>
                     <Text style={styles.text6}>{"Mutual Friends"}</Text>

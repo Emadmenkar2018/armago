@@ -5,22 +5,24 @@ import { colors } from '../common/colors';
 import { images } from '../common/images';
 export const { width, height } = Dimensions.get('window');
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import AntDesign from 'react-native-vector-icons/AntDesign'
 function DateView(props) {
     return (
       <View style={styles.item}>
         <View style={styles.btn_date}>
           <Text style={styles.text3}>{props.data}</Text>
         </View>
-        <View style={{ flexDirection: 'row' }}>
-          <View style={[styles.circle_date, { backgroundColor: props.value[0] ? colors.green : colors.red}]}>
-            <Text style={styles.text_date}>AM</Text>
+        <View style={{ flexDirection: 'row',flex:1 }}>
+          <View style={[styles.circle_date]}>
+            <Text style={styles.text_date}>6pm</Text>
           </View>
-          <View style={[styles.circle_date, { backgroundColor: props.value[1] ? colors.green : colors.red}]}>
-            <Text style={styles.text_date}>PM</Text>
+          <Text style={{'color':'white', alignItems: 'center',justifyContent:'center',alignSelf:'center'}}>{'~'}</Text>
+          <View style={[styles.circle_date]}>
+            <Text style={styles.text_date}>8pm</Text>
           </View>
-          <View style={[styles.circle_date, { backgroundColor: props.value[2] ? colors.green : colors.red}]}>
+          {/* <View style={[styles.circle_date, { backgroundColor: props.value[2] ? colors.green : colors.red}]}>
             <Text style={styles.text_date}>EVE</Text>
-          </View>
+          </View> */}
         </View>
       </View>
     )
@@ -66,18 +68,20 @@ export default class TeamCard extends Component {
             {/* Back Side */}
             <View style={styles.main}>
                 <Image source={images.group} style={styles.groupImg} />
-                <View style={{ flex: 1,flexDirection: 'column', paddingHorizontal: 10}}>
-                    <View style={{flex: 1, flexDirection : 'row'}}>
+                <View style={{ flex: 1,flexDirection: 'column', paddingHorizontal: 10, paddingVertical: 20}}>
+                    <View style={{flexDirection : 'row', flex:1}}>
                       <Image source={images.trial_back} style={styles.img} />
                       <Text style={styles.text1}>Bristol Advanced Squad</Text>
                     </View>
                     <Text style={styles.text2}>{"Bristol Advanced Tennis Squad is for people looking to play tennis at a good standard whilst still being able to have a laugh’"}</Text>
+
                   </View>
                   
                   <View style={{width:'100%',flex: 1, backgroundColor : colors.darkOrange , padding: 15}}>
-                    <Text style={styles.text6}>{"Matching"}</Text>
+                    <Text style={styles.text6}>{"Training Times"}</Text>
                     <DateView data={'Monday'} value={[0, 1, 0]}/>
-                    <DateView data={'Wednesday'} value={[0, 1, 0]}/>
+                    <DateView data={'Friday'} value={[0, 1, 0]}/>
+                    
                   </View>
                   <View style={{flex: 1,  padding: 15}}>
                     <Text style={styles.text6}>{"Mutual Friends"}</Text>
@@ -90,6 +94,10 @@ export default class TeamCard extends Component {
                         <Image source={images.user11}/>
                         <Text style={styles.text7}>Jack Norrow</Text>
                       </View>
+                      <AntDesign style={{position:'absolute', bottom:0,  left: 0, right: 0, 
+    alignSelf : 'center',
+    textAlign: 'center',
+    justifyContent : 'center'}} name="down" size={25} color={"white"} />
                     </View>
                 </View>
             </View>
@@ -167,6 +175,7 @@ const styles = StyleSheet.create({
     top: 20
   },
   text2: {
+    flex:1,
     color: colors.white,
     fontSize: 13,
     fontWeight: '700'
@@ -208,9 +217,10 @@ const styles = StyleSheet.create({
     alignItems: 'center',
   },
   btn_date: {
+    flex:1,
     width: 100,
     height: 40,
-    backgroundColor: '#34495E',
+    // backgroundColor: '#34495E',
     borderRadius: 8,
     justifyContent: 'center',
     alignItems: 'center',
@@ -218,10 +228,10 @@ const styles = StyleSheet.create({
     marginLeft: 10
   },
   circle_date : {
-    backgroundColor: colors.green,
+    // backgroundColor: colors.green,
     width: 35,
     height: 35,
-    borderRadius: 21,
+    // borderRadius: 21,
     justifyContent: 'center',
     alignItems: 'center',
     marginHorizontal: 5,
@@ -229,7 +239,7 @@ const styles = StyleSheet.create({
   },
   text_date : {
     color: '#fff',
-    fontSize: 12,
+    fontSize: 17,
     fontFamily: 'ProximaNova-Regular'
   }
 });

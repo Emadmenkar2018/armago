@@ -46,7 +46,8 @@ export default class TrainingCard extends Component {
                   <Image source={images.training_front} style={styles.frontimg} />
                   <View style={{ flex: 1,marginHorizontal:20,marginVertical: 15}}>
                     <Text style={[styles.title]}>Tennis Training</Text>
-                    <Text style={[styles.text2]}>Bristol Tennis ClubCoombe Dingle</Text>
+                    <Text style={[styles.text2]}>Bristol Tennis Club</Text>
+                    <Text style={[styles.text2]}>Coombe Dingle</Text>
                     <Text style={[styles.text2]}>Swipe to join</Text>
                   </View>
                   <View style={styles.bar}>

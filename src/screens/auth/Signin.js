@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions,TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions,TouchableOpacity, Platform } from 'react-native';
 import { images } from '../../common/images';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { colors } from '../../common/colors';
@@ -24,6 +24,12 @@ export default class Signin extends Component {
             <Text style={{ color: 'white', marginLeft: 12}}>Sign up with Google</Text>
           </View>
 
+          {Platform.OS === 'ios' && 
+          <View style={[styles.btn, { backgroundColor: '#f0f0f0', borderWidth: 0.3,}]}>
+            <FontAwesome name="apple1" size={24} color="black" style={{ marginHorizontal: 12}}/>
+            <Text style={{ color: 'black', marginLeft: 24}}>Sign in with Apple</Text>
+          </View>
+          }
           <Text style={styles.text1}>{'- Or -'}</Text>
           <TouchableOpacity style={styles.circle} onPress={() => navigate('SetPhone')}>
             <View style={[styles.btn, { backgroundColor: '#f0f0f0', borderWidth: 0.3,}]}>

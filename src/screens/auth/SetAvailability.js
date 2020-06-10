@@ -181,7 +181,7 @@ const styles = StyleSheet.create({
       marginBottom: 20,
   },
   sectionMiddle: {
-      flex : 5,
+      flex : 3,
       width: '100%',
       justifyContent: 'flex-start',
       paddingHorizontal: 20,
