@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, Dimensions, TextInput, ScrollView, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, Dimensions, TextInput, SafeAreaView, TouchableOpacity } from 'react-native';
 import { images } from '../common/images';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { colors } from '../common/colors';
@@ -11,7 +11,7 @@ export default class Messages extends Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <Image source={images.oval3} style={styles.oval1} />
         <View style={styles.main}>
 
@@ -100,7 +100,7 @@ export default class Messages extends Component {
         <Image source={images.oval} style={styles.oval2} />
         
 
-      </View>
+      </SafeAreaView>
     );
   }
 }
