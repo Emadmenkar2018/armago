@@ -83,7 +83,7 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    backgroundColor: colors.lightBlue,
+    backgroundColor: colors.biglightBlue,
     borderRightWidth: 3,
     borderLeftWidth: 2,
     borderBottomWidth: 5,

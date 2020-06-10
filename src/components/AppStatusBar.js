@@ -9,7 +9,7 @@ const AppStatusBar = ({backgroundColor, ...props}) => {
     );
 };
 
-const BAR_HEIGHT = Platform.OS === 'ios' ? 20 : StatusBar.currentHeight;
+const BAR_HEIGHT =  StatusBar.currentHeight;
 
 const styles = StyleSheet.create({
     statusBar: {

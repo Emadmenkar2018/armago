@@ -1,8 +1,9 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
+import { View, Text, StyleSheet , SafeAreaView} from 'react-native';
 import { WebView } from 'react-native-webview';
 import { colors } from '../common/colors';
 import { LongHeader } from '../components/longHeader';
+import AppStatusBar from '../components/AppStatusBar';
 const supportedURL = "https://google.com";
 export default class TrainingAccept extends Component {
     
@@ -22,13 +23,15 @@ export default class TrainingAccept extends Component {
     render() {
       const { navigate } = this.props.navigation;
         return (
-            <View style={styles.container}>
+          <>
+        <AppStatusBar backgroundColor={colors.lightgreen} barStyle={Platform.OS === 'ios' ? 'dark-content':'light-content'}></AppStatusBar>
+            <SafeAreaView style={styles.container}>
                 <LongHeader title={'Traning Signin'} bcolor={colors.gray} dark={true} left={colors.lightBlue} route={'Home'} navigate= {navigate} leftText={'Parent Title'}/>
                 <WebView 
                   source = {{uri : supportedURL}}
                 />
-            </View>
-
+            </SafeAreaView>
+          </>
         );
     }
 }
