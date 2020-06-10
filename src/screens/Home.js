@@ -58,7 +58,7 @@ export default class Home extends Component {
     
   }
   componentDidMount() {
-    AsyncStorage.getItem('pagekey', (err, result) => {
+    AsyncStorage.getItem('token', (err, result) => {
       if (err) {
       } else {
         if (result == null) {
@@ -69,7 +69,7 @@ export default class Home extends Component {
         }
       }
     });
-    AsyncStorage.setItem('pagekey', JSON.stringify({"value":"true"}), (err,result) => {
+    AsyncStorage.setItem('token', JSON.stringify({"value":"true"}), (err,result) => {
             console.log("error",err,"result",result);
             });
   }
