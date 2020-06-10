@@ -25,7 +25,7 @@ export default class AbilityEdit extends Component {
     const { navigate } = this.props.navigation;
     return (
       <>
-      <AppStatusBar backgroundColor={colors.red}></AppStatusBar>
+      <AppStatusBar backgroundColor={colors.red} barStyle={Platform.OS === 'ios' ? 'dark-content':'light-content'}></AppStatusBar>
       <View style={styles.container}>
         <LongHeader title={'Ability'} color={colors.red} bcolor={colors.red} route={'EditProfile'} navigate= {navigate} />
         <View style={styles.main}>
@@ -91,8 +91,8 @@ export default class AbilityEdit extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    position: 'absolute',
-    height: '100%'
+    // position: 'absolute',
+    // height: '100%'
   },
   main: {
     flex: 1,

@@ -1,11 +1,11 @@
 import React, { useState,Component  } from 'react';
-import { View, Text, StyleSheet, Image, Platform,TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, Platform,TouchableOpacity, Alert, SafeAreaView } from 'react-native';
 import { colors } from '../common/colors';
 import { images } from '../common/images';
 import { LongHeader } from '../components/longHeader';
 import { Input,  Button ,Icon  } from 'react-native-elements';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
-
+import AppStatusBar from '../components/AppStatusBar';
 export default class SportsEdit extends Component {
     
     state = null;
@@ -30,8 +30,10 @@ export default class SportsEdit extends Component {
     render() {
         const { navigate } = this.props.navigation;
         return (
-        <View style={styles.container}>
-            <LongHeader title={'Sports'} color={colors.lightgreen} bcolor={colors.red} route={'EditProfile'} navigate= {navigate} removeRightIcon/>
+            <>
+        <AppStatusBar backgroundColor={colors.lightgreen} barStyle={Platform.OS === 'ios' ? 'dark-content':'light-content'}></AppStatusBar>
+        <SafeAreaView style={styles.container}>
+            <LongHeader title={'Sports'} color={colors.lightgreen} bcolor={colors.lightgreen} route={'EditProfile'} navigate= {navigate} removeRightIcon/>
             <View style={styles.main}>
                 <View style={styles.sectionTop}>
                     <Image source={images.logo} style={styles.logo}/>
@@ -99,7 +101,8 @@ export default class SportsEdit extends Component {
                     </View>
                 </View>
             </View>
-        </View>
+        </SafeAreaView>
+        </>
         );
     }
 }

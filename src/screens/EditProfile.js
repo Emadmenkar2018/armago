@@ -101,7 +101,7 @@ const styles = StyleSheet.create({
   bottom : {
     flex: 2,
     padding:15,
-    justifyContent: 'flex-end'
+    justifyContent: 'flex-start'
   },
   text: {
     color: 'grey',

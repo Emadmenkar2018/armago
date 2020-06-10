@@ -9,9 +9,9 @@ export default class TeamsView extends Component {
     const { navigate } = this.props.navigation;
     return (
 <>
-      <AppStatusBar backgroundColor={'#e67e22'}></AppStatusBar>
+      <AppStatusBar backgroundColor={'#e67e22'} barStyle={Platform.OS === 'ios' ? 'dark-content':'light-content'}></AppStatusBar>
       <View style={styles.container}>
-        <LongHeader title={'Teams'} color={'#e67e22'}  route={'EditProfile'} navigate= {navigate}/>
+        <LongHeader title={'Teams'} color={'#e67e22'} bcolor={'#e67e22'}  route={'EditProfile'} navigate= {navigate}/>
         <View style={styles.main}>
           <Text style={styles.text}>{'Here are the teams you have joined training with:'}</Text>
           <View style={styles.item}>
@@ -31,8 +31,8 @@ export default class TeamsView extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    position: 'absolute',
-    height: '100%'
+    // position: 'absolute',
+    // height: '100%'
   },
   main: {
     flex: 1,

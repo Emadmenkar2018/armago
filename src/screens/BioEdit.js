@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, TouchableOpacity, SafeAreaView } from 'react-native';
 import { LongHeader } from '../components/longHeader';
 import { colors } from '../common/colors';
 import AppStatusBar from '../components/AppStatusBar';
@@ -26,9 +26,9 @@ export default class BioEdit extends Component {
     const { navigate } = this.props.navigation;
     return (
       <>
-      <AppStatusBar backgroundColor={colors.lightBlue}></AppStatusBar>
-      <View style={styles.container}>
-        <LongHeader title={'Bio'} color={colors.lightBlue} bcolor={colors.red} route={'EditProfile'} navigate= {navigate} removeRightIcon/>
+      <AppStatusBar backgroundColor={colors.lightBlue} barStyle={Platform.OS === 'ios' ? 'dark-content':'light-content'}></AppStatusBar>
+      <SafeAreaView style={styles.container}>
+        <LongHeader title={'Bio'} color={colors.lightBlue} bcolor={colors.lightBlue} route={'EditProfile'} navigate= {navigate} removeRightIcon/>
             <View style={styles.main}>
                 <View style={styles.sectionTop}>
                     {/* <Image source={images.logo} style={styles.logo}/>
@@ -64,7 +64,7 @@ export default class BioEdit extends Component {
                   </View>
                 </View>
             </View>
-      </View>
+      </SafeAreaView>
       </>
     );
   }
@@ -79,8 +79,8 @@ export default class BioEdit extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    position : 'absolute',
-    height: '100%'
+    // position : 'absolute',
+    // height: '100%'
   },
   main: {
     flex: 1,

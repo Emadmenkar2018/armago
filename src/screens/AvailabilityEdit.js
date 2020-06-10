@@ -106,9 +106,10 @@ export default class AvailabilityEdit extends Component {
         const { navigate } = this.props.navigation;
         return (
           <>
-          <AppStatusBar backgroundColor={colors.lightpurple} />
+          
+          <AppStatusBar backgroundColor={colors.lightpurple} barStyle={Platform.OS === 'ios' ? 'dark-content':'light-content'}></AppStatusBar>
         <View style={styles.container}>
-          <LongHeader title={'Time Edit'} color={colors.lightpurple} bcolor={colors.red} route={'EditProfile'} navigate= {navigate} removeRightIcon/>
+          <LongHeader title={'Time Edit'} color={colors.lightpurple}  bcolor={colors.lightpurple} route={'EditProfile'} navigate= {navigate} removeRightIcon/>
             <View style={styles.main}>
                 <View style={styles.sectionTop}>
                     <Text style={styles.tlabel}>{'Tap the relevant time and day to update availability. Please put times you are NOT available - you can update later'}</Text>
@@ -150,8 +151,8 @@ export default class AvailabilityEdit extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    position : 'absolute',
-    height: '100%'
+    // position : 'absolute',
+    // height: '100%'
   },
   textareaContainer: {
     height: 180,
