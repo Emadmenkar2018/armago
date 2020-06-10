@@ -4,7 +4,6 @@ import { LongHeader } from '../components/longHeader';
 import { colors } from '../common/colors';
 import { images } from '../common/images';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import {  Slider } from 'react-native-elements';
 import RangeSlider from 'rn-range-slider';
 import AsyncStorage from '@react-native-community/async-storage';
 import AppStatusBar from '../components/AppStatusBar';
@@ -41,6 +40,9 @@ export default class Settings extends Component {
         <SafeAreaView style={styles.container}>
             <LongHeader title={'Settings'} dark={true} left={colors.lightgreen} route={'Messages'} navigate= {navigate} bcolor = {colors.gray} removeLeft = {true} removeRightIcon= {true} rightText = {'Done'}/>
             <ScrollView  style={styles.scrollView}> 
+                <View style={[styles.row, styles.divider_section]}>
+                <Text>{''}</Text>
+                </View>
                 <TouchableOpacity onPress={() => navigate('EditProfile')}>
                     <View style={[styles.row, styles.divider]}>
                         <Image  source={images.user1} style={styles.avatar}></Image>
@@ -48,12 +50,14 @@ export default class Settings extends Component {
                         <AntDesign name="right" size={25} color={colors.gray} />
                     </View>
                 </TouchableOpacity>
-                    
-                    <View style={[styles.row,styles.divider]}>
-                        <Text style={styles.label}>{'Discover Settings'}</Text>
+                    <View style={[styles.row, styles.divider_section, styles.noborder]}>
+                        <Text>{''}</Text>
+                    </View>
+                    <View style={[styles.row,styles.divider_section]}>
+                        <Text style={[styles.label, styles.bold]}>{'Discover Settings'}</Text>
                     </View>
                     <TouchableOpacity onPress={() => navigate('LocationSwitch')} >
-                        <View style={[styles.row, styles.divider]}>
+                        <View style={[styles.row, styles.divider, styles.sub]}>
                             <Text style={styles.label}>{'Location'}</Text>
                             <Text style={styles.text}>{'My Current Location'}{"\n"}<Text style={styles.subtext}>{'Bristal, UK'}</Text></Text>
                             
@@ -63,8 +67,8 @@ export default class Settings extends Component {
                     <View style={[styles.row]}>
                         <Text style={styles.label}>{'Maximum Distance'}</Text>
                     </View>
-                    <View style={[styles.row, styles.divider]}>
-                        <Text style={{textAlign : 'right', position: 'absolute', right: 10, top: 10}}>{this.state.dis}{'mile'}</Text>
+                    <View style={[styles.row, styles.divider, styles.sub]}>
+                        <Text style={{textAlign : 'right', position: 'absolute', right: 10, top: 10}}>{this.state.dis}{' mile'}</Text>
                             <RangeSlider
                                 rangeEnabled = {false}
                                 style={{width: '100%', height: 80}}
@@ -75,13 +79,16 @@ export default class Settings extends Component {
                                 step={1}
                                 selectionColor= {colors.lightgreen}
                                 blankColor= {colors.gray}
+                                labelBackgroundColor = {colors.lightgreen}
+                                labelBorderColor = {colors.lightgreen}
                                 onValueChanged={(low, high, fromUser) => {
                                     this.setState({dis : low})
                                 }}
                             />
                     </View>
+                    
                     <TouchableOpacity onPress={() => navigate('EditGender')} >
-                        <View style={[styles.row]}>
+                        <View style={[styles.row, styles.divider, styles.sub]}>
                             <Text style={styles.label}>{'Gender'}</Text>
                             <Text style={styles.text}>{'Select'}</Text>
                             <AntDesign name="right" size={25} color={colors.gray} />
@@ -102,81 +109,82 @@ export default class Settings extends Component {
                             step={1}
                             selectionColor= {colors.lightgreen}
                             blankColor= {colors.gray}
+                            labelBackgroundColor = {colors.lightgreen}
+                                labelBorderColor = {colors.lightgreen}
                             onValueChanged={(low, high, fromUser) => {
                                 this.setState({rangeLow: low, rangeHigh: high})
                             }}
                         />
                     </View>
-                    <View style={[styles.row]}>
+                    <View style={[styles.row,styles.divider_section]}>
+                    </View>
+                    <View style={[styles.row, styles.divider]}>
                         <Text style={styles.label}>{'Be Seen by Friends'}</Text>
                         <Switch
                         onValueChange = {(val) => this.setState({seenbyfriends : val})}
                         value = {this.state.seenbyfriends}/>
                     </View>
-                    <View style={[styles.row, styles.divider]}>
+                    <View style={[styles.row, styles.divider_section, styles.noborder]}>
                         <Text style={{width: '100%', color: colors.gray}}>{'Turning this on will allow your friends to find you on Game On. Turning this off means friends won’t be able to see you on the app.'}</Text>
                     </View>
-                    <View style={[styles.row, styles.divider]}>
-                        <Text style={styles.label}>{'Notification'}</Text>
+                    <View style={[styles.row, styles.divider_section]}>
+                        <Text style={[styles.label, styles.bold]}>{'Notification'}</Text>
                     </View>
-                    <View style={[styles.row]}>
+                    <View style={[styles.row, styles.divider, styles.sub]}>
                         <Text style={styles.label}>{'New Matches'}</Text>
                     </View>
-                    <View style={[styles.row]}>
+                    <View style={[styles.row, styles.divider, styles.sub]}>
                         <Text style={styles.label}>{'Messages'}</Text>
                     </View>
-                    <View style={[styles.row]}>
+                    <View style={[styles.row, styles.divider, styles.sub]}>
                         <Text style={styles.label}>{'Training'}</Text>
                     </View>
-                    <View style={[styles.row]}>
+                    <View style={[styles.row, styles.divider, styles.sub]}>
                         <Text style={styles.label}>{'Social'}</Text>
                     </View>
-                    <View style={[styles.row, styles.divider]}>
-                        <Text style={styles.label}>{'Training'}</Text>
-                    </View>
-                    <View style={[styles.row, styles.divider]}>
+                    <View style={[styles.row, styles.divider, styles.sub]}>
                         <Text style={styles.label}>{'In App Vibration'}</Text>
                         <Switch
                         onValueChange = {(val) => this.setState({seenbyfriends : val})}
                         value = {this.state.seenbyfriends}/>
                     </View>
-                    <View style={[styles.row, styles.divider]}>
+                    <View style={[styles.row ,styles.sub]}>
                         <Text style={styles.label}>{'In App Sounds'}</Text>
                         <Switch
                         onValueChange = {(val) => this.setState({seenbyfriends : val})}
                         value = {this.state.seenbyfriends}/>
                     </View>
-                    <View style={[styles.row, styles.divider]}>
-                        <Text style={styles.label}>{'Contact Us'}</Text>
+                    <View style={[styles.row, styles.divider_section, {borderTopWidth:0.3,borderTopColor:colors.gray}]}>
+                        <Text style={[styles.label, styles.bold]}>{'Contact Us'}</Text>
                     </View>
                     <View style={[styles.row, styles.divider]}>
                         <Text style={styles.btnText}>{'Help & Support'}</Text>
                     </View>
-                    <View style={[styles.row, styles.divider]}>
+                    <View style={[styles.row, styles.divider_section]}>
                         
                     </View>
                     <View style={[styles.row, styles.divider]}>
                         <Text style={styles.btnText}>{'Rate Us'}</Text>
                     </View>
-                    <View style={[styles.row, styles.divider]}>
+                    <View style={[styles.row, styles.divider_section]}>
                     </View>
                     <View style={[styles.row, styles.divider]}>
                         <Text style={styles.btnText}>{'Leave Feedback'}</Text>
                     </View>
-                    <View style={[styles.row, styles.divider]}>
+                    <View style={[styles.row, styles.divider_section]}>
                     </View>
-                    <View style={[styles.row, styles.divider]}>
-                        <Text style={styles.label}>{'Legal'}</Text>
+                    <View style={[styles.row, styles.divider_section]}>
+                        <Text style={[styles.label,styles.bold]}>{'Legal'}</Text>
                     </View>
-                    <View style={[styles.row]}>
+                    <View style={[styles.row, styles.divider, styles.sub]}>
                         <Text style={styles.label}>{'Privacy Policy'}</Text>
                         <AntDesign name="right" size={25} color={colors.gray} />
                     </View>
-                    <View style={[styles.row]}>
+                    <View style={[styles.row, styles.divider, styles.sub]}>
                         <Text style={styles.label}>{'Terms of Service'}</Text>
                         <AntDesign name="right" size={25} color={colors.gray} />
                     </View>
-                    <View style={[styles.row, styles.divider]}>
+                    <View style={[styles.row, styles.sub]}>
                         <Text style={styles.label}>{'Liscenses'}</Text>
                         <AntDesign name="right" size={25} color={colors.gray} />
                     </View>
@@ -191,12 +199,12 @@ export default class Settings extends Component {
                         <Image source={images.logo} style={styles.bottomLogo}></Image>
                         <Text style={{fontSize: 15, color: colors.gray}}>{'Version 1.0.0'}</Text>
                     </View>
-                    <View style={[styles.row, styles.divider]}>
+                    <View style={[styles.row, styles.divider_section]}>
                     </View>
                     <View style={[styles.row, styles.divider]}>
                         <Text style={styles.btnText}>{'Delete Account'}</Text>
                     </View>
-                    <View style={[styles.row, styles.divider]}>
+                    <View style={[styles.row, styles.divider_section]}>
                     </View>
             </ScrollView>
         </SafeAreaView>
@@ -246,21 +254,39 @@ const styles = StyleSheet.create({
       flex : 1,
       width: '100%',
     textAlign : 'center',
-    color: 'grey',
+    color: 'black',
     fontSize: 20,
     fontFamily: 'ProximaNova-Regular'
   },    
   label : {
     flex : 1,
-    color: 'grey',
+    color: 'black',
     fontSize: 18,
     textAlign: 'left',
     fontFamily: 'ProximaNova-Regular'
+  },
+  bold: {
+      fontSize: 19,
+    fontWeight: '700',
+    color: colors.gray
   },
   divider : {
     borderBottomColor: colors.gray,
     borderBottomWidth: 0.3,
     bottom: 0
+    },
+    divider_section : {
+        borderBottomColor: colors.gray,
+        borderBottomWidth: 0.3,
+        bottom: 0,
+        backgroundColor: '#f8f7f8'
+    },
+    sub : {
+        left:10,
+        marginRight: 10
+    },
+    noborder: {
+        borderBottomWidth : 0
     },
     bottomLogo : {
         width : '50%',
