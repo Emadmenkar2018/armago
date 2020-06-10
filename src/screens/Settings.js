@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image , Switch,SafeAreaView, ScrollView, TouchableOpacity} from 'react-native';
+import { View, Text, StyleSheet, Image , Switch,SafeAreaView, ScrollView, TouchableOpacity, Platform} from 'react-native';
 import { LongHeader } from '../components/longHeader';
 import { colors } from '../common/colors';
 import { images } from '../common/images';
@@ -39,7 +39,7 @@ export default class Settings extends Component {
     const { navigate } = this.props.navigation;
     return (
         <>
-        <AppStatusBar backgroundColor={'black'} barStyle='dark-content'></AppStatusBar>
+        <AppStatusBar backgroundColor={colors.lightgreen} barStyle={Platform.OS === 'ios' ? 'dark-content':'light-content'}></AppStatusBar>
         <SafeAreaView style={styles.container}>
             <LongHeader title={'Settings'} dark={true} left={colors.lightgreen} route={'Messages'} navigate= {navigate} bcolor = {colors.gray} removeLeft = {true} removeRightIcon= {true} rightText = {'Done'}/>
             <ScrollView  style={styles.scrollView}> 
