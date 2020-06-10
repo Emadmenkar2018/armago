@@ -26,7 +26,7 @@ export default class Signin extends Component {
 
           {Platform.OS === 'ios' && 
           <View style={[styles.btn, { backgroundColor: '#f0f0f0', borderWidth: 0.3,}]}>
-            <FontAwesome name="apple1" size={24} color="black" style={{ marginHorizontal: 12}}/>
+            <FontAwesome name="apple" size={24} color="black" style={{ marginHorizontal: 12}}/>
             <Text style={{ color: 'black', marginLeft: 24}}>Sign in with Apple</Text>
           </View>
           }

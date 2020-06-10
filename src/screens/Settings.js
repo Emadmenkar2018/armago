@@ -22,9 +22,7 @@ export default class Settings extends Component {
         }
     }
     logout(navigate) {
-        console.log(navigate)
-        this.removeItemValue('token');
-        navigate('Signin');
+        if(this.removeItemValue('token')) navigate('Signin');
     }
     async removeItemValue(key) {
         try {
