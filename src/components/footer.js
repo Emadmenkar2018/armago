@@ -11,14 +11,15 @@ import {
 
 export default class Footer extends Component {
   render() {
+    var swiper = this.props.swiper;
     return (
       <View>
         <Image source={images.oval} style={styles.oval}/>
         <View style={styles.footer}>
-          <TouchableOpacity onPress={() => console.log('declined')}>
+          <TouchableOpacity onPress={() => this.props.onSwipedLeft()}>
             <Image source={images.close} style={styles.icon}/>
           </TouchableOpacity>
-          <TouchableOpacity onPress={() => console.log('accepted')}>
+          <TouchableOpacity onPress={() => this.props.onSwipedRight()}>
             <Image source={images.check} style={styles.icon}/>
           </TouchableOpacity>
         </View>

@@ -30,6 +30,7 @@ export default class EventCard extends Component {
     return (
       <View style={styles.container}>
         <FlipCard 
+            friction={15}
             flipHorizontal={true}
             flipVertical={false}
             flip={false}

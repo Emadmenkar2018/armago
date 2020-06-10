@@ -48,8 +48,8 @@ export default class Home extends Component {
   //   simpleModal: false,
   // }
   state = null
+  swiper = null;
   constructor(props){
-    super(props);
     super(props);
     this.state = {
       modalVisible: false
@@ -148,8 +148,8 @@ export default class Home extends Component {
         <>
           <Header navigate= {navigate} />
           <CardStack 
-            style={styles.cardstack} ref={swiper => { this.swiper = swiper }}
-
+            style={styles.cardstack} 
+            ref={swiper => { this.swiper = swiper }}
             renderNoMoreCards = {() => {return <OutOfCards></OutOfCards>}}
             disableTopSwipe = {true}
             disableBottomSwipe = {true}
@@ -157,6 +157,7 @@ export default class Home extends Component {
           >
             <Card style={styles.card}>
               <FlipCard 
+              friction={15}
               flipHorizontal={true}
               flipVertical={false}
               flip={false}
@@ -242,8 +243,7 @@ export default class Home extends Component {
             </Card>
           </CardStack>
           {this.simpleModal()}
-
-          <Footer />
+          <Footer onSwipedLeft={() => {if(this.swiper !== null) this.swiper.swipeLeft();}} onSwipedRight={() => {if(this.swiper !== null) this.swiper.swipeRight();}}/>
         </>
         {(this.state.showModal || this.state.modalVisible) && <BlurView
           style={styles.absolute}

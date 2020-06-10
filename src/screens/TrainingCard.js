@@ -31,6 +31,7 @@ export default class TrainingCard extends Component {
       <View style={styles.container}>
           
           <FlipCard 
+            friction={15}
             flipHorizontal={true}
             flipVertical={false}
             flip={false}
