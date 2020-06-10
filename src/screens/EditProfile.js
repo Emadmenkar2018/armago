@@ -1,17 +1,19 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image,TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image,TouchableOpacity, SafeAreaView } from 'react-native';
 import { LongHeader } from '../components/longHeader';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { colors } from '../common/colors';
 import { images } from '../common/images';
-import {  } from 'react-native-gesture-handler';
+import AppStatusBar from '../components/AppStatusBar';
 
 export default class EditProfile extends Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
-      <View style={styles.container}>
-        <LongHeader title={'Profile'} color={'white'} left={'green'}  route={'Settings'} navigate= {navigate} dark />
+      <>
+        <AppStatusBar backgroundColor={colors.lightgreen} barStyle={Platform.OS === 'ios' ? 'dark-content':'light-content'}></AppStatusBar>
+      <SafeAreaView style={styles.container}>
+        <LongHeader title={'Profile'} color={'white'} left={'green'}  route={'Settings'} navigate= {navigate} dark removeRightIcon/>
         <View style ={styles.main}>
           <View style={styles.top}>
             <View style = {styles.top_left}>
@@ -39,7 +41,8 @@ export default class EditProfile extends Component {
           </View>
         </View>
 
-      </View>
+      </SafeAreaView>
+      </>
     );
   }
 }
@@ -50,10 +53,11 @@ const styles = StyleSheet.create({
   },
   main: {
     flex: 1,
-    flexDirection : 'column'
+    flexDirection : 'column',
+    backgroundColor: colors.darkBlue
   },
   top : {
-    flex: 5,
+    flex: 3,
     flexDirection : 'row',
     
   },
@@ -96,8 +100,8 @@ const styles = StyleSheet.create({
   },
   bottom : {
     flex: 2,
-    padding:15
-
+    padding:15,
+    justifyContent: 'flex-end'
   },
   text: {
     color: 'grey',
@@ -110,8 +114,9 @@ const styles = StyleSheet.create({
     fontFamily: 'ProximaNova-Regular'
   },
   profile_avatar : {
-flex: 1,
+// flex: 1,
 width: '100%',
+height:'100%',
       // height: 300,
     // borderRadius:50,
     resizeMode: 'contain',
