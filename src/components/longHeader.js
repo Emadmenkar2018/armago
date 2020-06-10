@@ -1,5 +1,5 @@
 import React from 'react';
-import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity } from 'react-native';
+import { View, Text, Image, StyleSheet, Dimensions, TouchableOpacity,SafeAreaView } from 'react-native';
 import { images } from '../common/images';
 export const { width, height } = Dimensions.get('window');
 import AntDesign from 'react-native-vector-icons/AntDesign'
@@ -12,10 +12,8 @@ import {
 } from "react-native-responsive-dimensions";
 export function LongHeader(props) {
     return (
-      <View style={styles.container}>
+      <SafeAreaView style={styles.container}>
         <View style={[styles.header, { backgroundColor: props.color, borderBottomWidth : 0.3, borderBottomColor : props.bcolor}]}>
-          
-          
           <View style={styles.top_middle}>
             {(props.avatar) &&<Image source={props.avatar} style={styles.user} />}
             <Text style={[styles.text, props.dark && { color: 'black'}]}>{props.title}</Text>
@@ -37,7 +35,8 @@ export function LongHeader(props) {
             </TouchableOpacity>
           </View>}
         </View>
-      </View>
+      </SafeAreaView>
+      
     );
 }
 
