@@ -36,6 +36,7 @@ export default class EventCard extends Component {
             flip={false}
             clickable={true}
             onFlipEnd={(isFlipEnd)=>{console.log('isFlipEnd', isFlipEnd)}}
+            useNativeDriver = {true}
           >
             {/* Face Side */}
             <View style={styles.main}>

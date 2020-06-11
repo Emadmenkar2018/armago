@@ -152,7 +152,7 @@ export default class Home extends Component {
   render() {
     const { navigate } = this.props.navigation;
     const changedStyle = this.state.toggleMatchingPanel === false ? {backgroundColor:colors.darkBlue} : {backgroundColor : colors.lightgreen};
-    console.log(changedStyle);
+    
     return (
       <View style={styles.container}>
         <>
@@ -174,6 +174,7 @@ export default class Home extends Component {
               flip={false}
               clickable={true}
               onFlipEnd={(isFlipEnd)=>{console.log('isFlipEnd', isFlipEnd)}}
+              useNativeDriver = {true}
             >
               
               {/* Face Side */}
@@ -258,6 +259,7 @@ export default class Home extends Component {
               <TrialCard></TrialCard>
             </Card>
           </CardStack>
+          
           {this.simpleModal()}
           <Footer onSwipedLeft={() => {if(this.swiper !== null) this.swiper.swipeLeft();}} onSwipedRight={() => {if(this.swiper !== null) this.swiper.swipeRight();}}/>
         </>
