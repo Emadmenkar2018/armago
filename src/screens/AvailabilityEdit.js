@@ -304,7 +304,7 @@ const styles = StyleSheet.create({
     fontWeight: '700'
   },
   text4: {
-    color: '#ddd',
+    color: 'white',
     fontSize: 12,
     fontFamily: 'ProximaNova-Regular'
   }

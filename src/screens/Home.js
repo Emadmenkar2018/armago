@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image,  Modal, TouchableOpacity ,Dimensions, Linking} from 'react-native';
+import { View, Text, StyleSheet, Image,  Modal, TouchableOpacity ,Dimensions, LayoutAnimation} from 'react-native';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import { colors } from '../common/colors';
@@ -21,6 +21,7 @@ import {
 } from "react-native-responsive-dimensions";
 import OutOfCards from './OutOfCards';
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import { DrawerLayoutAndroid } from 'react-native-gesture-handler';
 export const { width, height } = Dimensions.get('window');
 function DateView(props) {
   return (
@@ -53,7 +54,8 @@ export default class Home extends Component {
   constructor(props){
     super(props);
     this.state = {
-      modalVisible: false
+      modalVisible: false,
+      toggleMatchingPanel : false // expand or collapse panel Matching Availability
     };
     
   }
@@ -142,12 +144,20 @@ export default class Home extends Component {
     );
   }
   
+  showPanel() { 
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({toggleMatchingPanel : !this.state.toggleMatchingPanel});
+    
+  }
   render() {
     const { navigate } = this.props.navigation;
+    const changedStyle = this.state.toggleMatchingPanel === false ? {backgroundColor:colors.darkBlue} : {backgroundColor : colors.lightgreen};
+    console.log(changedStyle);
     return (
       <View style={styles.container}>
         <>
           <Header navigate= {navigate} />
+           
           <CardStack 
             style={styles.cardstack} 
             ref={swiper => { this.swiper = swiper }}
@@ -205,16 +215,16 @@ export default class Home extends Component {
                     <Text style={styles.text2}>{"Hi I'm Alisha! I love to meet new people through tennis!"}</Text>
                   </View>
                   
-                  <View style={{width:'100%',flex: 1.5, backgroundColor : colors.darkBlue , paddingHorizontal: 15, paddingTop:10}}>
+                  <View style={[{width:'100%',height:'100%',flex: 1.4 , paddingHorizontal: 15, paddingTop:10}, changedStyle]}>
                     <Text style={styles.text6}>{"Matching Availability"}</Text>
                     <DateView data={'Monday'} value={[0, 1, 0]}/>
                     <DateView data={'Wednesday'} value={[0, 1, 0]}/>
-                    <AntDesign style={{position:'absolute', bottom:10,  left: 0, right: 0, 
-    alignSelf : 'center',
-    textAlign: 'center',
-    justifyContent : 'center'}} name="down" size={25} color={"white"} />
+                    <TouchableOpacity style={{position:'absolute', bottom:0,   alignItems:'center', justifyContent : 'center', alignSelf:'center'}} onPress={() => this.showPanel()}>
+                      <AntDesign name="down" size={30} color={"white"} />
+                    </TouchableOpacity>
+                    
                   </View>
-                  <View style={{flex: 1,  paddingHorizontal: 15}}>
+                  <View style={{flex: 1,  padding: 15}}>
                     <Text style={styles.text6}>{"Mutual Friends"}</Text>
                     <View style={{flex: 1, flexDirection : 'row', paddingHorizontal: 15}}>
                       <View style={styles.m_avatar}>
@@ -231,6 +241,7 @@ export default class Home extends Component {
               </View>
             </FlipCard>
             </Card>
+            
             <Card style={styles.card}>
               <TeamCard></TeamCard>
             </Card>
@@ -282,12 +293,12 @@ const styles = StyleSheet.create({
     flex: 1,
     alignItems: 'center',
     justifyContent: 'center',
-    bottom: 10
+    // bottom: 10
     // marginVertical : 10,
   },
   card:{
     width: width ,
-    height: responsiveHeight(63) 
+    height: responsiveHeight(63)
   },
   mask: {
     width: '100%'

@@ -46,7 +46,7 @@ const styles = StyleSheet.create({
   oval: {
     width,
     height: responsiveScreenWidth(45),
-    marginTop: -100,
+    marginTop: -80,
     position: 'absolute'
   },
   header: {
@@ -58,11 +58,11 @@ const styles = StyleSheet.create({
     width: 36,
     height: 36,
     // marginTop: -10
-    top: -5
+    top: 15
   },
   logo: {
     width: 180,
     height: 35,
-    top:-5
+    top:20
   }
 });

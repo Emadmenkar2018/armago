@@ -17,7 +17,13 @@ export default class Settings extends Component {
           rangeLow : 18,
           rangeHigh : 20,
           dis : 100,
-          seenbyfriends : true
+          seenbyfriends : true,
+          switch_matches : true,
+          swithch_messages : true,
+          swithch_training : true,
+          swithch_social : true,
+          swithch_vibration : true,
+          swithch_sounds : true,
         }
     }
     logout(navigate) {
@@ -132,27 +138,39 @@ export default class Settings extends Component {
                     </View>
                     <View style={[styles.row, styles.divider, styles.sub]}>
                         <Text style={styles.label}>{'New Matches'}</Text>
+                        <Switch
+                        onValueChange = {(val) => this.setState({switch_matches : val})}
+                        value = {this.state.switch_matches}/>
                     </View>
                     <View style={[styles.row, styles.divider, styles.sub]}>
                         <Text style={styles.label}>{'Messages'}</Text>
+                        <Switch
+                        onValueChange = {(val) => this.setState({swithch_messages : val})}
+                        value = {this.state.swithch_messages}/>
                     </View>
                     <View style={[styles.row, styles.divider, styles.sub]}>
                         <Text style={styles.label}>{'Training'}</Text>
+                        <Switch
+                        onValueChange = {(val) => this.setState({swithch_training : val})}
+                        value = {this.state.swithch_training}/>
                     </View>
                     <View style={[styles.row, styles.divider, styles.sub]}>
                         <Text style={styles.label}>{'Social'}</Text>
+                        <Switch
+                        onValueChange = {(val) => this.setState({swithch_social : val})}
+                        value = {this.state.swithch_social}/>
                     </View>
                     <View style={[styles.row, styles.divider, styles.sub]}>
                         <Text style={styles.label}>{'In App Vibration'}</Text>
                         <Switch
-                        onValueChange = {(val) => this.setState({seenbyfriends : val})}
-                        value = {this.state.seenbyfriends}/>
+                        onValueChange = {(val) => this.setState({swithch_vibration : val})}
+                        value = {this.state.swithch_vibration}/>
                     </View>
                     <View style={[styles.row ,styles.sub]}>
                         <Text style={styles.label}>{'In App Sounds'}</Text>
                         <Switch
-                        onValueChange = {(val) => this.setState({seenbyfriends : val})}
-                        value = {this.state.seenbyfriends}/>
+                        onValueChange = {(val) => this.setState({swithch_sounds : val})}
+                        value = {this.state.swithch_sounds}/>
                     </View>
                     <View style={[styles.row, styles.divider_section, {borderTopWidth:0.3,borderTopColor:colors.gray}]}>
                         <Text style={[styles.label, styles.bold]}>{'Contact Us'}</Text>

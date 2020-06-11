@@ -5,7 +5,6 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import { colors } from '../common/colors';
 import { images } from '../common/images';
 import AppStatusBar from '../components/AppStatusBar';
-
 export default class EditProfile extends Component {
   render() {
     const { navigate } = this.props.navigation;
@@ -17,11 +16,13 @@ export default class EditProfile extends Component {
         <View style ={styles.main}>
           <View style={styles.top}>
             <View style = {styles.top_left}>
-              <Image source={images.woman} style={styles.profile_avatar} />
+              {/* <Image source={images.woman} style={styles.profile_avatar} /> */}
+              <Image source={images.woman}  style={styles.profile_avatar} />
             </View>
             <View style = {styles.top_right}>
               <View style = {styles.top_right_top}>
-              <TouchableOpacity onPress={() => navigate('SportsEdit')}><Image source={images.ProfileSports} style={styles.profile_img} /></TouchableOpacity>
+              <TouchableOpacity onPress={() => navigate('SportsEdit')}>
+                <Image source={images.ProfileSports} style={styles.profile_img} /></TouchableOpacity>
               </View>
               <View style = {styles.top_right_down}>
               <TouchableOpacity onPress={() => navigate('BioEdit')}><Image source={images.ProfileBio} style={styles.profile_img} /></TouchableOpacity>
@@ -63,7 +64,7 @@ const styles = StyleSheet.create({
   },
   top_left : {
     flex : 2,
-    padding: 15
+    padding: 15,
   },
   top_right : {
     flex : 1,
@@ -82,7 +83,7 @@ const styles = StyleSheet.create({
     paddingBottom : 15
   },
   middle : {
-    flex: 3,
+    flex: 2,
     flexDirection: 'row',
     justifyContent: 'flex-start',
     alignItems : 'flex-start',
@@ -114,12 +115,12 @@ const styles = StyleSheet.create({
     fontFamily: 'ProximaNova-Regular'
   },
   profile_avatar : {
-// flex: 1,
+flex: 1,
 width: '100%',
 height:'100%',
       // height: 300,
     // borderRadius:50,
-    resizeMode: 'contain',
+    resizeMode: 'contain'
   },
   profile_img : {
     width: '100%',

@@ -26,7 +26,7 @@ export default class TrainingAccept extends Component {
           <>
         <AppStatusBar backgroundColor={colors.lightgreen} barStyle={Platform.OS === 'ios' ? 'dark-content':'light-content'}></AppStatusBar>
             <SafeAreaView style={styles.container}>
-                <LongHeader title={'Traning Signin'} bcolor={colors.gray} dark={true} left={colors.lightBlue} route={'Home'} navigate= {navigate} leftText={'Parent Title'}/>
+                <LongHeader title={'Traning Signin'} bcolor={colors.gray} dark={true} left={colors.lightBlue} route={'Home'} navigate= {navigate} leftText={'Back'}/>
                 <WebView 
                   source = {{uri : supportedURL}}
                 />

@@ -6,6 +6,7 @@ import { Input, CheckBox ,Icon, Button  } from 'react-native-elements';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { OpenURLButton } from '../../components/openWebLinking';
+import { responsiveScreenWidth } from 'react-native-responsive-dimensions';
 const supportedURL = "https://google.com";
 export default class SetDetail extends Component {
     
@@ -34,41 +35,55 @@ export default class SetDetail extends Component {
                         </View>
                         <View style={styles.sectionMiddle}>
                         
-                                <Input
-                                    label = "Email"
-                                    placeholder="Enter Your Email"
-                                    style={styles.input}
-                                    onChangeText={value => this.setState({ email: value })}
-                                />
-                        
-                                    <Text style={styles.label}>{'Marketing Consent'}</Text>
-                                <View style={{'flexDirection' : 'row',  width:'100%'}}>
-                                    
-                                    <CheckBox
-                                    left
-                                    checkedIcon={<Image source={images.checked} />}
-                                    uncheckedIcon={<Image source={images.unchecked} />}
-                                    style={styles.checkbox}
-                                    checked={this.state.checked1}
-                                    onPress = {() => this.setState({checked1 : !this.state.checked1})}
-                                    />
-                                    <OpenURLButton url={supportedURL}><Text style={styles.sublabel}>{'By ticking this box you agree to the terms and conditions of GameOn and to the privacy policy'}</Text></OpenURLButton>
-                                    
-                                    
-                                </View>
-                                <View  style={{'flexDirection' : 'row', width:'100%'}}>
-                                    <CheckBox
-                                    left
-                                    checkedIcon={<Image source={images.checked} />}
-                                    uncheckedIcon={<Image source={images.unchecked} />}
-                                    checked={this.state.checked2}
-                                    style={styles.checkbox}
-                                    onPress = {() => this.setState({checked2 : !this.state.checked2})}
-                                    />
-                                    <OpenURLButton url={supportedURL}><Text style={styles.sublabel}>{'By ticking this box you agree you would like to receive marketing communications by email'}</Text></OpenURLButton>
-                                    
-                                </View>
+                            <Input
+                                label = "Email"
+                                placeholder="Enter Your Email"
+                                style={styles.input}
+                                onChangeText={value => this.setState({ email: value })}
+                            />
+                    
+                            <Text style={styles.label}>{'Marketing Consent'}</Text>
+                            
                                 
+                        </View>
+                        <View style={styles.sectionMiddleBottom}>
+                            <View style={{'flexDirection' : 'row',  flex:1}}>
+                                <CheckBox
+                                left
+                                checkedIcon={<Image source={images.checked} />}
+                                uncheckedIcon={<Image source={images.unchecked} />}
+                                style={styles.checkbox}
+                                checked={this.state.checked1}
+                                onPress = {() => this.setState({checked1 : !this.state.checked1})}
+                                />
+                                <OpenURLButton url={supportedURL}>
+                                    <Text style={styles.sublabel}>
+                                        <Text>{'By ticking this box you agree to the '}</Text>
+                                        
+                                            <Text style={{color: colors.biglightBlue}}>{'terms and conditions'}</Text>
+                                        <Text>{' of GameOn and to the '}</Text>
+                                            <Text style={{color: colors.biglightBlue}}>{'privacy policy'}</Text>
+                                    </Text>
+                                </OpenURLButton>
+                                    
+                                
+                                
+                            </View>
+                            <View  style={{'flexDirection' : 'row',  flex:1}}>
+                                <CheckBox
+                                left
+                                checkedIcon={<Image source={images.checked} />}
+                                uncheckedIcon={<Image source={images.unchecked} />}
+                                checked={this.state.checked2}
+                                style={styles.checkbox}
+                                onPress = {() => this.setState({checked2 : !this.state.checked2})}
+                                />
+                                <OpenURLButton url={supportedURL}>
+                                    <Text style={styles.sublabel}>{'By ticking this box you agree you would like to receive marketing communications by email'}</Text>
+                                </OpenURLButton>
+                                    
+                                
+                            </View>
                         </View>
                         <View style={styles.sectionBottom}>
                             <View style={{ flex:1,alignItems:'flex-start'}}>
@@ -116,11 +131,14 @@ const styles = StyleSheet.create({
       marginVertical: 50
   },
   sectionMiddle: {
-      flex : 3,
+    //   flex : 5,
       width: '100%',
       alignItems: 'center',
       justifyContent: 'center',
       marginHorizontal: 20
+  },
+  sectionMiddleBottom: {
+      width : '100%'
   },
   sectionBottom: {
       width: '100%',
@@ -153,16 +171,16 @@ const styles = StyleSheet.create({
         fontFamily: 'ProximaNova-Regular'
   },
   checkbox : {
-      width:'10%',
+      width:responsiveScreenWidth(10),
     alignItems : 'flex-end',
     alignSelf : 'flex-end',
     alignContent : 'flex-end'
   },
   sublabel: {
-      width:'37%',
+    width:responsiveScreenWidth(65),
     color: 'grey',
     top:15,
-    left:-15,
+    left:-25,
     textAlign: 'left',
     fontSize: RFValue(13, 580),
     color: '#86939e',

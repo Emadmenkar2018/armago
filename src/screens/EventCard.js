@@ -52,7 +52,7 @@ export default class EventCard extends Component {
                           <View style={styles.circle}>
                             <Text style={styles.text3}>SAT</Text>
                           </View>
-                          <Text style={styles.text2}>8PM</Text>
+                          <Text style={styles.text_time}>8PM</Text>
                       </View>
                       <Image source={images.racket} style={styles.racket}/>
                   </View>
@@ -62,8 +62,8 @@ export default class EventCard extends Component {
             {/* Back Side */}
             <View style={styles.main}>
                 <Image source={images.group} style={styles.groupImg} />
-                <View style={{ flex: 1,flexDirection: 'column', padding: 10}}>
-                  <View style={{ flexDirection: 'row', alignItems: 'center'}}>
+                <View style={{ flex: 1,flexDirection: 'column', paddingHorizontal: 10, paddingVertical: 20}}>
+                  <View style={{ flexDirection: 'row'}}>
                     <Image source={images.grape} style={styles.img_back} />
                     <Text style={styles.text1}>Advanced Trials</Text>
                   </View>
@@ -147,18 +147,27 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 25,
     fontWeight: '700',
-    left:20,
-    top:15
+    left:30,
+    alignSelf: 'center',
+    alignItems: 'center',
+    justifyContent: 'center'
   },
   text2: {
     color: colors.white,
     fontSize: 15,
     fontWeight: '700',
-    top: 10
+    top: 20
   },
   text3: {
     color: colors.white,
     fontSize: 13,
     fontFamily: 'ProximaNova-Regular'
+  },
+  text_time : {
+    color: colors.white,
+    fontSize: 15,
+    fontWeight: '700',
+    alignSelf: 'center'
   }
+
 });

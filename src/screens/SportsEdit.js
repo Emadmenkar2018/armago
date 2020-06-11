@@ -31,7 +31,7 @@ export default class SportsEdit extends Component {
         const { navigate } = this.props.navigation;
         return (
             <>
-        <AppStatusBar backgroundColor={colors.lightgreen} barStyle={'light-content'}></AppStatusBar>
+        <AppStatusBar backgroundColor={colors.lightgreen} barStyle={Platform.OS === 'ios' ? 'dark-content':'light-content'}></AppStatusBar>
         <SafeAreaView style={styles.container}>
             <LongHeader title={'Sports'} color={colors.lightgreen} bcolor={colors.lightgreen} route={'EditProfile'} navigate= {navigate} removeRightIcon/>
             <View style={styles.main}>
