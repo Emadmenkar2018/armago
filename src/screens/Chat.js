@@ -32,49 +32,67 @@ class ChatScreen extends React.Component {
   }
 
   componentDidMount() {
-    this.setState({
-      messages: [
-        {
-            _id: 1,
-            text: 'Hello',
+    if(this.props.message){
+      this.setState({
+        messages : [
+          {
+            _id : 1,
+            text : this.props.message,
+            user: {
+              name : this.props.user,
+              avatar : this.props.avatar
+            }
+          }
+        ]
+      });
+    }
+    else{
+      this.setState({
+        messages: [
+          {
+              _id: 1,
+              text: 'Hello',
+              user: {
+                _id: 1,
+              },
+          },
+          {
+            _id: 2,
+            text: 'are you up for gym?',
+            user: {
+              _id: 2,
+              name: 'React Native',
+              avatar: this.props.avatar,
+            },
+          },
+          {
+            _id: 3,
+            text: 'Hi!',
             user: {
               _id: 1,
+            }
+          },
+          {
+            _id: 4,
+            text: 'Hi there Matt!',
+            user: {
+              _id: 2,
+              name: 'React Native',
+              avatar: this.props.avatar,
             },
-        },
-        {
-          _id: 2,
-          text: 'are you up for gym?',
-          user: {
-            _id: 2,
-            name: 'React Native',
-            avatar: this.props.avatar,
           },
-        },
-        {
-          _id: 3,
-          text: 'Hi!',
-          user: {
-            _id: 1,
+          {
+            _id: 5,
+            text: 'Hello Alisya!',
+            user: {
+              _id: 1,
+            }
           }
-        },
-        {
-          _id: 4,
-          text: 'Hi there Matt!',
-          user: {
-            _id: 2,
-            name: 'React Native',
-            avatar: this.props.avatar,
-          },
-        },
-        {
-          _id: 5,
-          text: 'Hello Alisya!',
-          user: {
-            _id: 1,
-          }
-        }
-      ],
-    })
+        ],
+      })
+    }
+    
+    
   }
 
   onSend(messages = []) {
@@ -109,6 +127,7 @@ class ChatScreen extends React.Component {
 
   
   render() {
+
     return (
       <GiftedChat
         messages={this.state.messages}
@@ -131,10 +150,12 @@ export default class Chat extends Component {
       this.setState({arrowIcon : toggle ? 'up' : 'down'})
     }
     render() {
+        
         const {navigation} = this.props;
         const { navigate } = this.props.navigation;
         const user = navigation.getParam('user');
         const avatar = navigation.getParam('avatar');
+        const message = navigation.getParam('message');
         const changeStyle = this.state.togglePanel === false ? {height: 200} : {height:450}
         return(
 <>
@@ -159,7 +180,7 @@ export default class Chat extends Component {
                       <AntDesign name={this.state.arrowIcon} size={30} color={"white"} />
                     </TouchableOpacity>
                 </View>
-                <ChatScreen avatar={avatar}></ChatScreen>
+                <ChatScreen avatar={avatar} message = {message}></ChatScreen>
             </SafeAreaView>
             </>
         )

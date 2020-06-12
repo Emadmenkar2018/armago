@@ -131,6 +131,7 @@ export default class Messages extends Component {
             {
               filtered_Messages.map((prop, key) => {
                 return (
+                  <TouchableOpacity key={prop.id} onPress={() => navigate('Chat',{user : prop.name, avatar : prop.avatar, message: prop.message})}>
                   <View style={styles.list}  key={prop.id} >
                     <Image source={prop.avatar} style={styles.user}/>
                     <View style={[styles.dot, { left: 59}]} />
@@ -139,6 +140,7 @@ export default class Messages extends Component {
                       <Text style={{ fontSize: 16, fontFamily: 'ProximaNova-Regular', color: '#999'}}>{prop.message}</Text>
                     </View>
                   </View>
+                  </TouchableOpacity>
                 )
               })
             }
