@@ -1,9 +1,10 @@
 import React, {Component} from 'react'
-import { View, Text, StyleSheet, Image, Button,TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, Button,SafeAreaView, TouchableOpacity } from 'react-native';
 import { LongHeader } from '../components/longHeader';
 import { colors } from '../common/colors';
 import { GiftedChat, Bubble } from 'react-native-gifted-chat'
 import AntDesign from 'react-native-vector-icons/AntDesign'
+import AppStatusBar from '../components/AppStatusBar';
 function DateView(props) {
   return (
     <View style={styles.item}>
@@ -27,6 +28,7 @@ function DateView(props) {
 class ChatScreen extends React.Component {
   state = {
     messages: [],
+    
   }
 
   componentDidMount() {
@@ -105,6 +107,7 @@ class ChatScreen extends React.Component {
     );
   }
 
+  
   render() {
     return (
       <GiftedChat
@@ -119,22 +122,46 @@ class ChatScreen extends React.Component {
   }
 }
 export default class Chat extends Component {
+    state = {
+      togglePanel : false ,// false : collpased, true : expanded
+      arrowIcon : 'down'
+    }
+    togglePanel(toggle){
+      this.setState({togglePanel : toggle});
+      this.setState({arrowIcon : toggle ? 'up' : 'down'})
+    }
     render() {
         const {navigation} = this.props;
         const { navigate } = this.props.navigation;
         const user = navigation.getParam('user');
         const avatar = navigation.getParam('avatar');
+        const changeStyle = this.state.togglePanel === false ? {height: 200} : {height:450}
         return(
-            <View style={styles.container}>
+<>
+        <AppStatusBar backgroundColor={colors.lightgreen} barStyle={Platform.OS === 'ios' ? 'dark-content':'light-content'}></AppStatusBar>
+            <SafeAreaView style={styles.container}>
                 <LongHeader title={user} avatar = {avatar} dark={true} left={colors.lightgreen} route={'Messages'} navigate= {navigate} bcolor = {colors.gray}/>
-                <View style={{backgroundColor : colors.darkBlue , padding: 15, width: '80%', justifyContent: 'center', textAlign: 'center', alignSelf: 'center', borderRadius : 20}}>
+                <View style={[{backgroundColor : colors.darkBlue , padding: 15, width: '80%', justifyContent: 'center', textAlign: 'center', alignSelf: 'center', borderRadius : 20},changeStyle]}>
                     <Text style={styles.text6}>{"Matching"}</Text>
-                    <DateView data={'Monday'} value={[0, 1, 0]}/>
-                    <DateView data={'Wednesday'} value={[0, 1, 0]}/>
-                    <AntDesign name="down" size={25} color={"white"} style={{alignSelf : 'center'}}/>
-                  </View>
+                    <View style={{paddingVertical: 20}}>
+                      <DateView data={'Monday'} value={[0, 1, 0]}/>
+                      <DateView data={'Tuesday'} value={[0, 1, 0]}/>
+
+                      {this.state.togglePanel && <View><DateView data={'Wednesday'} value={[0, 1, 0]}/>
+                      <DateView data={'Thursday'} value={[0, 1, 0]}/>
+                      <DateView data={'Friday'} value={[0, 1, 0]}/>
+                      <DateView data={'Saturday'} value={[0, 1, 0]}/>
+                      <DateView data={'Sunday'} value={[0, 1, 0]}/></View>}
+        
+                    </View>
+                    
+                    <TouchableOpacity style={{position:'absolute', bottom:0,   alignItems:'center', justifyContent : 'center', alignSelf:'center'}} onPress={() => this.state.togglePanel ? this.togglePanel(false) : this.togglePanel(true)}>
+                      <AntDesign name={this.state.arrowIcon} size={30} color={"white"} />
+                    </TouchableOpacity>
+                </View>
                 <ChatScreen avatar={avatar}></ChatScreen>
-            </View>
+            </SafeAreaView>
+            </>
         )
     }
 }
