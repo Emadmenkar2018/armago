@@ -95,7 +95,18 @@ export default class TeamCard extends Component {
                         <Image source={images.user11}/>
                         <Text style={styles.text7}>Jack Norrow</Text>
                       </View>
-                      
+                      <View style={styles.m_avatar}>
+                        <Image source={images.user10} />
+                        <Text style={styles.text7}>Jess Jones</Text>
+                      </View>
+                      <View style={styles.m_avatar}>
+                        <Image source={images.user11}/>
+                        <Text style={styles.text7}>Jack Norrow</Text>
+                      </View>
+                      <View style={styles.m_avatar}>
+                        <Image source={images.user11}/>
+                        <Text style={styles.text7}>Jack Norrow</Text>
+                      </View>
                     </View>
                     <TouchableOpacity style={{position:'absolute', bottom:0,   alignItems:'center', justifyContent : 'center', alignSelf:'center'}} onPress={() => this.props.setToggleTeamPanel(true)}>
                         <AntDesign name="down" size={30} color={"white"} />

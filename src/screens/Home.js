@@ -270,7 +270,7 @@ export default class Home extends Component {
                 <View style={{flex: 1,  padding: 20}}>
                     <Text style={[styles.text6,{flex:1,textAlign:"center"}]}>{"Mutual Friends"}</Text>
                     <View style={{flex: 5}}>
-                      <View style={{flexDirection : 'row', padding: 15}}>
+                      <View style={{flexDirection : 'row'}}>
                         <View style={styles.m_avatar}>
                           <Image source={images.user10} />
                           <Text style={styles.text7}>Jess Jones</Text>
@@ -279,7 +279,84 @@ export default class Home extends Component {
                           <Image source={images.user11}/>
                           <Text style={styles.text7}>Jack Norrow</Text>
                         </View>
-                        
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user10} />
+                          <Text style={styles.text7}>Jess Jones</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user11}/>
+                          <Text style={styles.text7}>Jack Norrow</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user11}/>
+                          <Text style={styles.text7}>Jack Norrow</Text>
+                        </View>
+                      </View>
+                      <View style={{flexDirection : 'row'}}>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user10} />
+                          <Text style={styles.text7}>Jess Jones</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user11}/>
+                          <Text style={styles.text7}>Jack Norrow</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user10} />
+                          <Text style={styles.text7}>Jess Jones</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user11}/>
+                          <Text style={styles.text7}>Jack Norrow</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user11}/>
+                          <Text style={styles.text7}>Jack Norrow</Text>
+                        </View>
+                      </View>
+                      <View style={{flexDirection : 'row'}}>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user10} />
+                          <Text style={styles.text7}>Jess Jones</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user11}/>
+                          <Text style={styles.text7}>Jack Norrow</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user10} />
+                          <Text style={styles.text7}>Jess Jones</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user11}/>
+                          <Text style={styles.text7}>Jack Norrow</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user11}/>
+                          <Text style={styles.text7}>Jack Norrow</Text>
+                        </View>
+                      </View>
+                      <View style={{flexDirection : 'row'}}>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user10} />
+                          <Text style={styles.text7}>Jess Jones</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user11}/>
+                          <Text style={styles.text7}>Jack Norrow</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user10} />
+                          <Text style={styles.text7}>Jess Jones</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user11}/>
+                          <Text style={styles.text7}>Jack Norrow</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user11}/>
+                          <Text style={styles.text7}>Jack Norrow</Text>
+                        </View>
                       </View>
                     </View>
                     <TouchableOpacity style={{position:'absolute', bottom:0,   alignItems:'center', justifyContent : 'center', alignSelf:'center'}} onPress={() => this.setToggleTeamPanel(false)}>
