@@ -54,7 +54,7 @@ export default class Home extends Component {
   constructor(props){
     super(props);
     this.state = {
-      modalVisible: true,
+      modalVisible: false,
       toggleMatchingPanel : false, // expand or collapse panel Matching Availability
       flipMatchingPanel : false,
       toggleTeamPanel : false,

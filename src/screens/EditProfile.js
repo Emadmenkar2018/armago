@@ -5,6 +5,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign'
 import { colors } from '../common/colors';
 import { images } from '../common/images';
 import AppStatusBar from '../components/AppStatusBar';
+import { RFValue } from 'react-native-responsive-fontsize';
 export default class EditProfile extends Component {
   render() {
     const { navigate } = this.props.navigation;
@@ -15,9 +16,14 @@ export default class EditProfile extends Component {
         <LongHeader title={'Profile'} color={'white'} left={'green'}  route={'Settings'} navigate= {navigate} dark removeRightIcon/>
         <View style ={styles.main}>
           <View style={styles.top}>
-            <View style = {styles.top_left}>
+            <View style = {[styles.top_left]}>
               {/* <Image source={images.woman} style={styles.profile_avatar} /> */}
-              <Image source={images.woman}  style={styles.profile_avatar} />
+              <Image source={images.woman} style={styles.profile_avatar} />
+              <Image source={images.AvatarMask} style={styles.profile_avatar}>
+              
+              </Image> 
+              <Text style={{color: 'white', fontSize:RFValue(18), fontFamily:'ProximaNova-Bold',fontWeight:'700',position:'absolute',left:40,bottom:'30%'}}>Profile Picture</Text>
+          
             </View>
             <View style = {styles.top_right}>
               <View style = {styles.top_right_top}>
@@ -115,12 +121,18 @@ const styles = StyleSheet.create({
     fontFamily: 'ProximaNova-Regular'
   },
   profile_avatar : {
-flex: 1,
+// flex: 1,
 width: '100%',
-height:'100%',
+height:'80%',
       // height: 300,
-    // borderRadius:50,
-    resizeMode: 'contain'
+    borderRadius:40,
+    resizeMode: 'cover',
+    position:'absolute',
+    alignItems:'center',
+    justifyContent: 'center',
+    // top:0,bottom:0,
+    top:'10%',
+    left:15
   },
   profile_img : {
     width: '100%',

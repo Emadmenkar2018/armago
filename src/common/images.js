@@ -40,6 +40,7 @@ const ProfileBio = require('../../assets/Profile_Bio.png');
 const ProfileAvaila = require('../../assets/Profile_Availability.png');
 const ProfileTeams = require('../../assets/Profile_Teams.png');
 const ProfileAbili = require('../../assets/Profile_Abili.png');
+const AvatarMask = require('../../assets/avatar_mask.png');
 const user1 = require('../../assets/user1.png');
 const user2 = require('../../assets/user2.png');
 const user3 = require('../../assets/user3.png');
@@ -54,5 +55,5 @@ const user11 = require('../../assets/user11.png');
 
 export const images = {
     chat, check, close, gear, group, logo, oval, racket, woman, GameOn, grape, user1, user2, user3, user4, user5, user9, remove, bottombar, oval3, msg,
-    user6, user7, user8, user10, user11, mask, trial_front, trial_back,training_front, cycling, checked, unchecked, back, next, sports_racket, sports_gym, sports_runner, sports_basketball, sports_cycling, sport_selected, sport_comiong_soon, gps, bell, genderM, genderW, genderB, genderSelected, ProfileSports, ProfileBio, ProfileAvaila , ProfileTeams, ProfileAbili
+    user6, user7, user8, user10, user11, mask, trial_front, trial_back,training_front, cycling, checked, unchecked, back, next, sports_racket, sports_gym, sports_runner, sports_basketball, sports_cycling, sport_selected, sport_comiong_soon, gps, bell, genderM, genderW, genderB, genderSelected, ProfileSports, ProfileBio, ProfileAvaila , ProfileTeams, ProfileAbili, AvatarMask
 }
