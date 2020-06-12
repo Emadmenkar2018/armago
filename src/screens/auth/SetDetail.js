@@ -27,7 +27,6 @@ export default class SetDetail extends Component {
         const { navigate } = this.props.navigation;
         return (
             <KeyboardAwareScrollView style={styles.container}>
-                    <View >
                     <View style={styles.main}>
                         <View style={styles.sectionTop}>
                             <Image source={images.logo} style={styles.logo}/>
@@ -105,7 +104,6 @@ export default class SetDetail extends Component {
                             />
                             </View>
                         </View>
-                    </View>
                 </View>
             </KeyboardAwareScrollView>
         
@@ -150,7 +148,7 @@ const styles = StyleSheet.create({
   logo : {
       flex: 1,
       width:250,
-      height:50,
+    //   height:50,
       resizeMode: 'contain'
   },
   tlabel : {

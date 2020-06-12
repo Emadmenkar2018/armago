@@ -54,7 +54,7 @@ export default class Home extends Component {
   constructor(props){
     super(props);
     this.state = {
-      modalVisible: false,
+      modalVisible: true,
       toggleMatchingPanel : false, // expand or collapse panel Matching Availability
       flipMatchingPanel : false,
       toggleTeamPanel : false,
@@ -132,13 +132,14 @@ export default class Home extends Component {
     const style_invisible_newMatch = (this.state.toggleMatchingPanel === false && this.state.toggleTeamPanel === false) ? {opacity: 1, height: '100%'} : {height : 0, opacity : 0, flex:0};
     const style_visible_newMatch = (this.state.toggleMatchingPanel === true) ? {opacity: 1, height: '100%'} : {height : 0, opacity : 0, flex:0};
     const style_visible_team = (this.state.toggleTeamPanel === true) ? {opacity: 1, height: '100%'} : {height : 0, opacity : 0, flex:0};
+    const modal_style = (this.state.modalVisible === true) ? {opacity:0.7} : {opacity : 1};
     return (
-      <View style={styles.container}>
+      <View style={[styles.container]}>
         <>
           <Header navigate= {navigate} />
            
           <CardStack 
-            style={[styles.cardstack, style_invisible_newMatch]} 
+            style={[styles.cardstack, style_invisible_newMatch, modal_style]} 
             ref={swiper => { this.swiper = swiper }}
             renderNoMoreCards = {() => {return <OutOfCards></OutOfCards>}}
             disableTopSwipe = {true}
@@ -374,7 +375,7 @@ export default class Home extends Component {
           style={styles.absolute}
           viewRef={this.state.viewRef}
           blurType="dark"
-          blurAmount={1}
+          blurAmount={10}
           reducedTransparencyFallbackColor="black"
         />}
       </View>
