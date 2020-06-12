@@ -4,13 +4,15 @@ import { images } from '../common/images';
 import AntDesign from 'react-native-vector-icons/AntDesign'
 import { colors } from '../common/colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
-
+import AppStatusBar from '../components/AppStatusBar';
 export const { width, height } = Dimensions.get('window');
 
 export default class Messages extends Component {
   render() {
     const { navigate } = this.props.navigation;
     return (
+      <>
+        <AppStatusBar backgroundColor={colors.lightgreen} barStyle={Platform.OS === 'ios' ? 'dark-content':'light-content'}></AppStatusBar>
       <SafeAreaView style={styles.container}>
         <Image source={images.oval3} style={styles.oval1} />
         <View style={styles.main}>
@@ -101,6 +103,7 @@ export default class Messages extends Component {
         
 
       </SafeAreaView>
+      </>
     );
   }
 }

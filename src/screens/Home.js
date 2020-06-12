@@ -55,7 +55,10 @@ export default class Home extends Component {
     super(props);
     this.state = {
       modalVisible: false,
-      toggleMatchingPanel : false // expand or collapse panel Matching Availability
+      toggleMatchingPanel : false, // expand or collapse panel Matching Availability
+      flipMatchingPanel : false,
+      toggleTeamPanel : false,
+      flipTeamPanel : false
     };
     
   }
@@ -85,34 +88,7 @@ export default class Home extends Component {
   onModal2() {
     this.setModalVisible(false);
   }
-  // renderModal() {
-  //   return (
-  //     <Modal
-  //       visible={this.state.showModal}
-  //       transparent
-  //       onRequestClose={() => this.closeModal()}
-  //     >
-  //       <View style={styles.modalContainer}>
-  //         <View style={styles.modal}>
-  //           <Text style={{ color: 'white', fontSize: 32, fontWeight: '700' }}>GAMEON!</Text>
-  //           <Text style={{ color: 'white', fontSize: 18, fontWeight: '700' }}>IT'S A MATCH!</Text>
-  //           <Image source={images.user5} style={{ width: 120, height: 120, marginTop: 10 }} />
-  //           <Text style={{ color: 'white', marginTop: 12, fontSize: 18, fontFamily: 'ProximaNova-Regular' }}>Alisha</Text>
-  //           <View style={styles.dot} />
-  //           <View style={styles.dot} />
-  //           <View style={styles.dot} />
-  //           <Image source={images.user9} style={{ width: 80, height: 80, marginTop: 16 }} />
-  //           <TouchableOpacity style={styles.btn} onPress={() => this.onModal()} >
-  //             <Text style={{ color: 'white', fontFamily: 'ProximaNova-Regular', fontSize: 17 }}>See Availability and Chat</Text>
-  //           </TouchableOpacity>
-  //           <View style={[styles.btn, { backgroundColor: 'orange' }]}>
-  //             <Text style={{ color: 'white', fontFamily: 'ProximaNova-Regular', fontSize: 17 }}>Keep Browsing</Text>
-  //           </View>
-  //         </View>
-  //       </View>
-  //     </Modal>
-  //   );
-  // }
+  
   simpleModal() {
     return (
       <Modal
@@ -143,23 +119,26 @@ export default class Home extends Component {
       </Modal>
     );
   }
-  
-  showPanel() { 
+  setTogglePanel(visible){
     LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    this.setState({toggleMatchingPanel : !this.state.toggleMatchingPanel});
-    
+    this.setState({toggleMatchingPanel : visible});
+  }
+  setToggleTeamPanel = (visible) => {
+    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    this.setState({toggleTeamPanel : visible});
   }
   render() {
     const { navigate } = this.props.navigation;
-    const changedStyle = this.state.toggleMatchingPanel === false ? {backgroundColor:colors.darkBlue} : {backgroundColor : colors.lightgreen};
-    
+    const style_invisible_newMatch = (this.state.toggleMatchingPanel === false && this.state.toggleTeamPanel === false) ? {opacity: 1, height: '100%'} : {height : 0, opacity : 0, flex:0};
+    const style_visible_newMatch = (this.state.toggleMatchingPanel === true) ? {opacity: 1, height: '100%'} : {height : 0, opacity : 0, flex:0};
+    const style_visible_team = (this.state.toggleTeamPanel === true) ? {opacity: 1, height: '100%'} : {height : 0, opacity : 0, flex:0};
     return (
       <View style={styles.container}>
         <>
           <Header navigate= {navigate} />
            
           <CardStack 
-            style={styles.cardstack} 
+            style={[styles.cardstack, style_invisible_newMatch]} 
             ref={swiper => { this.swiper = swiper }}
             renderNoMoreCards = {() => {return <OutOfCards></OutOfCards>}}
             disableTopSwipe = {true}
@@ -168,12 +147,12 @@ export default class Home extends Component {
           >
             <Card style={styles.card}>
               <FlipCard 
+              ref={(card) => this.matchingcard = card}
               friction={15}
               flipHorizontal={true}
               flipVertical={false}
-              flip={false}
               clickable={true}
-              onFlipEnd={(isFlipEnd)=>{console.log('isFlipEnd', isFlipEnd)}}
+              onFlipEnd={(isFlipEnd)=>{this.setState({flipMatchingPanel : isFlipEnd});console.log(this.state.flipMatchingPanel)}}
               useNativeDriver = {true}
             >
               
@@ -216,11 +195,11 @@ export default class Home extends Component {
                     <Text style={styles.text2}>{"Hi I'm Alisha! I love to meet new people through tennis!"}</Text>
                   </View>
                   
-                  <View style={[{width:'100%',height:'100%',flex: 1.4 , paddingHorizontal: 15, paddingTop:10}, changedStyle]}>
+                  <View style={[{width:'100%',height:'100%',flex: 1.4 , paddingHorizontal: 15, paddingTop:10, backgroundColor: colors.darkBlue}]}>
                     <Text style={styles.text6}>{"Matching Availability"}</Text>
                     <DateView data={'Monday'} value={[0, 1, 0]}/>
                     <DateView data={'Wednesday'} value={[0, 1, 0]}/>
-                    <TouchableOpacity style={{position:'absolute', bottom:0,   alignItems:'center', justifyContent : 'center', alignSelf:'center'}} onPress={() => this.showPanel()}>
+                    <TouchableOpacity style={{position:'absolute', bottom:0,   alignItems:'center', justifyContent : 'center', alignSelf:'center'}} onPress={() => this.setTogglePanel(true)}>
                       <AntDesign name="down" size={30} color={"white"} />
                     </TouchableOpacity>
                     
@@ -242,9 +221,8 @@ export default class Home extends Component {
               </View>
             </FlipCard>
             </Card>
-            
             <Card style={styles.card}>
-              <TeamCard></TeamCard>
+              <TeamCard setToggleTeamPanel={(visible) => this.setToggleTeamPanel(visible)}></TeamCard>
             </Card>
             <Card 
               style={styles.card}
@@ -259,9 +237,61 @@ export default class Home extends Component {
               <TrialCard></TrialCard>
             </Card>
           </CardStack>
-          
+          <View style={[styles.cardstack, style_visible_newMatch]}>
+            <Card style={styles.card}>
+              <View style={styles.main}>
+                <Image source={images.group} style={styles.groupImg} />
+
+                  <View style={[{width:'100%',height:'100%',padding: 20,flexDirection:'column',flex:1}]}>
+                    <Text style={[styles.text6,{flex:1,textAlign:"center"}]}>{"Matching Availability"}</Text>
+                    <View style={{flex: 5}}>
+                      <DateView data={'Monday'} value={[0, 1, 0]}/>
+                      <DateView data={'Tuesday'} value={[0, 1, 0]}/>
+                      <DateView data={'Wednesday'} value={[0, 1, 0]}/>
+                      <DateView data={'Thursday'} value={[0, 1, 0]}/>
+                      <DateView data={'Friday'} value={[0, 1, 0]}/>
+                      <DateView data={'Saturday'} value={[0, 1, 0]}/>
+                      <DateView data={'Sunday'} value={[0, 1, 0]}/>
+                    </View>
+                    
+                    <TouchableOpacity style={{position:'absolute', bottom:0,   alignItems:'center', justifyContent : 'center', alignSelf:'center'}} onPress={() => this.setTogglePanel(false)}>
+                      <AntDesign name="up" size={30} color={"white"} />
+                    </TouchableOpacity>
+                    
+                  </View>
+              </View>
+            </Card>
+          </View>
+          <View style={[styles.cardstack, style_visible_team]}>
+            <Card style={styles.card}>
+              <View style={[styles.main, {backgroundColor:colors.orange}]}>
+                <Image source={images.group} style={styles.groupImg} />
+
+                <View style={{flex: 1,  padding: 20}}>
+                    <Text style={[styles.text6,{flex:1,textAlign:"center"}]}>{"Mutual Friends"}</Text>
+                    <View style={{flex: 5}}>
+                      <View style={{flexDirection : 'row', padding: 15}}>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user10} />
+                          <Text style={styles.text7}>Jess Jones</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user11}/>
+                          <Text style={styles.text7}>Jack Norrow</Text>
+                        </View>
+                        
+                      </View>
+                    </View>
+                    <TouchableOpacity style={{position:'absolute', bottom:0,   alignItems:'center', justifyContent : 'center', alignSelf:'center'}} onPress={() => this.setToggleTeamPanel(false)}>
+                          <AntDesign name="up" size={30} color={"white"} />
+                        </TouchableOpacity>
+                </View>
+              </View>
+            </Card>
+          </View>
+        
           {this.simpleModal()}
-          <Footer onSwipedLeft={() => {if(this.swiper !== null) this.swiper.swipeLeft();}} onSwipedRight={() => {if(this.swiper !== null) this.swiper.swipeRight();}}/>
+          <Footer onSwipedLeft={() => {if(this.swiper !== null) {this.setState({toggleMatchingPanel:false, toggleTeamPanel: false});this.swiper.swipeLeft();}}} onSwipedRight={() => {if(this.swiper !== null) {this.setState({toggleMatchingPanel:false, toggleTeamPanel: false});this.swiper.swipeRight();}}}/>
         </>
         {(this.state.showModal || this.state.modalVisible) && <BlurView
           style={styles.absolute}
