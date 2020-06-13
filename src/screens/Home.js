@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image,  Modal, TouchableOpacity ,Dimensions, LayoutAnimation} from 'react-native';
+import { View, Text, StyleSheet, Image,  Modal, TouchableOpacity ,Dimensions, LayoutAnimation, Platform} from 'react-native';
 import Header from '../components/header';
 import Footer from '../components/footer';
 import { colors } from '../common/colors';
@@ -132,7 +132,8 @@ export default class Home extends Component {
     const style_invisible_newMatch = (this.state.toggleMatchingPanel === false && this.state.toggleTeamPanel === false) ? {opacity: 1, height: '100%'} : {height : 0, opacity : 0, flex:0};
     const style_visible_newMatch = (this.state.toggleMatchingPanel === true) ? {opacity: 1, height: '100%'} : {height : 0, opacity : 0, flex:0};
     const style_visible_team = (this.state.toggleTeamPanel === true) ? {opacity: 1, height: '100%'} : {height : 0, opacity : 0, flex:0};
-    const modal_style = (this.state.modalVisible === true) ? {opacity:0.7} : {};
+    const modal_style = (this.state.modalVisible === true && Platform.OS == 'android') ? {opacity:0.7} : {};
+    
     return (
       <View style={[styles.container]}>
         <>
