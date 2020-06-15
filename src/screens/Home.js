@@ -120,18 +120,18 @@ export default class Home extends Component {
     );
   }
   setTogglePanel(visible){
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    // LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({toggleMatchingPanel : visible});
   }
   setToggleTeamPanel = (visible) => {
-    LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
+    // LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({toggleTeamPanel : visible});
   }
   render() {
     const { navigate } = this.props.navigation;
-    const style_invisible_newMatch = (this.state.toggleMatchingPanel === false && this.state.toggleTeamPanel === false) ? {opacity: 1, height: '100%'} : {height : 0, opacity : 0, flex:0};
-    const style_visible_newMatch = (this.state.toggleMatchingPanel === true) ? {opacity: 1, height: '100%'} : {height : 0, opacity : 0, flex:0};
-    const style_visible_team = (this.state.toggleTeamPanel === true) ? {opacity: 1, height: '100%'} : {height : 0, opacity : 0, flex:0};
+    const style_invisible_newMatch = (this.state.toggleMatchingPanel === false && this.state.toggleTeamPanel === false) ? {opacity: 1} : {height : 0, opacity : 0, flex:0};
+    const style_visible_newMatch = (this.state.toggleMatchingPanel === true) ? {opacity: 1} : {height : 0, opacity : 0, flex:0};
+    const style_visible_team = (this.state.toggleTeamPanel === true) ? {opacity: 1} : {height : 0, opacity : 0, flex:0};
     const modal_style = (this.state.modalVisible === true && Platform.OS == 'android') ? {opacity:0.7} : {};
     
     return (
@@ -239,7 +239,7 @@ export default class Home extends Component {
               <TrialCard></TrialCard>
             </Card>
           </CardStack>
-          <View style={[styles.cardstack, style_visible_newMatch]}>
+          { this.state.toggleMatchingPanel && <View style={[styles.cardstack, style_visible_newMatch]}>
             <Card style={styles.card}>
               <View style={styles.main}>
                 <Image source={images.group} style={styles.groupImg} />
@@ -263,8 +263,9 @@ export default class Home extends Component {
                   </View>
               </View>
             </Card>
-          </View>
-          <View style={[styles.cardstack, style_visible_team]}>
+          </View>}
+          { this.state.toggleTeamPanel &&
+            <View style={[styles.cardstack, style_visible_team]}>
             <Card style={styles.card}>
               <View style={[styles.main, {backgroundColor:colors.orange}]}>
                 <Image source={images.group} style={styles.groupImg} />
@@ -368,7 +369,7 @@ export default class Home extends Component {
               </View>
             </Card>
           </View>
-        
+  }
           {this.simpleModal()}
           <Footer onSwipedLeft={() => {if(this.swiper !== null) {this.setState({toggleMatchingPanel:false, toggleTeamPanel: false});this.swiper.swipeLeft();}}} onSwipedRight={() => {if(this.swiper !== null) {this.setState({toggleMatchingPanel:false, toggleTeamPanel: false});this.swiper.swipeRight();}}}/>
         </>
@@ -409,7 +410,7 @@ const styles = StyleSheet.create({
   },
   card:{
     width: width ,
-    height: responsiveHeight(63)
+    height: responsiveHeight(63),
   },
   mask: {
     width: '100%'
