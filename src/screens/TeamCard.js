@@ -78,7 +78,7 @@ export default class TeamCard extends Component {
 
                   </View>
                   
-                  <View style={{width:'100%',flex: 1, backgroundColor : colors.darkOrange , paddingHorizontal: 15}}>
+                  <View style={{width:'100%',flex: 1, backgroundColor : colors.darkOrange , paddingHorizontal: 15, paddingTop: 10}}>
                     <Text style={styles.text6}>{"Training Times"}</Text>
                     <DateView data={'Monday'} value={[0, 1, 0]}/>
                     <DateView data={'Friday'} value={[0, 1, 0]}/>

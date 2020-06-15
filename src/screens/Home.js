@@ -272,7 +272,7 @@ export default class Home extends Component {
 
                 <View style={{flex: 1,  padding: 20}}>
                     <Text style={[styles.text6,{textAlign:"center"}]}>{"Mutual Friends"}</Text>
-                    <View style={{}}>
+                    <View style={{paddingTop:10}}>
                       <View style={{flexDirection : 'row'}}>
                         <View style={styles.m_avatar}>
                           <Image source={images.user10} />
@@ -339,28 +339,7 @@ export default class Home extends Component {
                           <Text style={styles.text7}>Jack Norrow</Text>
                         </View>
                       </View>
-                      <View style={{flexDirection : 'row'}}>
-                        <View style={styles.m_avatar}>
-                          <Image source={images.user10} />
-                          <Text style={styles.text7}>Jess Jones</Text>
-                        </View>
-                        <View style={styles.m_avatar}>
-                          <Image source={images.user11}/>
-                          <Text style={styles.text7}>Jack Norrow</Text>
-                        </View>
-                        <View style={styles.m_avatar}>
-                          <Image source={images.user10} />
-                          <Text style={styles.text7}>Jess Jones</Text>
-                        </View>
-                        <View style={styles.m_avatar}>
-                          <Image source={images.user11}/>
-                          <Text style={styles.text7}>Jack Norrow</Text>
-                        </View>
-                        <View style={styles.m_avatar}>
-                          <Image source={images.user11}/>
-                          <Text style={styles.text7}>Jack Norrow</Text>
-                        </View>
-                      </View>
+                      
                     </View>
                     <TouchableOpacity style={{position:'absolute', bottom:0,   alignItems:'center', justifyContent : 'center', alignSelf:'center'}} onPress={() => this.setToggleTeamPanel(false)}>
                           <AntDesign name="up" size={30} color={"white"} />
