@@ -26,6 +26,7 @@ import AuthLoadingScreen from './screens/auth/AuthLoading';
 import SetPhone from './screens/auth/SetPhone';
 import SetSmsCode from './screens/auth/SetSmsCode';
 import SetDetail from './screens/auth/SetDetail';
+import SetPersonalInfo from './screens/auth/SetPersonalInfo';
 import ChooseSports from './screens/auth/ChooseSports';
 import ChooseAbility from './screens/auth/ChooseAbility';
 import SetBioUniversity from './screens/auth/SetBioUniversity';
@@ -89,6 +90,7 @@ const AuthStack = createStackNavigator({
   SetPhone: { screen: SetPhone, navigationOptions },
   SetSmsCode: { screen: SetSmsCode, navigationOptions },
   SetDetail: { screen: SetDetail, navigationOptions },
+  SetPersonalInfo : {screen : SetPersonalInfo, navigationOptions},
   ChooseSports : { screen:ChooseSports, navigationOptions},
   ChooseAbility : { screen: ChooseAbility, navigationOptions},
   SetBioUniversity : { screen: SetBioUniversity, navigationOptions},

@@ -100,7 +100,7 @@ export default class SetDetail extends Component {
                             icon={
                                 <Icon name={"chevron-right"}  size={60} color="#fff" />
                             }
-                            onPress = {() => navigate('ChooseSports')}
+                            onPress = {() => navigate('SetPersonalInfo')}
                             />
                             </View>
                         </View>

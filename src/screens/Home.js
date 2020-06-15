@@ -155,7 +155,7 @@ export default class Home extends Component {
               flipVertical={false}
               clickable={true}
               onFlipEnd={(isFlipEnd)=>{this.setState({flipMatchingPanel : isFlipEnd});console.log(this.state.flipMatchingPanel)}}
-              useNativeDriver = {true}
+              useNativeDriver = {false}
             >
               
               {/* Face Side */}
