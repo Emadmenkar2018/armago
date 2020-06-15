@@ -69,8 +69,8 @@ export default class TeamCard extends Component {
             {/* Back Side */}
             <View style={styles.main}>
                 <Image source={images.group} style={styles.groupImg} />
-                <View style={{ flex: 1,flexDirection: 'column', paddingHorizontal: 10, paddingVertical: 20}}>
-                    <View style={{flexDirection : 'row', flex:1}}>
+                <View style={{ flex: 1,flexDirection: 'column', paddingHorizontal: 10, paddingTop: 20}}>
+                    <View style={{flexDirection : 'row'}}>
                       <Image source={images.trial_back} style={styles.img} />
                       <Text style={styles.text1}>Bristol Advanced Squad</Text>
                     </View>
@@ -78,7 +78,7 @@ export default class TeamCard extends Component {
 
                   </View>
                   
-                  <View style={{width:'100%',flex: 1, backgroundColor : colors.darkOrange , padding: 15}}>
+                  <View style={{width:'100%',flex: 1, backgroundColor : colors.darkOrange , paddingHorizontal: 15}}>
                     <Text style={styles.text6}>{"Training Times"}</Text>
                     <DateView data={'Monday'} value={[0, 1, 0]}/>
                     <DateView data={'Friday'} value={[0, 1, 0]}/>
@@ -190,7 +190,8 @@ const styles = StyleSheet.create({
     flex:1,
     color: colors.white,
     fontSize: 13,
-    fontWeight: '700'
+    fontWeight: '700',
+    marginTop: 10
   },
   groupImg: {
     position: 'absolute',
@@ -221,7 +222,7 @@ const styles = StyleSheet.create({
   m_avatar: {
     flex: 0.2,
     textAlign: 'center',
-    padding: 10
+    paddingHorizontal: 10
   },
   item: {
     marginTop: 8,

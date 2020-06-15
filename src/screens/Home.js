@@ -245,8 +245,8 @@ export default class Home extends Component {
                 <Image source={images.group} style={styles.groupImg} />
 
                   <View style={[{width:'100%',height:'100%',padding: 20,flexDirection:'column',flex:1}]}>
-                    <Text style={[styles.text6,{flex:1,textAlign:"center"}]}>{"Matching Availability"}</Text>
-                    <View style={{flex: 5}}>
+                    <Text style={[styles.text6,{textAlign:"center"}]}>{"Matching Availability"}</Text>
+                    <View style={{flex:1,justifyContent:'center',alignItems:'center',alignSelf:'center'}}>
                       <DateView data={'Monday'} value={[0, 1, 0]}/>
                       <DateView data={'Tuesday'} value={[0, 1, 0]}/>
                       <DateView data={'Wednesday'} value={[0, 1, 0]}/>
@@ -270,8 +270,8 @@ export default class Home extends Component {
                 <Image source={images.group} style={styles.groupImg} />
 
                 <View style={{flex: 1,  padding: 20}}>
-                    <Text style={[styles.text6,{flex:1,textAlign:"center"}]}>{"Mutual Friends"}</Text>
-                    <View style={{flex: 5}}>
+                    <Text style={[styles.text6,{textAlign:"center"}]}>{"Mutual Friends"}</Text>
+                    <View style={{}}>
                       <View style={{flexDirection : 'row'}}>
                         <View style={styles.m_avatar}>
                           <Image source={images.user10} />
