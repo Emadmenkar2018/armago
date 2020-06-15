@@ -106,9 +106,10 @@ const styles = StyleSheet.create({
     paddingBottom: 15
   },
   bottom : {
-    flex: 2,
+    flex: 1,
     padding:15,
-    justifyContent: 'flex-start'
+    justifyContent: 'flex-start',
+    // backgroundColor:'red'
   },
   text: {
     color: 'grey',
