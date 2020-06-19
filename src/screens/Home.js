@@ -56,6 +56,7 @@ export default class Home extends Component {
     this.state = {
       modalVisible: false,
       toggleMatchingPanel : false, // expand or collapse panel Matching Availability
+      toggleMatchingFollowPanel : false,
       flipMatchingPanel : false,
       toggleTeamPanel : false,
       flipTeamPanel : false
@@ -127,10 +128,14 @@ export default class Home extends Component {
     // LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({toggleTeamPanel : visible});
   }
+  setToggleFollowPanel(visible){
+    this.setState({toggleMatchingFollowPanel : visible});
+  }
   render() {
     const { navigate } = this.props.navigation;
-    const style_invisible_newMatch = (this.state.toggleMatchingPanel === false && this.state.toggleTeamPanel === false) ? {opacity: 1} : {height : 0, opacity : 0, flex:0};
+    const style_invisible_newMatch = (this.state.toggleMatchingPanel === false && this.state.toggleTeamPanel === false && this.state.toggleMatchingFollowPanel === false) ? {opacity: 1} : {height : 0, opacity : 0, flex:0};
     const style_visible_newMatch = (this.state.toggleMatchingPanel === true) ? {opacity: 1} : {height : 0, opacity : 0, flex:0};
+    const style_visible_newMatch_follow = (this.state.toggleMatchingFollowPanel === true) ? {opacity: 1} : {height : 0, opacity : 0, flex:0};
     const style_visible_team = (this.state.toggleTeamPanel === true) ? {opacity: 1} : {height : 0, opacity : 0, flex:0};
     const modal_style = (this.state.modalVisible === true && Platform.OS == 'android') ? {opacity:0.7} : {};
     
@@ -218,6 +223,9 @@ export default class Home extends Component {
                         <Text style={styles.text7}>Jack Norrow</Text>
                       </View>
                     </View>
+                    <TouchableOpacity style={{position:'absolute', bottom:0,   alignItems:'center', justifyContent : 'center', alignSelf:'center'}} onPress={() => this.setToggleFollowPanel(true)}>
+                      <AntDesign name="down" size={30} color={"white"} />
+                    </TouchableOpacity>
                   </View>
                 {/* </View> */}
               </View>
@@ -261,6 +269,89 @@ export default class Home extends Component {
                     </TouchableOpacity>
                     
                   </View>
+              </View>
+            </Card>
+          </View>}
+          { this.state.toggleMatchingFollowPanel && <View style={[styles.cardstack, style_visible_newMatch_follow]}>
+          <Card style={styles.card}>
+              <View style={[styles.main, {backgroundColor:colors.lightBlue}]}>
+                <Image source={images.group} style={styles.groupImg} />
+
+                <View style={{flex: 1,  padding: 20}}>
+                    <Text style={[styles.text6,{textAlign:"center"}]}>{"Mutual Friends"}</Text>
+                    <View style={{paddingTop:10}}>
+                      <View style={{flexDirection : 'row'}}>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user10} />
+                          <Text style={styles.text7}>Jess Jones</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user11}/>
+                          <Text style={styles.text7}>Jack Norrow</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user10} />
+                          <Text style={styles.text7}>Jess Jones</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user11}/>
+                          <Text style={styles.text7}>Jack Norrow</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user11}/>
+                          <Text style={styles.text7}>Jack Norrow</Text>
+                        </View>
+                      </View>
+                      <View style={{flexDirection : 'row'}}>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user10} />
+                          <Text style={styles.text7}>Jess Jones</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user11}/>
+                          <Text style={styles.text7}>Jack Norrow</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user10} />
+                          <Text style={styles.text7}>Jess Jones</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user11}/>
+                          <Text style={styles.text7}>Jack Norrow</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user11}/>
+                          <Text style={styles.text7}>Jack Norrow</Text>
+                        </View>
+                      </View>
+                      <View style={{flexDirection : 'row'}}>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user10} />
+                          <Text style={styles.text7}>Jess Jones</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user11}/>
+                          <Text style={styles.text7}>Jack Norrow</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user10} />
+                          <Text style={styles.text7}>Jess Jones</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user11}/>
+                          <Text style={styles.text7}>Jack Norrow</Text>
+                        </View>
+                        <View style={styles.m_avatar}>
+                          <Image source={images.user11}/>
+                          <Text style={styles.text7}>Jack Norrow</Text>
+                        </View>
+                      </View>
+                      
+                    </View>
+                    <TouchableOpacity style={{position:'absolute', bottom:0,   alignItems:'center', justifyContent : 'center', alignSelf:'center'}} onPress={() => this.setToggleFollowPanel(false)}>
+                          <AntDesign name="up" size={30} color={"white"} />
+                        </TouchableOpacity>
+                </View>
               </View>
             </Card>
           </View>}
@@ -348,7 +439,7 @@ export default class Home extends Component {
               </View>
             </Card>
           </View>
-  }
+          }
           {this.simpleModal()}
           <Footer onSwipedLeft={() => {if(this.swiper !== null) {this.setState({toggleMatchingPanel:false, toggleTeamPanel: false});this.swiper.swipeLeft();}}} onSwipedRight={() => {if(this.swiper !== null) {this.setState({toggleMatchingPanel:false, toggleTeamPanel: false});this.swiper.swipeRight();}}}/>
         </>

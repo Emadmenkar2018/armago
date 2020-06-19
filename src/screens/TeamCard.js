@@ -191,7 +191,7 @@ const styles = StyleSheet.create({
     color: colors.white,
     fontSize: 13,
     fontWeight: '700',
-    marginTop: 10
+    marginTop: 15
   },
   groupImg: {
     position: 'absolute',

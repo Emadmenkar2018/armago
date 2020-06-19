@@ -10,6 +10,8 @@ import { responsiveScreenWidth } from 'react-native-responsive-dimensions';
 import DatePicker from 'react-native-date-picker'
 import { SafeAreaView } from 'react-navigation';
 import DropDownPicker from 'react-native-dropdown-picker';
+import ImagePicker from 'react-native-image-picker';
+
 function Date_Picker(){
     const [date, setDate] = useState(new Date())
 
@@ -48,7 +50,8 @@ export default class SetPersonalInfo extends Component {
           [
               {label: 'Item 1', value: 'item1'},
               {label: 'Item 2', value: 'item2'},
-          ]
+          ],
+          resourcePath: {},
         }
         
     }
@@ -67,6 +70,36 @@ export default class SetPersonalInfo extends Component {
         }
         this.setState({monthRange : _monthRange, dayRange: _dayRange, yearRange : _yearRange})
     }
+
+    imageGalleryLaunch = () => {
+        let options = {
+          storageOptions: {
+            skipBackup: true,
+            path: 'images',
+          },
+        };
+    
+        ImagePicker.launchImageLibrary(options, (res) => {
+          console.log('Response = ', res);
+    
+          if (res.didCancel) {
+            console.log('User cancelled image picker');
+          } else if (res.error) {
+            console.log('ImagePicker Error: ', res.error);
+          } else if (res.customButton) {
+            console.log('User tapped custom button: ', res.customButton);
+            alert(res.customButton);
+          } else {
+            const source = { uri: res.uri };
+            console.log('response', JSON.stringify(res));
+            this.setState({
+              filePath: res,
+              fileData: res.data,
+              fileUri: res.uri
+            });
+          }
+        });
+    }  
 
     seleted_item (){
         if(this.state.showSelected){
@@ -95,14 +128,14 @@ export default class SetPersonalInfo extends Component {
                         <View style={styles.sectionMiddle}>
                         
                             <Input
-                                label = "FirstName"
+                                label = "First Name"
                                 placeholder="Enter Your First Name"
                                 style={styles.input}
                                 labelStyle={{color:colors.gray,fontWeight:'700',fontSize:15}}
                                 onChangeText={value => this.setState({ firstname: value })}
                             />
                             <Input
-                                label = "LastName"
+                                label = "Last Name"
                                 placeholder="Enter Your Last Name"
                                 labelStyle={{color:colors.gray,fontWeight:'700',fontSize:15}}
                                 style={styles.input}
@@ -151,7 +184,9 @@ export default class SetPersonalInfo extends Component {
                             <View style={{flexDirection: 'row', flex:1, paddingVertical:10}}>
                                 <View style={{flex:1, flexDirection: 'column'}}>
                                     <Text style={{color:colors.gray,alignSelf:'flex-start',fontWeight:'700',fontSize:15,left:10}}>Profile Picture</Text>
-                                    <Image source={images.AddPicture}  style={[styles.racket,{margin: 10} ]}/>
+                                    <TouchableOpacity onPress={this.imageGalleryLaunch} >
+                                        <Image source={images.AddPicture}  style={[styles.racket,{margin: 10} ]}/>
+                                    </TouchableOpacity>
                                 </View>
                                 <View style={{flex:1, flexDirection: 'column'}}>
                                     <Text style={{color:colors.gray,alignSelf:'flex-start',fontWeight:'700',fontSize:15,left:10}}>Gender</Text>
