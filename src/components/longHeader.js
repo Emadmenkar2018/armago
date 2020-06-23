@@ -26,7 +26,7 @@ export function LongHeader(props) {
           </TouchableOpacity>}
           {(!props.removeRightIcon) && 
           <TouchableOpacity onPress={() => console.log('ok')}>
-            <AntDesign name="reload1" size={25} color={props.left ? props.left :"white"} />
+            <AntDesign name={props.rightIcon ? props.rightIcon : 'reload1'} size={25} color={props.left ? props.left :"white"} />
           </TouchableOpacity>}
           {(props.removeRightIcon) && 
           <View style={styles.top_end}>

@@ -161,8 +161,8 @@ export default class Chat extends Component {
 <>
         <AppStatusBar backgroundColor={colors.lightgreen} barStyle={Platform.OS === 'ios' ? 'dark-content':'light-content'}></AppStatusBar>
             <SafeAreaView style={styles.container}>
-                <LongHeader title={user} avatar = {avatar} dark={true} left={colors.lightgreen} route={'Messages'} navigate= {navigate} bcolor = {colors.gray}/>
-                <View style={[{backgroundColor : colors.darkBlue , padding: 15, width: '80%', justifyContent: 'center', textAlign: 'center', alignSelf: 'center', borderRadius : 20},changeStyle]}>
+                <LongHeader title={user} avatar = {avatar} dark={true} left={colors.lightgreen} route={'Messages'} navigate= {navigate} bcolor = {colors.gray} rightIcon={'ellipsis1'}/>
+                <View style={[{backgroundColor : colors.darkBlue , padding: 15, width: '80%', justifyContent: 'center', textAlign: 'center', alignSelf: 'center', borderRadius : 20, marginVertical: 20},changeStyle]}>
                     <Text style={styles.text6}>{"Matching"}</Text>
                     <View style={{paddingVertical: 20}}>
                       <DateView data={'Monday'} value={[0, 1, 0]}/>

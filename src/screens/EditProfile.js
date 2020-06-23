@@ -16,35 +16,34 @@ export default class EditProfile extends Component {
         <LongHeader title={'Profile'} color={'white'} left={'green'}  route={'Settings'} navigate= {navigate} dark removeRightIcon/>
         <View style ={styles.main}>
           <View style={styles.top}>
-            <View style = {[styles.top_left]}>
-              {/* <Image source={images.woman} style={styles.profile_avatar} /> */}
               <Image source={images.woman} style={styles.profile_avatar} />
-              <Image source={images.AvatarMask} style={styles.profile_avatar}>
-              
-              </Image> 
-              <Text style={{color: 'white', fontSize:RFValue(18), fontFamily:'ProximaNova-Bold',fontWeight:'700',position:'absolute',left:40,bottom:'30%'}}>Profile Picture</Text>
+              <Image source={images.AvatarMask} style={styles.profile_avatar}></Image> 
+              <Text style={{color: 'white', fontSize:RFValue(18), fontFamily:'ProximaNova-Bold',fontWeight:'700',position:'absolute',left:40,bottom:'10%'}}>Profile Picture</Text>
           
-            </View>
-            <View style = {styles.top_right}>
-              <View style = {styles.top_right_top}>
-              <TouchableOpacity onPress={() => navigate('SportsEdit')}>
+          </View>
+          <View style={styles.middle}>
+            <View style = {styles.middle_left}>
+            <TouchableOpacity onPress={() => navigate('SportsEdit')}>
                 <Image source={images.ProfileSports} style={styles.profile_img} /></TouchableOpacity>
-              </View>
-              <View style = {styles.top_right_down}>
-              <TouchableOpacity onPress={() => navigate('BioEdit')}><Image source={images.ProfileBio} style={styles.profile_img} /></TouchableOpacity>
-              </View>
+            </View>
+            <View style = {styles.middle_right}>
+            <TouchableOpacity onPress={() => navigate('BioEdit')}>
+              <Image source={images.ProfileBio} style={styles.profile_img} /></TouchableOpacity>
             </View>
           </View>
           <View style={styles.middle}>
             <View style = {styles.middle_left}>
-            <TouchableOpacity onPress={() => navigate('AvailabilityEdit')}><Image source={images.ProfileAvaila} style={styles.profile_img} /></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigate('AvailabilityEdit')}>
+              <Image source={images.ProfileAvaila} style={styles.profile_img} /></TouchableOpacity>
             </View>
             <View style = {styles.middle_right}>
-            <TouchableOpacity onPress={() => navigate('TeamsView')}><Image source={images.ProfileTeams} style={styles.profile_img} /></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigate('TeamsView')}>
+              <Image source={images.ProfileTeams} style={styles.profile_img} /></TouchableOpacity>
             </View>
           </View>
           <View style={styles.bottom}>
-            <TouchableOpacity onPress={() => navigate('AbilityEdit')}><Image source={images.ProfileAbili} style={styles.profile_img} /></TouchableOpacity>
+            <TouchableOpacity onPress={() => navigate('AbilityEdit')}>
+              <Image source={images.ProfileAbili} style={styles.profile_img} /></TouchableOpacity>
           </View>
         </View>
 
@@ -64,13 +63,16 @@ const styles = StyleSheet.create({
     backgroundColor: colors.darkBlue
   },
   top : {
-    flex: 3,
+    flex: 1,
     flexDirection : 'row',
+    // height: 350,
+    // backgroundColor: 'red'
     
   },
   top_left : {
-    flex : 2,
+    flex : 1,
     padding: 15,
+    backgroundColor: 'red'
   },
   top_right : {
     flex : 1,
@@ -89,24 +91,24 @@ const styles = StyleSheet.create({
     paddingBottom : 15
   },
   middle : {
-    flex: 2,
+    // flex: 1,
     flexDirection: 'row',
-    justifyContent: 'flex-start',
-    alignItems : 'flex-start',
-    alignSelf : 'flex-start'
+    justifyContent: 'center',
+    alignItems : 'center',
+    alignSelf : 'center',
+    // backgroundColor:'red'
   },
   middle_left : {
     flex: 1,
-    padding:15
+    // padding:10,
+    resizeMode: 'cover',
+    // backgroundColor:'yellow'
   },
   middle_right : {
     flex: 1,
-    paddingTop:15,
-    paddingRight:15,
-    paddingBottom: 15
   },
   bottom : {
-    flex: 1,
+    // flex: 1,
     padding:15,
     justifyContent: 'flex-start',
     // backgroundColor:'red'
@@ -122,18 +124,19 @@ const styles = StyleSheet.create({
     fontFamily: 'ProximaNova-Regular'
   },
   profile_avatar : {
-// flex: 1,
-width: '100%',
-height:'80%',
-      // height: 300,
+    flex: 1,
+    width: '90%',
+    // height:'100%',
+      height: '90%',
     borderRadius:40,
     resizeMode: 'cover',
     position:'absolute',
     alignItems:'center',
     justifyContent: 'center',
+    margin:'5%'
     // top:0,bottom:0,
-    top:'10%',
-    left:15
+    // top:'10%',
+    // left:15
   },
   profile_img : {
     width: '100%',
