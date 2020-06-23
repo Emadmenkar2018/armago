@@ -6,6 +6,12 @@ import { colors } from '../common/colors';
 import { images } from '../common/images';
 import AppStatusBar from '../components/AppStatusBar';
 import { RFValue } from 'react-native-responsive-fontsize';
+import {
+  responsiveScreenHeight,
+  responsiveScreenWidth,
+  responsiveScreenFontSize,
+  responsiveHeight
+} from "react-native-responsive-dimensions";
 export default class EditProfile extends Component {
   render() {
     const { navigate } = this.props.navigation;
@@ -102,14 +108,16 @@ const styles = StyleSheet.create({
     flex: 1,
     // padding:10,
     resizeMode: 'cover',
+    
     // backgroundColor:'yellow'
   },
   middle_right : {
     flex: 1,
+    
   },
   bottom : {
     // flex: 1,
-    padding:15,
+    paddingHorizontal:15,
     justifyContent: 'flex-start',
     // backgroundColor:'red'
   },
@@ -127,7 +135,7 @@ const styles = StyleSheet.create({
     flex: 1,
     width: '90%',
     // height:'100%',
-      height: '90%',
+    height: '88%',
     borderRadius:40,
     resizeMode: 'cover',
     position:'absolute',
