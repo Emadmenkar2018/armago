@@ -1,10 +1,12 @@
 import React, { Component,useState  } from 'react';
-import { View, Text, StyleSheet, Image, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, Alert ,PixelRatio} from 'react-native';
 import { colors } from '../../common/colors';
 import { images } from '../../common/images';
 import {  Input, CheckBox, Button ,Icon  } from 'react-native-elements';
 import  APIKit, {setClientToken}  from '../../services/api';
-
+import CountryPicker, {
+    Flags
+  } from 'react-native-country-picker-modal';
 
 export default class SetPhone extends Component {
     
@@ -14,7 +16,9 @@ export default class SetPhone extends Component {
         this.state = {
           phone: '',
           checked1 : false,
-          checked2: true
+          checked2: true,
+          cca2: 'US',
+          country : null
         }
     }
     next(navigate) {
@@ -48,10 +52,22 @@ export default class SetPhone extends Component {
                             label = "Phone"
                             placeholder="Enter Your Phone Number"
                             style={styles.input}
+                            value={this.state.phone}
                             onChangeText={value => this.setState({phone: value })}
                             keyboardType={'numeric'}
                             />
-                            
+                        <CountryPicker
+                        onSelect={(value)=> this.setState({country: value, cca2: value.cca2, phone: '+' + value.callingCode[0]})}
+                        cca2={this.state.cca2}
+                        translation='eng'
+                        withFlag = {true}
+                        />
+                        
+                        {/* {this.state.country &&
+                            <Text style={styles.data}>
+                                {JSON.stringify(this.state.country, null, 2)}
+                            </Text>
+                        } */}
                     </View>
                     <View style={styles.sectionBottom}>
                         <View style={{ flex:1,alignItems:'flex-start'}}>
@@ -82,6 +98,20 @@ export default class SetPhone extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  instructions: {
+    fontSize: 12,
+    textAlign: 'center',
+    color: '#888',
+    marginBottom: 5
+  },
+  data: {
+    padding: 15,
+    marginTop: 10,
+    backgroundColor: '#ddd',
+    borderColor: '#888',
+    borderWidth: 1 / PixelRatio.get(),
+    color: '#777'
   },
   main: {
     flex: 1,
