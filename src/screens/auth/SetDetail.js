@@ -1,12 +1,15 @@
 import React, { Component } from 'react';
-import { View, Text, StyleSheet, Image, Linking, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image,  Alert } from 'react-native';
 import { colors } from '../../common/colors';
 import { images } from '../../common/images';
 import { Input, CheckBox ,Icon, Button  } from 'react-native-elements';
-import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import {  RFValue } from "react-native-responsive-fontsize";
 import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
 import { OpenURLButton } from '../../components/openWebLinking';
 import { responsiveScreenWidth } from 'react-native-responsive-dimensions';
+import AsyncStorage from '@react-native-community/async-storage';
+import  APIKit, { setClientToken } from '../../services/api';
+
 const supportedURL = "https://google.com";
 export default class SetDetail extends Component {
     
@@ -14,17 +17,43 @@ export default class SetDetail extends Component {
     constructor(props){
         super(props);
         this.state = {
-          phone: '',
           email: '',
           checked1 : false,
           checked2: false
         }
         
     }
-    
+
+    next(navigate, phoneNumber){
+        if(this.state.email == '') Alert.alert("Please type your email address");
+        else if(!this.state.checked1 || !this.state.checked2) Alert.alert('Please agree consent')
+        else { 
+            //register with email and phone number
+            const payload = {phone : phoneNumber, email : this.state.email, provider: 'local'};
+            APIKit.register(payload)
+            .then(({data}) => {
+                console.log(data);
+                const token = data.token;
+                //set token to call other api
+                setClientToken(token);
+
+                const user = data.user;
+                const fullfilled = user.fullfilled;
+                (!fullfilled)? navigate('SetPersonalInfo') : navigate('home');
+                
+            })
+            .catch(error => {
+                console.log(error && error.response);
+            })
+            
+        }
+       
+    }
     
     render() {
         const { navigate } = this.props.navigation;
+        const phoneNumber = this.props.navigation.state.params.number;
+
         return (
             <KeyboardAwareScrollView style={styles.container}>
                     <View style={styles.main}>
@@ -91,7 +120,7 @@ export default class SetDetail extends Component {
                             icon={
                                 <Icon name={"chevron-left"}  size={60} color="#fff" />
                             }
-                            onPress = {() => navigate('SetSmsCode')}
+                            onPress = {() => navigate('SetSmsCode',{number: ''})}
                             />
                             </View>
                             <View style={{ flex:1,alignItems:'flex-end'}}>
@@ -100,7 +129,7 @@ export default class SetDetail extends Component {
                             icon={
                                 <Icon name={"chevron-right"}  size={60} color="#fff" />
                             }
-                            onPress = {() => navigate('SetPersonalInfo')}
+                            onPress = {() => this.next(navigate, phoneNumber)}
                             />
                             </View>
                         </View>

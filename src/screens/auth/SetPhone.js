@@ -1,9 +1,11 @@
-import React, { Component,useEffect  } from 'react';
-import { View, Text, StyleSheet, Image, BackHandler } from 'react-native';
+import React, { Component,useState  } from 'react';
+import { View, Text, StyleSheet, Image, Alert } from 'react-native';
 import { colors } from '../../common/colors';
 import { images } from '../../common/images';
-import { Input, CheckBox, Button ,Icon  } from 'react-native-elements';
-import { KeyboardAwareScrollView } from 'react-native-keyboard-aware-scroll-view'
+import {  Input, CheckBox, Button ,Icon  } from 'react-native-elements';
+import  APIKit, {setClientToken}  from '../../services/api';
+
+
 export default class SetPhone extends Component {
     
     state = null;
@@ -11,14 +13,27 @@ export default class SetPhone extends Component {
         super(props);
         this.state = {
           phone: '',
-          email: '',
           checked1 : false,
           checked2: true
         }
-        
+    }
+    next(navigate) {
+        if(this.state.phone == '') Alert.alert('please input phone number.');
+        else{
+            const payload = {phone : this.state.phone};
+            APIKit.sendSMSCode(payload)
+            .then(({data}) => {
+                console.log(data);
+                const phone = {number : this.state.phone};
+                if(data.success) navigate('SetSmsCode', phone);
+            })
+            .catch(error => {
+                console.log(error && error.response);
+            })
+        }
     }
     
-    
+
     render() {
         const { navigate } = this.props.navigation;
         return (
@@ -29,7 +44,7 @@ export default class SetPhone extends Component {
                         <Text style={styles.tlabel}>{'Get Started'}</Text>
                     </View>
                     <View style={styles.sectionMiddle}>
-                            <Input
+                        <Input
                             label = "Phone"
                             placeholder="Enter Your Phone Number"
                             style={styles.input}
@@ -40,27 +55,26 @@ export default class SetPhone extends Component {
                     </View>
                     <View style={styles.sectionBottom}>
                         <View style={{ flex:1,alignItems:'flex-start'}}>
-                        <Button
-                        buttonStyle = {styles.navBtn_prev}
-                        icon={
-                            <Icon name={"chevron-left"}  size={60} color="#fff" />
-                        }
-                        onPress = {() => navigate('Signin')}
-                        />
+                            <Button
+                            buttonStyle = {styles.navBtn_prev}
+                            icon={
+                                <Icon name={"chevron-left"}  size={60} color="#fff" />
+                            }
+                            onPress = {() => navigate('Signin')}
+                            />
                         </View>
                         <View style={{ flex:1,alignItems:'flex-end'}}>
-                        <Button
-                        buttonStyle = {styles.navBtn_next}
-                        icon={
-                            <Icon name={"chevron-right"}  size={60} color="#fff" />
-                    }
-                    onPress = {() => navigate('SetSmsCode')}
-                    />
+                            <Button
+                            buttonStyle = {styles.navBtn_next}
+                            icon={
+                                <Icon name={"chevron-right"}  size={60} color="#fff" />
+                        }
+                        onPress = {() => this.next(navigate)}
+                        />
+                        </View>
                     </View>
                 </View>
             </View>
-            </View>
-        
         );
     }
 }

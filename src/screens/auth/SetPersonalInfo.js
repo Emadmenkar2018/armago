@@ -11,6 +11,7 @@ import DatePicker from 'react-native-date-picker'
 import { SafeAreaView } from 'react-navigation';
 import DropDownPicker from 'react-native-dropdown-picker';
 import ImagePicker from 'react-native-image-picker';
+import AsyncStorage from '@react-native-community/async-storage';
 
 function Date_Picker(){
     const [date, setDate] = useState(new Date())
@@ -52,6 +53,9 @@ export default class SetPersonalInfo extends Component {
               {label: 'Item 2', value: 'item2'},
           ],
           resourcePath: {},
+          filePath: '',
+          fileData: '',
+          fileUri: ''
         }
         
     }
@@ -115,6 +119,20 @@ export default class SetPersonalInfo extends Component {
       this.setState({gender : ge})
     }
     
+    next(navigate){
+      if(this.state.firstname == '' || this.state.lastname == '') Alert.alert('Please input First Name and Last Name')
+      else{
+        console.log()
+        AsyncStorage.setItem('user_firstname', this.state.firstname);
+        AsyncStorage.setItem('user_lastname', this.state.lastname);
+        AsyncStorage.setItem('user_gender', (this.state.gender == 'M') ? 'mail' : 'female');
+        AsyncStorage.setItem('user_avatar',  this.state.fileUri );
+        AsyncStorage.setItem('user_age', '18');
+        navigate('ChooseSports')
+      }
+      
+    }
+
     render() {
         
         const { navigate } = this.props.navigation;
@@ -229,7 +247,7 @@ export default class SetPersonalInfo extends Component {
                             icon={
                                 <Icon name={"chevron-right"}  size={60} color="#fff" />
                             }
-                            onPress = {() => navigate('ChooseSports')}
+                            onPress = {() => this.next(navigate)}
                             />
                             </View>
                         </View>
