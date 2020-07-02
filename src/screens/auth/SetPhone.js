@@ -4,9 +4,12 @@ import { colors } from '../../common/colors';
 import { images } from '../../common/images';
 import {  Input, CheckBox, Button ,Icon  } from 'react-native-elements';
 import  APIKit, {setClientToken}  from '../../services/api';
+import AsyncStorage from '@react-native-community/async-storage';
 import CountryPicker, {
     Flags
   } from 'react-native-country-picker-modal';
+
+  
 
 export default class SetPhone extends Component {
     
@@ -14,13 +17,14 @@ export default class SetPhone extends Component {
     constructor(props){
         super(props);
         this.state = {
-          phone: '',
+          phone: '+44',
           checked1 : false,
           checked2: true,
-          cca2: 'US',
+          cca2: 'UK',
           country : null
         }
     }
+    
     next(navigate) {
         if(this.state.phone == '') Alert.alert('please input phone number.');
         else{
@@ -28,15 +32,13 @@ export default class SetPhone extends Component {
             APIKit.sendSMSCode(payload)
             .then(({data}) => {
                 console.log(data);
-                const phone = {number : this.state.phone};
-                if(data.success) navigate('SetSmsCode', phone);
+                if(data.success) navigate('SetSmsCode', {'phone' : this.state.phone});
             })
             .catch(error => {
                 console.log(error && error.response);
             })
         }
     }
-    
 
     render() {
         const { navigate } = this.props.navigation;

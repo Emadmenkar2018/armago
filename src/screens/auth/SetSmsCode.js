@@ -5,7 +5,7 @@ import { images } from '../../common/images';
 import { Input, CheckBox, Button ,Icon  } from 'react-native-elements';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import  APIKit, {setClientToken} from '../../services/api';
-
+import AsyncStorage from '@react-native-community/async-storage';
 
 export default class SetSmsCode extends Component {
     
@@ -18,17 +18,18 @@ export default class SetSmsCode extends Component {
           checked1 : false,
           checked2: true
         }
-        
     }
+    
     next(navigate, phone){
         if(this.state.code  == '') Alert.alert('Please verify your phone with code');
         else {
             const payload = {phone : phone, code: this.state.code};
             APIKit.verifyCode(payload)
             .then(({data}) => {
+
                 if(!data.existed){
                     // set user Phone in LocatStorage
-                    navigate('SetDetail', {number : phone});
+                    navigate('SetDetail', {phone : this.state.phone});
                 } 
                 else{
                     //login with that phone number
@@ -40,7 +41,8 @@ export default class SetSmsCode extends Component {
         
                         const user = data.user;
                         const fullfilled = user.fullfilled;
-                        (!fullfilled)? navigate('SetPersonalInfo') : navigate('home');
+                        const email = user.email;
+                        (!fullfilled)? navigate('SetPersonalInfo', {email : email}) : navigate('home');
                         
                     })
                     .catch(error => {
@@ -68,7 +70,10 @@ export default class SetSmsCode extends Component {
     }
     render() {
         const { navigate } = this.props.navigation;
-        const phoneNumber = this.props.navigation.state.params.number;
+        
+        const phoneNumber =  this.props.navigation.state.params.phone;
+            
+        
         return (
         <View style={styles.container}>
             <View style={styles.main}>

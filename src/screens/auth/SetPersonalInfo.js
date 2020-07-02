@@ -1,5 +1,5 @@
 import React, { Component, useState } from 'react';
-import { View, Text, StyleSheet, Image, Linking, Alert, TouchableOpacity } from 'react-native';
+import { View, Text, StyleSheet, Image, Linking, Alert, TouchableOpacity , Platform, PermissionsAndroid} from 'react-native';
 import { colors } from '../../common/colors';
 import { images } from '../../common/images';
 import { Input, CheckBox ,Icon, Button  } from 'react-native-elements';
@@ -12,6 +12,9 @@ import { SafeAreaView } from 'react-navigation';
 import DropDownPicker from 'react-native-dropdown-picker';
 import ImagePicker from 'react-native-image-picker';
 import AsyncStorage from '@react-native-community/async-storage';
+import Geolocation from '@react-native-community/geolocation';
+import Geocoder from 'react-native-geocoding';
+import  APIKit from '../../services/api';
 
 function Date_Picker(){
     const [date, setDate] = useState(new Date())
@@ -31,9 +34,13 @@ export default class SetPersonalInfo extends Component {
     constructor(props){
         super(props);
         this.state = {
+          email : '',
           firstname: '',
           lastname: '',
-          gender: 'M',
+          gender: 'male',
+          lat : '',
+          long: '',
+          address: '',
           showSelected : true,
           monthRange :
           [
@@ -59,7 +66,9 @@ export default class SetPersonalInfo extends Component {
         }
         
     }
+    
     componentDidMount(){
+      var that = this;
         const _monthRange = [];
         const _dayRange = [];
         const _yearRange = [];
@@ -73,8 +82,62 @@ export default class SetPersonalInfo extends Component {
             _yearRange.push({label : i, value : i})
         }
         this.setState({monthRange : _monthRange, dayRange: _dayRange, yearRange : _yearRange})
-    }
 
+        //get current location, lat & long
+        //Checking for the permission just after component loaded
+        if(Platform.OS === 'ios'){
+          this.callLocation(that);
+        }else{
+          async function requestLocationPermission() {
+            try {
+              const granted = await PermissionsAndroid.request(
+                PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,{
+                  'title': 'Location Access Required',
+                  'message': 'This App needs to Access your location'
+                }
+              )
+              if (granted === PermissionsAndroid.RESULTS.GRANTED) {
+                //To Check, If Permission is granted
+                that.callLocation(that);
+              } else {
+                alert("Permission Denied");
+              }
+            } catch (err) {
+              alert("err",err);
+              console.warn(err)
+            }
+          }
+          requestLocationPermission();
+        }      
+    }
+    callLocation(that){
+        Geolocation.getCurrentPosition(
+          //Will give you the current location
+           (position) => {
+              const currentLongitude = JSON.stringify(position.coords.longitude);
+              //getting the Longitude from the location json
+              const currentLatitude = JSON.stringify(position.coords.latitude);
+              //getting the Latitude from the location json
+              that.setState({ lat:currentLongitude });
+              //Setting state Longitude to re re-render the Longitude Text
+              that.setState({ long:currentLatitude });
+              //Setting state Latitude to re re-render the Longitude Text
+              Geocoder.init('AIzaSyAeKw1f7h01OyvWvCfUKsRyTywseFWOWEk');
+              Geocoder.from(position.coords.latitude, position.coords.longitude)
+              .then(json => {
+                  var fullAddress = json.results[0].formatted_address;
+                  console.log(fullAddress);
+                  this.setState({address: fullAddress});
+              })
+              .catch(error =>
+                  console.warn(error)
+              );
+           },
+           (error) => alert(error.message),
+           { enableHighAccuracy: true, timeout: 20000, maximumAge: 200000 }
+        );
+        
+    }
     imageGalleryLaunch = () => {
         let options = {
           storageOptions: {
@@ -119,16 +182,28 @@ export default class SetPersonalInfo extends Component {
       this.setState({gender : ge})
     }
     
-    next(navigate){
+    next(navigate, email){
       if(this.state.firstname == '' || this.state.lastname == '') Alert.alert('Please input First Name and Last Name')
       else{
-        console.log()
-        AsyncStorage.setItem('user_firstname', this.state.firstname);
-        AsyncStorage.setItem('user_lastname', this.state.lastname);
-        AsyncStorage.setItem('user_gender', (this.state.gender == 'M') ? 'mail' : 'female');
-        AsyncStorage.setItem('user_avatar',  this.state.fileUri );
-        AsyncStorage.setItem('user_age', '18');
-        navigate('ChooseSports')
+          // Patch Profile 
+          APIKit.profile({
+            "email": email,
+            "firstName": this.state.firstname,
+            "lastName": this.state.lastname,
+            "location": {
+              "lat": this.state.lat,
+              "lng": this.state.long,
+              "address": this.state.address
+            },
+            "gender": this.state.gender
+            
+          }).then((response) => {
+            console.log(response);
+            navigate('ChooseSports')
+          }, (error) => {
+            console.log(error);
+          });
+         
       }
       
     }
@@ -136,6 +211,8 @@ export default class SetPersonalInfo extends Component {
     render() {
         
         const { navigate } = this.props.navigation;
+        const email =  this.props.navigation.state.params.email;
+        // this.setState({email : email});
         return (
             <SafeAreaView style={styles.container}>
                     <View style={styles.main}>
@@ -212,19 +289,19 @@ export default class SetPersonalInfo extends Component {
                                         <View  style = {styles.rgender}>
                                             <View style={styles.item}>
                                                 <View>
-                                                    <TouchableOpacity onPress={() => this.selected('M')}>
+                                                    <TouchableOpacity onPress={() => this.selected('male')}>
                                                     <Image source={images.genderM} style={styles.racket} /> 
                                                     </TouchableOpacity>
                                                     
-                                                    {this.state.gender == 'M' && this.seleted_item()}
+                                                    {this.state.gender == 'male' && this.seleted_item()}
                                                 </View>
                                             </View>
                                             <View style={styles.item}>
                                                 <View>
-                                                <TouchableOpacity onPress={() => this.selected('W')}>
+                                                <TouchableOpacity onPress={() => this.selected('female')}>
                                                 <Image source={images.genderW} style={styles.racket} />
                                                 </TouchableOpacity>
-                                                {this.state.gender == 'W' && this.seleted_item()}
+                                                {this.state.gender == 'female' && this.seleted_item()}
                                                 </View>
                                             </View>
                                         </View>
@@ -238,7 +315,7 @@ export default class SetPersonalInfo extends Component {
                             icon={
                                 <Icon name={"chevron-left"}  size={60} color="#fff" />
                             }
-                            onPress = {() => navigate('SetDetail')}
+                            onPress = {() => navigate('SetDetail', {phone : ''})}
                             />
                             </View>
                             <View style={{ flex:1,alignItems:'flex-end'}}>
@@ -247,7 +324,7 @@ export default class SetPersonalInfo extends Component {
                             icon={
                                 <Icon name={"chevron-right"}  size={60} color="#fff" />
                             }
-                            onPress = {() => this.next(navigate)}
+                            onPress = {() => this.next(navigate, email)}
                             />
                             </View>
                         </View>

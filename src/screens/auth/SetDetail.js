@@ -18,12 +18,13 @@ export default class SetDetail extends Component {
         super(props);
         this.state = {
           email: '',
+          phone : '',
           checked1 : false,
           checked2: false
         }
         
     }
-
+    
     next(navigate, phoneNumber){
         if(this.state.email == '') Alert.alert("Please type your email address");
         else if(!this.state.checked1 || !this.state.checked2) Alert.alert('Please agree consent')
@@ -39,7 +40,7 @@ export default class SetDetail extends Component {
 
                 const user = data.user;
                 const fullfilled = user.fullfilled;
-                (!fullfilled)? navigate('SetPersonalInfo') : navigate('home');
+                (!fullfilled)? navigate('SetPersonalInfo', {email : this.state.email}) : navigate('home');
                 
             })
             .catch(error => {
@@ -52,7 +53,7 @@ export default class SetDetail extends Component {
     
     render() {
         const { navigate } = this.props.navigation;
-        const phoneNumber = this.props.navigation.state.params.number;
+        const phoneNumber = this.props.navigation.state.params.phone;
 
         return (
             <KeyboardAwareScrollView style={styles.container}>
@@ -120,7 +121,7 @@ export default class SetDetail extends Component {
                             icon={
                                 <Icon name={"chevron-left"}  size={60} color="#fff" />
                             }
-                            onPress = {() => navigate('SetSmsCode',{number: ''})}
+                            onPress = {() => navigate('SetSmsCode')}
                             />
                             </View>
                             <View style={{ flex:1,alignItems:'flex-end'}}>
