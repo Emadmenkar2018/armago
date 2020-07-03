@@ -83,6 +83,19 @@ export default class SetPersonalInfo extends Component {
         }
         this.setState({monthRange : _monthRange, dayRange: _dayRange, yearRange : _yearRange})
 
+        //get profile from server
+        APIKit.getprofile()
+        .then((response) => {
+          console.log('getting profile');
+          const data = response.data;
+          that.setState({
+            firstname : data.firstName,
+            lastname : data.lastName,
+            gender : data.gender
+          })
+        }, (error) => {
+          console.log(error);
+        });
         //get current location, lat & long
         //Checking for the permission just after component loaded
         if(Platform.OS === 'ios'){
@@ -199,7 +212,7 @@ export default class SetPersonalInfo extends Component {
             
           }).then((response) => {
             console.log(response);
-            navigate('ChooseSports')
+            navigate('ChooseSports', {email : email})
           }, (error) => {
             console.log(error);
           });
@@ -227,6 +240,7 @@ export default class SetPersonalInfo extends Component {
                                 placeholder="Enter Your First Name"
                                 style={styles.input}
                                 labelStyle={{color:colors.gray,fontWeight:'700',fontSize:15}}
+                                value={this.state.firstname}
                                 onChangeText={value => this.setState({ firstname: value })}
                             />
                             <Input
@@ -235,6 +249,7 @@ export default class SetPersonalInfo extends Component {
                                 labelStyle={{color:colors.gray,fontWeight:'700',fontSize:15}}
                                 style={styles.input}
                                 onChangeText={value => this.setState({ lastname: value })}
+                                value={this.state.lastname}
                             />
                             <Text style={{color:colors.gray,alignSelf:'flex-start',fontWeight:'700',fontSize:15,left:10}}>Date of Birth</Text>
                             {/* <Date_Picker></Date_Picker> */}

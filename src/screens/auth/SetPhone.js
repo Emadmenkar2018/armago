@@ -1,5 +1,5 @@
 import React, { Component,useState  } from 'react';
-import { View, Text, StyleSheet, Image, Alert ,PixelRatio} from 'react-native';
+import { View, Text, StyleSheet, Image, Alert ,PixelRatio,KeyboardAvoidingView, Platform} from 'react-native';
 import { colors } from '../../common/colors';
 import { images } from '../../common/images';
 import {  Input, CheckBox, Button ,Icon  } from 'react-native-elements';
@@ -8,7 +8,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import CountryPicker, {
     Flags
   } from 'react-native-country-picker-modal';
-
   
 
 export default class SetPhone extends Component {
@@ -43,7 +42,7 @@ export default class SetPhone extends Component {
     render() {
         const { navigate } = this.props.navigation;
         return (
-            <View style={styles.container}>
+            <KeyboardAvoidingView style={styles.container}>
                 <View style={styles.main}>
                     <View style={styles.sectionTop}>
                         <Image source={images.logo} style={styles.logo}/>
@@ -92,7 +91,7 @@ export default class SetPhone extends Component {
                         </View>
                     </View>
                 </View>
-            </View>
+            </KeyboardAvoidingView>
         );
     }
 }
@@ -120,7 +119,8 @@ const styles = StyleSheet.create({
     flexDirection: 'column',
     alignItems: 'center',
     margin: 20,
-    marginTop: 8
+    marginTop: 8,
+    // backgroundColor:'red'
   },
   sectionTop: {
       flex : 1,

@@ -22,5 +22,5 @@ APIKit.verifyCode = payload => APIKit.post('api/verifycode', payload);
 APIKit.register = payload => APIKit.post('api/register',payload);
 APIKit.login = payload => APIKit.post('api/login',payload);
 APIKit.profile = payload => APIKit.patch('api/profile', payload);
-
+APIKit.getprofile = () => APIKit.get('api/profile');
 export default APIKit;

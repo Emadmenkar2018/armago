@@ -28,6 +28,7 @@ export default class ChooseSports extends Component {
 
     render() {
         const { navigate } = this.props.navigation;
+        const email = this.props.navigation.state.params.email;
         return (
         <View style={styles.container}>
             <View style={styles.main}>
@@ -95,7 +96,7 @@ export default class ChooseSports extends Component {
                     icon={
                         <Icon name={"chevron-left"}  size={60} color="#fff" />
                     }
-                    onPress = {() => navigate('SetDetail')}
+                    onPress = {() => navigate('SetPersonalInfo', {email : email})}
                     />
                     </View>
                     <View style={{ flex:1,alignItems:'flex-end'}}>
