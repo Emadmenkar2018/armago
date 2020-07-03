@@ -14,6 +14,29 @@ export const setClientToken = token => {
     });
 };
 
+// Intercept all request
+APIKit.interceptors.request.use(
+  config => {
+    
+    return config;
+    },error => Promise.reject(error),
+  );
+// Intercept all responses
+APIKit.interceptors.response.use(
+  async response => {
+    
+    return response;
+  },
+  error => {
+    
+    if(error.response.status !== 401){
+      return Promise.reject(error);
+    }
+    console.log('interceptor : ' + error.response.status);
+    
+  },
+);
+
 //set smscode 'api/sendsmscode', /api/verifycode
 APIKit.sendSMSCode = payload => APIKit.post('api/sendsmscode', payload);
 APIKit.verifyCode = payload => APIKit.post('api/verifycode', payload);
@@ -23,4 +46,7 @@ APIKit.register = payload => APIKit.post('api/register',payload);
 APIKit.login = payload => APIKit.post('api/login',payload);
 APIKit.profile = payload => APIKit.patch('api/profile', payload);
 APIKit.getprofile = () => APIKit.get('api/profile');
+APIKit.getsports = () => APIKit.get('api/sports/all');
+APIKit.getsportsprofile = () => APIKit.get('api/profile/sports');
+APIKit.setsports = payload => APIKit.patch('api/profile/sports', payload);
 export default APIKit;

@@ -1,9 +1,10 @@
 import React, { useState,Component  } from 'react';
-import { View, Text, StyleSheet, Image, Platform,TouchableOpacity, Alert } from 'react-native';
+import { View, Text, StyleSheet, Image, Platform,TouchableOpacity, Alert, TouchableHighlightBase } from 'react-native';
 import { colors } from '../../common/colors';
 import { images } from '../../common/images';
 import { Input,  Button ,Icon  } from 'react-native-elements';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import  APIKit from '../../services/api';
 
 export default class ChooseSports extends Component {
     
@@ -11,21 +12,65 @@ export default class ChooseSports extends Component {
     constructor(props){
         super(props);
         this.state = {
-            showSelected : false
+            showSelected : false,
+            selectedSports : [],
+            sports : []
         }
     }
     
-    seleted_item (){
-        if(this.state.showSelected){
+    seleted_item (_id){
+        if(this.state.selectedSports.length > 0 && this.state.selectedSports.indexOf(_id) !== -1){
             return (
-            <Image source={images.sport_selected} style={styles.sport_selected}></Image>
+                <Image source={images.sport_selected} style={styles.sport_selected}></Image>
             );
         }
         else{
             return null;
         }
     }
-
+    componentDidMount(){
+        
+        APIKit.getsports().then(
+            (response) => {
+                console.log('getting sports list');
+                const sports = response.data;
+                console.log(sports);
+                sports.map((value, index) => {
+                    value.checked = false
+                });
+                this.setState({'sports' : sports});
+                //get user sports profile
+                APIKit.getsportsprofile().then(
+                    (response) => {
+                        this.setState({selectedSports: response.data });
+                    },
+                    (error) => {
+                        console.log(error);
+                    }
+                )
+            }, (error) => {
+                console.log(error);
+            }
+        );
+    }
+    next(navigate){
+        if(this.state.selectedSports.length == 0) Alert.alert('select at least one')
+        else{
+            //patch sports profile
+            const payload = {sports : this.state.selectedSports}
+            APIKit.setsports(payload)
+            .then(
+                (response) => {
+                    console.log(response);
+                    navigate('ChooseAbility')
+                },
+                (error) => {
+                    console.log(error);
+                }
+            )
+            
+        }
+    }
     render() {
         const { navigate } = this.props.navigation;
         const email = this.props.navigation.state.params.email;
@@ -40,54 +85,49 @@ export default class ChooseSports extends Component {
                     <Text style={styles.sublabel}>{'We’ll be adding more sports soon'}</Text>
                 </View>
                 <View style={styles.sectionMiddle}>
-                    <View style={styles.middleSection}>
-                        <View style={styles.item}>
-                            <View>
-                                <Image source={images.sports_gym}></Image>
-                                <Text style={styles.sports_label}>{'Gym'}</Text>
-                            </View>
-                            <Image source={images.sport_comiong_soon} style={{position:'absolute',top:0}}></Image>
-                        </View>
-                        <TouchableOpacity onPress={() => {
-                            this.setState({
-                                showSelected : !this.state.showSelected
-                            });
-                        }}>
-                            <View style={styles.item}>
-                                <View>
-                                    {this.seleted_item()}
-                                    <Image source={images.sports_racket}></Image>
-                                    <Text style={styles.sports_label}>{'Tennis'}</Text>
+                    {/* <View style={styles.middleSection}> */}
+                        {this.state.sports.map((prop, key) => {
+                            if(prop.enable){
+                                return (<TouchableOpacity  key={prop._id} onPress={() => {
+                                    // this.setState({
+                                    //     showSelected : !this.state.showSelected
+                                    // });
+                                    
+                                    var arr = [...this.state.selectedSports];
+                                    const index = arr.indexOf(prop._id);
+                                    if(index !== -1){
+                                        arr.splice(index, 1);
+                                    }
+                                    else{
+                                        arr.push(prop._id);
+                                    }
+                                    
+                                    this.setState({selectedSports : arr});
+                                }}>
+                                    <View style={styles.item}>
+                                        <View>
+                                            {this.seleted_item(prop._id)}
+                                            <Image source={{uri : prop.imageUrl}} style={{width:100,height:100, resizeMode:'contain',borderRadius:50}}></Image>
+                                            <Text style={styles.sports_label}>{prop.name}</Text>
+                                        </View>
+                                    </View>
+                                </TouchableOpacity>)
+                            }
+                            else{
+                                <View style={styles.item}>
+                                    <View>
+                                        <Image source={{uri : prop.imageUrl}} style={{width:100,height:100, resizeMode:'contain',borderRadius:50}}></Image>
+                                        <Text style={styles.sports_label}>{prop.name}</Text>
+                                    </View>
+                                    <Image source={images.sport_comiong_soon} style={{position:'absolute',top:0}}></Image>
                                 </View>
-                            </View>
-                        </TouchableOpacity>
+                            }
+                    })}
                         
-                        <View style={styles.item}>
-                            <View>
-                                <Image source={images.sports_runner}></Image>
-                                <Text style={styles.sports_label}>{'Running'}</Text>
-                            </View>
-                            <Image source={images.sport_comiong_soon} style={{position:'absolute',top:0}}></Image>
-                        </View>
-                    </View>
-                    <View style={styles.middleSection}>
-                        <View style={styles.item}>
-                            <View >
-                                
-                                <Image source={images.sports_basketball}></Image>
-                                <Text style={styles.sports_label}>{'Basketball'}</Text>
-                            </View>
-                            <Image source={images.sport_comiong_soon} style={{position:'absolute',top:0}}></Image>
-                            
-                        </View>
-                        <View style={styles.item}>
-                            <View>
-                                <Image source={images.sports_cycling}></Image>
-                                <Text style={styles.sports_label}>{'Cycling'}</Text>
-                            </View>
-                            <Image source={images.sport_comiong_soon} style={{position:'absolute',top:0}}></Image>
-                        </View>
-                    </View>
+                        
+                        
+                    
+                    {/* </View> */}
                 </View>
                 <View style={styles.sectionBottom}>
                     <View style={{ flex:1,alignItems:'flex-start'}}>
@@ -105,7 +145,7 @@ export default class ChooseSports extends Component {
                     icon={
                         <Icon name={"chevron-right"}  size={60} color="#fff" />
                     }
-                    onPress = {() => (this.state.showSelected) ? navigate('ChooseAbility') : Alert.alert('select at least one')}
+                    onPress = {() => this.next(navigate)}
                     />
                     </View>
                 </View>
@@ -134,7 +174,7 @@ const styles = StyleSheet.create({
   },
   sectionMiddle: {
       flex : 3,
-      flexDirection: 'column',
+      flexDirection: 'row',
       width: '100%',
       alignItems: 'center',
       justifyContent: 'center',
@@ -148,6 +188,7 @@ const styles = StyleSheet.create({
       justifyContent: 'center'
     },
   item: {
+    //   width:100,
         marginHorizontal: 10,
         paddingVertical: 10,
         justifyContent: 'center',
