@@ -49,4 +49,6 @@ APIKit.getprofile = () => APIKit.get('api/profile');
 APIKit.getsports = () => APIKit.get('api/sports/all');
 APIKit.getsportsprofile = () => APIKit.get('api/profile/sports');
 APIKit.setsports = payload => APIKit.patch('api/profile/sports', payload);
+APIKit.getability = () => APIKit.get('api/profile/ability');
+APIKit.setability = payload => APIKit.patch('api/profile/ability', payload);
 export default APIKit;

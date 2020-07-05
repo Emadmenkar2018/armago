@@ -4,24 +4,34 @@ import { colors } from '../../common/colors';
 import { images } from '../../common/images';
 import { Input,  Button ,Icon, Slider } from 'react-native-elements';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import  APIKit from '../../services/api';
 
 export default class ChooseAbility extends Component {
     
     state = null;
-  constructor(props){
-    super(props);
-    this.state = {
-      value: 0,
-      min: 0,
-      max: 3
+    constructor(props){
+      super(props);
+      this.state = {
+        value: 0,
+        min: 0,
+        max: 3,
+        abilitySports: []
+      }
+      
     }
-    this.state1 = {
-      value: 1,
-      min: 0,
-      max: 3
+    componentDidMount(){
+      // get sports ability
+      APIKit.getability().then(
+        (response) => {
+            console.log('getting sports ability list');
+            const sports = response.data;
+            console.log(sports);
+            
+        }, (error) => {
+            console.log(error);
+        }
+      );
     }
-  }
-    
 
     render() {
         const { navigate } = this.props.navigation;

@@ -29,7 +29,7 @@ export default class SetSmsCode extends Component {
 
                 if(!data.existed){
                     // set user Phone in LocatStorage
-                    navigate('SetDetail', {phone : this.state.phone});
+                    navigate('SetDetail', {phone : phone});
                 } 
                 else{
                     //login with that phone number
