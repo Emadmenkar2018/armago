@@ -29,7 +29,6 @@ export default class Permission extends Component {
                 style: "cancel"
                 },
                 { text: "OK", onPress : () => {
-                        AsyncStorage.setItem('userToken', 'abc');
                         navigate('Home');
                     }
                 }

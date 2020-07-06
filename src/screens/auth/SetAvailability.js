@@ -4,6 +4,8 @@ import { colors } from '../../common/colors';
 import { images } from '../../common/images';
 import { Input,  Button ,Icon, Slider } from 'react-native-elements';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
+import APIKit from '../../services/api';
+
 function DateView(props) {
   
   return (
@@ -63,6 +65,11 @@ export default class SetAvailability extends Component {
     constructor(props){
       super(props)
       this.state = {
+        Sunday : {
+          'am' : 1,
+          'pm' : 1,
+          'eve' : 1
+        },
         Monday : {
           'am' : 1,
           'pm' : 1,
@@ -92,13 +99,56 @@ export default class SetAvailability extends Component {
           'am' : 1,
           'pm' : 1,
           'eve' : 1
-        },
-        Sunday : {
-          'am' : 1,
-          'pm' : 1,
-          'eve' : 1
         }
       }
+    }
+    componentDidMount(){
+      APIKit.getavaliablity()
+      .then(
+        (response) => {
+          let availability = response.data;
+          this.setState(
+            {
+              Sunday : {'am' : availability.sun[0],'pm': availability.sun[1], 'eve':availability.sun[2]},
+              Monday : {'am' : availability.mon[0],'pm': availability.mon[1], 'eve':availability.mon[2]},
+              Tuesday : {'am' : availability.tue[0],'pm': availability.tue[1], 'eve':availability.tue[2]},
+              Wednesday : {'am' : availability.wed[0],'pm': availability.wed[1], 'eve':availability.wed[2]},
+              Thursday : {'am' : availability.thu[0],'pm': availability.thu[1], 'eve':availability.thu[2]},
+              Friday : {'am' : availability.fri[0],'pm': availability.fri[1], 'eve':availability.fri[2]},
+              Saturday : {'am' : availability.sat[0],'pm': availability.sat[1], 'eve':availability.sat[2]},
+            }
+          );
+          console.log(this.state)
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+    }
+
+    next(navigate){
+      const payload = {
+        'availability' : {
+          "sun": [this.state.Sunday.am, this.state.Sunday.pm, this.state.Sunday.eve],
+          "mon": [this.state.Monday.am, this.state.Monday.pm, this.state.Monday.eve],
+          "tue": [this.state.Tuesday.am, this.state.Tuesday.pm, this.state.Tuesday.eve],
+          "wed": [this.state.Wednesday.am, this.state.Wednesday.pm, this.state.Wednesday.eve],
+          "thu": [this.state.Thursday.am, this.state.Thursday.pm, this.state.Thursday.eve],
+          "fri": [this.state.Friday.am, this.state.Friday.pm, this.state.Friday.eve],
+          "sat": [this.state.Saturday.am, this.state.Saturday.pm, this.state.Saturday.eve]
+        }
+      }
+      APIKit.setavaliablity(payload)
+      .then(
+        (response) => {
+          console.log(response)
+          navigate('Permission');
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+      
     }
     render() {
         const { navigate } = this.props.navigation;
@@ -142,7 +192,7 @@ export default class SetAvailability extends Component {
                     icon={
                         <Icon name={"chevron-right"}  size={60} color="#fff" />
                     }
-                    onPress = {() => navigate('Permission')}
+                    onPress = {() => this.next(navigate)}
                     />
                     </View>
                 </View>

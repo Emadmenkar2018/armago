@@ -57,7 +57,7 @@ export default class SetBioUniversity extends Component {
                 newArray[idx] = {...newArray[idx], label : val.name, value: val._id}
               });
               console.log(newArray)
-              this.setState({universities : newArray});
+              this.setState({universities : newArray });
             },
             (error) => {
               console.log(error)
@@ -91,6 +91,7 @@ export default class SetBioUniversity extends Component {
                   
                   <DropDownPicker
                       items={this.state.universities}
+                      defaultValue={this.state.university}
                       placeholder = "Select your university"
                       containerStyle={{height: 40}}
                       labelStyle = {{color:'grey', fontSize: RFValue(12, 580),alignItems : 'flex-start'}}

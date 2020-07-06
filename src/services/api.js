@@ -59,4 +59,6 @@ APIKit.setability = payload => APIKit.patch('api/profile/ability', payload);
 APIKit.getbiouniversity = () => APIKit.get('api/profile/bio');
 APIKit.setbiouniversity = payload => APIKit.patch('api/profile/bio', payload);
 APIKit.getuniversities = () => APIKit.get('api/university/all');
+APIKit.getavaliablity = () => APIKit.get('api/profile/availability');
+APIKit.setavaliablity = payload => APIKit.patch('api/profile/availability', payload);
 export default APIKit;
