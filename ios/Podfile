@@ -81,7 +81,6 @@ target 'GameOn' do
 
   pod 'react-native-blur', :path => '../node_modules/@react-native-community/blur'
 
-  pod 'react-native-config', :path => '../node_modules/react-native-config'
 
   target 'GameOnTests' do
     inherit! :complete

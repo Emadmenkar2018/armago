@@ -5,6 +5,7 @@ import { images } from '../../common/images';
 import { Input,  Button ,Icon, Slider } from 'react-native-elements';
 import { RFPercentage, RFValue } from "react-native-responsive-fontsize";
 import DropDownPicker from 'react-native-dropdown-picker';
+import APIKit from '../../services/api';
 
 export default class SetBioUniversity extends Component {
 
@@ -15,11 +16,59 @@ export default class SetBioUniversity extends Component {
     constructor(props){
       super(props)
       this.state = {
-        bio : ''
+        bio : '',
+        university : '',
+        universities : []
       }
     }
     
-    
+    next(navigate){
+      console.log(this.state.bio + this.state.university)
+      const payload = {'bio' : {'description' : this.state.bio, 'university':this.state.university}}
+      APIKit.setbiouniversity(payload).then(
+        (response) => {
+          console.log(response)
+          navigate('SetAvailability')
+        },
+        (error) => {
+          console.log(error)
+        }
+      )
+      
+    }
+
+    componentDidMount(){
+      //get Bio and University
+      APIKit.getbiouniversity()
+      .then(
+        (response) => {
+          console.log(response)
+          var bio = (typeof response.data.description !== 'undefined')? response.data.description : '';
+          var university = (typeof response.data.university !== 'undefined')? response.data.university : '';
+          this.setState({bio : bio, university: university});
+          console.log(this.state.bio);
+          console.log(this.state.university);
+          //get all universities
+          APIKit.getuniversities().then(
+            (response) => {
+              var data = response.data;
+              let newArray = [...data];
+              newArray.forEach((val, idx)=> {
+                newArray[idx] = {...newArray[idx], label : val.name, value: val._id}
+              });
+              console.log(newArray)
+              this.setState({universities : newArray});
+            },
+            (error) => {
+              console.log(error)
+            }
+          )
+        },
+        (error) => {
+
+        }
+      )
+    }
 
     render() {
         const { navigate } = this.props.navigation;
@@ -34,22 +83,21 @@ export default class SetBioUniversity extends Component {
                   <Input
                       label = "Bio"
                       multiline
+                      value={this.state.bio}
                       placeholder='Describe yourself and your sporting ability. E.g. I’m in first year and I’m a social tennis player who likes to play twice a week.'
                       style={styles.input}
-                       onChangeText={value => this.setState({ bio: value })}
+                      onChangeText={value => this.setState({ bio: value })}
                   />
+                  
                   <DropDownPicker
-                      items={[
-                          {label: 'Item 1', value: 'item1'},
-                          {label: 'Item 2', value: 'item2'},
-                      ]}
-                      defaultNull
+                      items={this.state.universities}
                       placeholder = "Select your university"
                       containerStyle={{height: 40}}
                       labelStyle = {{color:'grey', fontSize: RFValue(12, 580),alignItems : 'flex-start'}}
                       placeholderStyle={{fontWeight: 'bold'}}
-                      onChangeItem={item => console.log(item.label, item.value)}
+                      onChangeItem={item => this.setState({'university' : item.value})}
                   />
+                  
                   <Text style={styles.label1}>{'We will be adding more universities soon'}</Text>
                 </View>
                 <View style={styles.sectionBottom}>
@@ -68,7 +116,7 @@ export default class SetBioUniversity extends Component {
                     icon={
                         <Icon name={"chevron-right"}  size={60} color="#fff" />
                     }
-                    onPress = {() => navigate('SetAvailability')}
+                    onPress = {() => this.next(navigate)}
                     />
                     </View>
                 </View>

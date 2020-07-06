@@ -71,7 +71,7 @@ export default class ChooseSports extends Component {
             .then(
                 (response) => {
                     console.log(response);
-                    navigate('ChooseAbility')
+                    navigate('ChooseAbility',{profile_sports : this.state.selectedSports})
                 },
                 (error) => {
                     console.log(error);

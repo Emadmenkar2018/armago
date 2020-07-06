@@ -56,4 +56,7 @@ APIKit.getsportsprofile = () => APIKit.get('api/profile/sports');
 APIKit.setsports = payload => APIKit.patch('api/profile/sports', payload);
 APIKit.getability = () => APIKit.get('api/profile/ability');
 APIKit.setability = payload => APIKit.patch('api/profile/ability', payload);
+APIKit.getbiouniversity = () => APIKit.get('api/profile/bio');
+APIKit.setbiouniversity = payload => APIKit.patch('api/profile/bio', payload);
+APIKit.getuniversities = () => APIKit.get('api/university/all');
 export default APIKit;
