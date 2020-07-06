@@ -33,7 +33,12 @@ APIKit.interceptors.response.use(
       return Promise.reject(error);
     }
     console.log('interceptor : ' + error.response.status);
-    
+    if(error.response.status == 401){ //refresh token with old one
+      const old_token = AsyncStorage.getItem('userToken');
+      console.log(old_token)
+      // send login screen for now.
+      
+    }
   },
 );
 

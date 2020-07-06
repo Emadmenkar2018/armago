@@ -25,7 +25,7 @@ export default class ChooseAbility extends Component {
         (response) => {
             console.log('getting sports ability list');
             const sports = response.data;
-            console.log(sports);
+            console.log(response);
             
         }, (error) => {
             console.log(error);

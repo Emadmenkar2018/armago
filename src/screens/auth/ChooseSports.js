@@ -16,10 +16,12 @@ export default class ChooseSports extends Component {
             selectedSports : [],
             sports : []
         }
+        
     }
     
-    seleted_item (_id){
-        if(this.state.selectedSports.length > 0 && this.state.selectedSports.indexOf(_id) !== -1){
+    seleted_item (prop){
+        const found = this.state.selectedSports.filter(item => item.id == prop.id);
+        if(found.length > 0){
             return (
                 <Image source={images.sport_selected} style={styles.sport_selected}></Image>
             );
@@ -29,7 +31,6 @@ export default class ChooseSports extends Component {
         }
     }
     componentDidMount(){
-        
         APIKit.getsports().then(
             (response) => {
                 console.log('getting sports list');
@@ -42,7 +43,9 @@ export default class ChooseSports extends Component {
                 //get user sports profile
                 APIKit.getsportsprofile().then(
                     (response) => {
-                        this.setState({selectedSports: response.data });
+                        if(typeof response !== 'undefined')
+                            this.setState({'selectedSports': response.data });
+                            console.log(response.data)
                     },
                     (error) => {
                         console.log(error);
@@ -52,12 +55,18 @@ export default class ChooseSports extends Component {
                 console.log(error);
             }
         );
+       
     }
     next(navigate){
+        console.log(this.state.selectedSports);
         if(this.state.selectedSports.length == 0) Alert.alert('select at least one')
         else{
             //patch sports profile
-            const payload = {sports : this.state.selectedSports}
+            const sports_payload = [];
+            this.state.selectedSports.forEach(element => {
+                sports_payload.push(element.id);
+            });
+            const payload = {sports : sports_payload}
             APIKit.setsports(payload)
             .then(
                 (response) => {
@@ -88,25 +97,25 @@ export default class ChooseSports extends Component {
                     {/* <View style={styles.middleSection}> */}
                         {this.state.sports.map((prop, key) => {
                             if(prop.enable){
+                                prop.id = prop._id;
                                 return (<TouchableOpacity  key={prop._id} onPress={() => {
                                     // this.setState({
                                     //     showSelected : !this.state.showSelected
                                     // });
-                                    
                                     var arr = [...this.state.selectedSports];
-                                    const index = arr.indexOf(prop._id);
-                                    if(index !== -1){
-                                        arr.splice(index, 1);
+                                    const found = arr.filter(item => item.id == prop.id);
+                                    if(found.length > 0){
+                                        arr = arr.filter(item => item.id !== prop.id)
                                     }
                                     else{
-                                        arr.push(prop._id);
+                                        arr.push(prop);
                                     }
-                                    
+                                    console.log(arr)
                                     this.setState({selectedSports : arr});
                                 }}>
                                     <View style={styles.item}>
                                         <View>
-                                            {this.seleted_item(prop._id)}
+                                            {this.seleted_item(prop)}
                                             <Image source={{uri : prop.imageUrl}} style={{width:100,height:100, resizeMode:'contain',borderRadius:50}}></Image>
                                             <Text style={styles.sports_label}>{prop.name}</Text>
                                         </View>
