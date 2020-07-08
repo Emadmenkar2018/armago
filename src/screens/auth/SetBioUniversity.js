@@ -39,35 +39,36 @@ export default class SetBioUniversity extends Component {
 
     componentDidMount(){
       //get Bio and University
-      APIKit.getbiouniversity()
-      .then(
+      //get all universities
+      APIKit.getuniversities().then(
         (response) => {
-          console.log(response)
-          var bio = (typeof response.data.description !== 'undefined')? response.data.description : '';
-          var university = (typeof response.data.university !== 'undefined')? response.data.university : '';
-          this.setState({bio : bio, university: university});
-          console.log(this.state.bio);
-          console.log(this.state.university);
-          //get all universities
-          APIKit.getuniversities().then(
+          var data = response.data;
+          let newArray = [...data];
+          newArray.forEach((val, idx)=> {
+            newArray[idx] = {...newArray[idx], label : val.name, value: val._id}
+          });
+          console.log(newArray)
+            APIKit.getbiouniversity()
+          .then(
             (response) => {
-              var data = response.data;
-              let newArray = [...data];
-              newArray.forEach((val, idx)=> {
-                newArray[idx] = {...newArray[idx], label : val.name, value: val._id}
-              });
-              console.log(newArray)
-              this.setState({universities : newArray });
+              console.log(response)
+              var bio = (typeof response.data.description !== 'undefined')? response.data.description : '';
+              var university = (typeof response.data.university !== 'undefined')? response.data.university : '';
+              this.setState({bio : bio, university: university,universities : newArray});
+              console.log(this.state.bio);
+              console.log(this.state.university);
+              
             },
             (error) => {
-              console.log(error)
+
             }
           )
         },
         (error) => {
-
+          console.log(error)
         }
       )
+      
     }
 
     render() {
