@@ -15,7 +15,6 @@ import AsyncStorage from '@react-native-community/async-storage';
 import Geolocation from '@react-native-community/geolocation';
 import Geocoder from 'react-native-geocoding';
 import  APIKit from '../../services/api';
-
 function Date_Picker(){
     const [date, setDate] = useState(new Date())
 
@@ -151,15 +150,56 @@ export default class SetPersonalInfo extends Component {
         );
         
     }
+    createFormData = (photo) => {
+      const data = new FormData();
+    
+      data.append('image', {
+        uri:  Platform.OS === 'android' ? photo.uri : photo.uri.replace('file://', ''),
+        name: photo.fileName,
+        type: photo.type
+      });
+      console.log(data)
+      return data;
+    };
+    fileUpload = async () => {
+      try {
+        const token = await AsyncStorage.getItem('userToken');
+        if(token !== null) {
+          const data = new FormData();
+          data.append('file', {
+            uri:  Platform.OS === 'android' ? this.state.photo.uri : this.state.photo.uri.replace('file://', ''),
+            name: this.state.photo.fileName,
+            type: this.state.photo.type
+          });
+          console.log(data)
+          fetch(`http://192.168.1.24:3000/api/image`, {
+            method: 'POST',
+            headers: {
+              Accept: "application/json",
+              Authorization: `Bearer ${token}`,
+              
+            },  
+            body: {'image' : data},
+          })
+            .then(response => response.json())
+            .then(response => {
+              console.log('upload succes', response);
+            })
+            .catch(error => {
+              console.log('upload error', error);
+            });
+          
+        }
+      } catch(e) {
+        // error reading value
+      }
+    }
     imageGalleryLaunch = () => {
         let options = {
-          storageOptions: {
-            skipBackup: true,
-            path: 'images',
-          },
+          noData: true
         };
     
-        ImagePicker.launchImageLibrary(options, (res) => {
+        ImagePicker.showImagePicker(options, (res) => {
           console.log('Response = ', res);
     
           if (res.didCancel) {
@@ -170,13 +210,16 @@ export default class SetPersonalInfo extends Component {
             console.log('User tapped custom button: ', res.customButton);
             alert(res.customButton);
           } else {
-            const source = { uri: res.uri };
-            console.log('response', JSON.stringify(res));
-            this.setState({
-              filePath: res,
-              fileData: res.data,
-              fileUri: res.uri
-            });
+            // const imageData = new FormData();
+            // imageData.append('image', {
+            //     uri: Platform.OS === 'android' ? res.uri : res.uri.replace('file://', ''),
+            //     type: res.type,
+            //     name: res.fileName,
+            // });
+            if(res.uri){
+              this.setState({ photo : res})
+              this.fileUpload();
+            }
           }
         });
     }  
@@ -225,6 +268,7 @@ export default class SetPersonalInfo extends Component {
         
         const { navigate } = this.props.navigation;
         const email =  this.props.navigation.state.params.email;
+        const photo = this.state.photo;
         // this.setState({email : email});
         return (
             <SafeAreaView style={styles.container}>
@@ -295,7 +339,13 @@ export default class SetPersonalInfo extends Component {
                                 <View style={{flex:1, flexDirection: 'column'}}>
                                     <Text style={{color:colors.gray,alignSelf:'flex-start',fontWeight:'700',fontSize:15,left:10}}>Profile Picture</Text>
                                     <TouchableOpacity onPress={this.imageGalleryLaunch} >
-                                        <Image source={images.AddPicture}  style={[styles.racket,{margin: 10} ]}/>
+                                        {(photo == null) && <Image source={images.AddPicture}  style={[styles.racket,{margin: 10} ]}/>}
+                                        {photo && (
+                                          <Image
+                                            source={{ uri: photo.uri }}
+                                            style={[styles.racket,{margin: 10} ]}
+                                          />
+                                        )}
                                     </TouchableOpacity>
                                 </View>
                                 <View style={{flex:1, flexDirection: 'column'}}>

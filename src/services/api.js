@@ -1,7 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 let APIKit = axios.create({
-    baseURL: 'http://ec2-3-8-232-76.eu-west-2.compute.amazonaws.com/',
+    baseURL: 'http://192.168.1.24:3000/',
     timeout: 10000,
   });
 
@@ -61,4 +61,7 @@ APIKit.setbiouniversity = payload => APIKit.patch('api/profile/bio', payload);
 APIKit.getuniversities = () => APIKit.get('api/university/all');
 APIKit.getavaliablity = () => APIKit.get('api/profile/availability');
 APIKit.setavaliablity = payload => APIKit.patch('api/profile/availability', payload);
+
+// upload avatar
+APIKit.upload = payload => APIKit.post('api/image',payload)
 export default APIKit;
