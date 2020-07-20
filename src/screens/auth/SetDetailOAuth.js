@@ -23,18 +23,24 @@ export default class SetDetail extends Component {
     };
   }
 
-  next(navigate, phoneNumber) {
-    if (this.state.email === '') {
-      Alert.alert('Please type your email address');
+  next(navigate, email, provider) {
+    if (this.state.phone === '') {
+      Alert.alert('Please type your phone number');
     } else if (!this.state.checked1 || !this.state.checked2) {
       Alert.alert('Please agree consent');
     } else {
       //register with email and phone number
-      const payload = {
-        phone: phoneNumber,
-        email: this.state.email,
-        provider: 'local',
+      let payload = {
+        phone: this.state.phone,
+        email: email,
+        provider: provider,
       };
+      if (provider === 'google') {
+        payload.googleAuth = {
+          id: this.props.navigation.state.googleId,
+          token: this.props.navigation.state.idToken,
+        };
+      }
       APIKit.register(payload)
         .then(({data}) => {
           console.log(data);
@@ -45,7 +51,7 @@ export default class SetDetail extends Component {
           const user = data.user;
           const fullfilled = user.fullfilled;
           !fullfilled
-            ? navigate('SetPersonalInfo', {email: this.state.email})
+            ? navigate('SetPersonalInfo', {email: email})
             : navigate('home');
         })
         .catch((error) => {
@@ -56,7 +62,8 @@ export default class SetDetail extends Component {
 
   render() {
     const {navigate} = this.props.navigation;
-    const phoneNumber = this.props.navigation.state.params.phone;
+    const email = this.props.navigation.state.params.email;
+    const provider = this.props.navigation.state.params.provider;
 
     return (
       <KeyboardAwareScrollView style={styles.container}>
@@ -67,10 +74,10 @@ export default class SetDetail extends Component {
           </View>
           <View style={styles.sectionMiddle}>
             <Input
-              label="Email"
-              placeholder="Enter Your Email"
+              label="Phone"
+              placeholder="Enter Your Phone Number"
               style={styles.input}
-              onChangeText={(value) => this.setState({email: value})}
+              onChangeText={(value) => this.setState({phone: value})}
             />
 
             <Text style={styles.label}>{'Marketing Consent'}</Text>
@@ -129,7 +136,7 @@ export default class SetDetail extends Component {
               <Button
                 buttonStyle={styles.navBtn_next}
                 icon={<Icon name={'chevron-right'} size={60} color="#fff" />}
-                onPress={() => this.next(navigate, phoneNumber)}
+                onPress={() => this.next(navigate, email, provider)}
               />
             </View>
           </View>

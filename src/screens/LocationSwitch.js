@@ -1,33 +1,60 @@
-import React, { Component } from 'react';
-import { View, Text, StyleSheet } from 'react-native';
-import { LongHeader } from '../components/longHeader';
-import AntDesign from 'react-native-vector-icons/AntDesign'
-import { colors } from '../common/colors';
+/* eslint-disable react-native/no-inline-styles */
+import React, {Component} from 'react';
+import {View, Text, StyleSheet} from 'react-native';
+import {LongHeader} from '../components/longHeader';
+import AntDesign from 'react-native-vector-icons/AntDesign';
+import {colors} from '../common/colors';
 
 export default class LocationSwitch extends Component {
   render() {
-    const { navigate } = this.props.navigation;
+    const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
-        <LongHeader title={'Location'} color={'white'} bcolor={colors.gray} left={'green'}  route={'Settings'} navigate= {navigate} removeRightIcon dark />
+        <LongHeader
+          title={'Location'}
+          color={'white'}
+          bcolor={colors.gray}
+          left={'green'}
+          route={'Settings'}
+          navigate={navigate}
+          removeRightIcon
+          dark
+        />
         <View style={[styles.bar]}>
-          <Text style={[styles.text2, { fontSize: 18, paddingTop: 6 }]}>{'Set Location'}</Text>
+          <Text style={[styles.text2, {fontSize: 18, paddingTop: 6}]}>
+            {'Set Location'}
+          </Text>
         </View>
         <View style={styles.category}>
           <Text style={styles.text2}>{'Current Location'}</Text>
-          <AntDesign name="check" size={20} color={"#007aff"} />
+          <AntDesign name="check" size={20} color={'#007aff'} />
         </View>
         <View style={[styles.category, {borderBottomWidth: 0}]}>
           <Text style={styles.text2}>{'Bristol'}</Text>
         </View>
 
         <View style={styles.bar2}>
-          <Text style={[styles.text2, { fontSize: 18, paddingTop: 6, color: 'white' }]}>{'Add New Location'}</Text>
+          <Text
+            style={[
+              styles.text2,
+              {fontSize: 18, paddingTop: 6, color: 'white'},
+            ]}>
+            {'Add New Location'}
+          </Text>
         </View>
-        <View style={{ flex: 1, backgroundColor: '#f8f8f8', paddingTop: 24, paddingHorizontal: 12}}>
-          <Text style={styles.text}>{'Here you can change your location so that you can swipe in a specific area.\n\nPlease note that by changing your location,some cards such as training and event cards speific to you may no longer be seen.\n\nUp to 5 can be saved.'}</Text>
+        <View
+          style={{
+            flex: 1,
+            backgroundColor: '#f8f8f8',
+            paddingTop: 24,
+            paddingHorizontal: 12,
+          }}>
+          <Text style={styles.text}>
+            {
+              'Here you can change your location so that you can swipe in a specific area.\n\nPlease note that by changing your location,some cards such as training and event cards speific to you may no longer be seen.\n\nUp to 5 can be saved.'
+            }
+          </Text>
         </View>
-
       </View>
     );
   }
@@ -37,17 +64,16 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
-  main: {
-  },
+  main: {},
   text: {
     color: 'grey',
     fontSize: 17,
-    fontFamily: 'ProximaNova-Regular'
+    fontFamily: 'ProximaNova-Regular',
   },
   text2: {
     color: 'grey',
     fontSize: 21,
-    fontFamily: 'ProximaNova-Regular'
+    fontFamily: 'ProximaNova-Regular',
   },
   item: {
     marginTop: 26,
@@ -55,7 +81,6 @@ const styles = StyleSheet.create({
   bar: {
     borderTopWidth: 0.5,
     borderBottomWidth: 0.5,
-    borderBottomColor: 'grey',
     borderBottomColor: 'grey',
     backgroundColor: '#f8f8f8',
     height: 46,
@@ -77,6 +102,6 @@ const styles = StyleSheet.create({
     borderBottomColor: 'grey',
     marginLeft: 12,
     paddingRight: 12,
-    paddingTop: 6
-  }
+    paddingTop: 6,
+  },
 });
