@@ -31,7 +31,10 @@ export default class TrialCard extends Component {
           <View style={styles.main}>
             {/* <Image source={images.group} style={styles.groupImg} /> */}
             <View style={{flex: 1, padding: 15}}>
-              <Image source={images.trial_front} style={styles.frontimg} />
+              <Image
+                source={{uri: this.props.trial.imageUrl}}
+                style={styles.frontimg}
+              />
               <View style={{flex: 1, marginHorizontal: 20, marginVertical: 15}}>
                 <Text style={[styles.title]}>{this.props.trial.name}</Text>
                 <Text style={[styles.text2, {marginVertical: 6}]}>

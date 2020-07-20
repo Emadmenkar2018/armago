@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "1023501408627",
+    "firebase_url": "https://gameon-5c3c2.firebaseio.com",
+    "project_id": "gameon-5c3c2",
+    "storage_bucket": "gameon-5c3c2.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:1023501408627:android:4e3058af278d9e30640d06",
+        "android_client_info": {
+          "package_name": "com.gameon"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "1023501408627-hj6jac6m188f9mnuim048s2ud4muh50g.apps.googleusercontent.com",
+          "client_type": 1,
+          "android_info": {
+            "package_name": "com.gameon",
+            "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
+          }
+        },
+        {
+          "client_id": "1023501408627-dfvf19kgd82gkjkprashbf7ai5ftdt0n.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCz-ZFXZBJEOG8v9gwA3z0weqYuewCRVSE"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "1023501408627-dfvf19kgd82gkjkprashbf7ai5ftdt0n.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}

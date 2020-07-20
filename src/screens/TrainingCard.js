@@ -64,7 +64,10 @@ export default class TrainingCard extends Component {
             {/* <Image source={images.group} style={styles.groupImg} /> */}
 
             <View style={{flex: 1, padding: 15}}>
-              <Image source={images.training_front} style={styles.frontimg} />
+              <Image
+                source={{uri: this.props.training.imageUrl}}
+                style={styles.frontimg}
+              />
               <View style={{flex: 1, marginHorizontal: 20, marginVertical: 15}}>
                 <Text style={[styles.title]}>{this.props.training.name}</Text>
                 <Text style={[styles.text2]}>Bristol Tennis Club</Text>

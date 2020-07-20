@@ -111,7 +111,7 @@ export default class EventCard extends Component {
                   <Text style={[styles.text2]}>{this.state.startTime}</Text>
                 </View>
                 <Image
-                  source={{uri: this.props.event.$__.scope.imageUrl}}
+                  source={{uri: this.props.event.sport.thumbnail}}
                   style={styles.racket}
                 />
               </View>
