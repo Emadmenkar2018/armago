@@ -24,6 +24,7 @@ import * as Actions from '../store/actions';
 export default (props) => {
   const dispatch = useDispatch();
   const setting = useSelector((state) => state.main.data.setting);
+  const userImage = useSelector((state) => state.main.data.profile.imageUrl);
   console.log(setting);
   const logout = (navigate) => {
     if (removeItemValue('userToken')) {
@@ -66,7 +67,7 @@ export default (props) => {
           </View>
           <TouchableOpacity onPress={() => navigate('EditProfile')}>
             <View style={[styles.row, styles.divider]}>
-              <Image source={images.user1} style={styles.avatar} />
+              <Image source={{uri: userImage}} style={styles.avatar} />
               <Text style={styles.text}>{'Edit My Profile'}</Text>
               <AntDesign name="right" size={25} color={colors.gray} />
             </View>

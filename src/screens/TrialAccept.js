@@ -5,7 +5,7 @@ import {colors} from '../common/colors';
 import {LongHeader} from '../components/longHeader';
 import AppStatusBar from '../components/AppStatusBar';
 // const supportedURL = 'https://google.com';
-export default class EventAccept extends Component {
+export default class TrialAccept extends Component {
   state = null;
   constructor(props) {
     super(props);
@@ -28,7 +28,7 @@ export default class EventAccept extends Component {
         />
         <SafeAreaView style={styles.container}>
           <LongHeader
-            title={'Event Signin'}
+            title={'Trial Signin'}
             bcolor={colors.gray}
             dark={true}
             left={colors.lightBlue}

@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {Component} from 'react';
+import React from 'react';
 import {
   View,
   Text,
@@ -14,9 +14,80 @@ import {colors} from '../common/colors';
 import {images} from '../common/images';
 import AppStatusBar from '../components/AppStatusBar';
 import {RFValue} from 'react-native-responsive-fontsize';
-export default class EditProfile extends Component {
-  render() {
-    const {navigate} = this.props.navigation;
+import ImagePicker from 'react-native-image-picker';
+import {useSelector} from 'react-redux';
+import APIKit, {baseURL} from '../services/api';
+import AsyncStorage from '@react-native-community/async-storage';
+
+export default (props) => {
+  const userImage = useSelector((state) => state.main.data.profile.imageUrl);
+  const onChangeProfilePicture = () => {
+    let options = {
+      noData: true,
+    };
+    const createFormData = (photo) => {
+      const data = new FormData();
+
+      data.append('photo', {
+        name: photo.fileName,
+        type: photo.type,
+        uri:
+          Platform.OS === 'android'
+            ? photo.uri
+            : photo.uri.replace('file://', ''),
+      });
+
+      return data;
+    };
+    const fileUpload = async (photo) => {
+      const body = createFormData(photo);
+      console.log(body);
+      const token = await AsyncStorage.getItem('userToken');
+      fetch(
+        'http://ec2-35-178-32-220.eu-west-2.compute.amazonaws.com/api/image',
+        {
+          method: 'POST',
+          body: createFormData(photo),
+          headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/x-www-form-urlencoded',
+            Authorization: `Bearer ${token}`,
+          },
+        },
+      )
+        .then((response) => {
+          console.log(response);
+          return response.json();
+        })
+        .then((response) => {
+          console.log('upload succes', response);
+        })
+        .catch((error) => {
+          console.log('status code', error.status);
+          console.log('status code', error.statusText);
+          console.log('status code', error.statusCode);
+          console.log('status code', error.code);
+          console.log('upload error', error);
+        });
+    };
+    ImagePicker.showImagePicker(options, (res) => {
+      console.log('Response = ', res);
+
+      if (res.didCancel) {
+        console.log('User cancelled image picker');
+      } else if (res.error) {
+        console.log('ImagePicker Error: ', res.error);
+      } else if (res.customButton) {
+        console.log('User tapped custom button: ', res.customButton);
+      } else {
+        if (res.uri) {
+          fileUpload(res);
+        }
+      }
+    });
+  };
+  const render = () => {
+    const {navigate} = props.navigation;
     return (
       <>
         <AppStatusBar
@@ -35,20 +106,30 @@ export default class EditProfile extends Component {
           />
           <View style={styles.main}>
             <View style={styles.top}>
-              <Image source={images.woman} style={styles.profile_avatar} />
-              <Image source={images.AvatarMask} style={styles.profile_avatar} />
-              <Text
-                style={{
-                  color: 'white',
-                  fontSize: RFValue(18),
-                  fontFamily: 'ProximaNova-Bold',
-                  fontWeight: '700',
-                  position: 'absolute',
-                  left: 40,
-                  bottom: '10%',
-                }}>
-                Profile Picture
-              </Text>
+              <TouchableOpacity
+                style={{width: '100%'}}
+                onPress={() => onChangeProfilePicture()}>
+                <Image
+                  source={{uri: userImage}}
+                  style={styles.profile_avatar}
+                />
+                <Image
+                  source={images.AvatarMask}
+                  style={styles.profile_avatar}
+                />
+                <Text
+                  style={{
+                    color: 'white',
+                    fontSize: RFValue(18),
+                    fontFamily: 'ProximaNova-Bold',
+                    fontWeight: '700',
+                    position: 'absolute',
+                    left: 40,
+                    bottom: '10%',
+                  }}>
+                  Profile Picture
+                </Text>
+              </TouchableOpacity>
             </View>
             <View style={styles.middle}>
               <View style={styles.middle_left}>
@@ -98,8 +179,9 @@ export default class EditProfile extends Component {
         </SafeAreaView>
       </>
     );
-  }
-}
+  };
+  return render();
+};
 
 const styles = StyleSheet.create({
   container: {

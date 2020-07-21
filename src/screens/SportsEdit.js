@@ -124,7 +124,6 @@ export default (props) => {
           />
           <View style={styles.main}>
             <View style={styles.sectionTop}>
-              <Image source={images.logo} style={styles.logo} />
               <Text style={styles.tlabel}>{'Choose which sports '}</Text>
               <Text style={styles.tlabel}>{'you’d like to play'}</Text>
               <Text style={styles.tlabel}>{'_'}</Text>
@@ -219,7 +218,7 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   sectionTop: {
-    flex: 2,
+    flex: 1.2,
     alignItems: 'center',
     marginHorizontal: 50,
     marginVertical: 50,

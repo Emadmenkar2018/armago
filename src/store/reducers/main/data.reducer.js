@@ -23,6 +23,7 @@ const initialState = {
   },
   teams: [],
   sports: [],
+  profile: {},
 };
 
 export default (state = initialState, action) => {
@@ -36,6 +37,8 @@ export default (state = initialState, action) => {
       return {...state, teams: action.payload};
     case Actions.SET_SPORTS:
       return {...state, sports: action.payload};
+    case Actions.SET_PROFILE:
+      return {...state, profile: action.payload};
     default:
       return state;
   }

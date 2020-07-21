@@ -57,6 +57,7 @@ export default class SetPersonalInfo extends Component {
       month: 1,
       day: 1,
       photo: null,
+      imageUrl: null,
     };
   }
 
@@ -206,14 +207,13 @@ export default class SetPersonalInfo extends Component {
             body: {image: data},
           },
         )
-          .then((response) => {
-            console.log('upload photo', response.url);
-          })
-          .then((response) => {
-            console.log('upload succes', response);
+          .then((response) => response.json())
+          .then((json) => {
+            console.log('success', json);
+            return json.movies;
           })
           .catch((error) => {
-            console.log('upload error', error);
+            console.error('err', error);
           });
       }
     } catch (e) {
@@ -279,6 +279,7 @@ export default class SetPersonalInfo extends Component {
         },
         gender: this.state.gender,
         age,
+        imageUrl: this.state.imageUrl,
       });
       APIKit.profile({
         email: email,

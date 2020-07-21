@@ -1,20 +1,20 @@
 import React from 'react';
-import { StyleSheet, StatusBar, Platform, View } from 'react-native';
+import {StyleSheet, StatusBar, View} from 'react-native';
 
 const AppStatusBar = ({backgroundColor, ...props}) => {
-    return (
-        <View style={[styles.statusBar, backgroundColor]}>
-            <StatusBar translucent backgroundColor={backgroundColor} {...props} />
-        </View>
-    );
+  return (
+    <View style={[styles.statusBar, backgroundColor]}>
+      <StatusBar translucent backgroundColor={backgroundColor} {...props} />
+    </View>
+  );
 };
 
-const BAR_HEIGHT =  StatusBar.currentHeight;
+const BAR_HEIGHT = StatusBar.currentHeight;
 
 const styles = StyleSheet.create({
-    statusBar: {
-        height: BAR_HEIGHT
-    },
+  statusBar: {
+    height: BAR_HEIGHT,
+  },
 });
 
 export default AppStatusBar;

@@ -81,7 +81,6 @@ const styles = StyleSheet.create({
     height: 50,
     alignItems: 'center',
     paddingHorizontal: 6,
-    marginTop: 20,
   },
   text: {
     color: 'white',

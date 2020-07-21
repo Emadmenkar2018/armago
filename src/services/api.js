@@ -1,5 +1,7 @@
 import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
+export const baseURL =
+  'http://ec2-35-178-32-220.eu-west-2.compute.amazonaws.com/';
 let APIKit = axios.create({
   // baseURL: 'http://ec2-3-8-232-76.eu-west-2.compute.amazonaws.com/',
   baseURL: 'http://ec2-35-178-32-220.eu-west-2.compute.amazonaws.com/',

@@ -355,7 +355,7 @@ export default (props) => {
               // }).then((resp) => {
               //   console.log(resp);
               // });
-              navigate('EventAccept', 'https://google.com');
+              navigate('TrialAccept', 'https://google.com');
             }}>
             <TrialCard trial={trial} />
           </Card>,

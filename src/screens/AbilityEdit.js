@@ -5,14 +5,15 @@ import {
   Text,
   StyleSheet,
   Image,
-  TouchableOpacity,
   Platform,
+  TouchableOpacity,
 } from 'react-native';
 import {LongHeader} from '../components/longHeader';
 import {colors} from '../common/colors';
-import AppStatusBar from '../components/AppStatusBar';
-import {images} from '../common/images';
 import {Slider} from 'react-native-elements';
+import {RFValue} from 'react-native-responsive-fontsize';
+import AppStatusBar from '../components/AppStatusBar';
+import APIKit from '../services/api';
 
 export default class AbilityEdit extends Component {
   state = null;
@@ -22,15 +23,44 @@ export default class AbilityEdit extends Component {
       value: 0,
       min: 0,
       max: 3,
+      ability: [], //edit ability
     };
-    this.state1 = {
-      value: 1,
-      min: 0,
-      max: 3,
-    };
+  }
+
+  componentDidMount() {
+    // get sports ability
+    console.log('choose ability');
+    APIKit.getability().then(
+      (response) => {
+        console.log('getting sports ability list');
+        const sports = response.data;
+        this.setState({ability: sports});
+        console.log(this.state.ability);
+      },
+      (error) => {
+        console.log(error);
+      },
+    );
+  }
+  next(navigate) {
+    // set sports ability
+    const payload = {ability: this.state.ability};
+    APIKit.setability(payload).then(
+      (response) => {
+        console.log(response.data);
+        navigate('EditProfile');
+      },
+      (error) => {
+        console.log(error);
+      },
+    );
   }
   render() {
     const {navigate} = this.props.navigation;
+    // const found = this.state.ablity.filter(item => item.sportId == prop.id);
+    // if(found.length == 0){
+    //   this.state.ablity.push({sportId: prop.id, level: 'beginner'});
+    // }
     return (
       <>
         <AppStatusBar
@@ -46,81 +76,111 @@ export default class AbilityEdit extends Component {
             navigate={navigate}
           />
           <View style={styles.main}>
-            <View style={{flex: 1}}>
-              <Text style={styles.text}>
+            <View style={styles.sectionTop}>
+              <Text style={styles.tlabel}>{'Choose Ability'}</Text>
+              <Text style={styles.tlabel}>{'_'}</Text>
+              <Text style={styles.sublabel}>
                 {
-                  'Set your perceived ability level:If you frequently play competitively then advanced is for you.'
+                  'We’ll match you with players of a similar skill level. Select your rough ability.'
                 }
               </Text>
             </View>
-            <View style={{flex: 5, width: '100%'}}>
-              <View style={{flexDirection: 'row', alignItems: 'center'}}>
-                <Image source={images.racket} style={styles.racket} />
-                <Text style={styles.mlabel}>{'Tennis'}</Text>
-              </View>
-              <Slider
-                step={1}
-                minimumValue={this.state.min}
-                maximumValue={this.state.max}
-                value={this.state.value}
-                thumbTintColor="#2ecc71"
-                onValueChange={(val) => this.setState({value: val})}
-              />
-              <View style={styles.textCon}>
-                <Text style={styles.label}>Beginner</Text>
-                <Text style={styles.label}>Intermediate</Text>
-                <Text style={styles.label}>Advanced</Text>
-                <Text style={styles.label}>Team</Text>
-              </View>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  alignItems: 'center',
-                  marginTop: 10,
-                }}>
-                <Image source={images.cycling} style={styles.racket} />
-                <Text style={styles.mlabel}>{'Cycling'}</Text>
-              </View>
-              <Slider
-                step={1}
-                minimumValue={this.state1.min}
-                maximumValue={this.state1.max}
-                value={this.state1.value}
-                thumbTintColor="#2ecc71"
-                onValueChange={(val) => this.setState1({value: val})}
-              />
-              <View style={styles.textCon}>
-                <Text style={styles.label}>Beginner</Text>
-                <Text style={styles.label}>Intermediate</Text>
-                <Text style={styles.label}>Advanced</Text>
-                <Text style={styles.label}>Team</Text>
-              </View>
+            <View style={styles.sectionMiddle}>
+              {this.state.ability.map((prop, index) => {
+                let _value = 0;
+                switch (prop.level) {
+                  case 'beginner': {
+                    _value = 0;
+                    break;
+                  }
+                  case 'intermediate': {
+                    _value = 1;
+                    break;
+                  }
+                  case 'advanced': {
+                    _value = 2;
+                    break;
+                  }
+                  case 'team': {
+                    _value = 3;
+                    break;
+                  }
+                }
+
+                return (
+                  <View key={prop._id} style={{marginVertical: 5}}>
+                    <View style={{flexDirection: 'row', alignItems: 'center'}}>
+                      <Image
+                        source={{uri: prop.sport.imageUrl}}
+                        style={styles.racket}
+                      />
+                      <Text style={styles.mlabel}>{prop.sport.name}</Text>
+                    </View>
+                    <Slider
+                      step={1}
+                      minimumValue={this.state.min}
+                      maximumValue={this.state.max}
+                      value={_value}
+                      thumbTintColor="#2ecc71"
+                      onValueChange={(val) => {
+                        console.log(this.state.ability);
+                        let newArray = [...this.state.ability];
+                        const elementIdx = index;
+
+                        let _level = 'beginner';
+                        switch (val) {
+                          case 0:
+                            _level = 'beginner';
+                            break;
+                          case 1:
+                            _level = 'intermediate';
+                            break;
+                          case 2:
+                            _level = 'advanced';
+                            break;
+                          case 3:
+                            _level = 'team';
+                            break;
+                          default:
+                            break;
+                        }
+                        newArray[elementIdx] = {
+                          ...newArray[elementIdx],
+                          level: _level,
+                        };
+                        this.setState({ability: newArray});
+                        console.log(this.state.ability);
+                      }}
+                    />
+                    <View style={styles.textCon}>
+                      <Text style={styles.label}>Beginner</Text>
+                      <Text style={styles.label}>Intermediate</Text>
+                      <Text style={styles.label}>Advanced</Text>
+                      <Text style={styles.label}>Team</Text>
+                    </View>
+                  </View>
+                );
+              })}
             </View>
-            <View style={{width: '100%', borderRadius: 20}}>
-              <TouchableOpacity
-                style={styles.circle}
-                onPress={() => this._handlePress(navigate)}>
-                <Text style={{color: '#fff', fontSize: 18}}>Save</Text>
-              </TouchableOpacity>
+            <View style={styles.sectionBottom}>
+              <View style={{width: '100%', borderRadius: 20}}>
+                <TouchableOpacity
+                  style={styles.btn_circle}
+                  onPress={() => this.next(navigate)}>
+                  <Text style={{color: '#fff', fontSize: 18}}>Save</Text>
+                </TouchableOpacity>
+              </View>
             </View>
           </View>
         </View>
       </>
     );
   }
-  _handlePress(navigate) {
-    navigate('EditProfile');
-  }
-  setState1(value) {
-    this.state1 = value;
-  }
 }
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    // position: 'absolute',
-    // height: '100%'
   },
   main: {
     flex: 1,
@@ -128,6 +188,71 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     margin: 20,
     marginTop: 8,
+  },
+  sectionTop: {
+    flex: 1,
+    alignItems: 'center',
+    marginHorizontal: 50,
+    marginVertical: 50,
+  },
+  sectionMiddle: {
+    flex: 3,
+    width: '100%',
+    justifyContent: 'flex-start',
+    paddingHorizontal: 20,
+  },
+  sectionBottom: {
+    flex: 1,
+    width: '100%',
+    flexDirection: 'row',
+    alignItems: 'center',
+    paddingHorizontal: 20,
+    paddingVertical: 20,
+  },
+  logo: {
+    flex: 3,
+    width: 250,
+    height: 50,
+    resizeMode: 'contain',
+  },
+  tlabel: {
+    flex: 1,
+    color: 'grey',
+    fontSize: RFValue(14, 580),
+    fontWeight: '300',
+    fontFamily: 'ProximaNova-Regular',
+  },
+  sublabel: {
+    // flex: 1,
+    color: 'grey',
+    fontSize: RFValue(12, 580),
+    fontWeight: '300',
+    fontFamily: 'ProximaNova-Regular',
+  },
+  input: {
+    width: '100%',
+  },
+  navBtn_prev: {
+    width: 80,
+    height: 80,
+    backgroundColor: colors.red,
+    borderRadius: 50,
+  },
+  navBtn_next: {
+    width: 80,
+    height: 80,
+    backgroundColor: colors.lightgreen,
+    borderRadius: 50,
+  },
+  mlabel: {
+    alignItems: 'center',
+    fontSize: 18,
+    left: 10,
+  },
+  racket: {
+    width: 40,
+    height: 40,
+    borderRadius: 20,
   },
   textCon: {
     flexDirection: 'row',
@@ -137,55 +262,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     fontSize: 15,
   },
-  mlabel: {
-    alignItems: 'center',
-    fontSize: 18,
-    left: 10,
-  },
-  text: {
-    color: 'grey',
-    fontSize: 15,
-    fontWeight: '700',
-  },
-  text2: {
-    color: 'grey',
-    fontSize: 11,
-    marginLeft: 15,
-    fontWeight: '300',
-    marginTop: 12,
-    fontFamily: 'ProximaNova-Regular',
-  },
-  text3: {
-    color: '#fff',
-    fontSize: 16,
-    fontFamily: 'ProximaNova-Regular',
-    fontWeight: '700',
-  },
-  text4: {
-    color: 'white',
-    fontSize: 12,
-    fontFamily: 'ProximaNova-Regular',
-  },
-  btn: {
-    width: 100,
-    height: 40,
-    backgroundColor: '#34495E',
-    borderRadius: 8,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginRight: 40,
-    marginLeft: 10,
-  },
-  item: {
-    marginTop: 8,
-    flexDirection: 'row',
-    alignItems: 'center',
-  },
-  racket: {
-    width: 40,
-    height: 40,
-  },
-  circle: {
+  btn_circle: {
     backgroundColor: colors.orange,
     width: '100%',
     height: 50,

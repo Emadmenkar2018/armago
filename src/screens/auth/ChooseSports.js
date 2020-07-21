@@ -295,4 +295,14 @@ const styles = StyleSheet.create({
     backgroundColor: colors.lightgreen,
     borderRadius: 50,
   },
+  circle: {
+    backgroundColor: colors.green,
+    width: 42,
+    height: 42,
+    borderRadius: 21,
+    justifyContent: 'center',
+    alignItems: 'center',
+    marginHorizontal: 15,
+    marginVertical: 1,
+  },
 });

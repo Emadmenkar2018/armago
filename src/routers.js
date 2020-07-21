@@ -9,6 +9,7 @@ import Home from './screens/Home';
 import Settings from './screens/Settings';
 import TrainingAccept from './screens/TrainingAccept';
 import EventAccept from './screens/EventAccept';
+import TrialAccept from './screens/TrialAccept';
 import OutOfCards from './screens/OutOfCards';
 import TeamsView from './screens/TeamsView';
 import TimeEdit from './screens/TimeEdit';
@@ -48,6 +49,7 @@ const HomeNavigator = createStackNavigator(
     // TrainingCard : { screen: TrainingCard, navigationOptions },
     TrainingAccept: {screen: TrainingAccept, navigationOptions},
     EventAccept: {screen: EventAccept, navigationOptions},
+    TrialAccept: {screen: TrialAccept, navigationOptions},
     LocationSwitch: {screen: LocationSwitch, navigationOptions},
     EditGender: {screen: EditGender, navigationOptions},
     EditProfile: {screen: EditProfile, navigationOptions},
