@@ -26,7 +26,7 @@ export default class SetSmsCode extends Component {
   }
   next(navigate, phone) {
     if (this.state.code === '') {
-      Alert.alert('Please verify your phone with code');
+      Alert.alert('Please verify your phone with the code');
     } else {
       const payload = {phone: phone, code: this.state.code};
       console.log(payload);
@@ -56,7 +56,7 @@ export default class SetSmsCode extends Component {
           }
         })
         .catch(() => {
-          Alert.alert('please check your phone number is correct or not');
+          Alert.alert('Please check that your phone number is correct');
         });
     }
   }
@@ -68,7 +68,7 @@ export default class SetSmsCode extends Component {
         // if(data.success) navigate('SetSmsCode', phone);
       })
       .catch(() => {
-        Alert.alert('something went wrong');
+        Alert.alert('Something went wrong');
       });
   }
   render() {
@@ -92,11 +92,11 @@ export default class SetSmsCode extends Component {
               onChangeText={(value) => this.setState({code: value})}
               keyboardType={'numeric'}
             />
-            <Text>Don't received?</Text>
+            <Text>Didn't receive?</Text>
             <TouchableOpacity onPress={() => this.resendCode(phoneNumber)}>
               <Text
                 style={{color: colors.lightBlue, fontSize: 20, marginTop: 10}}>
-                resend
+                Resend the code
               </Text>
             </TouchableOpacity>
           </View>

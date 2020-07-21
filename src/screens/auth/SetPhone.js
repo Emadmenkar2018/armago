@@ -29,7 +29,7 @@ export default class SetPhone extends Component {
   }
   next(navigate) {
     if (this.state.phone === '') {
-      Alert.alert('please input phone number.');
+      Alert.alert('Please input your phone number.');
     } else {
       const payload = {phone: this.state.phone};
       console.log(payload);
