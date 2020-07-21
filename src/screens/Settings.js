@@ -179,7 +179,7 @@ export default (props) => {
           <View style={[styles.row, styles.divider_section, styles.noborder]}>
             <Text style={{width: '100%', color: colors.gray}}>
               {
-                'Turning this on will allow your friends to find you on Game On. Turning this off means friends won’t be able to see you on the app.'
+                'Turning this on will allow your friends to find you on Armago. Turning this off means friends won’t be able to see you on the app.'
               }
             </Text>
           </View>
