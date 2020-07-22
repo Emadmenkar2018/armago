@@ -33,6 +33,10 @@ export default class Signin extends Component {
       console.log(userInfo.user.id);
       console.log(userInfo.user.photo);
       const {navigate} = this.props.navigation;
+
+      await GoogleSignin.revokeAccess();
+      await GoogleSignin.signOut();
+
       APIKit.social_login({
         provider: 'google',
         identifier: userInfo.user.id,

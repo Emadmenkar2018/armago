@@ -24,6 +24,7 @@ const initialState = {
   teams: [],
   sports: [],
   profile: {},
+  curLocation: {},
 };
 
 export default (state = initialState, action) => {
@@ -39,6 +40,8 @@ export default (state = initialState, action) => {
       return {...state, sports: action.payload};
     case Actions.SET_PROFILE:
       return {...state, profile: action.payload};
+    case Actions.SET_CURLOCATION:
+      return {...state, curLocation: action.payload};
     default:
       return state;
   }

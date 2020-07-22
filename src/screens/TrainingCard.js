@@ -10,7 +10,6 @@ import {
 } from 'react-native';
 import FlipCard from 'react-native-flip-card';
 import {colors} from '../common/colors';
-import {images} from '../common/images';
 import {RFValue} from 'react-native-responsive-fontsize';
 export const {width, height} = Dimensions.get('window');
 
@@ -95,10 +94,12 @@ export default class TrainingCard extends Component {
                         <Text style={styles.text3}>Fri</Text>
                       </TouchableOpacity> */}
                 </View>
-                <Image
-                  source={{uri: this.props.training.sport.thumbnail}}
-                  style={styles.racket}
-                />
+                {this.props.training.sport && (
+                  <Image
+                    source={{uri: this.props.training.sport.thumbnail}}
+                    style={styles.racket}
+                  />
+                )}
               </View>
             </View>
           </View>

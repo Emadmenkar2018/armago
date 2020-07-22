@@ -9,6 +9,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {OpenURLButton} from '../../components/openWebLinking';
 import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import APIKit, {setClientToken} from '../../services/api';
+import CountryPicker from 'react-native-country-picker-modal';
 
 const supportedURL = 'https://google.com';
 export default class SetDetail extends Component {
@@ -17,9 +18,11 @@ export default class SetDetail extends Component {
     super(props);
     this.state = {
       email: '',
-      phone: '',
+      phone: '+44',
       checked1: false,
       checked2: false,
+      cca2: 'UK',
+      country: null,
     };
   }
 
@@ -77,9 +80,22 @@ export default class SetDetail extends Component {
               label="Phone"
               placeholder="Enter Your Phone Number"
               style={styles.input}
+              value={this.state.phone}
               onChangeText={(value) => this.setState({phone: value})}
+              keyboardType={'numeric'}
             />
-
+            <CountryPicker
+              onSelect={(value) =>
+                this.setState({
+                  country: value,
+                  cca2: value.cca2,
+                  phone: '+' + value.callingCode[0],
+                })
+              }
+              cca2={this.state.cca2}
+              translation="eng"
+              withFlag={true}
+            />
             <Text style={styles.label}>{'Marketing Consent'}</Text>
           </View>
           <View style={styles.sectionMiddleBottom}>
@@ -129,7 +145,7 @@ export default class SetDetail extends Component {
               <Button
                 buttonStyle={styles.navBtn_prev}
                 icon={<Icon name={'chevron-left'} size={60} color="#fff" />}
-                onPress={() => navigate('SetSmsCode')}
+                onPress={() => navigate('Signin')}
               />
             </View>
             <View style={{flex: 1, alignItems: 'flex-end'}}>
@@ -195,6 +211,7 @@ const styles = StyleSheet.create({
   },
   label: {
     width: '100%',
+    marginTop: 15,
     marginLeft: 25,
     textAlign: 'left',
     fontSize: RFValue(13, 580),

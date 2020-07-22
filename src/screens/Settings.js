@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useState} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   View,
@@ -25,18 +25,21 @@ export default (props) => {
   const dispatch = useDispatch();
   const setting = useSelector((state) => state.main.data.setting);
   const userImage = useSelector((state) => state.main.data.profile.imageUrl);
+
+  const [distance, setDistance] = useState(0);
   console.log(setting);
   const logout = (navigate) => {
-    if (removeItemValue('userToken')) {
+    if (removeItemValue()) {
       navigate('Signin');
     }
   };
   const onEditGender = () => {
     props.navigation.navigate('EditGender');
   };
-  const removeItemValue = async (key) => {
+  const removeItemValue = async () => {
     try {
-      await AsyncStorage.removeItem(key);
+      await AsyncStorage.removeItem('userToken');
+      await AsyncStorage.removeItem('token');
       return true;
     } catch (exception) {
       return false;
@@ -110,7 +113,7 @@ export default (props) => {
               style={{width: '100%', height: 80}}
               gravity={'top'}
               min={0}
-              max={1000}
+              max={60}
               initialLowValue={setting.distance[1]}
               initialHighValue={setting.distance[1]}
               step={1}
@@ -119,6 +122,7 @@ export default (props) => {
               labelBackgroundColor={colors.lightgreen}
               labelBorderColor={colors.lightgreen}
               onValueChanged={(low, high, fromUser) => {
+                setDistance(low);
                 dispatch(
                   Actions.setSetting({
                     ...setting,

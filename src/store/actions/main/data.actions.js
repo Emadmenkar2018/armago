@@ -3,6 +3,7 @@ export const SAVE_SETTING = '[DATA] SAVE SETTING';
 export const SET_TEAMS = '[DATA] SET TEAMS';
 export const SET_SPORTS = '[DATA] SET SPORTS';
 export const SET_PROFILE = '[DATA] SET PROFILE';
+export const SET_CURLOCATION = '[DATA] SET CURLOCATION';
 
 export const setSetting = (setting) => {
   return (dispatch) => {
@@ -31,5 +32,11 @@ export const setSports = (sports) => {
 export const setProfile = (profile) => {
   return (dispatch) => {
     dispatch({type: SET_PROFILE, payload: profile});
+  };
+};
+
+export const setCurLocation = (location) => {
+  return (dispatch) => {
+    dispatch({type: SET_CURLOCATION, payload: location});
   };
 };

@@ -315,7 +315,12 @@ export default class SetPersonalInfo extends Component {
             <Image source={images.logo} style={styles.logo} />
             <Text style={styles.tlabel}>{'Enter your personal info'}</Text>
           </View>
-          <View style={styles.sectionMiddle}>
+          <View
+            style={
+              Platform.OS === 'ios'
+                ? {...styles.sectionMiddle, zIndex: 9999}
+                : styles.sectionMiddle
+            }>
             <Input
               label="First Name"
               placeholder="Enter Your First Name"
@@ -343,19 +348,37 @@ export default class SetPersonalInfo extends Component {
               Date of Birth
             </Text>
             {/* <Date_Picker></Date_Picker> */}
-            <View style={{flexDirection: 'row', paddingTop: 10}}>
-              <View style={{flex: 1, paddingHorizontal: 10}}>
+            <View
+              style={
+                Platform.OS === 'ios'
+                  ? {flexDirection: 'row', paddingTop: 10, zIndex: 9999}
+                  : {flexDirection: 'row', paddingTop: 10}
+              }>
+              <View
+                style={
+                  Platform.OS === 'ios'
+                    ? {flex: 1, paddingHorizontal: 10, zIndex: 9999}
+                    : {flex: 1, paddingHorizontal: 10}
+                }>
                 <DropDownPicker
                   items={this.state.dayRange}
                   defaultNull
                   placeholder="DD"
-                  containerStyle={{height: 40}}
+                  containerStyle={
+                    Platform.OS === 'ios'
+                      ? {height: 40, zIndex: 9999}
+                      : {height: 40}
+                  }
                   labelStyle={{
                     color: 'grey',
                     fontSize: RFValue(12, 580),
                     alignItems: 'flex-start',
                   }}
-                  placeholderStyle={{fontWeight: 'bold'}}
+                  placeholderStyle={
+                    Platform.OS === 'ios'
+                      ? {fontWeight: 'bold', zIndex: 9999}
+                      : {fontWeight: 'bold'}
+                  }
                   onChangeItem={(item) => this.setState({day: item.value})}
                 />
               </View>
@@ -489,6 +512,7 @@ const styles = StyleSheet.create({
   sectionMiddleBottom: {
     flex: 1,
     width: '100%',
+    zIndex: 2,
   },
   sectionBottom: {
     width: '100%',
@@ -496,6 +520,7 @@ const styles = StyleSheet.create({
     alignItems: 'center',
     paddingHorizontal: 20,
     paddingVertical: 20,
+    zIndex: 1,
   },
   logo: {
     flex: 1,

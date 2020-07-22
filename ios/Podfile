@@ -80,7 +80,10 @@ target 'GameOn' do
   pod 'RNVectorIcons', :path => '../node_modules/react-native-vector-icons'
 
   pod 'react-native-blur', :path => '../node_modules/@react-native-community/blur'
+  
+  pod 'GoogleSignIn', '~> 5.0.2'
 
+  pod 'Firebase/Analytics'
 
   target 'GameOnTests' do
     inherit! :complete

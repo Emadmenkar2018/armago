@@ -64,7 +64,10 @@ export default class TeamCard extends Component {
             )}
 
             <View style={{flex: 1, padding: 15}}>
-              <Image source={images.trial_front} style={styles.frontimg} />
+              <Image
+                source={{uri: this.props.team.imageUrl}}
+                style={styles.frontimg}
+              />
               <View style={{flex: 1, marginHorizontal: 20, marginVertical: 15}}>
                 <Text style={[styles.title]}>{this.props.team.name}</Text>
                 <Text style={[styles.text2, {marginVertical: 6}]}>
@@ -109,7 +112,10 @@ export default class TeamCard extends Component {
                 paddingTop: 20,
               }}>
               <View style={{flexDirection: 'row'}}>
-                <Image source={images.trial_back} style={styles.img} />
+                <Image
+                  source={{uri: this.props.team.imageUrl}}
+                  style={styles.img}
+                />
                 <Text style={styles.text1}>{this.props.team.name}</Text>
               </View>
               <Text style={styles.text2}>
