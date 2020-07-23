@@ -163,7 +163,7 @@ const styles = StyleSheet.create({
   tlabel: {
     color: 'grey',
     fontSize: 20,
-    fontWeight: '300',
+    fontWeight: '600',
     top: 20,
     fontFamily: 'ProximaNova-Regular',
     textAlign: 'center',

@@ -90,7 +90,7 @@ const styles = StyleSheet.create({
     color: 'grey',
     fontSize: 11,
     marginLeft: 15,
-    fontWeight: '300',
+    fontWeight: '600',
     marginTop: 12,
     fontFamily: 'ProximaNova-Regular',
   },

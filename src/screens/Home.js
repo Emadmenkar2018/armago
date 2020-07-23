@@ -84,6 +84,8 @@ function DateView(props) {
 
 export default (props) => {
   const setting = useSelector((state) => state.main.data.setting);
+
+  const [userId, setUserId] = useState('');
   // const allTeams = useSelector((state) => state.main.data.teams);
   const dispatch = useDispatch();
   var swiper = null;
@@ -125,6 +127,7 @@ export default (props) => {
     APIKit.getSetting().then((resp) => {
       console.log('setting', resp.data);
       dispatch(Actions.setSetting(resp.data));
+      setUserId(resp.data.userId);
     });
     APIKit.getTeams().then((resp) => {
       dispatch(Actions.setTeams(resp.data.docs));
@@ -284,7 +287,7 @@ export default (props) => {
               console.log(setting);
               APIKit.rejectTeam(
                 {
-                  player: setting.userId,
+                  player: userId,
                 },
                 team.chief,
               ).then((resp) => {
@@ -295,7 +298,7 @@ export default (props) => {
               console.log(setting);
               APIKit.joinTeam(
                 {
-                  player: setting.userId,
+                  player: userId,
                 },
                 team.chief,
               ).then((resp) => {

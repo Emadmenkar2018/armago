@@ -20,6 +20,8 @@ import RangeSlider from 'rn-range-slider';
 import AsyncStorage from '@react-native-community/async-storage';
 import AppStatusBar from '../components/AppStatusBar';
 
+import {clearClientToken} from '../services/api';
+
 import * as Actions from '../store/actions';
 export default (props) => {
   const dispatch = useDispatch();
@@ -40,6 +42,7 @@ export default (props) => {
     try {
       await AsyncStorage.removeItem('userToken');
       await AsyncStorage.removeItem('token');
+      clearClientToken();
       return true;
     } catch (exception) {
       return false;
@@ -105,7 +108,7 @@ export default (props) => {
                 right: 10,
                 top: 10,
               }}>
-              {setting.distance[1]}
+              {distance}
               {' mile'}
             </Text>
             <RangeSlider

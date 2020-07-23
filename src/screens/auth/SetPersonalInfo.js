@@ -172,6 +172,16 @@ export default class SetPersonalInfo extends Component {
             };
             APIKit.setSetting(setting).then((resp) => {
               console.log(resp);
+              const availability = {
+                sun: [1, 1, 1],
+                mon: [1, 1, 1],
+                tue: [1, 1, 1],
+                wed: [1, 1, 1],
+                thu: [1, 1, 1],
+                fri: [1, 1, 1],
+                sat: [1, 1, 1],
+              };
+              APIKit.setavaliablity({availability});
               this.setState({setting});
             });
             this.setState({address: fullAddress});
@@ -532,7 +542,7 @@ const styles = StyleSheet.create({
     flex: 1,
     color: 'grey',
     fontSize: 20,
-    fontWeight: '300',
+    fontWeight: '600',
     fontFamily: 'ProximaNova-Regular',
   },
   label: {
@@ -541,7 +551,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     fontSize: RFValue(13, 580),
     color: '#86939e',
-    fontWeight: '300',
+    fontWeight: '600',
     fontFamily: 'ProximaNova-Regular',
   },
   checkbox: {
@@ -557,7 +567,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     fontSize: RFValue(13, 580),
     color: '#86939e',
-    fontWeight: '300',
+    fontWeight: '600',
     fontFamily: 'ProximaNova-Regular',
   },
   input: {

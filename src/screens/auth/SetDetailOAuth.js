@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     flex: 1,
     color: 'grey',
     fontSize: 20,
-    fontWeight: '300',
+    fontWeight: '600',
     fontFamily: 'ProximaNova-Regular',
   },
   label: {
@@ -216,7 +216,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     fontSize: RFValue(13, 580),
     color: '#86939e',
-    fontWeight: '300',
+    fontWeight: '600',
     fontFamily: 'ProximaNova-Regular',
   },
   checkbox: {
@@ -232,7 +232,7 @@ const styles = StyleSheet.create({
     textAlign: 'left',
     fontSize: RFValue(13, 580),
     color: '#86939e',
-    fontWeight: '300',
+    fontWeight: '600',
     fontFamily: 'ProximaNova-Regular',
   },
   input: {

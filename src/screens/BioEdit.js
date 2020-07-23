@@ -198,7 +198,7 @@ const styles = StyleSheet.create({
     flex: 1,
     color: 'grey',
     fontSize: RFValue(14, 580),
-    fontWeight: '300',
+    fontWeight: '600',
     fontFamily: 'ProximaNova-Regular',
   },
   label1: {
@@ -206,7 +206,7 @@ const styles = StyleSheet.create({
     color: 'grey',
     fontSize: RFValue(13, 580),
     textAlign: 'center',
-    fontWeight: '300',
+    fontWeight: '600',
     fontFamily: 'ProximaNova-Regular',
     marginVertical: 20,
     marginHorizontal: 20,
@@ -215,7 +215,7 @@ const styles = StyleSheet.create({
     // flex: 1,
     color: 'grey',
     fontSize: RFValue(12, 580),
-    fontWeight: '300',
+    fontWeight: '600',
     fontFamily: 'ProximaNova-Regular',
   },
   input: {

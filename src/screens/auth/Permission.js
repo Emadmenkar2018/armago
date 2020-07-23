@@ -149,14 +149,14 @@ const styles = StyleSheet.create({
     color: 'grey',
     textAlign: 'center',
     fontSize: RFValue(14, 580),
-    fontWeight: '300',
+    fontWeight: '600',
     fontFamily: 'ProximaNova-Regular',
   },
   sublabel: {
     // flex: 1,
     color: 'grey',
     fontSize: RFValue(12, 580),
-    fontWeight: '300',
+    fontWeight: '600',
     fontFamily: 'ProximaNova-Regular',
   },
   input: {
