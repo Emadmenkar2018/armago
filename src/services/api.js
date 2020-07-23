@@ -18,6 +18,14 @@ export const setClientToken = (token) => {
   });
 };
 
+export const clearClientToken = () => {
+  APIKit = axios.create({
+    // baseURL: 'http://ec2-3-8-232-76.eu-west-2.compute.amazonaws.com/',
+    baseURL: 'http://ec2-35-178-32-220.eu-west-2.compute.amazonaws.com/',
+    // baseURL: 'http://10.0.2.2:3000/',
+    timeout: 10000,
+  });
+};
 // Intercept all request
 APIKit.interceptors.request.use(
   (config) => {
@@ -71,7 +79,7 @@ APIKit.setavaliablity = (payload) =>
 APIKit.getSetting = () => APIKit.get('api/setting');
 APIKit.setSetting = (payload) => APIKit.post('api/setting', payload);
 
-APIKit.uploadImage = (payload) => APIKit.post('api/image', payload);
+APIKit.uploadImage = (payload) => APIKit.post('api/imagebase64', payload);
 
 APIKit.getCards = () => APIKit.get('api/cards');
 APIKit.cardGame = (payload) => APIKit.post('api/cards/game', payload);

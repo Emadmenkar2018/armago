@@ -15,59 +15,36 @@ import {images} from '../common/images';
 import AppStatusBar from '../components/AppStatusBar';
 import {RFValue} from 'react-native-responsive-fontsize';
 import ImagePicker from 'react-native-image-picker';
-import {useSelector} from 'react-redux';
-import APIKit, {baseURL} from '../services/api';
-import AsyncStorage from '@react-native-community/async-storage';
+import {useSelector, useDispatch} from 'react-redux';
+import APIKit from '../services/api';
+import * as Actions from '../store/actions';
 
 export default (props) => {
-  const userImage = useSelector((state) => state.main.data.profile.imageUrl);
+  const profile = useSelector((state) => state.main.data.profile);
+  const dispatch = useDispatch();
   const onChangeProfilePicture = () => {
     let options = {
-      noData: true,
-    };
-    const createFormData = (photo) => {
-      const data = new FormData();
-
-      data.append('photo', {
-        name: photo.fileName,
-        type: photo.type,
-        uri:
-          Platform.OS === 'android'
-            ? photo.uri
-            : photo.uri.replace('file://', ''),
-      });
-
-      return data;
+      noData: false,
     };
     const fileUpload = async (photo) => {
-      const body = createFormData(photo);
-      console.log(body);
-      const token = await AsyncStorage.getItem('userToken');
-      fetch(
-        'http://ec2-35-178-32-220.eu-west-2.compute.amazonaws.com/api/image',
-        {
-          method: 'POST',
-          body: createFormData(photo),
-          headers: {
-            Accept: 'application/json',
-            'Content-Type': 'application/x-www-form-urlencoded',
-            Authorization: `Bearer ${token}`,
-          },
-        },
-      )
-        .then((response) => {
-          console.log(response);
-          return response.json();
-        })
-        .then((response) => {
-          console.log('upload succes', response);
+      APIKit.uploadImage({
+        image: 'data:image/jpeg;base64,' + photo.data,
+        name: photo.fileName,
+      })
+        .then((resp) => {
+          dispatch(
+            Actions.setProfile({...profile, imageUrl: resp.data.imageUrl}),
+          );
+          APIKit.profile({...profile, imageUrl: resp.data.imageUrl})
+            .then((pro) => {
+              console.log(pro.data);
+            })
+            .catch((err) => {
+              console.log(err);
+            });
         })
         .catch((error) => {
-          console.log('status code', error.status);
-          console.log('status code', error.statusText);
-          console.log('status code', error.statusCode);
-          console.log('status code', error.code);
-          console.log('upload error', error);
+          console.error('err', error);
         });
     };
     ImagePicker.showImagePicker(options, (res) => {
@@ -110,7 +87,7 @@ export default (props) => {
                 style={{width: '100%'}}
                 onPress={() => onChangeProfilePicture()}>
                 <Image
-                  source={{uri: userImage}}
+                  source={{uri: profile.imageUrl}}
                   style={styles.profile_avatar}
                 />
                 <Image

@@ -135,6 +135,9 @@ export default (props) => {
     APIKit.getsports().then((resp) => {
       dispatch(Actions.setSports(resp.data));
     });
+    APIKit.getprofile().then((resp) => {
+      dispatch(Actions.setProfile(resp.data));
+    });
   }, []);
 
   const onModal2 = () => {

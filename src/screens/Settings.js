@@ -29,7 +29,6 @@ export default (props) => {
   const userImage = useSelector((state) => state.main.data.profile.imageUrl);
 
   const [distance, setDistance] = useState(0);
-  console.log(setting);
   const logout = (navigate) => {
     if (removeItemValue()) {
       navigate('Signin');

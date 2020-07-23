@@ -206,21 +206,31 @@ export default class SetPersonalInfo extends Component {
           type: this.state.photo.type,
         });
         console.log(data);
-        fetch(
-          'http://ec2-35-178-32-220.eu-west-2.compute.amazonaws.com/api/image',
-          {
-            method: 'POST',
-            headers: {
-              Accept: 'application/json',
-              Authorization: `Bearer ${token}`,
-            },
-            body: {image: data},
-          },
-        )
-          .then((response) => response.json())
-          .then((json) => {
-            console.log('success', json);
-            return json.movies;
+        // fetch(
+        //   'http://ec2-35-178-32-220.eu-west-2.compute.amazonaws.com/api/image',
+        //   {
+        //     method: 'POST',
+        //     headers: {
+        //       Accept: 'application/json',
+        //       Authorization: `Bearer ${token}`,
+        //     },
+        //     body: {image: data},
+        //   },
+        // )
+        //   .then((response) => response.json())
+        //   .then((json) => {
+        //     console.log('success', json);
+        //     return json.movies;
+        //   })
+        //   .catch((error) => {
+        //     console.error('err', error);
+        //   });
+        APIKit.uploadImage({
+          image: 'data:image/jpeg;base64,' + this.state.photo.data,
+          name: this.state.photo.fileName,
+        })
+          .then((resp) => {
+            this.setState({imageUrl: resp.data.imageUrl});
           })
           .catch((error) => {
             console.error('err', error);
@@ -232,7 +242,7 @@ export default class SetPersonalInfo extends Component {
   };
   imageGalleryLaunch = () => {
     let options = {
-      noData: true,
+      noData: false,
     };
 
     ImagePicker.showImagePicker(options, (res) => {
@@ -248,6 +258,7 @@ export default class SetPersonalInfo extends Component {
       } else {
         if (res.uri) {
           this.setState({photo: res});
+          console.log(res);
           this.fileUpload();
         }
       }
@@ -302,6 +313,7 @@ export default class SetPersonalInfo extends Component {
         },
         gender: this.state.gender,
         age,
+        imageUrl: this.state.imageUrl,
       }).then(
         (response) => {
           console.log(response);
