@@ -19,6 +19,9 @@ import {useSelector, useDispatch} from 'react-redux';
 import APIKit from '../services/api';
 import * as Actions from '../store/actions';
 
+import ImageResizer from 'react-native-image-resizer';
+import ImgToBase64 from 'react-native-image-base64';
+
 export default (props) => {
   const profile = useSelector((state) => state.main.data.profile);
   const dispatch = useDispatch();
@@ -58,7 +61,41 @@ export default (props) => {
         console.log('User tapped custom button: ', res.customButton);
       } else {
         if (res.uri) {
-          fileUpload(res);
+          if (res.width > 500 || res.height > 500) {
+            let newWidth = 500,
+              newHeight = 500;
+            if (res.width > res.height) {
+              newHeight = (res.height / res.width) * 500;
+            }
+            ImageResizer.createResizedImage(
+              res.uri,
+              newWidth,
+              newHeight,
+              'PNG',
+              3,
+            )
+              .then((resizedImageUri) => {
+                // resizeImageUri is the URI of the new image that can now be displayed, uploaded...
+                console.log(resizedImageUri);
+                ImgToBase64.getBase64String(resizedImageUri.uri)
+                  .then((base64String) => {
+                    fileUpload({
+                      fileName: resizedImageUri.name,
+                      uri: resizedImageUri.uri,
+                      type: 'PNG',
+                      data: base64String,
+                    });
+                  })
+                  .catch((err) => {
+                    console.log('loading image error:', err);
+                  });
+              })
+              .catch((err) => {
+                console.log('Image Compress Error:', err);
+              });
+          } else {
+            fileUpload(res);
+          }
         }
       }
     });

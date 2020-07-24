@@ -20,9 +20,10 @@ import {SafeAreaView} from 'react-navigation';
 import DropDownPicker from 'react-native-dropdown-picker';
 import ImagePicker from 'react-native-image-picker';
 import Geolocation from '@react-native-community/geolocation';
-import AsyncStorage from '@react-native-community/async-storage';
 import Geocoder from 'react-native-geocoding';
 import APIKit from '../../services/api';
+import ImageResizer from 'react-native-image-resizer';
+import ImgToBase64 from 'react-native-image-base64';
 
 export default class SetPersonalInfo extends Component {
   state = null;
@@ -169,29 +170,26 @@ export default class SetPersonalInfo extends Component {
   }
   fileUpload = async () => {
     try {
-      const token = await AsyncStorage.getItem('userToken');
-      if (token !== null) {
-        const data = new FormData();
-        data.append('file', {
-          uri:
-            Platform.OS === 'android'
-              ? this.state.photo.uri
-              : this.state.photo.uri.replace('file://', ''),
-          name: this.state.photo.fileName,
-          type: this.state.photo.type,
-        });
-        console.log(data);
-        APIKit.uploadImage({
-          image: 'data:image/jpeg;base64,' + this.state.photo.data,
-          name: this.state.photo.fileName,
+      const data = new FormData();
+      data.append('file', {
+        uri:
+          Platform.OS === 'android'
+            ? this.state.photo.uri
+            : this.state.photo.uri.replace('file://', ''),
+        name: this.state.photo.fileName,
+        type: this.state.photo.type,
+      });
+      console.log(data);
+      APIKit.uploadImage({
+        image: 'data:image/jpeg;base64,' + this.state.photo.data,
+        name: this.state.photo.fileName,
+      })
+        .then((resp) => {
+          this.setState({imageUrl: resp.data.imageUrl});
         })
-          .then((resp) => {
-            this.setState({imageUrl: resp.data.imageUrl});
-          })
-          .catch((error) => {
-            console.error('err', error);
-          });
-      }
+        .catch((error) => {
+          console.error('err', error);
+        });
     } catch (e) {
       // error reading value
     }
@@ -215,7 +213,43 @@ export default class SetPersonalInfo extends Component {
         if (res.uri) {
           this.setState({photo: res});
           console.log(res);
-          this.fileUpload();
+          if (res.width > 500 || res.height > 500) {
+            let newWidth = 500,
+              newHeight = 500;
+            if (res.width > res.height) {
+              newHeight = (res.height / res.width) * 500;
+            }
+            ImageResizer.createResizedImage(
+              res.uri,
+              newWidth,
+              newHeight,
+              'PNG',
+              3,
+            )
+              .then((resizedImageUri) => {
+                // resizeImageUri is the URI of the new image that can now be displayed, uploaded...
+                ImgToBase64.getBase64String(resizedImageUri.uri)
+                  .then((base64String) => {
+                    this.setState({
+                      photo: {
+                        fileName: resizedImageUri.name,
+                        uri: resizedImageUri.uri,
+                        type: 'PNG',
+                        data: base64String,
+                      },
+                    });
+                    this.fileUpload();
+                  })
+                  .catch((err) => {
+                    console.log('loading image error:', err);
+                  });
+              })
+              .catch((err) => {
+                console.log('Image Compress Error:', err);
+              });
+          } else {
+            this.fileUpload();
+          }
         }
       }
     });

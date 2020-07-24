@@ -81,6 +81,7 @@ const ChatScreen = (props) => {
   };
 
   const renderBubble = (bubbles) => {
+    console.log(bubbles);
     return (
       <Bubble
         {...bubbles}
