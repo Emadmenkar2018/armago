@@ -45,10 +45,7 @@ function DateView(props) {
           style={[
             styles.circle_date,
             {
-              backgroundColor:
-                props.value[0] === 'true' || props.value[0] === true
-                  ? colors.green
-                  : colors.red,
+              backgroundColor: props.value[0] ? colors.green : colors.red,
             },
           ]}>
           <Text style={styles.text_date}>AM</Text>
@@ -57,10 +54,7 @@ function DateView(props) {
           style={[
             styles.circle_date,
             {
-              backgroundColor:
-                props.value[1] === 'true' || props.value[1] === true
-                  ? colors.green
-                  : colors.red,
+              backgroundColor: props.value[1] ? colors.green : colors.red,
             },
           ]}>
           <Text style={styles.text_date}>PM</Text>
@@ -69,10 +63,7 @@ function DateView(props) {
           style={[
             styles.circle_date,
             {
-              backgroundColor:
-                props.value[2] === 'true' || props.value[2] === true
-                  ? colors.green
-                  : colors.red,
+              backgroundColor: props.value[2] ? colors.green : colors.red,
             },
           ]}>
           <Text style={styles.text_date}>EVE</Text>
@@ -86,7 +77,6 @@ export default (props) => {
   const setting = useSelector((state) => state.main.data.setting);
 
   const [userId, setUserId] = useState('');
-  // const allTeams = useSelector((state) => state.main.data.teams);
   const dispatch = useDispatch();
   var swiper = null;
   const [modalVisible, setModalVisible] = useState(false);
@@ -98,6 +88,8 @@ export default (props) => {
   const [allcards, setCards] = useState([]);
   const [universities, setUniversities] = useState([]);
   const [currentUser, setCurrentUser] = useState({});
+
+  const socket = useSelector((state) => state.main.chat.socket);
 
   useEffect(() => {
     AsyncStorage.getItem('userToken', (err, result) => {
@@ -128,6 +120,16 @@ export default (props) => {
       console.log('setting', resp.data);
       dispatch(Actions.setSetting(resp.data));
       setUserId(resp.data.userId);
+      console.log('userId', resp.data.userId);
+      // socket.emit('Message', {
+      //   from: resp.data.userId,
+      //   to: '5f1a555d1fc7f971b2bec4e3',
+      //   msg: 'abcd',
+      // });
+      socket.emit('User:Joined', resp.data.userId);
+      APIKit.getContacts().then((resp1) => {
+        dispatch(Actions.setContacts(resp1.data));
+      });
     });
     APIKit.getTeams().then((resp) => {
       dispatch(Actions.setTeams(resp.data.docs));
@@ -137,6 +139,13 @@ export default (props) => {
     });
     APIKit.getprofile().then((resp) => {
       dispatch(Actions.setProfile(resp.data));
+    });
+    socket.on('Online:Users', (onlineUsers) => {
+      console.log('Online:Users', onlineUsers);
+    });
+    socket.on('History', (history) => {
+      console.log('History', history);
+      dispatch(Actions.setHistory(history));
     });
   }, []);
 
@@ -306,6 +315,9 @@ export default (props) => {
                 team.chief,
               ).then((resp) => {
                 console.log(resp);
+                APIKit.getTeams().then((resp1) => {
+                  dispatch(Actions.setTeams(resp1.data.docs));
+                });
               });
             }}>
             <TeamCard

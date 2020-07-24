@@ -210,7 +210,12 @@ export default class SetAvailability extends Component {
     APIKit.setavaliablity(payload).then(
       (response) => {
         console.log(response);
-        navigate('Permission');
+        APIKit.getprofile().then(({data}) => {
+          APIKit.profile({...data, fullfilled: true}).then((profile) => {
+            console.log(profile.data);
+            navigate('Permission');
+          });
+        });
       },
       (error) => {
         console.log(error);

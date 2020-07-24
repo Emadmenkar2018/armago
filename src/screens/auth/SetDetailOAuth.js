@@ -45,17 +45,63 @@ export default class SetDetail extends Component {
         };
       }
       APIKit.register(payload)
-        .then(({data}) => {
+        .then(async ({data}) => {
           console.log(data);
           const token = data.token;
           //set token to call other api
           setClientToken(token);
 
           const user = data.user;
-          const fullfilled = user.fullfilled;
-          !fullfilled
-            ? navigate('SetPersonalInfo', {email: email})
-            : navigate('home');
+          console.log(user);
+          const profile = {
+            firstName: '',
+            lastName: '',
+            location: {
+              lat: 0,
+              lng: 0,
+              address: '',
+            },
+            gender: 'male',
+            imageUrl: null,
+            fullfilled: false,
+          };
+          var resp = await APIKit.profile(profile);
+          console.log(resp);
+          const availability = {
+            sun: [1, 1, 1],
+            mon: [1, 1, 1],
+            tue: [1, 1, 1],
+            wed: [1, 1, 1],
+            thu: [1, 1, 1],
+            fri: [1, 1, 1],
+            sat: [1, 1, 1],
+          };
+          var resp = await APIKit.setavaliablity({availability});
+          console.log(resp);
+          const setting = {
+            location: [{lat: 0, lng: 0, address: ''}],
+            distance: [0, 5],
+            gender: [{sport: '', value: ''}],
+            age: [18, 30],
+            seen: false,
+            notifications: {
+              matches: false,
+              messages: false,
+              training: false,
+              socials: false,
+              vibrations: false,
+              sounds: false,
+            },
+          };
+          APIKit.setSetting(setting)
+            .then((resp) => {
+              console.log(resp.data);
+              const fullfilled = user.fullfilled;
+              !fullfilled ? navigate('SetPersonalInfo') : navigate('Home');
+            })
+            .catch((error) => {
+              console.log(error && error.response);
+            });
         })
         .catch((error) => {
           console.log(error && error.response);

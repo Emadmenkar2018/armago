@@ -1,6 +1,6 @@
-/* eslint-disable react/no-did-mount-set-state */
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
-import React, {Component} from 'react';
+import React, {useState, useEffect} from 'react';
 import {
   View,
   Text,
@@ -14,7 +14,22 @@ import {colors} from '../common/colors';
 import {GiftedChat, Bubble} from 'react-native-gifted-chat';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import AppStatusBar from '../components/AppStatusBar';
+import {useSelector, useDispatch} from 'react-redux';
+
+import * as Actions from '../store/actions';
+
+const fullWeekDays = {
+  mon: 'Monday',
+  tue: 'Tuesday',
+  wed: 'Wednsday',
+  thu: 'Thursday',
+  fri: 'Friday',
+  sat: 'Saturday',
+  sun: 'Sunday',
+};
+
 function DateView(props) {
+  console.log('DateView', props);
   return (
     <View style={styles.item}>
       <View style={styles.btn_date}>
@@ -46,82 +61,29 @@ function DateView(props) {
     </View>
   );
 }
-class ChatScreen extends React.Component {
-  state = {
-    messages: [],
+const ChatScreen = (props) => {
+  const setting = useSelector((state) => state.main.data.setting);
+  const history = useSelector((state) => state.main.chat.history);
+  const socket = useSelector((state) => state.main.chat.socket);
+  const [messages, setMessages] = useState([]);
+  const dispatch = useDispatch();
+  useEffect(() => {
+    dispatch(Actions.setHistory([]));
+    socket.emit('History', {from: setting.userId, to: props.user.userId});
+  }, []);
+
+  useEffect(() => {
+    console.log(history);
+  }, [history]);
+
+  const onSend = (newMessages = []) => {
+    setMessages([...messages, newMessages]);
   };
 
-  componentDidMount() {
-    if (this.props.message) {
-      this.setState({
-        messages: [
-          {
-            _id: 1,
-            text: this.props.message,
-            user: {
-              name: this.props.user,
-              avatar: this.props.avatar,
-            },
-          },
-        ],
-      });
-    } else {
-      this.setState({
-        messages: [
-          {
-            _id: 1,
-            text: 'Hello',
-            user: {
-              _id: 1,
-            },
-          },
-          {
-            _id: 2,
-            text: 'are you up for gym?',
-            user: {
-              _id: 2,
-              name: 'React Native',
-              avatar: this.props.avatar,
-            },
-          },
-          {
-            _id: 3,
-            text: 'Hi!',
-            user: {
-              _id: 1,
-            },
-          },
-          {
-            _id: 4,
-            text: 'Hi there Matt!',
-            user: {
-              _id: 2,
-              name: 'React Native',
-              avatar: this.props.avatar,
-            },
-          },
-          {
-            _id: 5,
-            text: 'Hello Alisya!',
-            user: {
-              _id: 1,
-            },
-          },
-        ],
-      });
-    }
-  }
-
-  onSend(messages = []) {
-    this.setState((previousState) => ({
-      messages: GiftedChat.append(previousState.messages, messages),
-    }));
-  }
-
-  renderBubble(props) {
+  const renderBubble = (bubbles) => {
     return (
       <Bubble
-        {...props}
+        {...bubbles}
         wrapperStyle={{
           left: {
             backgroundColor: colors.gray,
@@ -140,38 +102,44 @@ class ChatScreen extends React.Component {
         }}
       />
     );
-  }
+  };
 
-  render() {
+  const render = () => {
     return (
       <GiftedChat
-        messages={this.state.messages}
-        onSend={(messages) => this.onSend(messages)}
-        renderBubble={this.renderBubble.bind(this)}
+        messages={messages}
+        onSend={(msg) => onSend(msg)}
+        renderBubble={renderBubble}
         user={{
-          _id: 1,
+          _id: setting.userId,
         }}
       />
     );
-  }
-}
-export default class Chat extends Component {
-  state = {
-    togglePanel: false, // false : collpased, true : expanded
-    arrowIcon: 'down',
   };
-  togglePanel(toggle) {
-    this.setState({togglePanel: toggle});
-    this.setState({arrowIcon: toggle ? 'up' : 'down'});
-  }
-  render() {
-    const {navigation} = this.props;
-    const {navigate} = this.props.navigation;
+  return render();
+};
+
+export default (props) => {
+  const [togglePanel, setTogglePanel] = useState(false);
+  const [arrowIcon, setArrowIcon] = useState('down');
+  const onTogglePanel = (toggle) => {
+    setTogglePanel(toggle);
+    setArrowIcon(toggle ? 'up' : 'down');
+  };
+  const render = () => {
+    const {navigation} = props;
+    const {navigate} = props.navigation;
     const user = navigation.getParam('user');
-    const avatar = navigation.getParam('avatar');
-    const message = navigation.getParam('message');
-    const changeStyle =
-      this.state.togglePanel === false ? {height: 200} : {height: 450};
+    const changeStyle = togglePanel === false ? {height: 200} : {height: 450};
+    const today = new Date();
+    let weekdays = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
+    weekdays = weekdays.concat(weekdays.slice(0, today.getDay()));
+    weekdays = weekdays.slice(today.getDay(), weekdays.length);
+    let availableDays = weekdays.filter(
+      (w) =>
+        user.availability[w].includes(true) || user.availability[w].includes(1),
+    );
+    console.log('availableDays', availableDays);
     return (
       <>
         <AppStatusBar
@@ -180,8 +148,8 @@ export default class Chat extends Component {
         />
         <SafeAreaView style={styles.container}>
           <LongHeader
-            title={user}
-            avatar={avatar}
+            title={user.firstName}
+            avatar={{uri: user.imageUrl}}
             dark={true}
             left={colors.lightgreen}
             route={'Messages'}
@@ -205,18 +173,13 @@ export default class Chat extends Component {
             ]}>
             <Text style={styles.text6}>{'Matching'}</Text>
             <View style={{paddingVertical: 20}}>
-              <DateView data={'Monday'} value={[0, 1, 0]} />
-              <DateView data={'Tuesday'} value={[0, 1, 0]} />
-
-              {this.state.togglePanel && (
-                <View>
-                  <DateView data={'Wednesday'} value={[0, 1, 0]} />
-                  <DateView data={'Thursday'} value={[0, 1, 0]} />
-                  <DateView data={'Friday'} value={[0, 1, 0]} />
-                  <DateView data={'Saturday'} value={[0, 1, 0]} />
-                  <DateView data={'Sunday'} value={[0, 1, 0]} />
-                </View>
-              )}
+              {availableDays.slice(0, 2 + (togglePanel && 5)).map((day) => (
+                <DateView
+                  key={day}
+                  data={fullWeekDays[day]}
+                  value={user.availability[day]}
+                />
+              ))}
             </View>
 
             <TouchableOpacity
@@ -228,23 +191,18 @@ export default class Chat extends Component {
                 alignSelf: 'center',
               }}
               onPress={() =>
-                this.state.togglePanel
-                  ? this.togglePanel(false)
-                  : this.togglePanel(true)
+                togglePanel ? onTogglePanel(false) : onTogglePanel(true)
               }>
-              <AntDesign
-                name={this.state.arrowIcon}
-                size={30}
-                color={'white'}
-              />
+              <AntDesign name={arrowIcon} size={30} color={'white'} />
             </TouchableOpacity>
           </View>
-          <ChatScreen avatar={avatar} message={message} />
+          <ChatScreen user={user} />
         </SafeAreaView>
       </>
     );
-  }
-}
+  };
+  return render();
+};
 const styles = StyleSheet.create({
   container: {
     flex: 1,

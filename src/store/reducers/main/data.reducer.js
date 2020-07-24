@@ -2,25 +2,7 @@ import * as Actions from '../../actions/main/index';
 import APIKit from '../../../services/api';
 
 const initialState = {
-  setting: {
-    location: {
-      lat: 33.821527,
-      lng: -117.511249,
-      address: '2415 Tuscany St, Corona, CA 92881',
-    },
-    distance: [0, 5],
-    gender: [],
-    age: [18, 30],
-    seen: true,
-    notifications: {
-      matches: true,
-      messages: false,
-      training: true,
-      socials: false,
-      vibrations: true,
-      sounds: true,
-    },
-  },
+  setting: {},
   teams: [],
   sports: [],
   profile: {},

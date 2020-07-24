@@ -9,6 +9,7 @@ const oval3 = require('../../assets/oval3.png');
 const racket = require('../../assets/racket.png');
 const woman = require('../../assets/woman.png');
 const GameOn = require('../../assets/GameOn.png');
+const GameOn2 = require('../../assets/GameOn2.png');
 const grape = require('../../assets/grape.png');
 const trial_front = require('../../assets/trial_front.png');
 const trial_back = require('../../assets/trial_back.png');
@@ -65,6 +66,7 @@ export const images = {
   racket,
   woman,
   GameOn,
+  GameOn2,
   grape,
   user1,
   user2,

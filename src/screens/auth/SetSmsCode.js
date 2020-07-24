@@ -32,6 +32,7 @@ export default class SetSmsCode extends Component {
       console.log(payload);
       APIKit.verifyCode(payload)
         .then(({data}) => {
+          console.log(data);
           if (!data.existed) {
             // set user Phone in LocatStorage
             navigate('SetDetail', {phone: phone});
@@ -40,15 +41,13 @@ export default class SetSmsCode extends Component {
             APIKit.login({identifier: phone, provider: 'local'})
               // eslint-disable-next-line no-shadow
               .then(({data}) => {
+                console.log(data);
                 const token = data.token;
                 //set token to call other api
                 setClientToken(token);
                 const user = data.user;
                 const fullfilled = user.fullfilled;
-                const email = user.email;
-                !fullfilled
-                  ? navigate('SetPersonalInfo', {email: email})
-                  : navigate('home');
+                !fullfilled ? navigate('SetPersonalInfo') : navigate('Home');
               })
               .catch((error) => {
                 console.log(error && error.response);

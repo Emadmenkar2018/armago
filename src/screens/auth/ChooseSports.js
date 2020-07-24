@@ -82,7 +82,7 @@ export default class ChooseSports extends Component {
           console.log(response);
           APIKit.getSetting().then((resp) => {
             let setting = resp.data;
-            console.log(resp);
+            console.log(resp.data);
             setting.gender = sports_payload.map((sport) => ({
               sport,
               value: 'both',
@@ -103,7 +103,6 @@ export default class ChooseSports extends Component {
   }
   render() {
     const {navigate} = this.props.navigation;
-    const email = this.props.navigation.state.params.email;
     return (
       <View style={styles.container}>
         <View style={styles.main}>
@@ -184,7 +183,7 @@ export default class ChooseSports extends Component {
               <Button
                 buttonStyle={styles.navBtn_prev}
                 icon={<Icon name={'chevron-left'} size={60} color="#fff" />}
-                onPress={() => navigate('SetPersonalInfo', {email: email})}
+                onPress={() => navigate('SetPersonalInfo')}
               />
             </View>
             <View style={{flex: 1, alignItems: 'flex-end'}}>

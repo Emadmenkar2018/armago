@@ -28,10 +28,7 @@ function DateView(props) {
           style={[
             styles.circle_date,
             {
-              backgroundColor:
-                props.value[0] === 'true' || props.value[0] === true
-                  ? colors.green
-                  : colors.red,
+              backgroundColor: props.value[0] ? colors.green : colors.red,
             },
           ]}>
           <Text style={styles.text_date}>AM</Text>
@@ -40,10 +37,7 @@ function DateView(props) {
           style={[
             styles.circle_date,
             {
-              backgroundColor:
-                props.value[1] === 'true' || props.value[1] === true
-                  ? colors.green
-                  : colors.red,
+              backgroundColor: props.value[1] ? colors.green : colors.red,
             },
           ]}>
           <Text style={styles.text_date}>PM</Text>
@@ -52,10 +46,7 @@ function DateView(props) {
           style={[
             styles.circle_date,
             {
-              backgroundColor:
-                props.value[2] === 'true' || props.value[2] === true
-                  ? colors.green
-                  : colors.red,
+              backgroundColor: props.value[2] ? colors.green : colors.red,
             },
           ]}>
           <Text style={styles.text_date}>EVE</Text>
@@ -86,7 +77,7 @@ export default (props) => {
     let availableDays = weekdays.filter(
       (w) =>
         props.user.availability[w].includes(true) ||
-        props.user.availability[w].includes('true'),
+        props.user.availability[w].includes(1),
     );
     console.log('availableDays', availableDays);
     setAvailability(availableDays);

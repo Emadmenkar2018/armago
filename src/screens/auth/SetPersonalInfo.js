@@ -29,7 +29,6 @@ export default class SetPersonalInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      email: '',
       firstname: '',
       lastname: '',
       gender: 'male',
@@ -91,6 +90,7 @@ export default class SetPersonalInfo extends Component {
           firstname: data.firstName,
           lastname: data.lastName,
           gender: data.gender,
+          imageUrl: data.imageUrl,
         });
       },
       (error) => {
@@ -142,49 +142,24 @@ export default class SetPersonalInfo extends Component {
           .then((json) => {
             var fullAddress = json.results[0].formatted_address;
             console.log(fullAddress);
-            const setting = {
-              location: {
-                lat: position.coords.latitude,
-                lng: position.coords.longitude,
-                address: fullAddress,
-              },
-              distance: [0, 5],
-              gender: [
-                {
-                  sport: '5f11b3793b64d018d57d5d47',
-                  value: 'both',
-                },
-                {
-                  sport: '5f11b3183b64d018d57d5d42',
-                  value: 'both',
-                },
-              ],
-              age: [18, 30],
-              seen: true,
-              notifications: {
-                matches: true,
-                messages: false,
-                training: true,
-                socials: false,
-                vibrations: true,
-                sounds: true,
-              },
-            };
-            APIKit.setSetting(setting).then((resp) => {
-              console.log(resp);
-              const availability = {
-                sun: [1, 1, 1],
-                mon: [1, 1, 1],
-                tue: [1, 1, 1],
-                wed: [1, 1, 1],
-                thu: [1, 1, 1],
-                fri: [1, 1, 1],
-                sat: [1, 1, 1],
+            APIKit.getSetting().then(({data}) => {
+              const setting = {
+                ...data,
+                location: [
+                  {
+                    lat: position.coords.latitude,
+                    lng: position.coords.longitude,
+                    address: fullAddress,
+                  },
+                ],
               };
-              APIKit.setavaliablity({availability});
-              this.setState({setting});
+              console.log(data);
+              APIKit.setSetting(setting).then((resp) => {
+                console.log(resp);
+                this.setState({setting});
+              });
+              this.setState({address: fullAddress});
             });
-            this.setState({address: fullAddress});
           })
           .catch((error) => console.warn(error));
       },
@@ -206,25 +181,6 @@ export default class SetPersonalInfo extends Component {
           type: this.state.photo.type,
         });
         console.log(data);
-        // fetch(
-        //   'http://ec2-35-178-32-220.eu-west-2.compute.amazonaws.com/api/image',
-        //   {
-        //     method: 'POST',
-        //     headers: {
-        //       Accept: 'application/json',
-        //       Authorization: `Bearer ${token}`,
-        //     },
-        //     body: {image: data},
-        //   },
-        // )
-        //   .then((response) => response.json())
-        //   .then((json) => {
-        //     console.log('success', json);
-        //     return json.movies;
-        //   })
-        //   .catch((error) => {
-        //     console.error('err', error);
-        //   });
         APIKit.uploadImage({
           image: 'data:image/jpeg;base64,' + this.state.photo.data,
           name: this.state.photo.fileName,
@@ -278,9 +234,11 @@ export default class SetPersonalInfo extends Component {
     this.setState({gender: ge});
   }
 
-  next(navigate, email) {
+  next(navigate) {
     if (this.state.firstname === '' || this.state.lastname === '') {
       Alert.alert('Please input First Name and Last Name');
+    } else if (!this.state.imageUrl) {
+      Alert.alert('Please upload your profile picture');
     } else {
       // Patch Profile
       var dob = new Date(this.state.year, this.state.month - 1, this.state.day);
@@ -290,7 +248,6 @@ export default class SetPersonalInfo extends Component {
       var age = Math.abs(age_dt.getUTCFullYear() - 1970);
 
       console.log({
-        email: email,
         firstName: this.state.firstname,
         lastName: this.state.lastname,
         location: {
@@ -301,9 +258,9 @@ export default class SetPersonalInfo extends Component {
         gender: this.state.gender,
         age,
         imageUrl: this.state.imageUrl,
+        fullfilled: false,
       });
       APIKit.profile({
-        email: email,
         firstName: this.state.firstname,
         lastName: this.state.lastname,
         location: {
@@ -314,10 +271,11 @@ export default class SetPersonalInfo extends Component {
         gender: this.state.gender,
         age,
         imageUrl: this.state.imageUrl,
+        fullfilled: false,
       }).then(
         (response) => {
           console.log(response);
-          navigate('ChooseSports', {email: email});
+          navigate('ChooseSports');
         },
         (error) => {
           console.log(error);
@@ -328,8 +286,6 @@ export default class SetPersonalInfo extends Component {
 
   render() {
     const {navigate} = this.props.navigation;
-    const email = this.props.navigation.state.params.email;
-    // this.setState({email : email});
     return (
       <SafeAreaView style={styles.container}>
         <View style={styles.main}>
@@ -497,7 +453,7 @@ export default class SetPersonalInfo extends Component {
               <Button
                 buttonStyle={styles.navBtn_next}
                 icon={<Icon name={'chevron-right'} size={60} color="#fff" />}
-                onPress={() => this.next(navigate, email)}
+                onPress={() => this.next(navigate)}
               />
             </View>
           </View>

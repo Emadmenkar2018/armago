@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {Component} from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -16,79 +16,25 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {colors} from '../common/colors';
 import AppStatusBar from '../components/AppStatusBar';
 import SearchInput, {createFilter} from 'react-native-search-filter';
+
+import {useSelector} from 'react-redux';
 export const {width, height} = Dimensions.get('window');
-const KEYS_TO_FILTERS_NEWMATCHES = ['name'];
-const KEYS_TO_FILTERS_MESSAGES = ['name', 'message'];
-export default class Messages extends Component {
-  newMatches = [
-    {
-      id: 1,
-      name: 'Jeffery',
-      avatar: images.user1,
-    },
-    {
-      id: 2,
-      name: 'Alan',
-      avatar: images.user2,
-    },
-    {
-      id: 3,
-      name: 'Leo',
-      avatar: images.user3,
-    },
-    {
-      id: 4,
-      name: 'Chris',
-      avatar: images.user4,
-    },
-  ];
-  Messages = [
-    {
-      id: 10,
-      name: 'Mathew',
-      avatar: images.user6,
-      message: 'Still up for tonight?',
-    },
-    {
-      id: 11,
-      name: 'Mathaw',
-      avatar: images.user7,
-      message: 'Hello, Are you there?',
-    },
-    {
-      id: 12,
-      name: 'Matsew',
-      avatar: images.user8,
-      message: 'Hi Good morning!',
-    },
-  ];
-  constructor(props) {
-    super(props);
-    this.state = {
-      searchTerm: '',
-    };
-  }
-  searchUpdated(term) {
-    this.setState({searchTerm: term});
-  }
-  searchbyText() {
-    this.setState({
-      newMatches: this.state.newMatches.filter((match) =>
-        match.name.includes(''),
-      ),
-      Messages: this.state.Messages.filter((message) =>
-        message.message.includes(''),
-      ),
-    });
-  }
-  render() {
-    const {navigate} = this.props.navigation;
-    const filtered_newMatches = this.newMatches.filter(
-      createFilter(this.state.searchTerm, KEYS_TO_FILTERS_NEWMATCHES),
-    );
-    const filtered_Messages = this.Messages.filter(
-      createFilter(this.state.searchTerm, KEYS_TO_FILTERS_MESSAGES),
-    );
+const KEYS_TO_FILTERS_NEWMATCHES = ['firstName'];
+const KEYS_TO_FILTERS_MESSAGES = ['firstName', 'latest'];
+export default (props) => {
+  const contacts = useSelector((state) => state.main.chat.contacts);
+  const [searchTerm, setSearchTerm] = useState('');
+  const searchUpdated = (term) => {
+    setSearchTerm(term);
+  };
+  const render = () => {
+    const {navigate} = props.navigation;
+    const filtered_newMatches = contacts
+      .filter((co) => co.count === 0)
+      .filter(createFilter(searchTerm, KEYS_TO_FILTERS_NEWMATCHES));
+    const filtered_Messages = contacts
+      .filter((co) => co.count)
+      .filter(createFilter(searchTerm, KEYS_TO_FILTERS_MESSAGES));
     return (
       <>
         <AppStatusBar
@@ -115,17 +61,12 @@ export default class Messages extends Component {
                 style={{opacity: 0}}
               />
             </View>
-            {/* <TextInput
-            style={styles.input}
-            placeholder={'🔍 Search 8 matches'}
-            onChangeText = {text => this.searchbyText(text)}
-          /> */}
             <SearchInput
               onChangeText={(term) => {
-                this.searchUpdated(term);
+                searchUpdated(term);
               }}
               style={styles.input}
-              placeholder={'🔍 Search 8 matches'}
+              placeholder={'🔍 Search ' + contacts.length + ' matches'}
             />
             <View
               style={{
@@ -148,7 +89,7 @@ export default class Messages extends Component {
                     fontSize: 18,
                     fontWeight: '600',
                   }}>
-                  {this.newMatches.length}
+                  {contacts.filter((co) => co.count === 0).length}
                 </Text>
               </View>
             </View>
@@ -161,13 +102,18 @@ export default class Messages extends Component {
                   <TouchableOpacity
                     key={prop.id}
                     onPress={() =>
-                      navigate('Chat', {user: prop.name, avatar: prop.avatar})
+                      navigate('Chat', {
+                        user: prop,
+                      })
                     }>
                     <View style={{paddingRight: 30}}>
-                      <Image source={prop.avatar} style={styles.user} />
+                      <Image
+                        source={{uri: prop.imageUrl}}
+                        style={styles.user}
+                      />
                       <View style={styles.dot} />
                       <Text style={[styles.name, {marginLeft: 10}]}>
-                        {prop.name}
+                        {prop.firstName}
                       </Text>
                     </View>
                   </TouchableOpacity>
@@ -175,7 +121,7 @@ export default class Messages extends Component {
               })}
             </View>
           </View>
-          <View>
+          <View style={{marginBottom: 30}}>
             <View
               style={{
                 flexDirection: 'row',
@@ -198,7 +144,7 @@ export default class Messages extends Component {
                     fontSize: 18,
                     fontWeight: '600',
                   }}>
-                  {this.Messages.length}
+                  {contacts.filter((co) => co.count).length}
                 </Text>
               </View>
             </View>
@@ -206,17 +152,18 @@ export default class Messages extends Component {
               {filtered_Messages.map((prop) => {
                 return (
                   <TouchableOpacity
-                    key={prop.id}
+                    key={prop.userId}
                     onPress={() =>
                       navigate('Chat', {
-                        user: prop.name,
-                        avatar: prop.avatar,
-                        message: prop.message,
+                        user: prop,
                       })
                     }>
-                    <View style={styles.list} key={prop.id}>
-                      <Image source={prop.avatar} style={styles.user} />
-                      <View style={[styles.dot, {left: 59}]} />
+                    <View style={styles.list}>
+                      <Image
+                        source={{uri: prop.imageUrl}}
+                        style={styles.user}
+                      />
+                      {prop.unread && <View style={[styles.dot, {left: 59}]} />}
                       <View style={styles.listborder}>
                         <Text
                           style={{
@@ -224,7 +171,7 @@ export default class Messages extends Component {
                             fontFamily: 'ProximaNova-Bold',
                             color: '#666',
                           }}>
-                          {prop.name}
+                          {prop.firstName}
                         </Text>
                         <Text
                           style={{
@@ -232,7 +179,7 @@ export default class Messages extends Component {
                             fontFamily: 'ProximaNova-Regular',
                             color: '#999',
                           }}>
-                          {prop.message}
+                          {prop.latest}
                         </Text>
                       </View>
                     </View>
@@ -245,8 +192,9 @@ export default class Messages extends Component {
         </SafeAreaView>
       </>
     );
-  }
-}
+  };
+  return render();
+};
 
 const styles = StyleSheet.create({
   container: {

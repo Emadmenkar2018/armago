@@ -16,11 +16,16 @@ import {
   responsiveHeight,
 } from 'react-native-responsive-dimensions';
 
+import {useSelector} from 'react-redux';
+
 const THEME_COLOR = colors.lightgreen;
 
 export default (props) => {
+  const setting = useSelector((state) => state.main.data.setting);
   const onSetting = () => {
-    props.navigate('Settings');
+    if (setting.distance) {
+      props.navigate('Settings');
+    }
   };
   return (
     <>
@@ -33,7 +38,7 @@ export default (props) => {
             <TouchableOpacity onPress={onSetting}>
               <Image source={images.gear} style={styles.icon} />
             </TouchableOpacity>
-            <Image source={images.GameOn} style={styles.logo} />
+            <Image source={images.GameOn2} style={styles.logo} />
             <TouchableOpacity onPress={() => props.navigate('Messages')}>
               <Image source={images.chat} style={styles.icon} />
             </TouchableOpacity>

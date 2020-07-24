@@ -2,7 +2,7 @@ import AsyncStorage from '@react-native-community/async-storage';
 import axios from 'axios';
 export const baseURL =
   'http://ec2-35-178-32-220.eu-west-2.compute.amazonaws.com/';
-let APIKit = axios.create({
+var APIKit = axios.create({
   // baseURL: 'http://ec2-3-8-232-76.eu-west-2.compute.amazonaws.com/',
   baseURL: 'http://ec2-35-178-32-220.eu-west-2.compute.amazonaws.com/',
   // baseURL: 'http://10.0.2.2:3000/',
@@ -19,11 +19,10 @@ export const setClientToken = (token) => {
 };
 
 export const clearClientToken = () => {
-  APIKit = axios.create({
-    // baseURL: 'http://ec2-3-8-232-76.eu-west-2.compute.amazonaws.com/',
-    baseURL: 'http://ec2-35-178-32-220.eu-west-2.compute.amazonaws.com/',
-    // baseURL: 'http://10.0.2.2:3000/',
-    timeout: 10000,
+  console.log('clear token');
+  APIKit.interceptors.request.use(function (config) {
+    config.headers.Authorization = undefined;
+    return config;
   });
 };
 // Intercept all request
@@ -39,7 +38,7 @@ APIKit.interceptors.response.use(
     return response;
   },
   async (error) => {
-    console.log(error);
+    console.log(error && error.response);
     if (error.response.status !== 401) {
       return Promise.reject(error);
     }
@@ -96,4 +95,5 @@ APIKit.rejectTeam = (payload, chief) => {
 };
 
 APIKit.getTeams = () => APIKit.get('api/teams');
+APIKit.getContacts = () => APIKit.get('api/users/contacts');
 export default APIKit;
