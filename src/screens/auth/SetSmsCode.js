@@ -1,6 +1,7 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 import {
+  Keyboard,
   View,
   Text,
   StyleSheet,
@@ -23,7 +24,18 @@ export default class SetSmsCode extends Component {
       phone: '',
       checked1: false,
       checked2: true,
+      isKeyboardOpen: false,
     };
+  }
+  _keyboardDidHide() {
+    this.setState({isKeyboardOpen: false});
+  }
+  _keyboardDidShow() {
+    this.setState({isKeyboardOpen: true});
+  }
+  componentDidMount() {
+    Keyboard.addListener('keyboardDidShow', this._keyboardDidShow.bind(this));
+    Keyboard.addListener('keyboardDidHide', this._keyboardDidHide.bind(this));
   }
   next(navigate, phone) {
     if (this.state.code === '') {
@@ -76,7 +88,8 @@ export default class SetSmsCode extends Component {
     const phoneNumber = this.props.navigation.state.params.phone;
 
     return (
-      <ScrollView contentContainerStyle={styles.container}>
+      <ScrollView
+        contentContainerStyle={!this.state.isKeyboardOpen && styles.container}>
         <View style={styles.main}>
           <View style={styles.sectionTop}>
             <Image source={images.logo} style={styles.logo} />
