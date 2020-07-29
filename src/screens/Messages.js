@@ -17,13 +17,20 @@ import {colors} from '../common/colors';
 import AppStatusBar from '../components/AppStatusBar';
 import SearchInput, {createFilter} from 'react-native-search-filter';
 
-import {useSelector} from 'react-redux';
+import {useSelector, useDispatch} from 'react-redux';
+import * as Actions from '../store/actions';
+
 export const {width, height} = Dimensions.get('window');
 const KEYS_TO_FILTERS_NEWMATCHES = ['firstName'];
 const KEYS_TO_FILTERS_MESSAGES = ['firstName', 'latest'];
 export default (props) => {
   const contacts = useSelector((state) => state.main.chat.contacts);
   const [searchTerm, setSearchTerm] = useState('');
+
+  const setting = useSelector((state) => state.main.data.setting);
+  const socket = useSelector((state) => state.main.chat.socket);
+  const dispatch = useDispatch();
+
   const searchUpdated = (term) => {
     setSearchTerm(term);
   };
@@ -35,6 +42,7 @@ export default (props) => {
     const filtered_Messages = contacts
       .filter((co) => co.count)
       .filter(createFilter(searchTerm, KEYS_TO_FILTERS_MESSAGES));
+    console.log('filtered_Messages', filtered_Messages);
     return (
       <>
         <AppStatusBar
@@ -93,19 +101,28 @@ export default (props) => {
                 </Text>
               </View>
             </View>
-
-            <View
-              style={{flexDirection: 'row', marginTop: 12, height: 90}}
+            <ScrollView
+              contentContainerStyle={{
+                flexDirection: 'row',
+                marginTop: 12,
+                height: 100,
+              }}
               horizontal>
               {filtered_newMatches.map((prop) => {
                 return (
                   <TouchableOpacity
-                    key={prop.id}
-                    onPress={() =>
+                    key={prop.userId}
+                    onPress={() => {
+                      dispatch(Actions.clearHistory());
+                      dispatch(Actions.setCurUser(prop));
+                      socket.emit('History', {
+                        from: setting.userId,
+                        to: prop.userId,
+                      });
                       navigate('Chat', {
                         user: prop,
-                      })
-                    }>
+                      });
+                    }}>
                     <View style={{paddingRight: 30}}>
                       <Image
                         source={{uri: prop.imageUrl}}
@@ -119,9 +136,9 @@ export default (props) => {
                   </TouchableOpacity>
                 );
               })}
-            </View>
+            </ScrollView>
           </View>
-          <View style={{marginBottom: 30}}>
+          <View style={{marginHorizontal: 12, marginBottom: 40, marginTop: 0}}>
             <View
               style={{
                 flexDirection: 'row',
@@ -153,17 +170,27 @@ export default (props) => {
                 return (
                   <TouchableOpacity
                     key={prop.userId}
-                    onPress={() =>
+                    onPress={() => {
+                      dispatch(Actions.clearHistory());
+                      dispatch(Actions.setCurUser(prop));
+                      socket.emit('History', {
+                        from: setting.userId,
+                        to: prop.userId,
+                      });
+                      socket.emit('Chat:Read', {
+                        from: setting.userId,
+                        to: prop.userId,
+                      });
                       navigate('Chat', {
                         user: prop,
-                      })
-                    }>
+                      });
+                    }}>
                     <View style={styles.list}>
                       <Image
                         source={{uri: prop.imageUrl}}
                         style={styles.user}
                       />
-                      {prop.unread && <View style={[styles.dot, {left: 59}]} />}
+                      {/* {prop.unread && <View style={[styles.dot]} />} */}
                       <View style={styles.listborder}>
                         <Text
                           style={{
@@ -201,7 +228,6 @@ const styles = StyleSheet.create({
     flex: 1,
   },
   main: {
-    flex: 1,
     margin: 12,
   },
   text: {
@@ -254,6 +280,7 @@ const styles = StyleSheet.create({
   user: {
     width: 70,
     height: 70,
+    borderRadius: 70,
   },
   dot: {
     backgroundColor: colors.lightgreen,
@@ -263,8 +290,8 @@ const styles = StyleSheet.create({
     height: 20,
     borderRadius: 10,
     position: 'absolute',
-    right: 10,
-    top: 26,
+    left: 52,
+    top: 52,
   },
   name: {
     marginLeft: 20,
@@ -276,6 +303,7 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     marginTop: 1,
+    marginLeft: 5,
     zIndex: 100,
   },
   listborder: {

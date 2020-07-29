@@ -5,7 +5,18 @@ import io from 'socket.io-client';
 const initialState = {
   contacts: [],
   socket: io('http://ec2-35-178-32-220.eu-west-2.compute.amazonaws.com'),
-  history: null,
+  history: [],
+  curUser: {},
+};
+
+const sortByDate = (a, b) => {
+  if (a.createdAt === b.createdAt) {
+    return 0;
+  }
+  if (a.createdAt < b.createdAt) {
+    return 1;
+  }
+  return -1;
 };
 
 export default (state = initialState, action) => {
@@ -13,9 +24,17 @@ export default (state = initialState, action) => {
     case Actions.SET_CONTACTS:
       console.log('SET_CONTACTS', action.payload);
       return {...state, contacts: action.payload};
-    case Actions.SET_HISTORY:
-      console.log('SET_HISTORY', action.payload);
-      return {...state, history: action.payload};
+    case Actions.ADD_HISTORY:
+      console.log('ADD_HISTORY', action.payload);
+      let history = [...state.history, ...action.payload];
+      console.log('HISTORY', history);
+      history.sort(sortByDate);
+      return {...state, history: history};
+    case Actions.CLEAR_HISTORY:
+      console.log('clear history');
+      return {...state, history: []};
+    case Actions.SET_CUR_USER:
+      return {...state, curUser: action.payload};
     default:
       return state;
   }

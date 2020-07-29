@@ -1,5 +1,5 @@
 {
-  "name": "Armago",
+  "name": "GameOn",
   "version": "0.0.1",
   "private": true,
   "scripts": {
@@ -36,7 +36,7 @@
     "react-native-responsive-fontsize": "^0.4.3",
     "react-native-screens": "^2.7.0",
     "react-native-search-filter": "^0.1.5",
-    "react-native-vector-icons": "^6.6.0",
+    "react-native-vector-icons": "6.6.0",
     "react-native-webview": "^10.2.3",
     "react-navigation": "^4.0.10",
     "react-navigation-stack": "^1.10.3",

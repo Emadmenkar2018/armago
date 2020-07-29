@@ -9,29 +9,33 @@ var APIKit = axios.create({
   timeout: 10000,
 });
 
+var tokenInterceptor = null;
 // Set JSON Web Token in Client to be included in all calls
 export const setClientToken = (token) => {
   AsyncStorage.setItem('userToken', token);
-  APIKit.interceptors.request.use(function (config) {
-    config.headers.Authorization = `Bearer ${token}`;
+  tokenInterceptor = APIKit.interceptors.request.use(function (config) {
+    if (token) {
+      config.headers.Authorization = `Bearer ${token}`;
+    } else {
+      config.headers.Authorization = undefined;
+    }
+    console.log('interceptor', config);
     return config;
   });
 };
 
 export const clearClientToken = () => {
   console.log('clear token');
-  APIKit.interceptors.request.use(function (config) {
-    config.headers.Authorization = undefined;
-    return config;
-  });
+  APIKit.interceptors.request.eject(tokenInterceptor);
+  tokenInterceptor = null;
 };
 // Intercept all request
-APIKit.interceptors.request.use(
-  (config) => {
-    return config;
-  },
-  (error) => Promise.reject(error),
-);
+// APIKit.interceptors.request.use(
+//   (config) => {
+//     return config;
+//   },
+//   (error) => Promise.reject(error),
+// );
 // Intercept all responses
 APIKit.interceptors.response.use(
   async (response) => {

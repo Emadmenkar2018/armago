@@ -7,6 +7,7 @@ import {
   Image,
   Alert,
   TouchableOpacity,
+  ScrollView,
 } from 'react-native';
 import {colors} from '../../common/colors';
 import {images} from '../../common/images';
@@ -75,7 +76,7 @@ export default class SetSmsCode extends Component {
     const phoneNumber = this.props.navigation.state.params.phone;
 
     return (
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.main}>
           <View style={styles.sectionTop}>
             <Image source={images.logo} style={styles.logo} />
@@ -116,7 +117,7 @@ export default class SetSmsCode extends Component {
             </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }

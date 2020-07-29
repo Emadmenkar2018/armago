@@ -8,6 +8,7 @@ import {
   Image,
   TouchableOpacity,
   Alert,
+  ScrollView,
 } from 'react-native';
 import {colors} from '../../common/colors';
 import {images} from '../../common/images';
@@ -104,7 +105,7 @@ export default class ChooseSports extends Component {
   render() {
     const {navigate} = this.props.navigation;
     return (
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.main}>
           <View style={styles.sectionTop}>
             <Image source={images.logo} style={styles.logo} />
@@ -195,7 +196,7 @@ export default class ChooseSports extends Component {
             </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }

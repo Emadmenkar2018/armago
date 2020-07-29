@@ -10,13 +10,13 @@ import {
   TouchableOpacity,
   Platform,
   PermissionsAndroid,
+  ScrollView,
 } from 'react-native';
 import {colors} from '../../common/colors';
 import {images} from '../../common/images';
 import {Input, Icon, Button} from 'react-native-elements';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
-import {SafeAreaView} from 'react-navigation';
 import DropDownPicker from 'react-native-dropdown-picker';
 import ImagePicker from 'react-native-image-picker';
 import Geolocation from '@react-native-community/geolocation';
@@ -321,7 +321,7 @@ export default class SetPersonalInfo extends Component {
   render() {
     const {navigate} = this.props.navigation;
     return (
-      <SafeAreaView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.main}>
           <View style={styles.sectionTop}>
             <Image source={images.logo} style={styles.logo} />
@@ -492,7 +492,7 @@ export default class SetPersonalInfo extends Component {
             </View>
           </View>
         </View>
-      </SafeAreaView>
+      </ScrollView>
     );
   }
 }

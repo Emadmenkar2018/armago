@@ -60,6 +60,8 @@ export function LongHeader(props) {
             <TouchableOpacity
               onPress={() => {
                 dispatch(Actions.saveSetting());
+                dispatch(Actions.clearHistory());
+                dispatch(Actions.setCurUser({}));
                 props.navigate('Home');
               }}>
               <Text style={{color: props.left}}>{props.rightText}</Text>

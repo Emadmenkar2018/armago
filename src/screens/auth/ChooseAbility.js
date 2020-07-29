@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, ScrollView} from 'react-native';
 import {colors} from '../../common/colors';
 import {images} from '../../common/images';
 import {Button, Icon, Slider} from 'react-native-elements';
@@ -62,7 +62,7 @@ export default class ChooseAbility extends Component {
     //   this.state.ablity.push({sportId: prop.id, level: 'beginner'});
     // }
     return (
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.main}>
           <View style={styles.sectionTop}>
             <Image source={images.logo} style={styles.logo} />
@@ -177,7 +177,7 @@ export default class ChooseAbility extends Component {
             </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }

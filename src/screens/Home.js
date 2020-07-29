@@ -75,6 +75,8 @@ function DateView(props) {
 
 export default (props) => {
   const setting = useSelector((state) => state.main.data.setting);
+  const curUser = useSelector((state) => state.main.chat.curUser);
+  const contacts = useSelector((state) => state.main.chat.contacts);
 
   const [userId, setUserId] = useState('');
   const dispatch = useDispatch();
@@ -144,9 +146,49 @@ export default (props) => {
       console.log('Online:Users', onlineUsers);
     });
     socket.on('History', (history) => {
-      console.log('History', history);
-      dispatch(Actions.setHistory(history));
+      console.log('Home History', history);
+      // history.msgs.map((msg) => {
+      //   socket.emit('Message:Delete', {id: msg._id});
+      // });
+      dispatch(Actions.addHistory(history.msgs));
     });
+    socket.on('Message', (msg) => {
+      console.log(msg);
+      console.log(curUser);
+      if (curUser.userId === msg.from || curUser.userId === msg.to) {
+        dispatch(Actions.addHistory([msg.msg]));
+        socket.emit('Chat:Read', {from: userId, to: curUser.userId});
+      }
+      // dispatch(
+      //   Actions.setContacts(
+      //     contacts.map((co) => {
+      //       if (co.userId === msg.from) {
+      //         return {
+      //           ...co,
+      //           count: co.count + 1,
+      //           unread:
+      //             curUser.userId === msg.from || curUser.userId === msg.to
+      //               ? 0
+      //               : co.unread + 1,
+      //           latest: msg.msg.msg,
+      //         };
+      //       }
+      //       if (co.userId === msg.to) {
+      //         return {
+      //           ...co,
+      //           count: co.count + 1,
+      //           unread: 0,
+      //           latest: msg.msg.msg,
+      //         };
+      //       }
+      //       return co;
+      //     }),
+      //   ),
+      // );
+    });
+    return () => {
+      // contacts.unsubscribe();
+    };
   }, []);
 
   const onModal2 = () => {
@@ -263,7 +305,6 @@ export default (props) => {
       allcards &&
       allcards.find((cd) => cd.event !== undefined) &&
       allcards.find((cd) => cd.event !== undefined).event;
-    console.log('teams', teams);
     let cards = [];
     if (users) {
       cards = users.map((user, index) => (
@@ -271,13 +312,11 @@ export default (props) => {
           style={styles.card}
           key={'user' + index}
           onSwipedLeft={() => {
-            console.log('left');
             APIKit.cardGame({partner: user.id, enable: false}).then((resp) => {
               console.log(resp);
             });
           }}
           onSwipedRight={() => {
-            console.log('right');
             APIKit.cardGame({partner: user.id, enable: true}).then((resp) => {
               console.log(resp);
             });

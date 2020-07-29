@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useState, useEffect} from 'react';
 import {
@@ -14,9 +13,7 @@ import {colors} from '../common/colors';
 import {GiftedChat, Bubble} from 'react-native-gifted-chat';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import AppStatusBar from '../components/AppStatusBar';
-import {useSelector, useDispatch} from 'react-redux';
-
-import * as Actions from '../store/actions';
+import {useSelector} from 'react-redux';
 
 const fullWeekDays = {
   mon: 'Monday',
@@ -29,7 +26,6 @@ const fullWeekDays = {
 };
 
 function DateView(props) {
-  console.log('DateView', props);
   return (
     <View style={styles.item}>
       <View style={styles.btn_date}>
@@ -65,23 +61,18 @@ const ChatScreen = (props) => {
   const setting = useSelector((state) => state.main.data.setting);
   const history = useSelector((state) => state.main.chat.history);
   const socket = useSelector((state) => state.main.chat.socket);
-  const [messages, setMessages] = useState([]);
-  const dispatch = useDispatch();
-  useEffect(() => {
-    dispatch(Actions.setHistory([]));
-    socket.emit('History', {from: setting.userId, to: props.user.userId});
-  }, []);
-
-  useEffect(() => {
-    console.log(history);
-  }, [history]);
 
   const onSend = (newMessages = []) => {
-    setMessages([...messages, newMessages]);
+    newMessages.map((msg) => {
+      socket.emit('Message', {
+        from: setting.userId,
+        to: props.user.userId,
+        msg: msg.text,
+      });
+    });
   };
 
   const renderBubble = (bubbles) => {
-    console.log(bubbles);
     return (
       <Bubble
         {...bubbles}
@@ -105,12 +96,50 @@ const ChatScreen = (props) => {
     );
   };
 
+  const formatAMPM = (date) => {
+    var hours = date.getHours();
+    var minutes = date.getMinutes();
+    var ampm = hours >= 12 ? 'pm' : 'am';
+    hours = hours % 12;
+    hours = hours ? hours : 12; // the hour '0' should be '12'
+    minutes = minutes < 10 ? '0' + minutes : minutes;
+    var strTime = hours + ':' + minutes + ' ' + ampm;
+    return strTime;
+  };
+
+  const renderTime = (msgs) => {
+    return (
+      <Text
+        style={{
+          color: 'white',
+          fontSize: 11,
+          marginHorizontal: 10,
+          marginBottom: 5,
+        }}>
+        {formatAMPM(msgs.currentMessage.createdAt)}
+      </Text>
+    );
+  };
+
   const render = () => {
     return (
       <GiftedChat
-        messages={messages}
+        messages={history.map((msg, index) => {
+          return {
+            _id: 'msg' + index,
+            text: msg.msg,
+            sent: msg.status,
+            createdAt: new Date(msg.createdAt),
+            user: {
+              _id: msg.from,
+              name: props.user.firstName,
+              avatar: props.user.imageUrl,
+            },
+          };
+        })}
         onSend={(msg) => onSend(msg)}
         renderBubble={renderBubble}
+        renderTime={renderTime}
         user={{
           _id: setting.userId,
         }}

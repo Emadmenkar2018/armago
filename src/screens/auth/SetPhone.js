@@ -7,7 +7,7 @@ import {
   Image,
   Alert,
   PixelRatio,
-  KeyboardAvoidingView,
+  ScrollView,
 } from 'react-native';
 import {colors} from '../../common/colors';
 import {images} from '../../common/images';
@@ -49,7 +49,7 @@ export default class SetPhone extends Component {
   render() {
     const {navigate} = this.props.navigation;
     return (
-      <KeyboardAvoidingView style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.main}>
           <View style={styles.sectionTop}>
             <Image source={images.logo} style={styles.logo} />
@@ -99,7 +99,7 @@ export default class SetPhone extends Component {
             </View>
           </View>
         </View>
-      </KeyboardAvoidingView>
+      </ScrollView>
     );
   }
 }

@@ -1,6 +1,6 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image} from 'react-native';
+import {View, Text, StyleSheet, Image, ScrollView} from 'react-native';
 import {colors} from '../../common/colors';
 import {images} from '../../common/images';
 import {Input, Button, Icon} from 'react-native-elements';
@@ -79,7 +79,7 @@ export default class SetBioUniversity extends Component {
   render() {
     const {navigate} = this.props.navigation;
     return (
-      <View style={styles.container}>
+      <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.main}>
           <View style={styles.sectionTop}>
             <Image source={images.logo} style={styles.logo} />
@@ -130,7 +130,7 @@ export default class SetBioUniversity extends Component {
             </View>
           </View>
         </View>
-      </View>
+      </ScrollView>
     );
   }
 }
