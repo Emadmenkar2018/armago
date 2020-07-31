@@ -1,5 +1,6 @@
+/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, Component} from 'react';
 import {
   View,
   Text,
@@ -57,10 +58,71 @@ function DateView(props) {
     </View>
   );
 }
+
+class ThreeDots extends Component {
+  constructor(props) {
+    super(props);
+    this.state = {
+      position: 0,
+    };
+  }
+  componentDidMount() {
+    setInterval(() => {
+      this.setState({position: (this.state.position + 23) % 100});
+    }, 50);
+  }
+  render = () => {
+    // console.log(this.state.position);
+    if (this.props.isTyping) {
+      const dots = [
+        10 -
+          Math.min(
+            Math.min(
+              Math.abs(this.state.position - 17),
+              Math.abs(117 - this.state.position),
+            ) / 10.0,
+            4,
+          ),
+        10 - Math.min(Math.abs(this.state.position - 50) / 10.0, 4),
+        10 - Math.min(Math.abs(this.state.position - 83) / 10.0, 4),
+      ];
+      return (
+        <View style={styles.threeDots}>
+          {dots.map((size, index) => (
+            <View style={styles.dotContainer} key={'dot' + index}>
+              <View style={{...styles.oneDot, width: size, height: size}} />
+            </View>
+          ))}
+          <View
+            style={{
+              ...styles.oneDot,
+              width: 5,
+              height: 5,
+              position: 'absolute',
+              left: this.state.position * 0.28,
+              alignSelf: 'center',
+            }}
+          />
+        </View>
+      );
+    }
+    return <></>;
+  };
+}
+
 const ChatScreen = (props) => {
   const setting = useSelector((state) => state.main.data.setting);
   const history = useSelector((state) => state.main.chat.history);
   const socket = useSelector((state) => state.main.chat.socket);
+
+  const [inputTime, setInputTime] = useState(null);
+  const [isTyping, setIsTyping] = useState(false);
+
+  var timeOut = null;
+
+  useEffect(() => {
+    socket.on('Typing', onSomeoneTyping);
+  }, []);
 
   const onSend = (newMessages = []) => {
     newMessages.map((msg) => {
@@ -121,9 +183,60 @@ const ChatScreen = (props) => {
     );
   };
 
+  const renderFooter = (IsTyping) => {
+    // console.log(IsTyping);
+    return (
+      <View style={{flexDirection: 'row'}}>
+        {IsTyping.isTyping ? (
+          <Text
+            style={{
+              color: '#999',
+              paddingBottom: 4,
+              marginRight: 3,
+              marginLeft: 10,
+            }}>
+            {props.user.firstName} is typing
+          </Text>
+        ) : (
+          <View style={{width: 33, height: 23}} />
+        )}
+        <ThreeDots isTyping={IsTyping.isTyping} />
+      </View>
+    );
+  };
+
+  const onTyping = (text) => {
+    if (text === '') {
+      return;
+    }
+    const now = new Date();
+    if (inputTime === null || now.getTime() - inputTime.getTime() > 500) {
+      setInputTime(now);
+      socket.emit('Typing', {
+        from: setting.userId,
+        to: props.user.userId,
+      });
+    }
+  };
+
+  const onSomeoneTyping = (typing) => {
+    if (typing.to === props.user.userId && typing.from === setting.userId) {
+      console.log('someone typing to me');
+      if (timeOut) {
+        clearTimeout(timeOut);
+      }
+      setIsTyping(true);
+      timeOut = setTimeout(() => {
+        console.log(isTyping);
+        setIsTyping(false);
+      }, 1000);
+    }
+  };
+
   const render = () => {
     return (
       <GiftedChat
+        isTyping={isTyping}
         messages={history.map((msg, index) => {
           return {
             _id: 'msg' + index,
@@ -138,8 +251,10 @@ const ChatScreen = (props) => {
           };
         })}
         onSend={(msg) => onSend(msg)}
+        onInputTextChanged={(text) => onTyping(text)}
         renderBubble={renderBubble}
         renderTime={renderTime}
+        renderFooter={renderFooter}
         user={{
           _id: setting.userId,
         }}
@@ -285,5 +400,22 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'ProximaNova-Bold',
     fontWeight: '700',
+  },
+  threeDots: {
+    width: 33,
+    height: 11,
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignSelf: 'center',
+  },
+  dotContainer: {
+    width: 11,
+    height: 11,
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
+  oneDot: {
+    backgroundColor: '#aaa',
+    borderRadius: 10,
   },
 });

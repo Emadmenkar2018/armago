@@ -1,6 +1,5 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState, useEffect} from 'react';
+import React, {Component} from 'react';
 import {
   View,
   Text,
@@ -29,7 +28,7 @@ import OutOfCards from './OutOfCards';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import APIKit from '../services/api';
 
-import {useDispatch, useSelector} from 'react-redux';
+import {connect} from 'react-redux';
 import * as Actions from '../store/actions';
 
 export const {width, height} = Dimensions.get('window');
@@ -73,33 +72,29 @@ function DateView(props) {
   );
 }
 
-export default (props) => {
-  const setting = useSelector((state) => state.main.data.setting);
-  const curUser = useSelector((state) => state.main.chat.curUser);
-  const contacts = useSelector((state) => state.main.chat.contacts);
+class Home extends Component {
+  constructor(props) {
+    super(props);
+    this.swiper = null;
+    this.state = {
+      userId: '',
+      modalVisible: false,
+      toggleMatchingPanel: false,
+      toggleMatchingFollowPanel: false,
+      toggleTeamPanel: false,
+      allcards: [],
+      universities: [],
+      currentUser: {},
+    };
+  }
 
-  const [userId, setUserId] = useState('');
-  const dispatch = useDispatch();
-  var swiper = null;
-  const [modalVisible, setModalVisible] = useState(false);
-  const [toggleMatchingPanel, setToggleMatchingPanel] = useState(false);
-  const [toggleMatchingFollowPanel, setToggleMatchingFollowPanel] = useState(
-    false,
-  );
-  const [toggleTeamPanel, setToggleTeamPanel] = useState(false);
-  const [allcards, setCards] = useState([]);
-  const [universities, setUniversities] = useState([]);
-  const [currentUser, setCurrentUser] = useState({});
-
-  const socket = useSelector((state) => state.main.chat.socket);
-
-  useEffect(() => {
+  componentDidMount() {
     AsyncStorage.getItem('userToken', (err, result) => {
       if (err) {
       } else {
         if (result == null) {
           console.log('null value recieved', result);
-          setModalVisible(true);
+          this.setState({modalVisible: true});
         } else {
           console.log('result', result);
         }
@@ -113,95 +108,96 @@ export default (props) => {
       },
     );
     APIKit.getCards().then((resp) => {
-      setCards(resp.data);
+      this.setState({allcards: resp.data});
     });
     APIKit.getuniversities().then((resp) => {
-      setUniversities(resp.data);
+      this.setState({universities: resp.data});
     });
     APIKit.getSetting().then((resp) => {
       console.log('setting', resp.data);
-      dispatch(Actions.setSetting(resp.data));
-      setUserId(resp.data.userId);
+      this.props.setSetting(resp.data);
+      this.setState({userId: resp.data.userId});
       console.log('userId', resp.data.userId);
-      // socket.emit('Message', {
-      //   from: resp.data.userId,
-      //   to: '5f1a555d1fc7f971b2bec4e3',
-      //   msg: 'abcd',
-      // });
-      socket.emit('User:Joined', resp.data.userId);
+      this.props.socket.emit('User:Joined', resp.data.userId);
       APIKit.getContacts().then((resp1) => {
-        dispatch(Actions.setContacts(resp1.data));
+        this.props.setContacts(resp1.data);
       });
     });
     APIKit.getTeams().then((resp) => {
-      dispatch(Actions.setTeams(resp.data.docs));
+      console.log(resp.data.docs);
+      this.props.setTeams(resp.data.docs);
     });
     APIKit.getsports().then((resp) => {
-      dispatch(Actions.setSports(resp.data));
+      this.props.setSports(resp.data);
     });
     APIKit.getprofile().then((resp) => {
-      dispatch(Actions.setProfile(resp.data));
+      this.props.setProfile(resp.data);
     });
-    socket.on('Online:Users', (onlineUsers) => {
+    this.props.socket.on('Online:Users', (onlineUsers) => {
       console.log('Online:Users', onlineUsers);
     });
-    socket.on('History', (history) => {
+    this.props.socket.on('History', (history) => {
       console.log('Home History', history);
       // history.msgs.map((msg) => {
       //   socket.emit('Message:Delete', {id: msg._id});
       // });
-      dispatch(Actions.addHistory(history.msgs));
+      this.props.addHistory(history.msgs);
     });
-    socket.on('Message', (msg) => {
+    this.props.socket.on('Message', (msg) => {
       console.log(msg);
-      console.log(curUser);
-      if (curUser.userId === msg.from || curUser.userId === msg.to) {
-        dispatch(Actions.addHistory([msg.msg]));
-        socket.emit('Chat:Read', {from: userId, to: curUser.userId});
+      console.log(this.props.curUser);
+      if (
+        this.props.curUser.userId === msg.from ||
+        this.props.curUser.userId === msg.to
+      ) {
+        this.props.addHistory([msg.msg]);
+        this.props.socket.emit('Chat:Read', {
+          from: this.props.userId,
+          to: this.props.curUser.userId,
+        });
       }
-      // dispatch(
-      //   Actions.setContacts(
-      //     contacts.map((co) => {
-      //       if (co.userId === msg.from) {
-      //         return {
-      //           ...co,
-      //           count: co.count + 1,
-      //           unread:
-      //             curUser.userId === msg.from || curUser.userId === msg.to
-      //               ? 0
-      //               : co.unread + 1,
-      //           latest: msg.msg.msg,
-      //         };
-      //       }
-      //       if (co.userId === msg.to) {
-      //         return {
-      //           ...co,
-      //           count: co.count + 1,
-      //           unread: 0,
-      //           latest: msg.msg.msg,
-      //         };
-      //       }
-      //       return co;
-      //     }),
-      //   ),
-      // );
+      this.props.setContacts(
+        this.props.contacts.map((co) => {
+          if (co.userId === msg.from) {
+            return {
+              ...co,
+              count: co.count + 1,
+              unread:
+                this.props.curUser.userId === msg.from ||
+                this.props.curUser.userId === msg.to
+                  ? 0
+                  : co.unread + 1,
+              latest: msg.msg.msg,
+            };
+          }
+          if (co.userId === msg.to) {
+            return {
+              ...co,
+              count: co.count + 1,
+              unread: 0,
+              latest: msg.msg.msg,
+            };
+          }
+          return co;
+        }),
+      );
     });
     return () => {
       // contacts.unsubscribe();
     };
-  }, []);
+  }
 
-  const onModal2 = () => {
-    setModalVisible(false);
+  onModal2 = () => {
+    this.setState({modalVisible: false});
   };
 
-  const simpleModal = () => {
+  simpleModal = () => {
     return (
       <Modal
         animationType={'slide'}
-        visible={modalVisible}
+        visible={this.state.modalVisible}
         transparent
-        onRequestClose={() => onModal2()}>
+        onRequestClose={() => this.onModal2()}>
         <View style={styles.modalContainer}>
           <View style={styles.modal}>
             <Text
@@ -241,7 +237,7 @@ export default (props) => {
 
             <TouchableOpacity
               style={[styles.btn, {marginTop: 20}]}
-              onPress={() => onModal2()}>
+              onPress={() => this.onModal2()}>
               <Text
                 style={{
                   color: 'white',
@@ -257,54 +253,55 @@ export default (props) => {
     );
   };
 
-  const setTogglePanel = (visible, user = {}) => {
+  setTogglePanel = (visible, user = {}) => {
     // LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
-    setToggleMatchingPanel(visible);
-    setCurrentUser(user);
+    this.setState({toggleMatchingPanel: visible, currentUser: user});
   };
-  const render = () => {
-    const {navigate} = props.navigation;
+  render() {
+    const {navigate} = this.props.navigation;
     const style_invisible_newMatch =
-      toggleMatchingPanel === false &&
-      toggleTeamPanel === false &&
-      toggleMatchingFollowPanel === false
+      this.state.toggleMatchingPanel === false &&
+      this.state.toggleTeamPanel === false &&
+      this.state.toggleMatchingFollowPanel === false
         ? {opacity: 1}
         : {height: 0, opacity: 0, flex: 0};
     const style_visible_newMatch =
-      toggleMatchingPanel === true
+      this.state.toggleMatchingPanel === true
         ? {opacity: 1}
         : {height: 0, opacity: 0, flex: 0};
     const style_visible_newMatch_follow =
-      toggleMatchingFollowPanel === true
+      this.state.toggleMatchingFollowPanel === true
         ? {opacity: 1}
         : {height: 0, opacity: 0, flex: 0};
     const style_visible_team =
-      toggleTeamPanel === true
+      this.state.toggleTeamPanel === true
         ? {opacity: 1}
         : {height: 0, opacity: 0, flex: 0};
     const modal_style =
-      modalVisible === true && Platform.OS === 'android' ? {opacity: 0.7} : {};
+      this.state.modalVisible === true && Platform.OS === 'android'
+        ? {opacity: 0.7}
+        : {};
 
     const users =
-      allcards &&
-      allcards.find((cd) => cd.users !== undefined) &&
-      allcards.find((cd) => cd.users !== undefined).users;
+      this.state.allcards &&
+      this.state.allcards.find((cd) => cd.users !== undefined) &&
+      this.state.allcards.find((cd) => cd.users !== undefined).users;
     const teams =
-      allcards &&
-      allcards.find((cd) => cd.team !== undefined) &&
-      allcards.find((cd) => cd.team !== undefined).team;
+      this.state.allcards &&
+      this.state.allcards.find((cd) => cd.team !== undefined) &&
+      this.state.allcards.find((cd) => cd.team !== undefined).team;
     const trials =
-      allcards &&
-      allcards.find((cd) => cd.trial !== undefined) &&
-      allcards.find((cd) => cd.trial !== undefined).trial;
+      this.state.allcards &&
+      this.state.allcards.find((cd) => cd.trial !== undefined) &&
+      this.state.allcards.find((cd) => cd.trial !== undefined).trial;
     const training =
-      allcards &&
-      allcards.find((cd) => cd.traning !== undefined) &&
-      allcards.find((cd) => cd.traning !== undefined).traning;
+      this.state.allcards &&
+      this.state.allcards.find((cd) => cd.traning !== undefined) &&
+      this.state.allcards.find((cd) => cd.traning !== undefined).traning;
     const events =
-      allcards &&
-      allcards.find((cd) => cd.event !== undefined) &&
-      allcards.find((cd) => cd.event !== undefined).event;
+      this.state.allcards &&
+      this.state.allcards.find((cd) => cd.event !== undefined) &&
+      this.state.allcards.find((cd) => cd.event !== undefined).event;
     let cards = [];
     if (users) {
       cards = users.map((user, index) => (
@@ -323,9 +320,11 @@ export default (props) => {
           }}>
           <UserCard
             user={user}
-            universities={universities}
-            setTogglePanel={setTogglePanel}
-            setToggleFollowPanel={setToggleMatchingFollowPanel}
+            universities={this.state.universities}
+            setTogglePanel={this.setTogglePanel}
+            setToggleFollowPanel={(val) => {
+              this.state.setToggleMatchingFollowPanel(val);
+            }}
           />
         </Card>
       ));
@@ -335,10 +334,10 @@ export default (props) => {
             style={styles.card}
             key={'team' + index}
             onSwipedLeft={() => {
-              console.log(setting);
+              console.log(this.props.setting);
               APIKit.rejectTeam(
                 {
-                  player: userId,
+                  player: this.state.userId,
                 },
                 team.chief,
               ).then((resp) => {
@@ -346,22 +345,24 @@ export default (props) => {
               });
             }}
             onSwipedRight={() => {
-              console.log(setting);
+              console.log(this.props.setting);
               APIKit.joinTeam(
                 {
-                  player: userId,
+                  player: this.state.userId,
                 },
                 team.chief,
               ).then((resp) => {
                 console.log(resp);
                 APIKit.getTeams().then((resp1) => {
-                  dispatch(Actions.setTeams(resp1.data.docs));
+                  this.props.setTeams(resp1.data.docs);
                 });
               });
             }}>
             <TeamCard
               team={team}
-              setToggleTeamPanel={(visible) => setToggleTeamPanel(visible)}
+              setToggleTeamPanel={(visible) =>
+                this.setState({toggleTeamPanel: visible})
+              }
             />
           </Card>,
         );
@@ -426,7 +427,7 @@ export default (props) => {
           <CardStack
             style={[styles.cardstack, style_invisible_newMatch, modal_style]}
             ref={(swiperRef) => {
-              swiper = swiperRef;
+              this.swiper = swiperRef;
             }}
             renderNoMoreCards={() => {
               return <OutOfCards />;
@@ -436,11 +437,11 @@ export default (props) => {
             verticalSwipe={false}>
             {cards}
           </CardStack>
-          {toggleMatchingPanel && (
+          {this.state.toggleMatchingPanel && (
             <View style={[styles.cardstack, style_visible_newMatch]}>
               <Card style={styles.card}>
                 <View style={styles.main}>
-                  {currentUser.mFriends.length > 0 && (
+                  {this.state.currentUser.mFriends.length > 0 && (
                     <Image source={images.group} style={styles.groupImg} />
                   )}
 
@@ -466,31 +467,31 @@ export default (props) => {
                       }}>
                       <DateView
                         data={'Monday'}
-                        value={currentUser.availability.mon}
+                        value={this.state.currentUser.availability.mon}
                       />
                       <DateView
                         data={'Tuesday'}
-                        value={currentUser.availability.tue}
+                        value={this.state.currentUser.availability.tue}
                       />
                       <DateView
                         data={'Wednesday'}
-                        value={currentUser.availability.wed}
+                        value={this.state.currentUser.availability.wed}
                       />
                       <DateView
                         data={'Thursday'}
-                        value={currentUser.availability.thu}
+                        value={this.state.currentUser.availability.thu}
                       />
                       <DateView
                         data={'Friday'}
-                        value={currentUser.availability.fri}
+                        value={this.state.currentUser.availability.fri}
                       />
                       <DateView
                         data={'Saturday'}
-                        value={currentUser.availability.sat}
+                        value={this.state.currentUser.availability.sat}
                       />
                       <DateView
                         data={'Sunday'}
-                        value={currentUser.availability.sun}
+                        value={this.state.currentUser.availability.sun}
                       />
                     </View>
 
@@ -502,7 +503,7 @@ export default (props) => {
                         justifyContent: 'center',
                         alignSelf: 'center',
                       }}
-                      onPress={() => setTogglePanel(false)}>
+                      onPress={() => this.setTogglePanel(false)}>
                       <AntDesign name="up" size={30} color={'white'} />
                     </TouchableOpacity>
                   </View>
@@ -510,7 +511,7 @@ export default (props) => {
               </Card>
             </View>
           )}
-          {toggleMatchingFollowPanel && (
+          {this.state.toggleMatchingFollowPanel && (
             <View style={[styles.cardstack, style_visible_newMatch_follow]}>
               <Card style={styles.card}>
                 <View
@@ -597,7 +598,9 @@ export default (props) => {
                         justifyContent: 'center',
                         alignSelf: 'center',
                       }}
-                      onPress={() => setToggleMatchingFollowPanel(false)}>
+                      onPress={() =>
+                        this.setState({toggleMatchingFollowPanel: false})
+                      }>
                       <AntDesign name="up" size={30} color={'white'} />
                     </TouchableOpacity>
                   </View>
@@ -605,7 +608,7 @@ export default (props) => {
               </Card>
             </View>
           )}
-          {toggleTeamPanel && (
+          {this.state.toggleTeamPanel && (
             <View style={[styles.cardstack, style_visible_team]}>
               <Card style={styles.card}>
                 <View style={[styles.main, {backgroundColor: colors.orange}]}>
@@ -691,7 +694,7 @@ export default (props) => {
                         justifyContent: 'center',
                         alignSelf: 'center',
                       }}
-                      onPress={() => setToggleTeamPanel(false)}>
+                      onPress={() => this.setState({toggleTeamPanel: false})}>
                       <AntDesign name="up" size={30} color={'white'} />
                     </TouchableOpacity>
                   </View>
@@ -699,25 +702,29 @@ export default (props) => {
               </Card>
             </View>
           )}
-          {simpleModal()}
+          {this.simpleModal()}
           <Footer
             onSwipedLeft={() => {
-              if (swiper !== null) {
-                setToggleMatchingPanel(false);
-                setToggleTeamPanel(false);
-                swiper.swipeLeft();
+              if (this.swiper !== null) {
+                this.setState({
+                  toggleMatchingPanel: false,
+                  toggleTeamPanel: false,
+                });
+                this.swiper.swipeLeft();
               }
             }}
             onSwipedRight={() => {
-              if (swiper !== null) {
-                setToggleMatchingPanel(false);
-                setToggleTeamPanel(false);
-                swiper.swipeRight();
+              if (this.swiper !== null) {
+                this.setState({
+                  toggleMatchingPanel: false,
+                  toggleTeamPanel: false,
+                });
+                this.swiper.swipeRight();
               }
             }}
           />
         </>
-        {modalVisible && (
+        {this.state.modalVisible && (
           <BlurView
             style={styles.absolute}
             blurType="dark"
@@ -727,9 +734,29 @@ export default (props) => {
         )}
       </View>
     );
+  }
+}
+
+const mapStateToProps = (state, ownProps) => ({
+  setting: state.main.data.setting,
+  curUser: state.main.chat.curUser,
+  socket: state.main.chat.socket,
+  contacts: state.main.chat.contacts,
+});
+
+const mapDispatchToProps = (dispatch) => {
+  return {
+    setSetting: (data) => dispatch(Actions.setSetting(data)),
+    setContacts: (data) => dispatch(Actions.setContacts(data)),
+    setTeams: (data) => dispatch(Actions.setTeams(data)),
+    setSports: (data) => dispatch(Actions.setSports(data)),
+    setProfile: (data) => dispatch(Actions.setProfile(data)),
+    addHistory: (data) => dispatch(Actions.addHistory(data)),
   };
-  return render();
+  // ... normally is an object full of action creators
 };
+
+export default connect(mapStateToProps, mapDispatchToProps)(Home);
 
 const styles = StyleSheet.create({
   container: {
