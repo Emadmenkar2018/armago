@@ -44,6 +44,18 @@ export default class SetDetail extends Component {
           token: this.props.navigation.state.idToken,
         };
       }
+      if (provider === 'apple') {
+        payload.appleAuth = {
+          id: this.props.navigation.state.appleId,
+          token: this.props.navigation.state.idToken,
+        };
+      }
+      if (provider === 'facebook') {
+        payload.fbAuth = {
+          id: this.props.navigation.state.facebookId,
+          token: this.props.navigation.state.idToken,
+        };
+      }
       APIKit.register(payload)
         .then(async ({data}) => {
           console.log(data);

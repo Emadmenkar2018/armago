@@ -8,6 +8,7 @@ import {
   Dimensions,
   TouchableOpacity,
   Platform,
+  Alert,
 } from 'react-native';
 import {images} from '../../common/images';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -15,6 +16,12 @@ import {colors} from '../../common/colors';
 import FontAwesome from 'react-native-vector-icons/FontAwesome';
 export const {width, height} = Dimensions.get('window');
 import {GoogleSignin, statusCodes} from 'react-native-google-signin';
+import appleAuth, {
+  AppleAuthRequestOperation,
+  AppleAuthRequestScope,
+} from '@invertase/react-native-apple-authentication';
+
+import { LoginButton, LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
 
 import APIKit, {setClientToken} from '../../services/api';
 
@@ -73,6 +80,101 @@ export default class Signin extends Component {
       }
     }
   };
+  handleApplSignIn = async () => {
+    
+    const {navigate} = this.props.navigation;
+
+    try {
+      if (appleAuth.isSupported) {
+        const appleAuthRequestResponse = await appleAuth.performRequest({
+          requestedOperation: AppleAuthRequestOperation.LOGIN,
+          requestedScopes: [AppleAuthRequestScope.EMAIL, AppleAuthRequestScope.FULL_NAME],
+        });
+        console.log(appleAuthRequestResponse);
+        if (appleAuthRequestResponse.email === null) {
+          Alert.alert('Please share your email address');
+          return;
+        }
+        APIKit.social_login({
+          provider: 'apple',
+          identifier: appleAuthRequestResponse.user,
+        })
+          .then((resp) => {
+            if (!resp || resp.errors) {
+              navigate('SetDetailOAuth', {
+                provider: 'apple',
+                email: appleAuthRequestResponse.email,
+                idToken: appleAuthRequestResponse.identityToken,
+                appleId: appleAuthRequestResponse.user,
+              });
+            } else {
+              setClientToken(resp.token);
+            }
+          })
+          .catch((err) => {
+            console.log(err);
+          });
+      } else {
+        Alert.alert('Apple Authentication is not supported on this device. Currently Apple Authentication works on iOS devices running iOS 13 or later');
+      }
+    } catch (e) {
+      console.log(e);
+    }
+  };
+  handleFacebookSignIn = async () => {
+    const {navigate} = this.props.navigation;
+    LoginManager.logInWithPermissions(["public_profile", "email"]).then(
+      function(result) {
+        // console.log(result);
+        if (result.isCancelled) {
+          // console.log("Login cancelled");
+        } else {
+          // console.log(
+          //   "Login success with permissions: " +
+          //     result.grantedPermissions.toString()
+          // );
+          AccessToken.getCurrentAccessToken().then((data) => {
+            const { accessToken } = data;
+            fetch('https://graph.facebook.com/v2.5/me?fields=email,name,friends,picture.type(large)&access_token=' + accessToken)
+            .then((response) => response.json())
+            .then((json) => {
+              // Some user object has been set up somewhere, build that user here
+              // console.log(json.name);
+              // console.log(json.email);
+              // console.log(json.id);
+              // console.log(json.picture.data.url);
+              
+              APIKit.social_login({
+                provider: 'facebook',
+                identifier: json.id,
+              })
+                .then((resp) => {
+                  if (!resp || resp.errors) {
+                    navigate('SetDetailOAuth', {
+                      provider: 'facebook',
+                      email: json.email,
+                      idToken: accessToken,
+                      facebookId: json.id,
+                    });
+                  } else {
+                    setClientToken(resp.token);
+                  }
+                })
+                .catch((err) => {
+                  console.log(err);
+                });
+            })
+            .catch(() => {
+              reject('ERROR GETTING DATA FROM FACEBOOK')
+            })
+          })
+        }
+      },
+      function(error) {
+        // console.log("Login fail with error: " + error);
+      }
+    );
+  };
   render() {
     const {navigate} = this.props.navigation;
     return (
@@ -80,7 +182,9 @@ export default class Signin extends Component {
         <View style={styles.main}>
           <Image source={images.logo} style={styles.logo} />
 
-          <View style={[styles.btn, {backgroundColor: '#3d589a'}]}>
+          <TouchableOpacity
+            onPress={this.handleFacebookSignIn}
+            style={[styles.btn, {backgroundColor: '#3d589a'}]}>
             <AntDesign
               name="facebook-square"
               size={24}
@@ -88,7 +192,7 @@ export default class Signin extends Component {
               style={{marginHorizontal: 12}}
             />
             <Text style={{color: 'white'}}>Sign up with Facebook</Text>
-          </View>
+          </TouchableOpacity>
 
           <TouchableOpacity
             onPress={this.handleGoogleSignIn}
@@ -105,11 +209,12 @@ export default class Signin extends Component {
           </TouchableOpacity>
 
           {Platform.OS === 'ios' && (
-            <View
+            <TouchableOpacity
               style={[
                 styles.btn,
                 {backgroundColor: '#f0f0f0', borderWidth: 0.3},
-              ]}>
+              ]}
+              onPress={this.handleApplSignIn}>
               <FontAwesome
                 name="apple"
                 size={24}
@@ -119,7 +224,7 @@ export default class Signin extends Component {
               <Text style={{color: 'black', marginLeft: 24}}>
                 Sign in with Apple
               </Text>
-            </View>
+            </TouchableOpacity>
           )}
           <Text style={styles.text1}>{'- Or -'}</Text>
           <TouchableOpacity
