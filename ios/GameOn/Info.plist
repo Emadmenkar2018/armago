@@ -71,11 +71,13 @@
 		</dict>
 	</dict>
 	<key>NSLocationAlwaysAndWhenInUseUsageDescription</key>
-	<string></string>
+	<string>This app needs your location in order to find other users near you</string>
 	<key>NSLocationAlwaysUsageDescription</key>
 	<string>This app needs to get your location...</string>
 	<key>NSLocationWhenInUseUsageDescription</key>
-	<string></string>
+	<string>This app needs your location in order to find other users near you</string>
+	<key>NSPhotoLibraryUsageDescription</key>
+	<string>This app needs access to your photo gallery in order to set a profile picture</string>
 	<key>UIAppFonts</key>
 	<array>
 		<string>AntDesign.ttf</string>
