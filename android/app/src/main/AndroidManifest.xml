@@ -25,11 +25,12 @@
       android:requestLegacyExternalStorage="true"
       android:usesCleartextTraffic="true"
       android:theme="@style/AppTheme">
+      <meta-data android:name="com.facebook.sdk.ApplicationId" android:value="@string/facebook_app_id"/>
       <activity
         android:name=".MainActivity"
         android:label="@string/app_name"
         android:configChanges="keyboard|keyboardHidden|orientation|screenSize|uiMode"
-        android:orientation="portrait"
+        android:orientation="vertical"
         android:launchMode="singleTask"
         android:windowSoftInputMode="adjustPan">
         <intent-filter>

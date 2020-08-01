@@ -21,7 +21,7 @@ import appleAuth, {
   AppleAuthRequestScope,
 } from '@invertase/react-native-apple-authentication';
 
-import { LoginButton, LoginManager, AccessToken, GraphRequest, GraphRequestManager } from 'react-native-fbsdk';
+import {LoginManager, AccessToken} from 'react-native-fbsdk';
 
 import APIKit, {setClientToken} from '../../services/api';
 
@@ -81,14 +81,16 @@ export default class Signin extends Component {
     }
   };
   handleApplSignIn = async () => {
-    
     const {navigate} = this.props.navigation;
 
     try {
       if (appleAuth.isSupported) {
         const appleAuthRequestResponse = await appleAuth.performRequest({
           requestedOperation: AppleAuthRequestOperation.LOGIN,
-          requestedScopes: [AppleAuthRequestScope.EMAIL, AppleAuthRequestScope.FULL_NAME],
+          requestedScopes: [
+            AppleAuthRequestScope.EMAIL,
+            AppleAuthRequestScope.FULL_NAME,
+          ],
         });
         console.log(appleAuthRequestResponse);
         if (appleAuthRequestResponse.email === null) {
@@ -115,7 +117,9 @@ export default class Signin extends Component {
             console.log(err);
           });
       } else {
-        Alert.alert('Apple Authentication is not supported on this device. Currently Apple Authentication works on iOS devices running iOS 13 or later');
+        Alert.alert(
+          'Apple Authentication is not supported on this device. Currently Apple Authentication works on iOS devices running iOS 13 or later',
+        );
       }
     } catch (e) {
       console.log(e);
@@ -123,8 +127,8 @@ export default class Signin extends Component {
   };
   handleFacebookSignIn = async () => {
     const {navigate} = this.props.navigation;
-    LoginManager.logInWithPermissions(["public_profile", "email"]).then(
-      function(result) {
+    LoginManager.logInWithPermissions(['public_profile', 'email']).then(
+      function (result) {
         // console.log(result);
         if (result.isCancelled) {
           // console.log("Login cancelled");
@@ -134,45 +138,49 @@ export default class Signin extends Component {
           //     result.grantedPermissions.toString()
           // );
           AccessToken.getCurrentAccessToken().then((data) => {
-            const { accessToken } = data;
-            fetch('https://graph.facebook.com/v2.5/me?fields=email,name,friends,picture.type(large)&access_token=' + accessToken)
-            .then((response) => response.json())
-            .then((json) => {
-              // Some user object has been set up somewhere, build that user here
-              // console.log(json.name);
-              // console.log(json.email);
-              // console.log(json.id);
-              // console.log(json.picture.data.url);
-              
-              APIKit.social_login({
-                provider: 'facebook',
-                identifier: json.id,
-              })
-                .then((resp) => {
-                  if (!resp || resp.errors) {
-                    navigate('SetDetailOAuth', {
-                      provider: 'facebook',
-                      email: json.email,
-                      idToken: accessToken,
-                      facebookId: json.id,
-                    });
-                  } else {
-                    setClientToken(resp.token);
-                  }
+            const {accessToken} = data;
+            fetch(
+              'https://graph.facebook.com/v2.5/me?fields=email,name,friends,picture.type(large)&access_token=' +
+                accessToken,
+            )
+              .then((response) => response.json())
+              .then((json) => {
+                // Some user object has been set up somewhere, build that user here
+                // console.log(json.name);
+                // console.log(json.email);
+                // console.log(json.id);
+                // console.log(json.picture.data.url);
+
+                APIKit.social_login({
+                  provider: 'facebook',
+                  identifier: json.id,
                 })
-                .catch((err) => {
-                  console.log(err);
-                });
-            })
-            .catch(() => {
-              reject('ERROR GETTING DATA FROM FACEBOOK')
-            })
-          })
+                  .then((resp) => {
+                    if (!resp || resp.errors) {
+                      navigate('SetDetailOAuth', {
+                        provider: 'facebook',
+                        email: json.email,
+                        idToken: accessToken,
+                        facebookId: json.id,
+                      });
+                    } else {
+                      setClientToken(resp.token);
+                    }
+                  })
+                  .catch((err) => {
+                    console.log(err);
+                  });
+              })
+              .catch((e) => {
+                // reject('ERROR GETTING DATA FROM FACEBOOK');
+                console.log(e);
+              });
+          });
         }
       },
-      function(error) {
+      function (error) {
         // console.log("Login fail with error: " + error);
-      }
+      },
     );
   };
   render() {

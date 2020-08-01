@@ -23,6 +23,9 @@ import EditGender from './screens/EditGender';
 import EditProfile from './screens/EditProfile';
 import Messages from './screens/Messages';
 import Chat from './screens/Chat';
+import PrivacyPolicy from './screens/PrivacyPolicy';
+import Terms from './screens/Terms';
+
 import AuthLoadingScreen from './screens/auth/AuthLoading';
 import SetPhone from './screens/auth/SetPhone';
 import SetSmsCode from './screens/auth/SetSmsCode';
@@ -60,6 +63,8 @@ const HomeNavigator = createStackNavigator(
     Settings: {screen: Settings, navigationOptions},
     AbilityEdit: {screen: AbilityEdit, navigationOptions},
     BioEdit: {screen: BioEdit, navigationOptions},
+    PrivacyPolicy: {screen: PrivacyPolicy, navigationOptions},
+    Terms: {screen: Terms, navigationOptions},
   },
   {
     initialRouteName: 'Home',

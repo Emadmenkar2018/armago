@@ -1,10 +1,20 @@
 /* eslint-disable react-native/no-inline-styles */
 import React from 'react';
-import {View, Text, StyleSheet, Image, TouchableOpacity} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  TouchableOpacity,
+  SafeAreaView,
+  Platform,
+} from 'react-native';
 import {LongHeader} from '../components/longHeader';
 import {images} from '../common/images';
 import {useDispatch, useSelector} from 'react-redux';
 import * as Actions from '../store/actions';
+import AppStatusBar from '../components/AppStatusBar';
+import {colors} from '../common/colors';
 
 export default (props) => {
   const setting = useSelector((state) => state.main.data.setting);
@@ -22,78 +32,85 @@ export default (props) => {
   };
   const {navigate} = props.navigation;
   return (
-    <View style={styles.container}>
-      <LongHeader
-        title={'Gender'}
-        color={'white'}
-        left={'green'}
-        route={'Settings'}
-        navigate={navigate}
-        removeRightIcon
-        dark
+    <>
+      <AppStatusBar
+        backgroundColor={colors.lightgreen}
+        barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
       />
-      <View
-        style={{
-          backgroundColor: '#f8f8f8',
-          paddingTop: 24,
-          paddingHorizontal: 12,
-        }}>
-        <Text style={styles.text}>
-          {
-            'Setting a gender preference means that you will only be shown matches with the specified gender, however training and social events might still be mixed.'
-          }
-        </Text>
-      </View>
-      {setting.gender.map((gen, index) => {
-        const sport = sports.find((sp) => sp._id === gen.sport);
-        return (
-          sport && (
-            <View style={styles.gender} key={'gender' + index}>
-              <View style={styles.lgender}>
-                <Image source={{uri: sport.imageUrl}} style={styles.racket} />
-                <Text
-                  style={{
-                    color: 'black',
-                    fontSize: 17,
-                    justifyContent: 'center',
-                    alignItems: 'center',
-                    alignSelf: 'center',
-                  }}>
-                  {sport.name}
-                </Text>
-              </View>
-              <View style={styles.rgender}>
-                <View style={styles.item}>
-                  <View>
-                    <TouchableOpacity onPress={() => selected('male', index)}>
-                      <Image source={images.genderM} style={styles.gRacket} />
-                    </TouchableOpacity>
+      <SafeAreaView style={styles.container}>
+        <LongHeader
+          title={'Gender'}
+          color={'white'}
+          left={'green'}
+          route={'Settings'}
+          navigate={navigate}
+          removeRightIcon
+          dark
+        />
+        <View
+          style={{
+            backgroundColor: '#f8f8f8',
+            paddingTop: 24,
+            paddingHorizontal: 12,
+          }}>
+          <Text style={styles.text}>
+            {
+              'Setting a gender preference means that you will only be shown matches with the specified gender, however training and social events might still be mixed.'
+            }
+          </Text>
+        </View>
+        {setting.gender.map((gen, index) => {
+          const sport = sports.find((sp) => sp._id === gen.sport);
+          return (
+            sport && (
+              <View style={styles.gender} key={'gender' + index}>
+                <View style={styles.lgender}>
+                  <Image source={{uri: sport.imageUrl}} style={styles.racket} />
+                  <Text
+                    style={{
+                      color: 'black',
+                      fontSize: 17,
+                      justifyContent: 'center',
+                      alignItems: 'center',
+                      alignSelf: 'center',
+                    }}>
+                    {sport.name}
+                  </Text>
+                </View>
+                <View style={styles.rgender}>
+                  <View style={styles.item}>
+                    <View>
+                      <TouchableOpacity onPress={() => selected('male', index)}>
+                        <Image source={images.genderM} style={styles.gRacket} />
+                      </TouchableOpacity>
 
-                    {gen.value === 'male' && seleted_item()}
+                      {gen.value === 'male' && seleted_item()}
+                    </View>
                   </View>
-                </View>
-                <View style={styles.item}>
-                  <View>
-                    <TouchableOpacity onPress={() => selected('female', index)}>
-                      <Image source={images.genderW} style={styles.gRacket} />
-                    </TouchableOpacity>
-                    {gen.value === 'female' && seleted_item()}
+                  <View style={styles.item}>
+                    <View>
+                      <TouchableOpacity
+                        onPress={() => selected('female', index)}>
+                        <Image source={images.genderW} style={styles.gRacket} />
+                      </TouchableOpacity>
+                      {gen.value === 'female' && seleted_item()}
+                    </View>
                   </View>
-                </View>
-                <View style={styles.item}>
-                  <View>
-                    <TouchableOpacity onPress={() => selected('both', index)}>
-                      <Image source={images.genderB} style={styles.gRacket} />
-                    </TouchableOpacity>
-                    {gen.value === 'both' && seleted_item()}
+                  <View style={styles.item}>
+                    <View>
+                      <TouchableOpacity onPress={() => selected('both', index)}>
+                        <Image source={images.genderB} style={styles.gRacket} />
+                      </TouchableOpacity>
+                      {gen.value === 'both' && seleted_item()}
+                    </View>
                   </View>
                 </View>
               </View>
-            </View>
-          )
-        );
-      })}
-    </View>
+            )
+          );
+        })}
+      </SafeAreaView>
+    </>
   );
 };
 

@@ -61,11 +61,11 @@ export default (props) => {
         console.log('User tapped custom button: ', res.customButton);
       } else {
         if (res.uri) {
-          if (res.width > 500 || res.height > 500) {
-            let newWidth = 500,
-              newHeight = 500;
+          if (res.width > 1000 || res.height > 1000) {
+            let newWidth = 1000,
+              newHeight = 1000;
             if (res.width > res.height) {
-              newHeight = (res.height / res.width) * 500;
+              newHeight = (res.height / res.width) * 1000;
             }
             ImageResizer.createResizedImage(
               res.uri,

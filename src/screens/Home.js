@@ -119,9 +119,14 @@ class Home extends Component {
       this.setState({userId: resp.data.userId});
       console.log('userId', resp.data.userId);
       this.props.socket.emit('User:Joined', resp.data.userId);
-      APIKit.getContacts().then((resp1) => {
-        this.props.setContacts(resp1.data);
-      });
+      // if (this.props.profile.ability) {
+      //   if (!resp.data.location.find((lo) => lo.selected)) {
+      //     // await()
+      //   }
+      // }
+    });
+    APIKit.getContacts().then((resp1) => {
+      this.props.setContacts(resp1.data);
     });
     APIKit.getTeams().then((resp) => {
       console.log(resp.data.docs);

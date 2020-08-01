@@ -106,8 +106,8 @@ export default class SetDetail extends Component {
             },
           };
           APIKit.setSetting(setting)
-            .then((resp) => {
-              console.log(resp.data);
+            .then((resp1) => {
+              console.log(resp1.data);
               const fullfilled = user.fullfilled;
               !fullfilled ? navigate('SetPersonalInfo') : navigate('Home');
             })

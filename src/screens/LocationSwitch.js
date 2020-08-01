@@ -10,6 +10,7 @@ import {
   SafeAreaView,
   PermissionsAndroid,
   TouchableOpacity,
+  Alert,
 } from 'react-native';
 import {LongHeader} from '../components/longHeader';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -24,6 +25,7 @@ import {useDispatch, useSelector} from 'react-redux';
 
 export default (props) => {
   const setting = useSelector((state) => state.main.data.setting);
+  const profile = useSelector((state) => state.main.data.profile);
   const dispatch = useDispatch();
 
   const [lat, setLat] = useState(0);
@@ -90,12 +92,53 @@ export default (props) => {
       getCurrentLocation();
       return;
     }
+    if (setting.location.find((lo) => lo.address === address)) {
+      Alert.alert('Already exist');
+      return;
+    }
     APIKit.setSetting({
       ...setting,
-      location: [...setting.location, {lat: lat, lng: long, address: address}],
+      location: [
+        ...setting.location,
+        {lat: lat, lng: long, address: address, selected: false},
+      ],
     }).then((resp) => {
       // console.log(resp);
       dispatch(Actions.setSetting(resp.data));
+    });
+  };
+  const onSelectLocation = (location, index) => {
+    var newLocations = setting.location.map((lo, ind) => ({
+      ...lo,
+      selected: ind === index,
+    }));
+    APIKit.setSetting({
+      ...setting,
+      location: newLocations,
+    }).then((newSetting) => {
+      console.log(newSetting);
+      dispatch(Actions.setSetting(newSetting.data));
+    });
+    APIKit.profile({
+      ...profile,
+      location,
+    }).then((newProfile) => {
+      console.log(newProfile);
+      dispatch(Actions.setProfile(newProfile.data));
+    });
+  };
+  const onCurrentLocation = () => {
+    if (address === '') {
+      alert('Please allow permission.');
+      getCurrentLocation();
+      return;
+    }
+    APIKit.profile({
+      ...profile,
+      location: {lat: lat, lng: long, address: address, selected: false},
+    }).then((resp) => {
+      // console.log(resp);
+      dispatch(Actions.setProfile(resp.data));
     });
   };
   const render = () => {
@@ -122,19 +165,30 @@ export default (props) => {
               {'Set Location'}
             </Text>
           </View>
-          <View style={styles.category}>
+          <TouchableOpacity
+            style={styles.category}
+            onPress={() => onCurrentLocation()}>
             <Text style={styles.text2}>{'Current Location'}</Text>
-            <AntDesign name="check" size={20} color={'#007aff'} />
-          </View>
+            {!setting.location.find(
+              (lo) => lo.address === profile.location.address,
+            ) && <AntDesign name="check" size={20} color={'#007aff'} />}
+          </TouchableOpacity>
           {setting.location.map((lo, index) => (
-            <View
+            <TouchableOpacity
+              onPress={() => onSelectLocation(lo, index)}
               style={[styles.category, {borderBottomWidth: 0}]}
               key={'location' + index}>
               <Text style={styles.text2}>{lo.address}</Text>
-            </View>
+              {lo.address === profile.location.address && (
+                <AntDesign name="check" size={20} color={'#007aff'} />
+              )}
+            </TouchableOpacity>
           ))}
 
-          <TouchableOpacity style={styles.bar2} onPress={addNewLocation}>
+          <TouchableOpacity
+            style={styles.bar2}
+            onPress={addNewLocation}
+            disabled={setting.location.length >= 5}>
             <Text
               style={[
                 styles.text2,
@@ -177,6 +231,7 @@ const styles = StyleSheet.create({
     color: 'grey',
     fontSize: 21,
     fontFamily: 'ProximaNova-Regular',
+    width: '90%',
   },
   item: {
     marginTop: 26,
@@ -198,7 +253,7 @@ const styles = StyleSheet.create({
   },
   category: {
     flexDirection: 'row',
-    height: 50,
+    // height: 50,
     alignItems: 'center',
     justifyContent: 'space-between',
     borderBottomWidth: 0.5,

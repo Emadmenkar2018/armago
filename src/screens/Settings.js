@@ -11,6 +11,7 @@ import {
   ScrollView,
   TouchableOpacity,
   Platform,
+  Linking,
 } from 'react-native';
 import {LongHeader} from '../components/longHeader';
 import {colors} from '../common/colors';
@@ -284,29 +285,43 @@ export default (props) => {
             ]}>
             <Text style={[styles.label, styles.bold]}>{'Contact Us'}</Text>
           </View>
-          <View style={[styles.row, styles.divider]}>
+          <TouchableOpacity
+            style={[styles.row, styles.divider]}
+            onPress={() => Linking.openURL('http://armago.uk/support')}>
             <Text style={styles.btnText}>{'Help & Support'}</Text>
-          </View>
+          </TouchableOpacity>
           <View style={[styles.row, styles.divider_section]} />
-          <View style={[styles.row, styles.divider]}>
+          <TouchableOpacity
+            style={[styles.row, styles.divider]}
+            onPress={() => Linking.openURL('http://armago.uk/rate')}>
             <Text style={styles.btnText}>{'Rate Us'}</Text>
-          </View>
+          </TouchableOpacity>
           <View style={[styles.row, styles.divider_section]} />
-          <View style={[styles.row, styles.divider]}>
+          <TouchableOpacity
+            style={[styles.row, styles.divider]}
+            onPress={() => Linking.openURL('http://armago.uk/feedback')}>
             <Text style={styles.btnText}>{'Leave Feedback'}</Text>
-          </View>
+          </TouchableOpacity>
           <View style={[styles.row, styles.divider_section]} />
           <View style={[styles.row, styles.divider_section]}>
             <Text style={[styles.label, styles.bold]}>{'Legal'}</Text>
           </View>
-          <View style={[styles.row, styles.divider, styles.sub]}>
+          <TouchableOpacity
+            onPress={() => {
+              navigate('PrivacyPolicy');
+            }}
+            style={[styles.row, styles.divider, styles.sub]}>
             <Text style={styles.label}>{'Privacy Policy'}</Text>
             <AntDesign name="right" size={25} color={colors.gray} />
-          </View>
-          <View style={[styles.row, styles.divider, styles.sub]}>
+          </TouchableOpacity>
+          <TouchableOpacity
+            onPress={() => {
+              navigate('Terms');
+            }}
+            style={[styles.row, styles.divider, styles.sub]}>
             <Text style={styles.label}>{'Terms of Service'}</Text>
             <AntDesign name="right" size={25} color={colors.gray} />
-          </View>
+          </TouchableOpacity>
           <View style={[styles.row, styles.sub]}>
             <Text style={styles.label}>{'Liscenses'}</Text>
             <AntDesign name="right" size={25} color={colors.gray} />
