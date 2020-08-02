@@ -5,6 +5,17 @@
 #import <React/RCTRootView.h>
 #import <React/RCTDevLoadingView.h>
 
+#import <FlipperKit/FlipperClient.h>
+#import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
+#import <FlipperKitUserDefaultsPlugin/FKUserDefaultsPlugin.h>
+#import <FlipperKitNetworkPlugin/FlipperKitNetworkPlugin.h>
+#import <SKIOSNetworkPlugin/SKIOSNetworkAdapter.h>
+#import <FlipperKitReactPlugin/FlipperKitReactPlugin.h>
+#import <RNGoogleSignin/RNGoogleSignin.h>
+#import <FBSDKCoreKit/FBSDKCoreKit.h>
+
+@import Firebase;
+
 #if DEBUG
 #import <FlipperKit/FlipperClient.h>
 #import <FlipperKitLayoutPlugin/FlipperKitLayoutPlugin.h>
