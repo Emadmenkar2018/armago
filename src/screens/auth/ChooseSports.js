@@ -104,6 +104,7 @@ export default class ChooseSports extends Component {
   }
   render() {
     const {navigate} = this.props.navigation;
+    console.log(this.state.sports.length);
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.main}>
@@ -120,6 +121,7 @@ export default class ChooseSports extends Component {
             {/* <View style={styles.middleSection}> */}
             {this.state.sports.map((prop, key) => {
               if (prop.enable) {
+                console.log('enabled');
                 prop.id = prop._id;
                 return (
                   <TouchableOpacity
@@ -156,24 +158,27 @@ export default class ChooseSports extends Component {
                   </TouchableOpacity>
                 );
               } else {
-                <View style={styles.item}>
-                  <View>
+                console.log('disabled');
+                return (
+                  <View style={styles.item} key={prop._id}>
+                    <View>
+                      <Image
+                        source={{uri: prop.imageUrl}}
+                        style={{
+                          width: 100,
+                          height: 100,
+                          resizeMode: 'contain',
+                          borderRadius: 50,
+                        }}
+                      />
+                      <Text style={styles.sports_label}>{prop.name}</Text>
+                    </View>
                     <Image
-                      source={{uri: prop.imageUrl}}
-                      style={{
-                        width: 100,
-                        height: 100,
-                        resizeMode: 'contain',
-                        borderRadius: 50,
-                      }}
+                      source={images.sport_comiong_soon}
+                      style={{position: 'absolute', top: 0}}
                     />
-                    <Text style={styles.sports_label}>{prop.name}</Text>
                   </View>
-                  <Image
-                    source={images.sport_comiong_soon}
-                    style={{position: 'absolute', top: 0}}
-                  />
-                </View>;
+                );
               }
             })}
 

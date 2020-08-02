@@ -59,7 +59,7 @@ export default class ChooseAbility extends Component {
     this.profile_sports = selected_sports;
     // const found = this.state.ablity.filter(item => item.sportId == prop.id);
     // if(found.length == 0){
-    //   this.state.ablity.push({sportId: prop.id, level: 'beginner'});
+    //   this.state.ablity.push({sportId: prop.id, level: 'Beginner'});
     // }
     return (
       <ScrollView contentContainerStyle={styles.container}>
@@ -81,23 +81,23 @@ export default class ChooseAbility extends Component {
               );
               const value = found.length > 0 ? found[0].level : 0;
               if (found.length === 0) {
-                this.state.ablity.push({sportId: prop.id, level: 'beginner'});
+                this.state.ablity.push({sportId: prop.id, level: 'Beginner'});
               }
               let _value = 0;
               switch (value) {
-                case 'beginner': {
+                case 'Beginner': {
                   _value = 0;
                   break;
                 }
-                case 'intermediate': {
+                case 'Intermediate': {
                   _value = 1;
                   break;
                 }
-                case 'advanced': {
+                case 'Advanced': {
                   _value = 2;
                   break;
                 }
-                case 'team': {
+                case 'Team': {
                   _value = 3;
                   break;
                 }
@@ -125,19 +125,19 @@ export default class ChooseAbility extends Component {
                         (element) => element.sportId === prop.id,
                       );
 
-                      let _level = 'beginner';
+                      let _level = 'Beginner';
                       switch (val) {
                         case 0:
-                          _level = 'beginner';
+                          _level = 'Beginner';
                           break;
                         case 1:
-                          _level = 'intermediate';
+                          _level = 'Intermediate';
                           break;
                         case 2:
-                          _level = 'advanced';
+                          _level = 'Advanced';
                           break;
                         case 3:
-                          _level = 'team';
+                          _level = 'Team';
                           break;
                         default:
                           break;

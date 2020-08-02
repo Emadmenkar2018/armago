@@ -287,6 +287,7 @@ const styles = StyleSheet.create({
     width: responsiveScreenWidth(65),
     top: 15,
     left: -25,
+    paddingLeft: 20,
     textAlign: 'left',
     fontSize: RFValue(13, 580),
     color: '#86939e',

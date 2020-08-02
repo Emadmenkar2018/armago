@@ -108,6 +108,7 @@ export default (props) => {
     });
   };
   const onSelectLocation = (location, index) => {
+    console.log(profile);
     var newLocations = setting.location.map((lo, ind) => ({
       ...lo,
       selected: ind === index,
@@ -119,26 +120,19 @@ export default (props) => {
       console.log(newSetting);
       dispatch(Actions.setSetting(newSetting.data));
     });
-    APIKit.profile({
-      ...profile,
-      location,
-    }).then((newProfile) => {
-      console.log(newProfile);
-      dispatch(Actions.setProfile(newProfile.data));
-    });
   };
   const onCurrentLocation = () => {
-    if (address === '') {
-      alert('Please allow permission.');
-      getCurrentLocation();
-      return;
-    }
-    APIKit.profile({
-      ...profile,
-      location: {lat: lat, lng: long, address: address, selected: false},
-    }).then((resp) => {
-      // console.log(resp);
-      dispatch(Actions.setProfile(resp.data));
+    console.log(profile);
+    var newLocations = setting.location.map((lo) => ({
+      ...lo,
+      selected: false,
+    }));
+    APIKit.setSetting({
+      ...setting,
+      location: newLocations,
+    }).then((newSetting) => {
+      console.log(newSetting);
+      dispatch(Actions.setSetting(newSetting.data));
     });
   };
   const render = () => {

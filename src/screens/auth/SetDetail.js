@@ -245,6 +245,7 @@ const styles = StyleSheet.create({
     top: 15,
     left: -25,
     textAlign: 'left',
+    paddingLeft: 20,
     fontSize: RFValue(13, 580),
     color: '#86939e',
     fontWeight: '600',

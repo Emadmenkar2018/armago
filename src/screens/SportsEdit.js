@@ -168,24 +168,26 @@ export default (props) => {
                     </TouchableOpacity>
                   );
                 } else {
-                  <View style={styles.item}>
-                    <View>
+                  return (
+                    <View style={styles.item} key={prop._id}>
+                      <View>
+                        <Image
+                          source={{uri: prop.imageUrl}}
+                          style={{
+                            width: 100,
+                            height: 100,
+                            resizeMode: 'contain',
+                            borderRadius: 50,
+                          }}
+                        />
+                        <Text style={styles.sports_label}>{prop.name}</Text>
+                      </View>
                       <Image
-                        source={{uri: prop.imageUrl}}
-                        style={{
-                          width: 100,
-                          height: 100,
-                          resizeMode: 'contain',
-                          borderRadius: 50,
-                        }}
+                        source={images.sport_comiong_soon}
+                        style={{position: 'absolute', top: 0}}
                       />
-                      <Text style={styles.sports_label}>{prop.name}</Text>
                     </View>
-                    <Image
-                      source={images.sport_comiong_soon}
-                      style={{position: 'absolute', top: 0}}
-                    />
-                  </View>;
+                  );
                 }
               })}
 

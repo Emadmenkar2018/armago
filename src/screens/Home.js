@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Dimensions,
   Platform,
+  Alert,
 } from 'react-native';
 import Header from '../components/header';
 import Footer from '../components/footer';
@@ -30,6 +31,8 @@ import APIKit from '../services/api';
 
 import {connect} from 'react-redux';
 import * as Actions from '../store/actions';
+import Geocoder from 'react-native-geocoding';
+import Geolocation from '@react-native-community/geolocation';
 
 export const {width, height} = Dimensions.get('window');
 function DateView(props) {
@@ -85,11 +88,14 @@ class Home extends Component {
       allcards: [],
       universities: [],
       currentUser: {},
+      latitude: null,
+      longitude: null,
+      address: '',
     };
   }
 
   componentDidMount() {
-    AsyncStorage.getItem('userToken', (err, result) => {
+    AsyncStorage.getItem('usedBefore', (err, result) => {
       if (err) {
       } else {
         if (result == null) {
@@ -101,7 +107,7 @@ class Home extends Component {
       }
     });
     AsyncStorage.setItem(
-      'token',
+      'usedBefore',
       JSON.stringify({value: 'true'}),
       (err, result) => {
         console.log('error', err, 'result', result);
@@ -119,11 +125,6 @@ class Home extends Component {
       this.setState({userId: resp.data.userId});
       console.log('userId', resp.data.userId);
       this.props.socket.emit('User:Joined', resp.data.userId);
-      // if (this.props.profile.ability) {
-      //   if (!resp.data.location.find((lo) => lo.selected)) {
-      //     // await()
-      //   }
-      // }
     });
     APIKit.getContacts().then((resp1) => {
       this.props.setContacts(resp1.data);
@@ -136,7 +137,20 @@ class Home extends Component {
       this.props.setSports(resp.data);
     });
     APIKit.getprofile().then((resp) => {
-      this.props.setProfile(resp.data);
+      if (this.state.latitude) {
+        APIKit.profile({
+          ...resp.data,
+          location: {
+            lat: this.latitude,
+            lng: this.longitude,
+            address: this.address,
+          },
+        }).then((resp1) => {
+          this.props.setProfile(resp1.data);
+        });
+      } else {
+        this.props.setProfile(resp.data);
+      }
     });
     this.props.socket.on('Online:Users', (onlineUsers) => {
       console.log('Online:Users', onlineUsers);
@@ -196,6 +210,42 @@ class Home extends Component {
     this.setState({modalVisible: false});
   };
 
+  callLocation = () => {
+    Geolocation.getCurrentPosition(
+      //Will give you the current location
+      (position) => {
+        const currentLongitude = JSON.stringify(position.coords.longitude);
+        //getting the Longitude from the location json
+        const currentLatitude = JSON.stringify(position.coords.latitude);
+        //getting the Latitude from the location json
+        this.setState({latitude: currentLatitude, longitude: currentLongitude});
+        //Setting state Longitude to re re-render the Longitude Text
+        Geocoder.init('AIzaSyAeKw1f7h01OyvWvCfUKsRyTywseFWOWEk');
+        Geocoder.from(position.coords.latitude, position.coords.longitude)
+          .then((json) => {
+            const fullAddress = json.results[0].formatted_address;
+            console.log(fullAddress);
+            this.setState({address: fullAddress});
+            if (this.props.profile.gender) {
+              APIKit.profile({
+                ...this.props.profile,
+                location: {
+                  lat: this.state.latitude,
+                  lng: this.state.longitude,
+                  address: this.state.address,
+                },
+              }).then((resp) => {
+                this.props.setProfile(resp.data);
+              });
+            }
+          })
+          .catch((error) => console.warn(error));
+      },
+      (error) => Alert.alert(error.message),
+      {enableHighAccuracy: true, timeout: 20000, maximumAge: 200000},
+    );
+  };
+
   simpleModal = () => {
     return (
       <Modal
@@ -212,7 +262,7 @@ class Home extends Component {
                 fontWeight: '700',
                 textAlign: 'center',
               }}>
-              {'WELCOME TO\nGAMEON!'}
+              {'WELCOME TO\nARMAGO!'}
             </Text>
             <Image
               source={images.user9}
@@ -309,35 +359,39 @@ class Home extends Component {
       this.state.allcards.find((cd) => cd.event !== undefined).event;
     let cards = [];
     if (users) {
-      cards = users.map((user, index) => (
-        <Card
-          style={styles.card}
-          key={'user' + index}
-          onSwipedLeft={() => {
-            APIKit.cardGame({partner: user.id, enable: false}).then((resp) => {
-              console.log(resp);
-            });
-          }}
-          onSwipedRight={() => {
-            APIKit.cardGame({partner: user.id, enable: true}).then((resp) => {
-              console.log(resp);
-            });
-          }}>
-          <UserCard
-            user={user}
-            universities={this.state.universities}
-            setTogglePanel={this.setTogglePanel}
-            setToggleFollowPanel={(val) => {
-              this.state.setToggleMatchingFollowPanel(val);
+      cards = users
+        .filter((user) => user.bio)
+        .map((user, index) => (
+          <Card
+            style={styles.card}
+            key={'user' + index}
+            onSwipedLeft={() => {
+              APIKit.cardGame({partner: user.id, enable: false}).then(
+                (resp) => {
+                  console.log(resp);
+                },
+              );
             }}
-          />
-        </Card>
-      ));
+            onSwipedRight={() => {
+              APIKit.cardGame({partner: user.id, enable: true}).then((resp) => {
+                console.log(resp);
+              });
+            }}>
+            <UserCard
+              user={user}
+              universities={this.state.universities}
+              setTogglePanel={this.setTogglePanel}
+              setToggleFollowPanel={(val) => {
+                this.state.setToggleMatchingFollowPanel(val);
+              }}
+            />
+          </Card>
+        ));
       teams.map((team, index) => {
         cards.push(
           <Card
             style={styles.card}
-            key={'team' + index}
+            key={'Team' + index}
             onSwipedLeft={() => {
               console.log(this.props.setting);
               APIKit.rejectTeam(

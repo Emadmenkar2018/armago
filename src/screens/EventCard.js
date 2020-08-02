@@ -135,7 +135,7 @@ export default class EventCard extends Component {
               </View>
               <Text style={styles.text2}>
                 {
-                  "If you are looking to play with the advanced team or advanced squad you will need to swipe right to select the times you are available to come for a trial'"
+                  "If you are looking to play with the Advanced team or Advanced squad you will need to swipe right to select the times you are available to come for a trial'"
                 }
               </Text>
             </View>
