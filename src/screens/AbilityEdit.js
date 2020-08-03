@@ -59,7 +59,7 @@ export default class AbilityEdit extends Component {
     const {navigate} = this.props.navigation;
     // const found = this.state.ablity.filter(item => item.sportId == prop.id);
     // if(found.length == 0){
-    //   this.state.ablity.push({sportId: prop.id, level: 'Beginner'});
+    //   this.state.ablity.push({sportId: prop.id, level: 'beginner'});
     // }
     return (
       <>
@@ -89,19 +89,19 @@ export default class AbilityEdit extends Component {
               {this.state.ability.map((prop, index) => {
                 let _value = 0;
                 switch (prop.level) {
-                  case 'Beginner': {
+                  case 'beginner': {
                     _value = 0;
                     break;
                   }
-                  case 'Intermediate': {
+                  case 'intermediate': {
                     _value = 1;
                     break;
                   }
-                  case 'Advanced': {
+                  case 'advanced': {
                     _value = 2;
                     break;
                   }
-                  case 'Team': {
+                  case 'team': {
                     _value = 3;
                     break;
                   }
@@ -127,19 +127,19 @@ export default class AbilityEdit extends Component {
                         let newArray = [...this.state.ability];
                         const elementIdx = index;
 
-                        let _level = 'Beginner';
+                        let _level = 'beginner';
                         switch (val) {
                           case 0:
-                            _level = 'Beginner';
+                            _level = 'beginner';
                             break;
                           case 1:
-                            _level = 'Intermediate';
+                            _level = 'intermediate';
                             break;
                           case 2:
-                            _level = 'Advanced';
+                            _level = 'advanced';
                             break;
                           case 3:
-                            _level = 'Team';
+                            _level = 'team';
                             break;
                           default:
                             break;

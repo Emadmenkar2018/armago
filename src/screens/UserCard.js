@@ -91,6 +91,9 @@ export default (props) => {
       setUniversitieName(university.name);
     }
   }, [props.universities, props.user.bio.university]);
+  const _toCapital = (str) => {
+    return str.slice(0, 1).toUpperCase() + str.slice(1, str.length);
+  };
   return (
     <View style={styles.container}>
       <FlipCard
@@ -118,7 +121,7 @@ export default (props) => {
               </Text>
               {props.user.ability.length !== 0 && (
                 <Text style={[styles.text, {marginVertical: 6}]}>
-                  {props.user.ability[0].level}
+                  {_toCapital(props.user.ability[0].level)}
                 </Text>
               )}
               <Text style={styles.text}>{'Studies at ' + universitieName}</Text>

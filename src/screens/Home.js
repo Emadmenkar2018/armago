@@ -82,6 +82,7 @@ class Home extends Component {
     this.state = {
       userId: '',
       modalVisible: false,
+      matchModal: false,
       toggleMatchingPanel: false,
       toggleMatchingFollowPanel: false,
       toggleTeamPanel: false,
@@ -91,6 +92,46 @@ class Home extends Component {
       latitude: null,
       longitude: null,
       address: '',
+      matchUser: {
+        bio: {
+          description: 'test',
+          university: '5f11b3983b64d018d57d5d87',
+        },
+        availability: {
+          sun: [1, false, 1],
+          mon: [1, 1, 1],
+          tue: [false, 1, 1],
+          wed: [false, 1, 1],
+          thu: [false, 1, 1],
+          fri: [1, 1, 1],
+          sat: [false, 1, 1],
+        },
+        location: {
+          lng: 51.49837666666667,
+          lat: -0.111235,
+          address:
+            'Lambeth North Station (Stop C), South Bank, London SE1 7XA, UK',
+        },
+        gender: 'female',
+        sports: ['5f26fd6b954e4d259e1a03b4', '5f26fc64954e4d259e1a0364'],
+        firstName: 'test',
+        lastName: 'test',
+        age: 34,
+        imageUrl:
+          'https://gameon-board-images.s3.eu-west-2.amazonaws.com/1596408425960.PNG',
+        ability: [
+          {
+            level: 'beginner',
+            _id: '5f274272954e4d259e1a076b',
+            sportId: '5f26fd6b954e4d259e1a03b4',
+          },
+          {
+            level: 'beginner',
+            _id: '5f274272954e4d259e1a076c',
+            sportId: '5f26fc64954e4d259e1a0364',
+          },
+        ],
+      },
     };
   }
 
@@ -206,6 +247,10 @@ class Home extends Component {
     };
   }
 
+  onModal1 = () => {
+    this.setState({matchModal: false});
+  };
+
   onModal2 = () => {
     this.setState({modalVisible: false});
   };
@@ -308,9 +353,125 @@ class Home extends Component {
     );
   };
 
+  matchModal = () => {
+    return (
+      <Modal
+        animationType={'slide'}
+        visible={this.state.matchModal}
+        transparent
+        onRequestClose={() => this.onModal1()}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modal}>
+            <Image
+              source={images.GameOn2}
+              style={{
+                width: 180,
+                height: 40,
+                marginBottom: 10,
+              }}
+            />
+            <Text
+              style={{
+                color: 'white',
+                fontSize: 18,
+                fontWeight: '700',
+                textAlign: 'center',
+              }}>
+              {"IT'S A MATCH!"}
+            </Text>
+            <Image
+              source={{uri: this.state.matchUser.imageUrl}}
+              style={{
+                width: 120,
+                height: 120,
+                marginTop: 10,
+                borderRadius: 999,
+              }}
+            />
+            <Text
+              style={{
+                color: 'white',
+                fontSize: 16,
+                textAlign: 'center',
+                marginTop: 15,
+              }}>
+              {this.state.matchUser.firstName}
+            </Text>
+            <View
+              style={{
+                backgroundColor: 'white',
+                width: 17,
+                height: 17,
+                borderRadius: 17,
+                margin: 7,
+              }}
+            />
+            <View
+              style={{
+                backgroundColor: 'white',
+                width: 17,
+                height: 17,
+                borderRadius: 17,
+                margin: 7,
+              }}
+            />
+            <View
+              style={{
+                backgroundColor: 'white',
+                width: 17,
+                height: 17,
+                borderRadius: 17,
+                margin: 7,
+              }}
+            />
+            <Image
+              source={images.user9}
+              style={{width: 70, height: 70, marginTop: 10, borderRadius: 999}}
+            />
+            <TouchableOpacity
+              style={[styles.btn, {marginTop: 20}]}
+              onPress={() => this.onModal1()}>
+              <Text
+                style={{
+                  color: 'white',
+                  fontFamily: 'ProximaNova-Regular',
+                  fontSize: 17,
+                }}>
+                See Availability and Chat!
+              </Text>
+            </TouchableOpacity>
+            <TouchableOpacity
+              style={[styles.btn, {marginTop: 20, backgroundColor: '#F67800'}]}
+              onPress={() => this.onModal1()}>
+              <Text
+                style={{
+                  color: 'white',
+                  fontFamily: 'ProximaNova-Regular',
+                  fontSize: 17,
+                }}>
+                Keep Browsing
+              </Text>
+            </TouchableOpacity>
+          </View>
+        </View>
+      </Modal>
+    );
+  };
+
   setTogglePanel = (visible, user = {}) => {
     // LayoutAnimation.configureNext(LayoutAnimation.Presets.easeInEaseOut);
     this.setState({toggleMatchingPanel: visible, currentUser: user});
+  };
+
+  blurView = () => {
+    return (
+      <BlurView
+        style={styles.absolute}
+        blurType="dark"
+        blurAmount={10}
+        reducedTransparencyFallbackColor="black"
+      />
+    );
   };
   render() {
     const {navigate} = this.props.navigation;
@@ -333,7 +494,8 @@ class Home extends Component {
         ? {opacity: 1}
         : {height: 0, opacity: 0, flex: 0};
     const modal_style =
-      this.state.modalVisible === true && Platform.OS === 'android'
+      (this.state.modalVisible === true || this.state.matchModal === true) &&
+      Platform.OS === 'android'
         ? {opacity: 0.7}
         : {};
 
@@ -391,7 +553,7 @@ class Home extends Component {
         cards.push(
           <Card
             style={styles.card}
-            key={'Team' + index}
+            key={'team' + index}
             onSwipedLeft={() => {
               console.log(this.props.setting);
               APIKit.rejectTeam(
@@ -762,6 +924,7 @@ class Home extends Component {
             </View>
           )}
           {this.simpleModal()}
+          {this.matchModal()}
           <Footer
             onSwipedLeft={() => {
               if (this.swiper !== null) {
@@ -783,14 +946,7 @@ class Home extends Component {
             }}
           />
         </>
-        {this.state.modalVisible && (
-          <BlurView
-            style={styles.absolute}
-            blurType="dark"
-            blurAmount={10}
-            reducedTransparencyFallbackColor="black"
-          />
-        )}
+        {(this.state.modalVisible || this.state.matchModal) && this.blurView()}
       </View>
     );
   }
