@@ -16,6 +16,8 @@ export const {width, height} = Dimensions.get('window');
 import {RFValue} from 'react-native-responsive-fontsize';
 import {responsiveHeight} from 'react-native-responsive-dimensions';
 
+import {useSelector} from 'react-redux';
+
 function DateView(props) {
   console.log(props);
   return (
@@ -69,6 +71,9 @@ const fullWeekDays = {
 export default (props) => {
   const [availability, setAvailability] = useState([]);
   const [universitieName, setUniversitieName] = useState('');
+  const myAvaliablity = useSelector(
+    (state) => state.main.data.profile.availability,
+  );
   useEffect(() => {
     const today = new Date();
     let weekdays = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
@@ -76,12 +81,19 @@ export default (props) => {
     weekdays = weekdays.slice(today.getDay(), weekdays.length);
     let availableDays = weekdays.filter(
       (w) =>
-        props.user.availability[w].includes(true) ||
-        props.user.availability[w].includes(1),
+        (props.user.availability[w].includes(true) ||
+          props.user.availability[w].includes('true') ||
+          props.user.availability[w].includes('1') ||
+          props.user.availability[w].includes(1)) &&
+        myAvaliablity &&
+        (myAvaliablity[w].includes(true) ||
+          myAvaliablity[w].includes(1) ||
+          myAvaliablity[w].includes('1') ||
+          myAvaliablity[w].includes('true')),
     );
     console.log('availableDays', availableDays);
     setAvailability(availableDays);
-  }, [props.user.availability]);
+  }, [myAvaliablity, props.user.availability]);
   useEffect(() => {
     console.log('userCard', props.universities);
     const university = props.universities.find(

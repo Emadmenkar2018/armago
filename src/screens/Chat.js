@@ -220,7 +220,7 @@ const ChatScreen = (props) => {
   };
 
   const onSomeoneTyping = (typing) => {
-    if (typing.to === props.user.userId && typing.from === setting.userId) {
+    if (typing.from === props.user.userId && typing.to === setting.userId) {
       console.log('someone typing to me');
       if (timeOut) {
         clearTimeout(timeOut);
@@ -267,6 +267,10 @@ const ChatScreen = (props) => {
 export default (props) => {
   const [togglePanel, setTogglePanel] = useState(false);
   const [arrowIcon, setArrowIcon] = useState('down');
+  const myAvailability = useSelector(
+    (state) => state.main.data.profile.availability,
+  );
+  console.log(myAvailability);
   const onTogglePanel = (toggle) => {
     setTogglePanel(toggle);
     setArrowIcon(toggle ? 'up' : 'down');
@@ -282,7 +286,15 @@ export default (props) => {
     weekdays = weekdays.slice(today.getDay(), weekdays.length);
     let availableDays = weekdays.filter(
       (w) =>
-        user.availability[w].includes(true) || user.availability[w].includes(1),
+        (user.availability[w].includes(true) ||
+          user.availability[w].includes('true') ||
+          user.availability[w].includes('1') ||
+          user.availability[w].includes(1)) &&
+        myAvailability &&
+        (myAvailability[w].includes(true) ||
+          myAvailability[w].includes(1) ||
+          myAvailability[w].includes('1') ||
+          myAvailability[w].includes('true')),
     );
     console.log('availableDays', availableDays);
     return (
@@ -318,13 +330,23 @@ export default (props) => {
             ]}>
             <Text style={styles.text6}>{'Matching'}</Text>
             <View style={{paddingVertical: 20}}>
-              {availableDays.slice(0, 2 + (togglePanel && 5)).map((day) => (
-                <DateView
-                  key={day}
-                  data={fullWeekDays[day]}
-                  value={user.availability[day]}
-                />
-              ))}
+              {!togglePanel
+                ? availableDays
+                    .slice(0, 2)
+                    .map((day) => (
+                      <DateView
+                        key={day}
+                        data={fullWeekDays[day]}
+                        value={user.availability[day]}
+                      />
+                    ))
+                : weekdays.map((day) => (
+                    <DateView
+                      key={day}
+                      data={fullWeekDays[day]}
+                      value={user.availability[day]}
+                    />
+                  ))}
             </View>
 
             <TouchableOpacity

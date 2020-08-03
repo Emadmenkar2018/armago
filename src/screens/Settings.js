@@ -41,7 +41,6 @@ export default (props) => {
   const removeItemValue = async () => {
     try {
       await AsyncStorage.removeItem('userToken');
-      await AsyncStorage.removeItem('token');
       clearClientToken();
       return true;
     } catch (exception) {

@@ -92,46 +92,8 @@ class Home extends Component {
       latitude: null,
       longitude: null,
       address: '',
-      matchUser: {
-        bio: {
-          description: 'test',
-          university: '5f11b3983b64d018d57d5d87',
-        },
-        availability: {
-          sun: [1, false, 1],
-          mon: [1, 1, 1],
-          tue: [false, 1, 1],
-          wed: [false, 1, 1],
-          thu: [false, 1, 1],
-          fri: [1, 1, 1],
-          sat: [false, 1, 1],
-        },
-        location: {
-          lng: 51.49837666666667,
-          lat: -0.111235,
-          address:
-            'Lambeth North Station (Stop C), South Bank, London SE1 7XA, UK',
-        },
-        gender: 'female',
-        sports: ['5f26fd6b954e4d259e1a03b4', '5f26fc64954e4d259e1a0364'],
-        firstName: 'test',
-        lastName: 'test',
-        age: 34,
-        imageUrl:
-          'https://gameon-board-images.s3.eu-west-2.amazonaws.com/1596408425960.PNG',
-        ability: [
-          {
-            level: 'beginner',
-            _id: '5f274272954e4d259e1a076b',
-            sportId: '5f26fd6b954e4d259e1a03b4',
-          },
-          {
-            level: 'beginner',
-            _id: '5f274272954e4d259e1a076c',
-            sportId: '5f26fc64954e4d259e1a0364',
-          },
-        ],
-      },
+      matchUser: {},
+      matchUserId: null,
     };
   }
 
@@ -242,6 +204,23 @@ class Home extends Component {
         }),
       );
     });
+    this.props.socket.on('Game:Matched', (matchUserData) => {
+      console.log(matchUserData);
+      console.log(this.props.profile);
+      if (matchUserData.userId === this.state.userId) {
+        this.setState({
+          matchUser: matchUserData.partnerProfile,
+          matchUserId: matchUserData.partnerId,
+          matchModal: true,
+        });
+      } else {
+        this.setState({
+          matchUser: matchUserData.userProfile,
+          matchUserId: matchUserData.userId,
+          matchModal: true,
+        });
+      }
+    });
     return () => {
       // contacts.unsubscribe();
     };
@@ -249,6 +228,31 @@ class Home extends Component {
 
   onModal1 = () => {
     this.setState({matchModal: false});
+  };
+
+  onToChat = () => {
+    APIKit.getContacts().then((resp1) => {
+      this.props.setContacts(resp1.data);
+      this.setState({matchModal: false});
+      this.props.clearHistory();
+      const prop = resp1.data.find(
+        (usr) => usr.userId === this.state.matchUserId,
+      );
+      if (prop) {
+        this.props.setCurUser(this.state.matchUser);
+        this.props.socket.emit('History', {
+          from: this.state.userId,
+          to: prop.userId,
+        });
+        this.props.socket.emit('Chat:Read', {
+          from: this.state.userId,
+          to: prop.userId,
+        });
+        this.props.navigation.navigate('Chat', {
+          user: prop,
+        });
+      }
+    });
   };
 
   onModal2 = () => {
@@ -425,12 +429,16 @@ class Home extends Component {
               }}
             />
             <Image
-              source={images.user9}
+              source={
+                this.props.profile
+                  ? {uri: this.props.profile.imageUrl}
+                  : images.user9
+              }
               style={{width: 70, height: 70, marginTop: 10, borderRadius: 999}}
             />
             <TouchableOpacity
               style={[styles.btn, {marginTop: 20}]}
-              onPress={() => this.onModal1()}>
+              onPress={() => this.onToChat()}>
               <Text
                 style={{
                   color: 'white',
@@ -967,6 +975,8 @@ const mapDispatchToProps = (dispatch) => {
     setSports: (data) => dispatch(Actions.setSports(data)),
     setProfile: (data) => dispatch(Actions.setProfile(data)),
     addHistory: (data) => dispatch(Actions.addHistory(data)),
+    clearHistory: (data) => dispatch(Actions.clearHistory(data)),
+    setCurUser: (data) => dispatch(Actions.setCurUser(data)),
   };
   // ... normally is an object full of action creators
 };

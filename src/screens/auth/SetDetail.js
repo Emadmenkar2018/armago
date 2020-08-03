@@ -9,6 +9,7 @@ import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
 import {OpenURLButton} from '../../components/openWebLinking';
 import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import APIKit, {setClientToken} from '../../services/api';
+import AsyncStorage from '@react-native-community/async-storage';
 
 const supportedURL = 'https://google.com';
 export default class SetDetail extends Component {
@@ -41,6 +42,7 @@ export default class SetDetail extends Component {
           const token = data.token;
           //set token to call other api
           setClientToken(token);
+          await AsyncStorage.removeItem('usedBefore');
 
           const user = data.user;
           const profile = {
