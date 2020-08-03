@@ -962,6 +962,7 @@ class Home extends Component {
 
 const mapStateToProps = (state, ownProps) => ({
   setting: state.main.data.setting,
+  profile: state.main.data.profile,
   curUser: state.main.chat.curUser,
   socket: state.main.chat.socket,
   contacts: state.main.chat.contacts,
