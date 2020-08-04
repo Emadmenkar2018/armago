@@ -71,7 +71,9 @@ export default (props) => {
                       }}
                       style={styles.racket}
                     />
-                    <Text style={styles.text2}>{'Tennis - KCL Tennis'}</Text>
+                    <Text style={styles.text2}>
+                      {sports.find((sp) => sp._id === team.sport).name}
+                    </Text>
                   </View>
                   <TouchableOpacity
                     onPress={() => {

@@ -10,7 +10,6 @@ import {
   TouchableOpacity,
   Alert,
   Modal,
-  TextInput,
 } from 'react-native';
 import {LongHeader} from '../components/longHeader';
 import AntDesign from 'react-native-vector-icons/AntDesign';
