@@ -72,7 +72,8 @@ export default (props) => {
                       style={styles.racket}
                     />
                     <Text style={styles.text2}>
-                      {sports.find((sp) => sp._id === team.sport).name}
+                      {sports.find((sp) => sp._id === team.sport).name} -{' '}
+                      {team.name}
                     </Text>
                   </View>
                   <TouchableOpacity
