@@ -1,4 +1,3 @@
-/* eslint-disable react-hooks/exhaustive-deps */
 /* eslint-disable no-alert */
 /* eslint-disable react-native/no-inline-styles */
 import React, {useEffect, useState} from 'react';
@@ -8,17 +7,18 @@ import {
   StyleSheet,
   Platform,
   SafeAreaView,
-  PermissionsAndroid,
   TouchableOpacity,
   Alert,
+  Modal,
+  TextInput,
 } from 'react-native';
 import {LongHeader} from '../components/longHeader';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {colors} from '../common/colors';
 import AppStatusBar from '../components/AppStatusBar';
 import Geocoder from 'react-native-geocoding';
-import Geolocation from '@react-native-community/geolocation';
 import APIKit from '../services/api';
+import {Input} from 'react-native-elements';
 
 import * as Actions from '../store/actions';
 import {useDispatch, useSelector} from 'react-redux';
@@ -28,84 +28,44 @@ export default (props) => {
   const profile = useSelector((state) => state.main.data.profile);
   const dispatch = useDispatch();
 
-  const [lat, setLat] = useState(0);
-  const [long, setLong] = useState(0);
   const [address, setAddress] = useState('');
+  const [modalVisible, setModalVisible] = useState(false);
+
   useEffect(() => {
-    getCurrentLocation();
+    Geocoder.init('AIzaSyAeKw1f7h01OyvWvCfUKsRyTywseFWOWEk');
   }, []);
-  const getCurrentLocation = () => {
-    if (Platform.OS === 'ios') {
-      callLocation();
-    } else {
-      async function requestLocationPermission() {
-        try {
-          const granted = await PermissionsAndroid.request(
-            PermissionsAndroid.PERMISSIONS.ACCESS_FINE_LOCATION,
-            {
-              title: 'Location Access Required',
-              message: 'This App needs to Access your location',
-            },
-          );
-          if (granted === PermissionsAndroid.RESULTS.GRANTED) {
-            //To Check, If Permission is granted
-            callLocation();
-          } else {
-            alert('Permission Denied');
-          }
-        } catch (err) {
-          alert('err', err);
-          console.warn(err);
-        }
-      }
-      requestLocationPermission();
-    }
-  };
-  const callLocation = () => {
-    Geolocation.getCurrentPosition(
-      //Will give you the current location
-      (position) => {
-        const currentLongitude = JSON.stringify(position.coords.longitude);
-        //getting the Longitude from the location json
-        const currentLatitude = JSON.stringify(position.coords.latitude);
-        //getting the Latitude from the location json
-        setLat(currentLongitude);
-        //Setting state Longitude to re re-render the Longitude Text
-        setLong(currentLatitude);
-        //Setting state Latitude to re re-render the Longitude Text
-        Geocoder.init('AIzaSyAeKw1f7h01OyvWvCfUKsRyTywseFWOWEk');
-        Geocoder.from(position.coords.latitude, position.coords.longitude)
-          .then((json) => {
-            const fullAddress = json.results[0].formatted_address;
-            console.log(fullAddress);
-            setAddress(fullAddress);
-          })
-          .catch((error) => console.warn(error));
-      },
-      (error) => alert(error.message),
-      {enableHighAccuracy: true, timeout: 20000, maximumAge: 200000},
-    );
-  };
   const addNewLocation = () => {
+    setModalVisible(true);
+    setAddress('');
+  };
+  const onConfirmAdd = () => {
     if (address === '') {
-      alert('Please allow permission.');
-      getCurrentLocation();
+      alert('Please input address');
       return;
     }
     if (setting.location.find((lo) => lo.address === address)) {
       Alert.alert('Already exist');
       return;
     }
-    APIKit.setSetting({
-      ...setting,
-      location: [
-        ...setting.location,
-        {lat: lat, lng: long, address: address, selected: false},
-      ],
-    }).then((resp) => {
-      // console.log(resp);
-      dispatch(Actions.setSetting(resp.data));
-    });
+    Geocoder.from(address)
+      .then((json) => {
+        var location = json.results[0].geometry.location;
+        console.log(location);
+        APIKit.setSetting({
+          ...setting,
+          location: [
+            ...setting.location.map((lo) => ({...lo, selected: false})),
+            {...location, address: address, selected: true},
+          ],
+        }).then((resp) => {
+          // console.log(resp);
+          dispatch(Actions.setSetting(resp.data));
+          setModalVisible(false);
+        });
+      })
+      .catch((error) => {
+        Alert.alert('Please enter a valid address');
+      });
   };
   const onSelectLocation = (location, index) => {
     console.log(profile);
@@ -135,8 +95,12 @@ export default (props) => {
       dispatch(Actions.setSetting(newSetting.data));
     });
   };
+  const onCancelAdd = () => {
+    setModalVisible(false);
+  };
   const render = () => {
     const {navigate} = props.navigation;
+    const isCurrentLocation = !setting.location.find((lo) => lo.selected);
     return (
       <>
         <AppStatusBar
@@ -163,9 +127,9 @@ export default (props) => {
             style={styles.category}
             onPress={() => onCurrentLocation()}>
             <Text style={styles.text2}>{'Current Location'}</Text>
-            {!setting.location.find(
-              (lo) => lo.address === profile.location.address,
-            ) && <AntDesign name="check" size={20} color={'#007aff'} />}
+            {isCurrentLocation && (
+              <AntDesign name="check" size={20} color={'#007aff'} />
+            )}
           </TouchableOpacity>
           {setting.location.map((lo, index) => (
             <TouchableOpacity
@@ -173,7 +137,7 @@ export default (props) => {
               style={[styles.category, {borderBottomWidth: 0}]}
               key={'location' + index}>
               <Text style={styles.text2}>{lo.address}</Text>
-              {lo.address === profile.location.address && (
+              {lo.selected && (
                 <AntDesign name="check" size={20} color={'#007aff'} />
               )}
             </TouchableOpacity>
@@ -205,6 +169,47 @@ export default (props) => {
             </Text>
           </View>
         </SafeAreaView>
+
+        <Modal
+          animationType={'slide'}
+          visible={modalVisible}
+          transparent
+          onRequestClose={() => onCancelAdd()}>
+          <View style={styles.modalContainer}>
+            <View style={styles.modal}>
+              <Input
+                label="Address"
+                placeholder="Enter an address"
+                style={{width: '100%'}}
+                value={address}
+                onChangeText={(txt) => setAddress(txt)}
+              />
+              <View
+                style={{
+                  flexDirection: 'row',
+                  width: '100%',
+                  justifyContent: 'space-between',
+                  marginTop: 15,
+                }}>
+                <TouchableOpacity
+                  style={{...styles.btn, backgroundColor: '#2ECC71'}}
+                  onPress={onConfirmAdd}>
+                  <Text style={{color: 'white'}}>OK</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={onCancelAdd}
+                  style={{
+                    ...styles.btn,
+                    backgroundColor: 'white',
+                    borderColor: 'black',
+                    borderWidth: 1,
+                  }}>
+                  <Text>Cancel</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </View>
+        </Modal>
       </>
     );
   };
@@ -255,5 +260,35 @@ const styles = StyleSheet.create({
     marginLeft: 12,
     paddingRight: 12,
     paddingTop: 6,
+  },
+  btn: {
+    height: 50,
+    width: '40%',
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContainer: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modal: {
+    width: '80%',
+    justifyContent: 'center',
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });

@@ -314,7 +314,7 @@ class Home extends Component {
               {'WELCOME TO\nARMAGO!'}
             </Text>
             <Image
-              source={images.user9}
+              source={{uri: this.props.profile.imageUrl}}
               style={{width: 70, height: 70, marginTop: 10}}
             />
 
