@@ -10,7 +10,7 @@
       "client_info": {
         "mobilesdk_app_id": "1:1023501408627:android:4e3058af278d9e30640d06",
         "android_client_info": {
-          "package_name": "com.gameon"
+          "package_name": "uk.armago.app"
         }
       },
       "oauth_client": [
@@ -18,7 +18,7 @@
           "client_id": "1023501408627-hj6jac6m188f9mnuim048s2ud4muh50g.apps.googleusercontent.com",
           "client_type": 1,
           "android_info": {
-            "package_name": "com.gameon",
+            "package_name": "uk.armago.app",
             "certificate_hash": "5e8f16062ea3cd2c4a0d547876baa6f38cabf625"
           }
         },

@@ -1,4 +1,4 @@
-package com.gameon;
+package uk.armago.app;
 
 import android.app.Application;
 import android.content.Context;

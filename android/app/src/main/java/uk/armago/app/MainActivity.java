@@ -1,4 +1,4 @@
-package com.gameon;
+package uk.armago.app;
 
 import com.facebook.react.ReactActivity;
 
