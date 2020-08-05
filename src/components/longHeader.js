@@ -93,6 +93,7 @@ const styles = StyleSheet.create({
   user: {
     width: 40,
     height: 40,
+    borderRadius: 40,
   },
   top_middle: {
     flex: 1,

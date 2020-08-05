@@ -86,7 +86,10 @@ export default (props) => {
           </View>
           <TouchableOpacity onPress={() => navigate('EditProfile')}>
             <View style={[styles.row, styles.divider]}>
-              <Image source={{uri: userImage}} style={styles.avatar} />
+              <Image
+                source={{uri: userImage}}
+                style={[styles.avatar, {borderRadius: 999}]}
+              />
               <Text style={styles.text}>{'Edit My Profile'}</Text>
               <AntDesign name="right" size={25} color={colors.gray} />
             </View>
@@ -339,7 +342,7 @@ export default (props) => {
             <Text style={styles.label}>{'Licenses'}</Text>
             <AntDesign name="right" size={25} color={colors.gray} />
           </View>
-          <View style={[styles.row, styles.divider]} />
+          <View style={[styles.row, styles.divider, {height: 1, padding: 0}]} />
           <TouchableOpacity onPress={() => logout(navigate)}>
             <View style={[styles.row, styles.divider]}>
               <Text style={styles.btnText}>{'Logout'}</Text>
@@ -429,7 +432,6 @@ const styles = StyleSheet.create({
     backgroundColor: '#f8f7f8',
   },
   sub: {
-    left: 10,
     marginRight: 10,
   },
   noborder: {

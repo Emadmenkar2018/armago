@@ -317,7 +317,7 @@ class Home extends Component {
             </Text>
             <Image
               source={{uri: this.props.profile.imageUrl}}
-              style={{width: 70, height: 70, marginTop: 10}}
+              style={{width: 70, height: 70, marginTop: 10, borderRadius: 999}}
             />
 
             <Text style={styles.text4}>{"It's a simple:"}</Text>
