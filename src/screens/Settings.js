@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React, {useState} from 'react';
+import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {
   View,
@@ -28,6 +28,20 @@ export default (props) => {
   const dispatch = useDispatch();
   const setting = useSelector((state) => state.main.data.setting);
   const userImage = useSelector((state) => state.main.data.profile.imageUrl);
+  const profileLocation = useSelector(
+    (state) => state.main.data.profile.location,
+  );
+
+  const [curLocation, setCurLocation] = useState('Bristal, UK');
+
+  useEffect(() => {
+    const settingLocation = setting.location.find((lo) => lo.selected);
+    if (settingLocation) {
+      setCurLocation(settingLocation);
+    } else {
+      setCurLocation(profileLocation);
+    }
+  }, [setting.location, profileLocation]);
 
   const [distance, setDistance] = useState(0);
   const logout = (navigate) => {
@@ -91,7 +105,7 @@ export default (props) => {
               <Text style={styles.text}>
                 {'My Current Location'}
                 {'\n'}
-                <Text style={styles.subtext}>{'Bristal, UK'}</Text>
+                <Text style={styles.subtext}>{curLocation.address}</Text>
               </Text>
             </View>
           </TouchableOpacity>
@@ -153,7 +167,7 @@ export default (props) => {
                 right: 10,
                 top: 10,
               }}>
-              {setting.age[0]} {'~'} {setting.age[1]}
+              {setting.age[0]} {'-'} {setting.age[1]}
             </Text>
             <RangeSlider
               style={{width: '100%', height: 80, flex: 3}}
@@ -322,7 +336,7 @@ export default (props) => {
             <AntDesign name="right" size={25} color={colors.gray} />
           </TouchableOpacity>
           <View style={[styles.row, styles.sub]}>
-            <Text style={styles.label}>{'Liscenses'}</Text>
+            <Text style={styles.label}>{'Licenses'}</Text>
             <AntDesign name="right" size={25} color={colors.gray} />
           </View>
           <View style={[styles.row, styles.divider]} />
