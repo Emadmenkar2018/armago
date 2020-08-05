@@ -62,6 +62,7 @@ export default class Signin extends Component {
         })
         .catch((err) => {
           console.log(err);
+          Alert.alert(err.response.data.errors.msg.replace('_', ' '));
         });
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {

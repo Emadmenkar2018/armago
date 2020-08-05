@@ -56,7 +56,9 @@ APIKit.interceptors.response.use(
       console.log(old_token);
       // send login screen for now.
     }
-    return Promise.reject(error);
+    if (error.response.status === 422) {
+      return Promise.reject(error);
+    }
   },
 );
 

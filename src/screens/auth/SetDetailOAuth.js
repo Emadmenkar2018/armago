@@ -119,6 +119,7 @@ export default class SetDetail extends Component {
         })
         .catch((error) => {
           console.log(error && error.response);
+          Alert.alert(error.response.data.errors.msg.replace('_', ' '));
         });
     }
   }
