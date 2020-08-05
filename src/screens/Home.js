@@ -160,10 +160,12 @@ class Home extends Component {
     });
     this.props.socket.on('History', (history) => {
       console.log('Home History', history);
-      // history.msgs.map((msg) => {
-      //   socket.emit('Message:Delete', {id: msg._id});
-      // });
-      this.props.addHistory(history.msgs);
+      if (
+        history.from === this.state.userId &&
+        history.to === this.props.curUser.userId
+      ) {
+        this.props.addHistory(history.msgs);
+      }
     });
     this.props.socket.on('Message', (msg) => {
       console.log(msg);
