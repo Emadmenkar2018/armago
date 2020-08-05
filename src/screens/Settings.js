@@ -43,7 +43,6 @@ export default (props) => {
     }
   }, [setting.location, profileLocation]);
 
-  const [distance, setDistance] = useState(0);
   const logout = (navigate) => {
     if (removeItemValue()) {
       navigate('Signin');
@@ -124,7 +123,7 @@ export default (props) => {
                 right: 10,
                 top: 10,
               }}>
-              {distance}
+              {setting.distance[1]}
               {' mile'}
             </Text>
             <RangeSlider
@@ -141,7 +140,6 @@ export default (props) => {
               labelBackgroundColor={colors.lightgreen}
               labelBorderColor={colors.lightgreen}
               onValueChanged={(low, high, fromUser) => {
-                setDistance(low);
                 dispatch(
                   Actions.setSetting({
                     ...setting,
