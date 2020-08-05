@@ -8,25 +8,28 @@ import {
 } from 'react-native';
 import {images} from '../common/images';
 export const {width, height} = Dimensions.get('window');
-import {
-  responsiveScreenHeight,
-  responsiveScreenWidth,
-  responsiveScreenFontSize,
-  responsiveHeight,
-} from 'react-native-responsive-dimensions';
+import {responsiveHeight} from 'react-native-responsive-dimensions';
+
+import Close from '../../assets/close.svg';
+import Checked from '../../assets/checked.svg';
 
 export default class Footer extends Component {
   render() {
-    var swiper = this.props.swiper;
     return (
       <View>
         <Image source={images.oval} style={styles.oval} />
         <View style={styles.footer}>
           <TouchableOpacity onPress={() => this.props.onSwipedLeft()}>
-            <Image source={images.close} style={styles.icon} />
+            {/* <Image source={images.close} style={styles.icon} /> */}
+            <View style={styles.icon}>
+              <Close height={styles.icon.height} width={styles.icon.width} />
+            </View>
           </TouchableOpacity>
           <TouchableOpacity onPress={() => this.props.onSwipedRight()}>
-            <Image source={images.check} style={styles.icon} />
+            {/* <Image source={images.check} style={styles.icon} /> */}
+            <View style={styles.icon}>
+              <Checked height={styles.icon.height} width={styles.icon.width} />
+            </View>
           </TouchableOpacity>
         </View>
       </View>

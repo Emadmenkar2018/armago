@@ -43,6 +43,9 @@ APIKit.interceptors.response.use(
   },
   async (error) => {
     console.log(error && error.response);
+    if (!error || !error.response) {
+      return;
+    }
     if (error.response.status !== 401) {
       return Promise.reject(error);
     }
@@ -53,6 +56,7 @@ APIKit.interceptors.response.use(
       console.log(old_token);
       // send login screen for now.
     }
+    return Promise.reject(error);
   },
 );
 

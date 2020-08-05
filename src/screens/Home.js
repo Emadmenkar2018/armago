@@ -98,6 +98,7 @@ class Home extends Component {
   }
 
   componentDidMount() {
+    console.log('svg', images.chat);
     AsyncStorage.getItem('usedBefore', (err, result) => {
       if (err) {
       } else {
