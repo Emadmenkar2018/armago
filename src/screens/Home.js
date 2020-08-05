@@ -215,7 +215,7 @@ class Home extends Component {
           matchUserId: matchUserData.partnerId,
           matchModal: true,
         });
-      } else {
+      } else if (matchUserData.partnerId === this.state.userId) {
         this.setState({
           matchUser: matchUserData.userProfile,
           matchUserId: matchUserData.userId,

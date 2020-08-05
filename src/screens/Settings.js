@@ -21,7 +21,7 @@ import RangeSlider from 'rn-range-slider';
 import AsyncStorage from '@react-native-community/async-storage';
 import AppStatusBar from '../components/AppStatusBar';
 
-import {clearClientToken} from '../services/api';
+import APIKit, {clearClientToken} from '../services/api';
 
 import * as Actions from '../store/actions';
 export default (props) => {
@@ -59,6 +59,13 @@ export default (props) => {
     } catch (exception) {
       return false;
     }
+  };
+  const deleteAccount = () => {
+    APIKit.deleteAccount().then((resp) => {
+      console.log('deleteAccount', resp);
+      const {navigate} = props.navigation;
+      logout(navigate);
+    });
   };
   const {navigate} = props.navigation;
   return (
@@ -353,9 +360,11 @@ export default (props) => {
             </Text>
           </View>
           <View style={[styles.row, styles.divider_section]} />
-          <View style={[styles.row, styles.divider]}>
+          <TouchableOpacity
+            style={[styles.row, styles.divider]}
+            onPress={() => deleteAccount()}>
             <Text style={styles.btnText}>{'Delete Account'}</Text>
-          </View>
+          </TouchableOpacity>
           <View style={[styles.row, styles.divider_section]} />
         </ScrollView>
       </SafeAreaView>

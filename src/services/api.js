@@ -100,4 +100,6 @@ APIKit.rejectTeam = (payload, chief) => {
 
 APIKit.getTeams = () => APIKit.get('api/teams');
 APIKit.getContacts = () => APIKit.get('api/users/contacts');
+
+APIKit.deleteAccount = () => APIKit.delete('api/users/account');
 export default APIKit;
