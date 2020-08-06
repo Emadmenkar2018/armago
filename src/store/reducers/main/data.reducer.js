@@ -29,6 +29,8 @@ export default (state = initialState, action) => {
     case Actions.SET_CURLOCATION:
       console.log('SET_CURLOCATION', action.payload);
       return {...state, curLocation: action.payload};
+    case Actions.CLEAR_ALL_DATA:
+      return initialState;
     default:
       return state;
   }

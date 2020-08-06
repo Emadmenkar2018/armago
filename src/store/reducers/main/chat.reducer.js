@@ -35,6 +35,8 @@ export default (state = initialState, action) => {
       return {...state, history: []};
     case Actions.SET_CUR_USER:
       return {...state, curUser: action.payload};
+    case Actions.CLEAR_ALL_DATA:
+      return initialState;
     default:
       return state;
   }
