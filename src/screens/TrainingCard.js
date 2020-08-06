@@ -88,7 +88,7 @@ export default class TrainingCard extends Component {
                     <Text style={styles.text_date}>{this.state.day}</Text>
                   </TouchableOpacity>
                   <Text style={[styles.text2]}>
-                    {this.state.startTime} ~ {this.state.endTime}
+                    {this.state.startTime} - {this.state.endTime}
                   </Text>
                   {/* <TouchableOpacity style={styles.circle} onPress={() => console.log('Fri Clicked')}>
                         <Text style={styles.text3}>Fri</Text>

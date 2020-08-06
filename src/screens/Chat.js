@@ -19,7 +19,7 @@ import {useSelector} from 'react-redux';
 const fullWeekDays = {
   mon: 'Monday',
   tue: 'Tuesday',
-  wed: 'Wednsday',
+  wed: 'Wednesday',
   thu: 'Thursday',
   fri: 'Friday',
   sat: 'Saturday',
@@ -330,7 +330,7 @@ export default (props) => {
               },
               changeStyle,
             ]}>
-            <Text style={styles.text6}>{'Matching'}</Text>
+            <Text style={styles.text6}>{'Matching Availability'}</Text>
             <View style={{paddingVertical: 20}}>
               {!togglePanel
                 ? availableDays
@@ -424,6 +424,7 @@ const styles = StyleSheet.create({
     fontSize: 20,
     fontFamily: 'ProximaNova-Bold',
     fontWeight: '700',
+    textAlign: 'center',
   },
   threeDots: {
     width: 33,

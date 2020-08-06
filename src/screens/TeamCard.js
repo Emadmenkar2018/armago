@@ -31,7 +31,7 @@ function DateView(props) {
             justifyContent: 'center',
             alignSelf: 'center',
           }}>
-          {'~'}
+          {'-'}
         </Text>
         <View style={[styles.circle_date]}>
           <Text style={styles.text_date}>8pm</Text>
