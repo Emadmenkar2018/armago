@@ -313,6 +313,8 @@ export default (props) => {
             navigate={navigate}
             bcolor={colors.gray}
             rightIcon={'ellipsis1'}
+            rightMenu={true}
+            userId={user.userId}
           />
           <View
             style={[

@@ -17,8 +17,6 @@ import {
 } from 'react-native-responsive-dimensions';
 
 import {useSelector} from 'react-redux';
-import Chat from '../../assets/message.svg';
-import Gear from '../../assets/gear.svg';
 
 const THEME_COLOR = colors.lightgreen;
 
@@ -38,15 +36,11 @@ export default (props) => {
           <Image source={images.oval} style={styles.oval} />
           <View style={styles.header}>
             <TouchableOpacity onPress={onSetting}>
-              <View style={styles.icon}>
-                <Gear height={36} width={36} />
-              </View>
+              <Image source={images.gear} style={styles.icon} />
             </TouchableOpacity>
             <Image source={images.GameOn2} style={styles.logo} />
             <TouchableOpacity onPress={() => props.navigate('Messages')}>
-              <View style={styles.icon}>
-                <Chat height={36} width={36} />
-              </View>
+              <Image source={images.chat} style={styles.icon} />
             </TouchableOpacity>
           </View>
         </View>

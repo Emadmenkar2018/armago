@@ -1,3 +1,4 @@
+/* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
 import {
   View,
@@ -10,9 +11,6 @@ import {images} from '../common/images';
 export const {width, height} = Dimensions.get('window');
 import {responsiveHeight} from 'react-native-responsive-dimensions';
 
-import Close from '../../assets/close.svg';
-import Checked from '../../assets/checked.svg';
-
 export default class Footer extends Component {
   render() {
     return (
@@ -20,16 +18,10 @@ export default class Footer extends Component {
         <Image source={images.oval} style={styles.oval} />
         <View style={styles.footer}>
           <TouchableOpacity onPress={() => this.props.onSwipedLeft()}>
-            {/* <Image source={images.close} style={styles.icon} /> */}
-            <View style={styles.icon}>
-              <Close height={styles.icon.height} width={styles.icon.width} />
-            </View>
+            <Image source={images.close} style={styles.icon} />
           </TouchableOpacity>
           <TouchableOpacity onPress={() => this.props.onSwipedRight()}>
-            {/* <Image source={images.check} style={styles.icon} /> */}
-            <View style={styles.icon}>
-              <Checked height={styles.icon.height} width={styles.icon.width} />
-            </View>
+            <Image source={images.check} style={styles.icon} />
           </TouchableOpacity>
         </View>
       </View>

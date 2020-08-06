@@ -13,9 +13,36 @@ export const {width, height} = Dimensions.get('window');
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useDispatch} from 'react-redux';
 import * as Actions from '../store/actions';
+import APIKit from '../services/api';
+
+import Menu, {MenuItem} from 'react-native-material-menu';
 
 export function LongHeader(props) {
   const dispatch = useDispatch();
+  var _menu = null;
+
+  const setMenuRef = (ref) => {
+    _menu = ref;
+  };
+
+  const hideMenu = () => {
+    _menu.hide();
+  };
+
+  const deleteMatch = () => {
+    hideMenu();
+  };
+
+  const blockChat = () => {
+    hideMenu();
+    APIKit.cardGame({partner: props.userId, enable: false}).then((resp) => {
+      console.log(resp.data);
+    });
+  };
+
+  const showMenu = () => {
+    _menu.show();
+  };
   return (
     <SafeAreaView style={styles.container}>
       <View
@@ -46,14 +73,30 @@ export function LongHeader(props) {
             <Text style={{color: props.left, top: 3}}>{props.leftText}</Text>
           </TouchableOpacity>
         )}
-        {!props.removeRightIcon && (
-          <TouchableOpacity onPress={() => console.log('ok')}>
+        {!props.removeRightIcon && !props.rightMenu && (
+          <TouchableOpacity onPress={() => showMenu()}>
             <AntDesign
               name={props.rightIcon ? props.rightIcon : 'reload1'}
               size={25}
               color={props.left ? props.left : 'white'}
             />
           </TouchableOpacity>
+        )}
+        {props.rightMenu && (
+          <Menu
+            ref={setMenuRef}
+            button={
+              <TouchableOpacity onPress={() => showMenu()}>
+                <AntDesign
+                  name={props.rightIcon ? props.rightIcon : 'reload1'}
+                  size={25}
+                  color={props.left ? props.left : 'white'}
+                />
+              </TouchableOpacity>
+            }>
+            <MenuItem onPress={blockChat}>Block Chat</MenuItem>
+            <MenuItem onPress={deleteMatch}>Delete Match</MenuItem>
+          </Menu>
         )}
         {props.removeRightIcon && (
           <View style={styles.top_end}>
