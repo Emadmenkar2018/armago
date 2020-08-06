@@ -35,9 +35,9 @@ export function LongHeader(props) {
 
   const blockChat = () => {
     hideMenu();
-    APIKit.cardGame({partner: props.userId, enable: false}).then((resp) => {
-      console.log(resp.data);
-    });
+    // APIKit.cardGame({partner: props.userId, enable: false}).then((resp) => {
+    //   console.log(resp.data);
+    // });
   };
 
   const showMenu = () => {

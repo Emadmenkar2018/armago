@@ -150,7 +150,7 @@ export default (props) => {
                 <TouchableOpacity onPress={() => navigate('SportsEdit')}>
                   <Image
                     source={images.ProfileSports}
-                    style={styles.profile_img}
+                    style={{...styles.profile_img, height: 170}}
                   />
                 </TouchableOpacity>
               </View>
@@ -158,7 +158,7 @@ export default (props) => {
                 <TouchableOpacity onPress={() => navigate('BioEdit')}>
                   <Image
                     source={images.ProfileBio}
-                    style={styles.profile_img}
+                    style={{...styles.profile_img, height: 170}}
                   />
                 </TouchableOpacity>
               </View>
@@ -168,7 +168,7 @@ export default (props) => {
                 <TouchableOpacity onPress={() => navigate('AvailabilityEdit')}>
                   <Image
                     source={images.ProfileAvaila}
-                    style={styles.profile_img}
+                    style={{...styles.profile_img, height: 170}}
                   />
                 </TouchableOpacity>
               </View>
@@ -176,7 +176,7 @@ export default (props) => {
                 <TouchableOpacity onPress={() => navigate('TeamsView')}>
                   <Image
                     source={images.ProfileTeams}
-                    style={styles.profile_img}
+                    style={{...styles.profile_img, height: 170}}
                   />
                 </TouchableOpacity>
               </View>
@@ -185,7 +185,7 @@ export default (props) => {
               <TouchableOpacity onPress={() => navigate('AbilityEdit')}>
                 <Image
                   source={images.ProfileAbili}
-                  style={styles.profile_img}
+                  style={{...styles.profile_img, height: 80, marginBottom: 10}}
                 />
               </TouchableOpacity>
             </View>
@@ -244,11 +244,12 @@ const styles = StyleSheet.create({
     flex: 1,
     // padding:10,
     resizeMode: 'cover',
-
+    padding: 10,
     // backgroundColor:'yellow'
   },
   middle_right: {
     flex: 1,
+    padding: 10,
   },
   bottom: {
     // flex: 1,
@@ -286,7 +287,6 @@ const styles = StyleSheet.create({
     // height: 300,
     // borderRadius:50,
     resizeMode: 'contain',
-
     // flex: 1
   },
   item: {
