@@ -172,7 +172,6 @@ export default (props) => {
         <Modal
           animationType={'slide'}
           visible={modalVisible}
-          transparent
           onRequestClose={() => onCancelAdd()}>
           <View style={styles.modalContainer}>
             <View style={styles.modal}>

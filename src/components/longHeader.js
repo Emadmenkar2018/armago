@@ -1,5 +1,5 @@
 /* eslint-disable react-native/no-inline-styles */
-import React from 'react';
+import React, {useState} from 'react';
 import {
   View,
   Text,
@@ -8,17 +8,33 @@ import {
   Dimensions,
   TouchableOpacity,
   SafeAreaView,
+  Modal,
 } from 'react-native';
 export const {width, height} = Dimensions.get('window');
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useDispatch} from 'react-redux';
 import * as Actions from '../store/actions';
-import APIKit from '../services/api';
+import {Dropdown} from 'react-native-material-dropdown';
+// import APIKit from '../services/api';
 
 import Menu, {MenuItem} from 'react-native-material-menu';
 
 export function LongHeader(props) {
+  const [reportModalVisible, setReportModalVisible] = useState(false);
+  const [reason, setReason] = useState('');
+
   const dispatch = useDispatch();
+  const reasons = [
+    {
+      value: 'Reason 1',
+    },
+    {
+      value: 'Reason 2',
+    },
+    {
+      value: 'Reason 3',
+    },
+  ];
   var _menu = null;
 
   const setMenuRef = (ref) => {
@@ -33,6 +49,13 @@ export function LongHeader(props) {
     hideMenu();
   };
 
+  const reportUser = () => {
+    hideMenu();
+    setReason('');
+    setReportModalVisible(true);
+    console.log('modal:true');
+  };
+
   const blockChat = () => {
     hideMenu();
     // APIKit.cardGame({partner: props.userId, enable: false}).then((resp) => {
@@ -42,6 +65,58 @@ export function LongHeader(props) {
 
   const showMenu = () => {
     _menu.show();
+  };
+
+  const _reportModal = () => {
+    return (
+      <Modal
+        animationType={'slide'}
+        visible={reportModalVisible}
+        onRequestClose={() => setReportModalVisible(false)}>
+        <View style={styles.modalContainer}>
+          <View style={styles.modal}>
+            <View style={{width: '100%'}}>
+              <Dropdown
+                label={'Why do you report this user?'}
+                data={reasons}
+                onChangeText={(txt) => {
+                  setReason(txt);
+                  console.log(txt);
+                }}
+              />
+            </View>
+            <View
+              style={{
+                flexDirection: 'row',
+                width: '100%',
+                justifyContent: 'space-between',
+                marginTop: 15,
+              }}>
+              <TouchableOpacity
+                disabled={reason === ''}
+                style={{...styles.btn, backgroundColor: '#2ECC71'}}
+                onPress={() => {
+                  setReportModalVisible(false);
+                }}>
+                <Text style={{color: 'white'}}>OK</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setReportModalVisible(false);
+                }}
+                style={{
+                  ...styles.btn,
+                  backgroundColor: 'white',
+                  borderColor: 'black',
+                  borderWidth: 1,
+                }}>
+                <Text>Cancel</Text>
+              </TouchableOpacity>
+            </View>
+          </View>
+        </View>
+      </Modal>
+    );
   };
   return (
     <SafeAreaView style={styles.container}>
@@ -54,6 +129,7 @@ export function LongHeader(props) {
             borderBottomColor: props.bcolor,
           },
         ]}>
+        {_reportModal()}
         <View style={styles.top_middle}>
           {props.avatar && <Image source={props.avatar} style={styles.user} />}
           <Text style={[styles.text, props.dark && {color: 'black'}]}>
@@ -95,6 +171,7 @@ export function LongHeader(props) {
               </TouchableOpacity>
             }>
             <MenuItem onPress={blockChat}>Block Chat</MenuItem>
+            <MenuItem onPress={reportUser}>Report User</MenuItem>
             <MenuItem onPress={deleteMatch}>Delete Match</MenuItem>
           </Menu>
         )}
@@ -158,5 +235,35 @@ const styles = StyleSheet.create({
     flex: 1,
     position: 'absolute',
     right: 15,
+  },
+  btn: {
+    height: 50,
+    width: '40%',
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContainer: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modal: {
+    width: '80%',
+    justifyContent: 'center',
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });

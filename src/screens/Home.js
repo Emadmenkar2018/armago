@@ -165,6 +165,7 @@ class Home extends Component {
         history.from === this.state.userId &&
         history.to === this.props.curUser.userId
       ) {
+        this.props.clearHistory();
         this.props.addHistory(history.msgs);
       }
     });
@@ -177,7 +178,7 @@ class Home extends Component {
       ) {
         this.props.addHistory([msg.msg]);
         this.props.socket.emit('Chat:Read', {
-          from: this.props.userId,
+          from: this.state.userId,
           to: this.props.curUser.userId,
         });
       }
@@ -223,6 +224,9 @@ class Home extends Component {
           matchModal: true,
         });
       }
+    });
+    this.props.socket.on('Chat:Read', (data) => {
+      console.log('Chat:Read', data);
     });
     return () => {
       // contacts.unsubscribe();

@@ -26,7 +26,10 @@ export default (state = initialState, action) => {
       return {...state, contacts: action.payload};
     case Actions.ADD_HISTORY:
       console.log('ADD_HISTORY', action.payload);
-      let history = [...state.history, ...action.payload];
+      const newHistory = action.payload.filter(
+        (msg) => !state.history.find((h) => h._id === msg._id),
+      );
+      const history = [...state.history, ...newHistory];
       console.log('HISTORY', history);
       history.sort(sortByDate);
       return {...state, history: history};
