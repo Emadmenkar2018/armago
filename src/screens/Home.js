@@ -242,7 +242,7 @@ class Home extends Component {
         (usr) => usr.userId === this.state.matchUserId,
       );
       if (prop) {
-        this.props.setCurUser(this.state.matchUser);
+        this.props.setCurUser(prop);
         this.props.socket.emit('History', {
           from: this.state.userId,
           to: prop.userId,

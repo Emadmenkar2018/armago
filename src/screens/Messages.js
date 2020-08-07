@@ -138,12 +138,19 @@ export default (props) => {
               })}
             </ScrollView>
           </View>
-          <View style={{marginHorizontal: 12, marginBottom: 40, marginTop: 0}}>
+          <View
+            style={{
+              marginHorizontal: 12,
+              marginBottom: 40,
+              marginTop: 0,
+              flex: 12,
+            }}>
             <View
               style={{
                 flexDirection: 'row',
                 alignItems: 'center',
                 marginTop: 12,
+                flex: 1,
               }}>
               <Text
                 style={{
@@ -165,55 +172,59 @@ export default (props) => {
                 </Text>
               </View>
             </View>
-            <ScrollView>
-              {filtered_Messages.map((prop) => {
-                return (
-                  <TouchableOpacity
-                    key={prop.userId}
-                    onPress={() => {
-                      dispatch(Actions.clearHistory());
-                      dispatch(Actions.setCurUser(prop));
-                      socket.emit('History', {
-                        from: setting.userId,
-                        to: prop.userId,
-                      });
-                      socket.emit('Chat:Read', {
-                        from: setting.userId,
-                        to: prop.userId,
-                      });
-                      navigate('Chat', {
-                        user: prop,
-                      });
-                    }}>
-                    <View style={styles.list}>
-                      <Image
-                        source={{uri: prop.imageUrl}}
-                        style={styles.user}
-                      />
-                      {/* {prop.unread && <View style={[styles.dot]} />} */}
-                      <View style={styles.listborder}>
-                        <Text
-                          style={{
-                            fontSize: 20,
-                            fontFamily: 'ProximaNova-Bold',
-                            color: '#666',
-                          }}>
-                          {prop.firstName}
-                        </Text>
-                        <Text
-                          style={{
-                            fontSize: 16,
-                            fontFamily: 'ProximaNova-Regular',
-                            color: '#999',
-                          }}>
-                          {prop.latest}
-                        </Text>
-                      </View>
-                    </View>
-                  </TouchableOpacity>
-                );
-              })}
-            </ScrollView>
+            <View style={{flex: 11}}>
+              {filtered_Messages.length && (
+                <ScrollView>
+                  {filtered_Messages.map((prop) => {
+                    return (
+                      <TouchableOpacity
+                        key={prop.userId}
+                        onPress={() => {
+                          dispatch(Actions.clearHistory());
+                          dispatch(Actions.setCurUser(prop));
+                          socket.emit('History', {
+                            from: setting.userId,
+                            to: prop.userId,
+                          });
+                          socket.emit('Chat:Read', {
+                            from: setting.userId,
+                            to: prop.userId,
+                          });
+                          navigate('Chat', {
+                            user: prop,
+                          });
+                        }}>
+                        <View style={styles.list}>
+                          <Image
+                            source={{uri: prop.imageUrl}}
+                            style={styles.user}
+                          />
+                          {/* {prop.unread && <View style={[styles.dot]} />} */}
+                          <View style={styles.listborder}>
+                            <Text
+                              style={{
+                                fontSize: 20,
+                                fontFamily: 'ProximaNova-Bold',
+                                color: '#666',
+                              }}>
+                              {prop.firstName}
+                            </Text>
+                            <Text
+                              style={{
+                                fontSize: 16,
+                                fontFamily: 'ProximaNova-Regular',
+                                color: '#999',
+                              }}>
+                              {prop.latest}
+                            </Text>
+                          </View>
+                        </View>
+                      </TouchableOpacity>
+                    );
+                  })}
+                </ScrollView>
+              )}
+            </View>
           </View>
           <Image source={images.oval} style={styles.oval2} />
         </SafeAreaView>
