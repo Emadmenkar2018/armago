@@ -15,7 +15,7 @@ import AntDesign from 'react-native-vector-icons/AntDesign';
 import {useDispatch} from 'react-redux';
 import * as Actions from '../store/actions';
 import {Dropdown} from 'react-native-material-dropdown';
-// import APIKit from '../services/api';
+import APIKit from '../services/api';
 
 import Menu, {MenuItem} from 'react-native-material-menu';
 
@@ -46,7 +46,14 @@ export function LongHeader(props) {
   };
 
   const deleteMatch = () => {
-    hideMenu();
+    console.log('deleteMatch', props.userId);
+    APIKit.deleteMatch({user: props.userId}).then((resp) => {
+      console.log('deleteMatch', resp.data);
+      APIKit.getContacts().then((contacts) => {
+        dispatch(Actions.setContacts(contacts.data));
+        props.navigate(props.route);
+      });
+    });
   };
 
   const reportUser = () => {
@@ -56,11 +63,15 @@ export function LongHeader(props) {
     console.log('modal:true');
   };
 
+  const confirmReportUesr = () => {
+    APIKit.reportUser({user: props.userId, reason}).then((resp) => {
+      console.log('report user', resp.data);
+      setReportModalVisible(false);
+    });
+  };
+
   const blockChat = () => {
     hideMenu();
-    // APIKit.cardGame({partner: props.userId, enable: false}).then((resp) => {
-    //   console.log(resp.data);
-    // });
   };
 
   const showMenu = () => {
@@ -72,7 +83,8 @@ export function LongHeader(props) {
       <Modal
         animationType={'slide'}
         visible={reportModalVisible}
-        onRequestClose={() => setReportModalVisible(false)}>
+        onRequestClose={() => setReportModalVisible(false)}
+        transparent>
         <View style={styles.modalContainer}>
           <View style={styles.modal}>
             <View style={{width: '100%'}}>
@@ -96,7 +108,7 @@ export function LongHeader(props) {
                 disabled={reason === ''}
                 style={{...styles.btn, backgroundColor: '#2ECC71'}}
                 onPress={() => {
-                  setReportModalVisible(false);
+                  confirmReportUesr();
                 }}>
                 <Text style={{color: 'white'}}>OK</Text>
               </TouchableOpacity>
@@ -170,9 +182,9 @@ export function LongHeader(props) {
                 />
               </TouchableOpacity>
             }>
-            <MenuItem onPress={blockChat}>Block Chat</MenuItem>
-            <MenuItem onPress={reportUser}>Report User</MenuItem>
-            <MenuItem onPress={deleteMatch}>Delete Match</MenuItem>
+            <MenuItem onPress={() => blockChat()}>Block Chat</MenuItem>
+            <MenuItem onPress={() => reportUser()}>Report User</MenuItem>
+            <MenuItem onPress={() => deleteMatch()}>Delete Match</MenuItem>
           </Menu>
         )}
         {props.removeRightIcon && (
