@@ -109,6 +109,6 @@ APIKit.getContacts = () => APIKit.get('api/users/contacts');
 
 APIKit.deleteAccount = () => APIKit.delete('api/users/account');
 
-APIKit.deleteMatch = (payload) => APIKit.post('api/users/block', payload);
+APIKit.blockUser = (payload) => APIKit.post('api/users/block', payload);
 APIKit.reportUser = (payload) => APIKit.post('api/users/report', payload);
 export default APIKit;

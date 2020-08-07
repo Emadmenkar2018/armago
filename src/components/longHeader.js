@@ -45,16 +45,9 @@ export function LongHeader(props) {
     _menu.hide();
   };
 
-  const deleteMatch = () => {
-    console.log('deleteMatch', props.userId);
-    APIKit.deleteMatch({user: props.userId}).then((resp) => {
-      console.log('deleteMatch', resp.data);
-      APIKit.getContacts().then((contacts) => {
-        dispatch(Actions.setContacts(contacts.data));
-        props.navigate(props.route);
-      });
-    });
-  };
+  // const deleteMatch = () => {
+  //   hideMenu();
+  // };
 
   const reportUser = () => {
     hideMenu();
@@ -71,7 +64,15 @@ export function LongHeader(props) {
   };
 
   const blockChat = () => {
-    hideMenu();
+    console.log('block user', props.userId);
+    APIKit.blockUser({user: props.userId}).then((resp) => {
+      console.log('block user', resp.data);
+      hideMenu();
+      APIKit.getContacts().then((contacts) => {
+        dispatch(Actions.setContacts(contacts.data));
+        props.navigate(props.route);
+      });
+    });
   };
 
   const showMenu = () => {
@@ -184,7 +185,7 @@ export function LongHeader(props) {
             }>
             <MenuItem onPress={() => blockChat()}>Block Chat</MenuItem>
             <MenuItem onPress={() => reportUser()}>Report User</MenuItem>
-            <MenuItem onPress={() => deleteMatch()}>Delete Match</MenuItem>
+            {/* <MenuItem onPress={() => deleteMatch()}>Delete Match</MenuItem> */}
           </Menu>
         )}
         {props.removeRightIcon && (
