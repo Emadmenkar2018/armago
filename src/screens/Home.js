@@ -194,6 +194,7 @@ class Home extends Component {
                   ? 0
                   : co.unread + 1,
               latest: msg.msg.msg,
+              datetime: msg.msg.createdAt,
             };
           }
           if (co.userId === msg.to) {
@@ -202,6 +203,7 @@ class Home extends Component {
               count: co.count + 1,
               unread: 0,
               latest: msg.msg.msg,
+              datetime: msg.msg.createdAt,
             };
           }
           return co;

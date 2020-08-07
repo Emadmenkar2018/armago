@@ -38,10 +38,26 @@ export default (props) => {
     const {navigate} = props.navigation;
     const filtered_newMatches = contacts
       .filter((co) => co.count === 0)
-      .filter(createFilter(searchTerm, KEYS_TO_FILTERS_NEWMATCHES));
+      .filter(createFilter(searchTerm, KEYS_TO_FILTERS_NEWMATCHES))
+      .sort((a, b) => {
+        if (a.datetime < b.datetime) {
+          return 1;
+        } else if (a.datetime === b.datetime) {
+          return 0;
+        }
+        return -1;
+      });
     const filtered_Messages = contacts
       .filter((co) => co.count)
-      .filter(createFilter(searchTerm, KEYS_TO_FILTERS_MESSAGES));
+      .filter(createFilter(searchTerm, KEYS_TO_FILTERS_MESSAGES))
+      .sort((a, b) => {
+        if (a.datetime < b.datetime) {
+          return 1;
+        } else if (a.datetime === b.datetime) {
+          return 0;
+        }
+        return -1;
+      });
     console.log('filtered_Messages', filtered_Messages);
     return (
       <>
