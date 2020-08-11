@@ -680,7 +680,10 @@ class Home extends Component {
               // }).then((resp) => {
               //   console.log(resp);
               // });
-              navigate('TrialAccept', 'https://google.com');
+              navigate(
+                'TrialAccept',
+                trial.formUrl ? trial.formUrl : 'https://google.com',
+              );
             }}>
             <TrialCard trial={trial} />
           </Card>,
