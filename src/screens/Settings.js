@@ -45,7 +45,6 @@ export default (props) => {
 
   const logout = (navigate) => {
     if (removeItemValue()) {
-      dispatch(Actions.clearAllData());
       navigate('Signin');
     }
   };

@@ -124,34 +124,38 @@ export default (props) => {
                 height: 100,
               }}
               horizontal>
-              {filtered_newMatches.map((prop) => {
-                return (
-                  <TouchableOpacity
-                    key={prop.userId}
-                    onPress={() => {
-                      dispatch(Actions.clearHistory());
-                      dispatch(Actions.setCurUser(prop));
-                      socket.emit('History', {
-                        from: setting.userId,
-                        to: prop.userId,
-                      });
-                      navigate('Chat', {
-                        user: prop,
-                      });
-                    }}>
-                    <View style={{paddingRight: 30}}>
-                      <Image
-                        source={{uri: prop.imageUrl}}
-                        style={styles.user}
-                      />
-                      <View style={styles.dot} />
-                      <Text style={[styles.name, {marginLeft: 10}]}>
-                        {prop.firstName}
-                      </Text>
-                    </View>
-                  </TouchableOpacity>
-                );
-              })}
+              {filtered_newMatches.length ? (
+                filtered_newMatches.map((prop) => {
+                  return (
+                    <TouchableOpacity
+                      key={prop.userId}
+                      onPress={() => {
+                        dispatch(Actions.clearHistory());
+                        dispatch(Actions.setCurUser(prop));
+                        socket.emit('History', {
+                          from: setting.userId,
+                          to: prop.userId,
+                        });
+                        navigate('Chat', {
+                          user: prop,
+                        });
+                      }}>
+                      <View style={{paddingRight: 30}}>
+                        <Image
+                          source={{uri: prop.imageUrl}}
+                          style={styles.user}
+                        />
+                        <View style={styles.dot} />
+                        <Text style={[styles.name, {marginLeft: 10}]}>
+                          {prop.firstName}
+                        </Text>
+                      </View>
+                    </TouchableOpacity>
+                  );
+                })
+              ) : (
+                <></>
+              )}
             </ScrollView>
           </View>
           <View
@@ -189,7 +193,7 @@ export default (props) => {
               </View>
             </View>
             <View style={{flex: 11}}>
-              {filtered_Messages.length && (
+              {filtered_Messages.length ? (
                 <ScrollView>
                   {filtered_Messages.map((prop) => {
                     return (
@@ -239,6 +243,8 @@ export default (props) => {
                     );
                   })}
                 </ScrollView>
+              ) : (
+                <></>
               )}
             </View>
           </View>

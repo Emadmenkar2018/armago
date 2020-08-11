@@ -27,7 +27,7 @@ export default class TrainingAccept extends Component {
         />
         <SafeAreaView style={styles.container}>
           <LongHeader
-            title={'Traning'}
+            title={'Training'}
             bcolor={colors.gray}
             dark={true}
             left={colors.lightBlue}

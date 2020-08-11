@@ -27,7 +27,7 @@ import UserCard from './UserCard';
 import {responsiveHeight} from 'react-native-responsive-dimensions';
 import OutOfCards from './OutOfCards';
 import AntDesign from 'react-native-vector-icons/AntDesign';
-import APIKit from '../services/api';
+import APIKit, {clearClientToken} from '../services/api';
 
 import {connect} from 'react-redux';
 import * as Actions from '../store/actions';
@@ -117,45 +117,59 @@ class Home extends Component {
         console.log('error', err, 'result', result);
       },
     );
-    APIKit.getCards().then((resp) => {
-      this.setState({allcards: resp.data});
-    });
-    APIKit.getuniversities().then((resp) => {
-      this.setState({universities: resp.data});
-    });
-    APIKit.getSetting().then((resp) => {
-      console.log('setting', resp.data);
-      this.props.setSetting(resp.data);
-      this.setState({userId: resp.data.userId});
-      console.log('userId', resp.data.userId);
-      this.props.socket.emit('User:Joined', resp.data.userId);
-    });
-    APIKit.getContacts().then((resp1) => {
-      this.props.setContacts(resp1.data);
-    });
-    APIKit.getTeams().then((resp) => {
-      console.log(resp.data.docs);
-      this.props.setTeams(resp.data.docs);
-    });
-    APIKit.getsports().then((resp) => {
-      this.props.setSports(resp.data);
-    });
-    APIKit.getprofile().then((resp) => {
-      if (this.state.latitude) {
-        APIKit.profile({
-          ...resp.data,
-          location: {
-            lat: this.latitude,
-            lng: this.longitude,
-            address: this.address,
-          },
-        }).then((resp1) => {
-          this.props.setProfile(resp1.data);
-        });
-      } else {
-        this.props.setProfile(resp.data);
-      }
-    });
+    APIKit.getCards()
+      .then((resp) => {
+        this.setState({allcards: resp.data});
+      })
+      .catch(this.onAxiosError);
+    APIKit.getuniversities()
+      .then((resp) => {
+        this.setState({universities: resp.data});
+      })
+      .catch(this.onAxiosError);
+    APIKit.getSetting()
+      .then((resp) => {
+        console.log('setting', resp.data);
+        this.props.setSetting(resp.data);
+        this.setState({userId: resp.data.userId});
+        console.log('userId', resp.data.userId);
+        this.props.socket.emit('User:Joined', resp.data.userId);
+      })
+      .catch(this.onAxiosError);
+    APIKit.getContacts()
+      .then((resp1) => {
+        this.props.setContacts(resp1.data);
+      })
+      .catch(this.onAxiosError);
+    APIKit.getTeams()
+      .then((resp) => {
+        console.log(resp.data.docs);
+        this.props.setTeams(resp.data.docs);
+      })
+      .catch(this.onAxiosError);
+    APIKit.getsports()
+      .then((resp) => {
+        this.props.setSports(resp.data);
+      })
+      .catch(this.onAxiosError);
+    APIKit.getprofile()
+      .then((resp) => {
+        if (this.state.latitude) {
+          APIKit.profile({
+            ...resp.data,
+            location: {
+              lat: this.latitude,
+              lng: this.longitude,
+              address: this.address,
+            },
+          }).then((resp1) => {
+            this.props.setProfile(resp1.data);
+          });
+        } else {
+          this.props.setProfile(resp.data);
+        }
+      })
+      .catch(this.onAxiosError);
     this.props.socket.on('Online:Users', (onlineUsers) => {
       console.log('Online:Users', onlineUsers);
     });
@@ -230,10 +244,22 @@ class Home extends Component {
     this.props.socket.on('Chat:Read', (data) => {
       console.log('Chat:Read', data);
     });
-    return () => {
-      // contacts.unsubscribe();
-    };
   }
+  onAxiosError = (err) => {
+    console.log('HOME', err);
+    if (this.removeItemValue()) {
+      this.props.navigation.navigate('Signin');
+    }
+  };
+  removeItemValue = async () => {
+    try {
+      await AsyncStorage.removeItem('userToken');
+      clearClientToken();
+      return true;
+    } catch (exception) {
+      return false;
+    }
+  };
 
   onModal1 = () => {
     this.setState({matchModal: false});
@@ -297,7 +323,7 @@ class Home extends Component {
               });
             }
           })
-          .catch((error) => console.warn(error));
+          .catch((error) => console.log(error));
       },
       (error) => Alert.alert(error.message),
       {enableHighAccuracy: true, timeout: 20000, maximumAge: 200000},
@@ -370,7 +396,10 @@ class Home extends Component {
     return (
       <Modal
         animationType={'slide'}
-        visible={this.state.matchModal}
+        visible={
+          this.state.matchModal &&
+          this.props.navigation.state.routeName === 'Home'
+        }
         transparent
         onRequestClose={() => this.onModal1()}>
         <View style={styles.modalContainer}>
@@ -987,6 +1016,7 @@ const mapDispatchToProps = (dispatch) => {
     addHistory: (data) => dispatch(Actions.addHistory(data)),
     clearHistory: (data) => dispatch(Actions.clearHistory(data)),
     setCurUser: (data) => dispatch(Actions.setCurUser(data)),
+    clearAllData: () => dispatch(Actions.clearAllData()),
   };
   // ... normally is an object full of action creators
 };

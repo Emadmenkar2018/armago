@@ -46,14 +46,12 @@ APIKit.interceptors.response.use(
     if (!error || !error.response) {
       return;
     }
-    if (error.response.status !== 401) {
-      return Promise.reject(error);
-    }
     console.log('interceptor : ' + error.response.status);
     if (error.response.status === 401) {
       //refresh token with old one
       const old_token = await AsyncStorage.getItem('userToken');
       console.log(old_token);
+      return Promise.reject(error);
       // send login screen for now.
     }
     if (error.response.status === 422) {

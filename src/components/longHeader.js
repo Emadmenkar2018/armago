@@ -76,7 +76,13 @@ export function LongHeader(props) {
   };
 
   const showMenu = () => {
-    _menu.show();
+    if (props.rightIcon) {
+      _menu.show();
+    } else {
+      if (props.handleRefresh) {
+        props.handleRefresh();
+      }
+    }
   };
 
   const _reportModal = () => {

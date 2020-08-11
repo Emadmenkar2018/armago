@@ -7,6 +7,7 @@ import AppStatusBar from '../components/AppStatusBar';
 // const supportedURL = 'https://google.com';
 export default class TrialAccept extends Component {
   state = null;
+  WebViewRef = null;
   constructor(props) {
     super(props);
     this.state = {
@@ -17,6 +18,12 @@ export default class TrialAccept extends Component {
     };
     console.log(props.navigation.state.params);
   }
+
+  handleRefresh = () => {
+    if (this.WebViewRef) {
+      this.WebViewRef.reload();
+    }
+  };
 
   render() {
     const {navigate} = this.props.navigation;
@@ -35,8 +42,12 @@ export default class TrialAccept extends Component {
             route={'Home'}
             navigate={navigate}
             leftText={'Back'}
+            handleRefresh={() => this.handleRefresh()}
           />
-          <WebView source={{uri: this.props.navigation.state.params}} />
+          <WebView
+            source={{uri: this.props.navigation.state.params}}
+            ref={(wref) => (this.WebViewRef = wref)}
+          />
         </SafeAreaView>
       </>
     );
