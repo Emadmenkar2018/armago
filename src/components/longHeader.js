@@ -60,6 +60,7 @@ export function LongHeader(props) {
     APIKit.reportUser({user: props.userId, reason}).then((resp) => {
       console.log('report user', resp.data);
       setReportModalVisible(false);
+      blockChat();
     });
   };
 

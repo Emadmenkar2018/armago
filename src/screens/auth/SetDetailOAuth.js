@@ -222,7 +222,7 @@ export default class SetDetail extends Component {
                 onPress={() => this.setState({checked3: !this.state.checked3})}
               />
               <TouchableOpacity
-                onPress={() => navigate('Eula', {backUrl: 'SetDetail'})}>
+                onPress={() => navigate('Eula', {backUrl: 'SetDetailOAuth'})}>
                 <Text style={styles.sublabel}>{'I agree to the EULA'}</Text>
               </TouchableOpacity>
             </View>

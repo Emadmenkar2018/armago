@@ -144,6 +144,7 @@ export default (props) => {
     APIKit.reportUser({user: props.user.id, reason}).then((resp) => {
       console.log('report user', resp.data);
       setReportModalVisible(false);
+      props.handleReportUser();
     });
   };
 
