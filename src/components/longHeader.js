@@ -16,12 +16,14 @@ import {useDispatch} from 'react-redux';
 import * as Actions from '../store/actions';
 import {Dropdown} from 'react-native-material-dropdown';
 import APIKit from '../services/api';
+import {Input} from 'react-native-elements';
 
 import Menu, {MenuItem} from 'react-native-material-menu';
 
 export function LongHeader(props) {
   const [reportModalVisible, setReportModalVisible] = useState(false);
   const [reason, setReason] = useState('');
+  const [reasonTxt, setReasonTxt] = useState('');
 
   const dispatch = useDispatch();
   const reasons = [
@@ -95,14 +97,37 @@ export function LongHeader(props) {
         transparent>
         <View style={styles.modalContainer}>
           <View style={styles.modal}>
-            <View style={{width: '100%'}}>
-              <Dropdown
-                label={'Why do you report this user?'}
-                data={reasons}
-                onChangeText={(txt) => {
-                  setReason(txt);
-                  console.log(txt);
-                }}
+            <View
+              style={{
+                width: '100%',
+                alignItems: 'center',
+                alignContent: 'center',
+              }}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  marginBottom: 6,
+                  textAlign: 'center',
+                  width: '100%',
+                }}>
+                Report User
+              </Text>
+              <View style={{width: '90%'}}>
+                <Dropdown
+                  label={'Please select a reason type.'}
+                  data={reasons}
+                  onChangeText={(txt) => {
+                    setReason(txt);
+                    console.log(txt);
+                  }}
+                />
+              </View>
+              <Input
+                label="Reason Detail"
+                placeholder="Enter the reason"
+                style={{width: '100%', margin: 0, padding: 0}}
+                value={reasonTxt}
+                onChangeText={(value) => setReasonTxt(value)}
               />
             </View>
             <View

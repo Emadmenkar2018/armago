@@ -16,6 +16,7 @@ import {images} from '../common/images';
 export const {width, height} = Dimensions.get('window');
 import {RFValue} from 'react-native-responsive-fontsize';
 import {responsiveHeight} from 'react-native-responsive-dimensions';
+import {Input} from 'react-native-elements';
 
 import {useSelector} from 'react-redux';
 // import * as Actions from '../store/actions';
@@ -95,6 +96,7 @@ export default (props) => {
   const [availability, setAvailability] = useState([]);
   const [universitieName, setUniversitieName] = useState('');
   const [reason, setReason] = useState('');
+  const [reasonTxt, setReasonTxt] = useState('');
   const [reportModalVisible, setReportModalVisible] = useState(false);
   const myAvaliablity = useSelector(
     (state) => state.main.data.profile.availability,
@@ -136,6 +138,7 @@ export default (props) => {
 
   const reportUser = () => {
     setReason('');
+    setReasonTxt('');
     setReportModalVisible(true);
     console.log('modal:true');
   };
@@ -157,14 +160,37 @@ export default (props) => {
         transparent>
         <View style={styles.modalContainer}>
           <View style={styles.modal}>
-            <View style={{width: '100%'}}>
-              <Dropdown
-                label={'Why do you report this user?'}
-                data={reasons}
-                onChangeText={(txt) => {
-                  setReason(txt);
-                  console.log(txt);
-                }}
+            <View
+              style={{
+                width: '100%',
+                alignItems: 'center',
+                alignContent: 'center',
+              }}>
+              <Text
+                style={{
+                  fontSize: 20,
+                  marginBottom: 6,
+                  textAlign: 'center',
+                  width: '100%',
+                }}>
+                Report User
+              </Text>
+              <View style={{width: '90%'}}>
+                <Dropdown
+                  label={'Please select a reason type.'}
+                  data={reasons}
+                  onChangeText={(txt) => {
+                    setReason(txt);
+                    console.log(txt);
+                  }}
+                />
+              </View>
+              <Input
+                label="Reason Detail"
+                placeholder="Enter the reason"
+                style={{width: '100%', margin: 0, padding: 0}}
+                value={reasonTxt}
+                onChangeText={(value) => setReasonTxt(value)}
               />
             </View>
             <View

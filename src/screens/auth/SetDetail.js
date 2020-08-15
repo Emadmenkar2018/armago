@@ -180,7 +180,10 @@ export default class SetDetail extends Component {
               />
               <TouchableOpacity
                 onPress={() => navigate('Eula', {backUrl: 'SetDetail'})}>
-                <Text style={styles.sublabel}>{'I agree to the EULA'}</Text>
+                <Text style={styles.sublabel}>
+                  {'I agree to the '}
+                  <Text style={{color: colors.biglightBlue}}>EULA</Text>
+                </Text>
               </TouchableOpacity>
             </View>
           </View>
