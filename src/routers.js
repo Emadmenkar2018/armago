@@ -37,7 +37,6 @@ import ChooseAbility from './screens/auth/ChooseAbility';
 import SetBioUniversity from './screens/auth/SetBioUniversity';
 import SetAvailability from './screens/auth/SetAvailability';
 import Permission from './screens/auth/Permission';
-import Eula from './screens/auth/Eula';
 
 const navigationOptions = () => ({header: null});
 
@@ -107,7 +106,6 @@ const AuthStack = createStackNavigator({
   SetBioUniversity: {screen: SetBioUniversity, navigationOptions},
   SetAvailability: {screen: SetAvailability, navigationOptions},
   Permission: {screen: Permission, navigationOptions},
-  Eula: {screen: Eula, navigationOptions},
 });
 
 export const Routers = createAppContainer(

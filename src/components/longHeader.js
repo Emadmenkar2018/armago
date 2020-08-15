@@ -26,19 +26,13 @@ export function LongHeader(props) {
   const dispatch = useDispatch();
   const reasons = [
     {
-      value: 'Inappropriate profile picture',
+      value: 'Reason 1',
     },
     {
-      value: 'Harassment',
+      value: 'Reason 2',
     },
     {
-      value: 'Impersonation',
-    },
-    {
-      value: 'Discrimination',
-    },
-    {
-      value: 'Other',
+      value: 'Reason 3',
     },
   ];
   var _menu = null;
@@ -64,20 +58,16 @@ export function LongHeader(props) {
 
   const confirmReportUesr = () => {
     APIKit.reportUser({user: props.userId, reason}).then((resp) => {
-      console.log('report user1', resp.data);
-      blockChat(false);
+      console.log('report user', resp.data);
+      setReportModalVisible(false);
     });
   };
 
-  const blockChat = (isHide = true) => {
+  const blockChat = () => {
     console.log('block user', props.userId);
     APIKit.blockUser({user: props.userId}).then((resp) => {
       console.log('block user', resp.data);
-      if (isHide) {
-        hideMenu();
-      } else {
-        setReportModalVisible(false);
-      }
+      hideMenu();
       APIKit.getContacts().then((contacts) => {
         dispatch(Actions.setContacts(contacts.data));
         props.navigate(props.route);
