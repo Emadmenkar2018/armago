@@ -7,6 +7,7 @@ import {
   Image,
   TouchableOpacity,
   Dimensions,
+  Modal,
 } from 'react-native';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import FlipCard from 'react-native-flip-card';
@@ -17,6 +18,11 @@ import {RFValue} from 'react-native-responsive-fontsize';
 import {responsiveHeight} from 'react-native-responsive-dimensions';
 
 import {useSelector} from 'react-redux';
+// import * as Actions from '../store/actions';
+
+import {Dropdown} from 'react-native-material-dropdown';
+
+import APIKit from '../services/api';
 
 function DateView(props) {
   console.log(props);
@@ -67,13 +73,34 @@ const fullWeekDays = {
   sat: 'Saturday',
   sun: 'Sunday',
 };
+const reasons = [
+  {
+    value: 'Inappropriate profile picture',
+  },
+  {
+    value: 'Harassment',
+  },
+  {
+    value: 'Impersonation',
+  },
+  {
+    value: 'Discrimination',
+  },
+  {
+    value: 'Other',
+  },
+];
 
 export default (props) => {
   const [availability, setAvailability] = useState([]);
   const [universitieName, setUniversitieName] = useState('');
+  const [reason, setReason] = useState('');
+  const [reportModalVisible, setReportModalVisible] = useState(false);
   const myAvaliablity = useSelector(
     (state) => state.main.data.profile.availability,
   );
+  // const dispatch = useDispatch();
+
   useEffect(() => {
     const today = new Date();
     let weekdays = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
@@ -106,132 +133,171 @@ export default (props) => {
   const _toCapital = (str) => {
     return str.slice(0, 1).toUpperCase() + str.slice(1, str.length);
   };
-  return (
-    <View style={styles.container}>
-      <FlipCard
-        friction={15}
-        flipHorizontal={true}
-        flipVertical={false}
-        clickable={true}
-        useNativeDriver={false}>
-        {/* Face Side */}
-        <View style={styles.main}>
-          {props.user.mFriends.length !== 0 && (
-            <Image source={images.group} style={styles.groupImg} />
-          )}
 
-          <View style={{flex: 1, padding: 15}}>
-            <Image source={{uri: props.user.imageUrl}} style={styles.img} />
+  const reportUser = () => {
+    setReason('');
+    setReportModalVisible(true);
+    console.log('modal:true');
+  };
+
+  const confirmReportUesr = () => {
+    APIKit.reportUser({user: props.user.id, reason}).then((resp) => {
+      console.log('report user', resp.data);
+      setReportModalVisible(false);
+    });
+  };
+
+  const _reportModal = () => {
+    return (
+      <Modal
+        animationType={'slide'}
+        visible={reportModalVisible}
+        onRequestClose={() => setReportModalVisible(false)}
+        transparent>
+        <View style={styles.modalContainer}>
+          <View style={styles.modal}>
+            <View style={{width: '100%'}}>
+              <Dropdown
+                label={'Why do you report this user?'}
+                data={reasons}
+                onChangeText={(txt) => {
+                  setReason(txt);
+                  console.log(txt);
+                }}
+              />
+            </View>
             <View
               style={{
-                flex: 1,
-                marginHorizontal: 20,
-                marginVertical: 15,
+                flexDirection: 'row',
+                width: '100%',
+                justifyContent: 'space-between',
+                marginTop: 15,
               }}>
-              <Text style={[styles.title]}>
-                {props.user.firstName}, {props.user.age}
-              </Text>
-              {props.user.ability.length !== 0 && (
-                <Text style={[styles.text, {marginVertical: 6}]}>
-                  {_toCapital(props.user.ability[0].level)}
-                </Text>
-              )}
-              <Text style={styles.text}>{'Studies at ' + universitieName}</Text>
-              <Text style={styles.text}>
-                {parseInt(parseFloat(props.user.distance) / 1609.34, 10) +
-                  ' Miles Away'}
-              </Text>
-            </View>
-            <View style={styles.bar}>
-              <View
-                style={{
-                  flexDirection: 'row',
-                  marginHorizontal: 10,
-                  marginVertical: 10,
+              <TouchableOpacity
+                disabled={reason === ''}
+                style={{...styles.btn, backgroundColor: '#2ECC71'}}
+                onPress={() => {
+                  confirmReportUesr();
                 }}>
-                {availability.slice(0, 2).map((w) => (
-                  <TouchableOpacity style={styles.circle} key={w}>
-                    <Text style={styles.text_date}>{w.toUpperCase()}</Text>
-                  </TouchableOpacity>
-                ))}
-              </View>
-              <Image
-                source={{uri: props.user.sport[0].thumbnail}}
-                style={styles.racket}
-              />
+                <Text style={{color: 'white'}}>OK</Text>
+              </TouchableOpacity>
+              <TouchableOpacity
+                onPress={() => {
+                  setReportModalVisible(false);
+                }}
+                style={{
+                  ...styles.btn,
+                  backgroundColor: 'white',
+                  borderColor: 'black',
+                  borderWidth: 1,
+                }}>
+                <Text>Cancel</Text>
+              </TouchableOpacity>
             </View>
           </View>
         </View>
+      </Modal>
+    );
+  };
+  return (
+    <>
+      <View style={styles.container}>
+        <FlipCard
+          friction={15}
+          flipHorizontal={true}
+          flipVertical={false}
+          clickable={true}
+          useNativeDriver={false}>
+          {/* Face Side */}
+          <View style={styles.main}>
+            {props.user.mFriends.length !== 0 && (
+              <Image source={images.group} style={styles.groupImg} />
+            )}
 
-        {/* Back Side */}
-        <View style={styles.main}>
-          {props.user.mFriends.length !== 0 && (
-            <Image source={images.group} style={styles.groupImg} />
-          )}
-
-          {/* <View style={{flex:1}}> */}
-          <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
-            <View style={{flex: 1, flexDirection: 'row'}}>
-              <Image
-                source={{uri: props.user.imageUrl}}
-                style={styles.back_img}
-              />
-              <Text style={styles.text1}>
-                {props.user.firstName}, {props.user.age}
-              </Text>
-            </View>
-            <Text style={styles.text2}>{props.user.bio.description}</Text>
-          </View>
-
-          <View
-            style={[
-              {
-                width: '100%',
-                height: '100%',
-                flex: 1.4,
-                paddingHorizontal: 15,
-                paddingTop: 10,
-                backgroundColor: colors.darkBlue,
-              },
-            ]}>
-            <Text style={styles.text6}>{'Matching Availability'}</Text>
-            {availability.slice(0, 2).map((w) => (
-              <DateView
-                data={fullWeekDays[w]}
-                value={props.user.availability[w]}
-                key={w}
-              />
-            ))}
-            <TouchableOpacity
-              style={{
-                position: 'absolute',
-                bottom: 0,
-                alignItems: 'center',
-                justifyContent: 'center',
-                alignSelf: 'center',
-              }}
-              onPress={() => props.setTogglePanel(true, props.user)}>
-              <AntDesign name="down" size={30} color={'white'} />
-            </TouchableOpacity>
-          </View>
-          <View style={{flex: 1, padding: 15}}>
-            <Text style={styles.text6}>{'Mutual Friends'}</Text>
-            <View
-              style={{
-                flex: 1,
-                flexDirection: 'row',
-                paddingHorizontal: 15,
-              }}>
-              {props.user.mFriends.slice(0, 5).map((friend) => (
-                <View style={styles.m_avatar}>
-                  <Image source={{uri: friend.imageUrl}} />
-                  <Text style={styles.text7}>
-                    {friend.firstName + ' ' + friend.lastName}
+            <View style={{flex: 1, padding: 15}}>
+              <Image source={{uri: props.user.imageUrl}} style={styles.img} />
+              <View
+                style={{
+                  flex: 1,
+                  marginHorizontal: 20,
+                  marginVertical: 15,
+                }}>
+                <Text style={[styles.title]}>
+                  {props.user.firstName}, {props.user.age}
+                </Text>
+                {props.user.ability.length !== 0 && (
+                  <Text style={[styles.text, {marginVertical: 6}]}>
+                    {_toCapital(props.user.ability[0].level)}
                   </Text>
+                )}
+                <Text style={styles.text}>
+                  {'Studies at ' + universitieName}
+                </Text>
+                <Text style={styles.text}>
+                  {parseInt(parseFloat(props.user.distance) / 1609.34, 10) +
+                    ' Miles Away'}
+                </Text>
+              </View>
+              <View style={styles.bar}>
+                <View
+                  style={{
+                    flexDirection: 'row',
+                    marginHorizontal: 10,
+                    marginVertical: 10,
+                  }}>
+                  {availability.slice(0, 2).map((w) => (
+                    <TouchableOpacity style={styles.circle} key={w}>
+                      <Text style={styles.text_date}>{w.toUpperCase()}</Text>
+                    </TouchableOpacity>
+                  ))}
                 </View>
-              ))}
+                <Image
+                  source={{uri: props.user.sport[0].thumbnail}}
+                  style={styles.racket}
+                />
+              </View>
             </View>
-            {props.user.mFriends.length > 5 && (
+          </View>
+
+          {/* Back Side */}
+          <View style={styles.main}>
+            {props.user.mFriends.length !== 0 && (
+              <Image source={images.group} style={styles.groupImg} />
+            )}
+
+            {/* <View style={{flex:1}}> */}
+            <View style={{flex: 1, flexDirection: 'column', padding: 10}}>
+              <View style={{flex: 1, flexDirection: 'row'}}>
+                <Image
+                  source={{uri: props.user.imageUrl}}
+                  style={styles.back_img}
+                />
+                <Text style={styles.text1}>
+                  {props.user.firstName}, {props.user.age}
+                </Text>
+              </View>
+              <Text style={styles.text2}>{props.user.bio.description}</Text>
+            </View>
+
+            <View
+              style={[
+                {
+                  width: '100%',
+                  height: '100%',
+                  flex: 1.4,
+                  paddingHorizontal: 15,
+                  paddingTop: 10,
+                  backgroundColor: colors.darkBlue,
+                },
+              ]}>
+              <Text style={styles.text6}>{'Matching Availability'}</Text>
+              {availability.slice(0, 2).map((w) => (
+                <DateView
+                  data={fullWeekDays[w]}
+                  value={props.user.availability[w]}
+                  key={w}
+                />
+              ))}
               <TouchableOpacity
                 style={{
                   position: 'absolute',
@@ -240,15 +306,62 @@ export default (props) => {
                   justifyContent: 'center',
                   alignSelf: 'center',
                 }}
-                onPress={() => props.setToggleFollowPanel(true)}>
+                onPress={() => props.setTogglePanel(true, props.user)}>
                 <AntDesign name="down" size={30} color={'white'} />
               </TouchableOpacity>
-            )}
+            </View>
+            <View style={{flex: 1, padding: 15}}>
+              <Text style={styles.text6}>{'Mutual Friends'}</Text>
+              <View
+                style={{
+                  flex: 1,
+                  flexDirection: 'row',
+                  paddingHorizontal: 15,
+                }}>
+                {props.user.mFriends.slice(0, 5).map((friend) => (
+                  <View style={styles.m_avatar}>
+                    <Image source={{uri: friend.imageUrl}} />
+                    <Text style={styles.text7}>
+                      {friend.firstName + ' ' + friend.lastName}
+                    </Text>
+                  </View>
+                ))}
+              </View>
+              {props.user.mFriends.length > 5 && (
+                <TouchableOpacity
+                  style={{
+                    position: 'absolute',
+                    bottom: 0,
+                    alignItems: 'center',
+                    justifyContent: 'center',
+                    alignSelf: 'center',
+                  }}
+                  onPress={() => props.setToggleFollowPanel(true)}>
+                  <AntDesign name="down" size={30} color={'white'} />
+                </TouchableOpacity>
+              )}
+              <TouchableOpacity
+                style={{
+                  width: '100%',
+                  textAlign: 'center',
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  alignSelf: 'center',
+                }}
+                onPress={() => reportUser()}>
+                <AntDesign
+                  name="exclamationcircleo"
+                  size={30}
+                  color={'white'}
+                />
+              </TouchableOpacity>
+            </View>
+            {/* </View> */}
           </View>
-          {/* </View> */}
-        </View>
-      </FlipCard>
-    </View>
+        </FlipCard>
+      </View>
+      {_reportModal()}
+    </>
   );
 };
 
@@ -368,39 +481,12 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     marginHorizontal: 10,
   },
-  modalContainer: {
-    flex: 1,
-    width: '100%',
-    alignItems: 'center',
-    justifyContent: 'flex-end',
-  },
-  modal: {
-    width: '100%',
-    height: '100%',
-    justifyContent: 'center',
-    backgroundColor: 'rgba(0, 0, 0, 0.4)',
-    position: 'absolute',
-    bottom: 0,
-    paddingBottom: 15,
-    alignItems: 'center',
-    paddingHorizontal: 20,
-    // opacity: 0.2
-  },
   absolute: {
     position: 'absolute',
     top: 0,
     left: 0,
     bottom: 0,
     right: 0,
-  },
-  btn: {
-    backgroundColor: '#2ecc71',
-    height: 50,
-    width: '90%',
-    borderRadius: 12,
-    justifyContent: 'center',
-    alignItems: 'center',
-    marginTop: 16,
   },
   dot: {
     width: 18,
@@ -460,5 +546,35 @@ const styles = StyleSheet.create({
     color: '#fff',
     fontSize: 12,
     fontFamily: 'ProximaNova-Regular',
+  },
+  btn: {
+    height: 50,
+    width: '40%',
+    borderRadius: 12,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  modalContainer: {
+    flex: 1,
+    width: '100%',
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
+  modal: {
+    width: '80%',
+    justifyContent: 'center',
+    margin: 20,
+    backgroundColor: 'white',
+    borderRadius: 20,
+    padding: 35,
+    alignItems: 'center',
+    shadowColor: '#000',
+    shadowOffset: {
+      width: 0,
+      height: 2,
+    },
+    shadowOpacity: 0.25,
+    shadowRadius: 3.84,
+    elevation: 5,
   },
 });

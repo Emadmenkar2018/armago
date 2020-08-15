@@ -1,6 +1,13 @@
 /* eslint-disable react-native/no-inline-styles */
 import React, {Component} from 'react';
-import {View, Text, StyleSheet, Image, Alert} from 'react-native';
+import {
+  View,
+  Text,
+  StyleSheet,
+  Image,
+  Alert,
+  TouchableOpacity,
+} from 'react-native';
 import {colors} from '../../common/colors';
 import {images} from '../../common/images';
 import {Input, CheckBox, Icon, Button} from 'react-native-elements';
@@ -21,13 +28,18 @@ export default class SetDetail extends Component {
       phone: '',
       checked1: false,
       checked2: false,
+      checked3: false,
     };
   }
 
   next(navigate, phoneNumber) {
     if (this.state.email === '') {
       Alert.alert('Please type your email address');
-    } else if (!this.state.checked1 || !this.state.checked2) {
+    } else if (
+      !this.state.checked1 ||
+      !this.state.checked2 ||
+      !this.state.checked3
+    ) {
       Alert.alert('Please agree consent');
     } else {
       //register with email and phone number
@@ -156,6 +168,20 @@ export default class SetDetail extends Component {
                   }
                 </Text>
               </OpenURLButton>
+            </View>
+            <View style={{flexDirection: 'row', flex: 1}}>
+              <CheckBox
+                left
+                checkedIcon={<Image source={images.checked} />}
+                uncheckedIcon={<Image source={images.unchecked} />}
+                checked={this.state.checked3}
+                style={styles.checkbox}
+                onPress={() => this.setState({checked3: !this.state.checked3})}
+              />
+              <TouchableOpacity
+                onPress={() => navigate('Eula', {backUrl: 'SetDetail'})}>
+                <Text style={styles.sublabel}>{'I agree to the EULA'}</Text>
+              </TouchableOpacity>
             </View>
           </View>
           <View style={styles.sectionBottom}>
