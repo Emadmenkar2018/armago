@@ -64,16 +64,20 @@ export function LongHeader(props) {
 
   const confirmReportUesr = () => {
     APIKit.reportUser({user: props.userId, reason}).then((resp) => {
-      console.log('report user', resp.data);
-      setReportModalVisible(false);
+      console.log('report user1', resp.data);
+      blockChat(false);
     });
   };
 
-  const blockChat = () => {
+  const blockChat = (isHide = true) => {
     console.log('block user', props.userId);
     APIKit.blockUser({user: props.userId}).then((resp) => {
       console.log('block user', resp.data);
-      hideMenu();
+      if (isHide) {
+        hideMenu();
+      } else {
+        setReportModalVisible(false);
+      }
       APIKit.getContacts().then((contacts) => {
         dispatch(Actions.setContacts(contacts.data));
         props.navigate(props.route);

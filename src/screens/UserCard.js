@@ -18,6 +18,7 @@ import {RFValue} from 'react-native-responsive-fontsize';
 import {responsiveHeight} from 'react-native-responsive-dimensions';
 
 import {useSelector} from 'react-redux';
+// import * as Actions from '../store/actions';
 
 import {Dropdown} from 'react-native-material-dropdown';
 
@@ -98,6 +99,8 @@ export default (props) => {
   const myAvaliablity = useSelector(
     (state) => state.main.data.profile.availability,
   );
+  // const dispatch = useDispatch();
+
   useEffect(() => {
     const today = new Date();
     let weekdays = ['sun', 'mon', 'tue', 'wed', 'thu', 'fri', 'sat'];
@@ -141,7 +144,6 @@ export default (props) => {
     APIKit.reportUser({user: props.user.id, reason}).then((resp) => {
       console.log('report user', resp.data);
       setReportModalVisible(false);
-      props.handleReportUser();
     });
   };
 
