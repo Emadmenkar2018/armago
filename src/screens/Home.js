@@ -592,6 +592,15 @@ class Home extends Component {
               setToggleFollowPanel={(val) => {
                 this.state.setToggleMatchingFollowPanel(val);
               }}
+              handleReportUser={() => {
+                if (this.swiper !== null) {
+                  this.setState({
+                    toggleMatchingPanel: false,
+                    toggleTeamPanel: false,
+                  });
+                  this.swiper.swipeLeft();
+                }
+              }}
             />
           </Card>
         ));

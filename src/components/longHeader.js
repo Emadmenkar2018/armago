@@ -26,13 +26,19 @@ export function LongHeader(props) {
   const dispatch = useDispatch();
   const reasons = [
     {
-      value: 'Reason 1',
+      value: 'Inappropriate profile picture',
     },
     {
-      value: 'Reason 2',
+      value: 'Harassment',
     },
     {
-      value: 'Reason 3',
+      value: 'Impersonation',
+    },
+    {
+      value: 'Discrimination',
+    },
+    {
+      value: 'Other',
     },
   ];
   var _menu = null;
