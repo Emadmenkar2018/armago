@@ -5,6 +5,7 @@ import {colors} from '../../common/colors';
 import {images} from '../../common/images';
 import {Button, Icon} from 'react-native-elements';
 import {RFValue} from 'react-native-responsive-fontsize';
+import APIKit from '../../services/api';
 
 export default class Permission extends Component {
   state = null;
@@ -15,7 +16,7 @@ export default class Permission extends Component {
     };
   }
 
-  render() {
+  askPermission() {
     const {navigate} = this.props.navigation;
     Alert.alert(
       'Send You Notifications',
@@ -23,18 +24,34 @@ export default class Permission extends Component {
       [
         {
           text: "Don't Allow",
-          onPress: () => console.log('Cancel Pressed'),
+          onPress: () => navigate('Home'),
           style: 'cancel',
         },
         {
           text: 'OK',
           onPress: () => {
-            navigate('Home');
+            APIKit.getSetting().then((resp) => {
+              resp.data.notifications = {
+                matches: true,
+                messages: true,
+                training: true,
+                socials: true,
+                vibrations: true,
+                sounds: true,
+              };
+              APIKit.setSetting(resp.data).then(() => {
+                navigate('Home');
+              });
+            });
           },
         },
       ],
       {cancelable: false},
     );
+  }
+
+  render() {
+    const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
         <View style={styles.main}>
@@ -70,7 +87,7 @@ export default class Permission extends Component {
               <Button
                 buttonStyle={styles.navBtn_next}
                 icon={<Icon name={'chevron-right'} size={60} color="#fff" />}
-                onPress={() => console.log('next clicked')}
+                onPress={() => this.askPermission()}
               />
             </View>
           </View>
