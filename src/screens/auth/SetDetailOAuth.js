@@ -22,8 +22,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 const supportedURL = 'https://google.com';
 export default class SetDetail extends Component {
   state = null;
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super (props);
     this.state = {
       email: '',
       phone: '+44',
@@ -35,15 +35,11 @@ export default class SetDetail extends Component {
     };
   }
 
-  next(navigate, email, provider) {
+  next (navigate, email, provider) {
     if (this.state.phone === '') {
-      Alert.alert('Please type your phone number');
-    } else if (
-      !this.state.checked1 ||
-      !this.state.checked2 ||
-      !this.state.checked3
-    ) {
-      Alert.alert('Please agree consent');
+      Alert.alert ('Please type your phone number');
+    } else if (!this.state.checked1 || !this.state.checked3) {
+      Alert.alert ('Please agree consent');
     } else {
       //register with email and phone number
       let payload = {
@@ -69,16 +65,16 @@ export default class SetDetail extends Component {
           token: this.props.navigation.state.idToken,
         };
       }
-      APIKit.register(payload)
-        .then(async ({data}) => {
-          await AsyncStorage.removeItem('usedBefore');
-          console.log(data);
+      APIKit.register (payload)
+        .then (async ({data}) => {
+          await AsyncStorage.removeItem ('usedBefore');
+          console.log (data);
           const token = data.token;
           //set token to call other api
-          setClientToken(token);
+          setClientToken (token);
 
           const user = data.user;
-          console.log(user);
+
           const profile = {
             firstName: '',
             lastName: '',
@@ -91,8 +87,8 @@ export default class SetDetail extends Component {
             imageUrl: null,
             fullfilled: false,
           };
-          var resp = await APIKit.profile(profile);
-          console.log(resp);
+          var resp = await APIKit.profile (profile);
+
           const availability = {
             sun: [1, 1, 1],
             mon: [1, 1, 1],
@@ -102,8 +98,8 @@ export default class SetDetail extends Component {
             fri: [1, 1, 1],
             sat: [1, 1, 1],
           };
-          var resp = await APIKit.setavaliablity({availability});
-          console.log(resp);
+          var resp = await APIKit.setavaliablity ({availability});
+          console.log (resp);
           const setting = {
             location: [{lat: 0, lng: 0, address: ''}],
             distance: [0, 5],
@@ -119,24 +115,23 @@ export default class SetDetail extends Component {
               sounds: false,
             },
           };
-          APIKit.setSetting(setting)
-            .then((resp1) => {
-              console.log(resp1.data);
+          APIKit.setSetting (setting)
+            .then (resp1 => {
               const fullfilled = user.fullfilled;
-              !fullfilled ? navigate('SetPersonalInfo') : navigate('Home');
+              !fullfilled ? navigate ('SetPersonalInfo') : navigate ('Home');
             })
-            .catch((error) => {
-              console.log(error && error.response);
+            .catch (error => {
+              console.log (error && error.response);
             });
         })
-        .catch((error) => {
-          console.log(error && error.response);
-          Alert.alert(error.response.data.errors.msg.replace('_', ' '));
+        .catch (error => {
+          console.log (error && error.response);
+          Alert.alert (error.response.data.errors.msg.replace ('_', ' '));
         });
     }
   }
 
-  render() {
+  render () {
     const {navigate} = this.props.navigation;
     const email = this.props.navigation.state.params.email;
     const provider = this.props.navigation.state.params.provider;
@@ -154,17 +149,16 @@ export default class SetDetail extends Component {
               placeholder="Enter Your Phone Number"
               style={styles.input}
               value={this.state.phone}
-              onChangeText={(value) => this.setState({phone: value})}
+              onChangeText={value => this.setState ({phone: value})}
               keyboardType={'numeric'}
             />
             <CountryPicker
-              onSelect={(value) =>
-                this.setState({
+              onSelect={value =>
+                this.setState ({
                   country: value,
                   cca2: value.cca2,
                   phone: '+' + value.callingCode[0],
-                })
-              }
+                })}
               cca2={this.state.cca2}
               translation="eng"
               withFlag={true}
@@ -179,7 +173,7 @@ export default class SetDetail extends Component {
                 uncheckedIcon={<Image source={images.unchecked} />}
                 style={styles.checkbox}
                 checked={this.state.checked1}
-                onPress={() => this.setState({checked1: !this.state.checked1})}
+                onPress={() => this.setState ({checked1: !this.state.checked1})}
               />
               <OpenURLButton url={supportedURL}>
                 <Text style={styles.sublabel}>
@@ -202,7 +196,7 @@ export default class SetDetail extends Component {
                 uncheckedIcon={<Image source={images.unchecked} />}
                 checked={this.state.checked2}
                 style={styles.checkbox}
-                onPress={() => this.setState({checked2: !this.state.checked2})}
+                onPress={() => this.setState ({checked2: !this.state.checked2})}
               />
               <OpenURLButton url={supportedURL}>
                 <Text style={styles.sublabel}>
@@ -219,10 +213,11 @@ export default class SetDetail extends Component {
                 uncheckedIcon={<Image source={images.unchecked} />}
                 checked={this.state.checked3}
                 style={styles.checkbox}
-                onPress={() => this.setState({checked3: !this.state.checked3})}
+                onPress={() => this.setState ({checked3: !this.state.checked3})}
               />
               <TouchableOpacity
-                onPress={() => navigate('Eula', {backUrl: 'SetDetailOAuth'})}>
+                onPress={() => navigate ('Eula', {backUrl: 'SetDetailOAuth'})}
+              >
                 <Text style={styles.sublabel}>
                   {'I agree to the '}
                   <Text style={{color: colors.biglightBlue}}>EULA</Text>
@@ -235,14 +230,14 @@ export default class SetDetail extends Component {
               <Button
                 buttonStyle={styles.navBtn_prev}
                 icon={<Icon name={'chevron-left'} size={60} color="#fff" />}
-                onPress={() => navigate('Signin')}
+                onPress={() => navigate ('Signin')}
               />
             </View>
             <View style={{flex: 1, alignItems: 'flex-end'}}>
               <Button
                 buttonStyle={styles.navBtn_next}
                 icon={<Icon name={'chevron-right'} size={60} color="#fff" />}
-                onPress={() => this.next(navigate, email, provider)}
+                onPress={() => this.next (navigate, email, provider)}
               />
             </View>
           </View>
@@ -252,7 +247,7 @@ export default class SetDetail extends Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create ({
   container: {
     flex: 1,
   },
@@ -304,24 +299,24 @@ const styles = StyleSheet.create({
     marginTop: 15,
     marginLeft: 25,
     textAlign: 'left',
-    fontSize: RFValue(13, 580),
+    fontSize: RFValue (13, 580),
     color: '#86939e',
     fontWeight: '600',
     fontFamily: 'ProximaNova-Regular',
   },
   checkbox: {
-    width: responsiveScreenWidth(10),
+    width: responsiveScreenWidth (10),
     alignItems: 'flex-end',
     alignSelf: 'flex-end',
     alignContent: 'flex-end',
   },
   sublabel: {
-    width: responsiveScreenWidth(65),
+    width: responsiveScreenWidth (65),
     top: 15,
     left: -25,
     paddingLeft: 20,
     textAlign: 'left',
-    fontSize: RFValue(13, 580),
+    fontSize: RFValue (13, 580),
     color: '#86939e',
     fontWeight: '600',
     fontFamily: 'ProximaNova-Regular',
