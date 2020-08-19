@@ -9,28 +9,28 @@ import APIKit from '../../services/api';
 
 export default class Permission extends Component {
   state = null;
-  constructor(props) {
-    super(props);
+  constructor (props) {
+    super (props);
     this.state = {
       showSelected: false,
     };
   }
 
-  askPermission() {
+  askPermission () {
     const {navigate} = this.props.navigation;
-    Alert.alert(
+    Alert.alert (
       'Send You Notifications',
       'Notifications may include alerts, sounds and icon badges. These can be configured in Settings.',
       [
         {
           text: "Don't Allow",
-          onPress: () => navigate('Home'),
+          onPress: () => navigate ('Home'),
           style: 'cancel',
         },
         {
           text: 'OK',
           onPress: () => {
-            APIKit.getSetting().then((resp) => {
+            APIKit.getSetting ().then (resp => {
               resp.data.notifications = {
                 matches: true,
                 messages: true,
@@ -39,18 +39,18 @@ export default class Permission extends Component {
                 vibrations: true,
                 sounds: true,
               };
-              APIKit.setSetting(resp.data).then(() => {
-                navigate('Home');
+              APIKit.setSetting (resp.data).then (() => {
+                navigate ('Home');
               });
             });
           },
         },
       ],
-      {cancelable: false},
+      {cancelable: true}
     );
   }
 
-  render() {
+  render () {
     const {navigate} = this.props.navigation;
     return (
       <View style={styles.container}>
@@ -80,14 +80,14 @@ export default class Permission extends Component {
               <Button
                 buttonStyle={styles.navBtn_prev}
                 icon={<Icon name={'chevron-left'} size={60} color="#fff" />}
-                onPress={() => navigate('SetAvailability')}
+                onPress={() => navigate ('SetAvailability')}
               />
             </View>
             <View style={{flex: 1, alignItems: 'flex-end'}}>
               <Button
                 buttonStyle={styles.navBtn_next}
                 icon={<Icon name={'chevron-right'} size={60} color="#fff" />}
-                onPress={() => this.askPermission()}
+                onPress={() => this.askPermission ()}
               />
             </View>
           </View>
@@ -97,7 +97,7 @@ export default class Permission extends Component {
   }
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create ({
   container: {
     flex: 1,
   },
@@ -138,7 +138,7 @@ const styles = StyleSheet.create({
     position: 'absolute',
   },
   sports_label: {
-    fontSize: RFValue(12, 580),
+    fontSize: RFValue (12, 580),
     color: 'grey',
     textAlign: 'center',
     marginTop: 20,
@@ -165,14 +165,14 @@ const styles = StyleSheet.create({
   tlabel: {
     color: 'grey',
     textAlign: 'center',
-    fontSize: RFValue(14, 580),
+    fontSize: RFValue (14, 580),
     fontWeight: '600',
     fontFamily: 'ProximaNova-Regular',
   },
   sublabel: {
     // flex: 1,
     color: 'grey',
-    fontSize: RFValue(12, 580),
+    fontSize: RFValue (12, 580),
     fontWeight: '600',
     fontFamily: 'ProximaNova-Regular',
   },
