@@ -11,6 +11,7 @@ import {
   Platform,
   PermissionsAndroid,
   ScrollView,
+  ActivityIndicator,
 } from 'react-native';
 import {colors} from '../../common/colors';
 import {images} from '../../common/images';
@@ -58,6 +59,7 @@ export default class SetPersonalInfo extends Component {
       day: 1,
       photo: null,
       imageUrl: null,
+      isUploading: false,
     };
   }
 
@@ -180,15 +182,21 @@ export default class SetPersonalInfo extends Component {
         type: this.state.photo.type,
       });
       console.log(data);
+      // show uploading
+      this.setState({isUploading: true});
       APIKit.uploadImage({
         image: 'data:image/jpeg;base64,' + this.state.photo.data,
         name: this.state.photo.fileName,
       })
         .then((resp) => {
+          console.log('--resp', resp);
           this.setState({imageUrl: resp.data.imageUrl});
         })
         .catch((error) => {
           console.error('err', error);
+        })
+        .finally(() => {
+          this.setState({isUploading: false});
         });
     } catch (e) {
       // error reading value
@@ -440,14 +448,17 @@ export default class SetPersonalInfo extends Component {
                   Profile Picture
                 </Text>
                 <TouchableOpacity onPress={this.imageGalleryLaunch}>
-                  <Image
-                    source={
-                      this.state.photo == null
-                        ? images.AddPicture
-                        : {uri: this.state.photo.uri}
-                    }
-                    style={[styles.racket, {margin: 10}]}
-                  />
+                  <View style={styles.imageContainer}>
+                    <Image
+                      source={
+                        this.state.photo == null
+                          ? images.AddPicture
+                          : {uri: this.state.photo.uri}
+                      }
+                      style={[styles.racket, {margin: 10}]}
+                    />
+                    <ActivityIndicator animating={this.state.isUploading} />
+                  </View>
                 </TouchableOpacity>
               </View>
               <View style={{flex: 1, flexDirection: 'column'}}>
@@ -485,6 +496,7 @@ export default class SetPersonalInfo extends Component {
             </View>
             <View style={{flex: 1, alignItems: 'flex-end'}}>
               <Button
+                disabled={this.state.isUploading}
                 buttonStyle={styles.navBtn_next}
                 icon={<Icon name={'chevron-right'} size={60} color="#fff" />}
                 onPress={() => this.next(navigate)}
@@ -620,5 +632,8 @@ const styles = StyleSheet.create({
     top: -10,
     left: 0,
     zIndex: -1,
+  },
+  imageContainer: {
+    flexDirection: 'row',
   },
 });
