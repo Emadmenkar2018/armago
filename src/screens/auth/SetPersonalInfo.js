@@ -227,6 +227,8 @@ export default class SetPersonalInfo extends Component {
             if (res.width > res.height) {
               newHeight = (res.height / res.width) * 500;
             }
+            console.log('compressing', res.width);
+            this.setState({isUploading: true});
             ImageResizer.createResizedImage(
               res.uri,
               newWidth,
@@ -254,6 +256,8 @@ export default class SetPersonalInfo extends Component {
               })
               .catch((err) => {
                 console.log('Image Compress Error:', err);
+                this.setState({isUploading: false});
+                Alert.alert('Image Compress Failed.');
               });
           } else {
             this.fileUpload();
