@@ -6,13 +6,17 @@ import {
   Text,
   StyleSheet,
   Image,
+  KeyboardAvoidingView,
   Alert,
   PixelRatio,
-  ScrollView,
+  Platform,
+  TextInput,
 } from 'react-native';
+import {findIndex} from 'lodash';
+import {CountryCodeList} from './CountryCodes';
 import {colors} from '../../common/colors';
 import {images} from '../../common/images';
-import {Input, Button, Icon} from 'react-native-elements';
+import {Button, Icon} from 'react-native-elements';
 import APIKit from '../../services/api';
 import CountryPicker from 'react-native-country-picker-modal';
 
@@ -21,12 +25,12 @@ export default class SetPhone extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      phone: '+44',
       checked1: false,
       checked2: true,
-      cca2: 'UK',
+      cca2: CountryCodeList[findIndex(CountryCodeList, (o) => o === 'GB')],
       country: null,
       isKeyboardOpen: false,
+      phone: '',
     };
   }
   _keyboardDidHide() {
@@ -43,17 +47,21 @@ export default class SetPhone extends Component {
     if (this.state.phone === '') {
       Alert.alert('Please input your phone number.');
     } else {
-      const payload = {phone: this.state.phone};
-      console.log(payload);
-      APIKit.sendSMSCode(payload)
+      const {phone, country} = this.state;
+      let payload = '';
+      if (country && country.callingCode.length > 0) {
+        payload = `+${country.callingCode[0]}${phone}`;
+      } else {
+        payload = `+44${phone}`;
+      }
+      APIKit.sendSMSCode({phone: payload})
         .then(({data}) => {
-          console.log(data);
           if (data.success) {
             navigate('SetSmsCode', {phone: this.state.phone});
           }
         })
         .catch((error) => {
-          console.log(error);
+          console.log(error, '[ERROR]');
           Alert.alert(error.response.data.errors.msg.replace('_', ' '));
         });
     }
@@ -62,39 +70,48 @@ export default class SetPhone extends Component {
   render() {
     const {navigate} = this.props.navigation;
     return (
-      <ScrollView
-        contentContainerStyle={!this.state.isKeyboardOpen && styles.container}>
+      <KeyboardAvoidingView
+        style={{flex: 1}}
+        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
         <View style={styles.main}>
           <View style={styles.sectionTop}>
             <Image source={images.logo} style={styles.logo} />
-            <Text style={styles.tlabel}>{'Get Started'}</Text>
+            <Text style={styles.tlabel}>
+              {'Enter your phone number below for verification'}
+            </Text>
           </View>
           <View style={styles.sectionMiddle}>
-            <Input
-              label="Phone"
-              placeholder="Enter Your Phone Number"
-              style={styles.input}
-              value={this.state.phone}
-              onChangeText={(value) => this.setState({phone: value})}
-              keyboardType={'numeric'}
-            />
-            <CountryPicker
-              onSelect={(value) =>
-                this.setState({
-                  country: value,
-                  cca2: value.cca2,
-                  phone: '+' + value.callingCode[0],
-                })
-              }
-              cca2={this.state.cca2}
-              translation="eng"
-              withFlag={true}
-            />
-            {/* {this.state.country &&
-              <Text style={styles.data}>
-                {JSON.stringify(this.state.country, null, 2)}
-              </Text>
-            } */}
+            <View style={styles.labelContainer}>
+              <Text style={styles.textInputLabel}>{'Phone'}</Text>
+              <View style={styles.row}>
+                <View style={styles.countryPicker}>
+                  <CountryPicker
+                    countryCode={this.state.cca2}
+                    withFlag
+                    withCallingCode
+                    withCallingCodeButton
+                    withFlagButton
+                    withAlphaFilter
+                    onSelect={(value) =>
+                      this.setState({
+                        country: value,
+                        cca2: value.cca2,
+                      })
+                    }
+                    containerButtonStyle={styles.countryPickerComponent}
+                  />
+                </View>
+                <View style={styles.inputContainer}>
+                  <TextInput
+                    placeholder="Enter Your Phone Number"
+                    value={this.state.phone}
+                    onChangeText={(value) => this.setState({phone: value})}
+                    keyboardType={'numeric'}
+                    style={styles.input}
+                  />
+                </View>
+              </View>
+            </View>
           </View>
           <View style={styles.sectionBottom}>
             <View style={{flex: 1, alignItems: 'flex-start'}}>
@@ -113,7 +130,7 @@ export default class SetPhone extends Component {
             </View>
           </View>
         </View>
-      </ScrollView>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -121,6 +138,27 @@ export default class SetPhone extends Component {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
+  },
+  countryPicker: {
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 3,
+    backgroundColor: 'rgba(0,0,0,0.1)',
+    width: 100,
+    marginRight: 10,
+  },
+  inputContainer: {
+    height: 40,
+    alignItems: 'center',
+    justifyContent: 'center',
+    borderRadius: 3,
+    backgroundColor: 'rgba(0,0,0,0.1)',
+    paddingHorizontal: 10,
+    width: 200,
+  },
+  labelContainer: {
+    alignItems: 'flex-start',
   },
   instructions: {
     fontSize: 12,
@@ -144,18 +182,22 @@ const styles = StyleSheet.create({
     marginTop: 8,
     // backgroundColor:'red'
   },
+  row: {
+    flexDirection: 'row',
+    alignItems: 'center',
+  },
   sectionTop: {
-    flex: 1,
     alignItems: 'center',
     marginHorizontal: 50,
-    marginVertical: 50,
+    marginTop: 70,
+    marginBottom: 50,
   },
   sectionMiddle: {
     flex: 3,
     width: '100%',
-    alignItems: 'center',
     justifyContent: 'flex-start',
     marginHorizontal: 20,
+    alignItems: 'center',
   },
   sectionBottom: {
     flex: 1,
@@ -166,19 +208,27 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   logo: {
-    flex: 1,
     width: 250,
     height: 50,
     resizeMode: 'contain',
   },
   tlabel: {
-    flex: 1,
     color: 'grey',
     fontSize: 20,
-    fontWeight: '600',
     fontFamily: 'ProximaNova-Regular',
+    textAlign: 'center',
+    marginTop: 20,
+  },
+  textInputLabel: {
+    color: 'grey',
+    fontSize: 18,
+    fontFamily: 'ProximaNova-Regular',
+    textAlign: 'left',
+    marginBottom: 10,
   },
   input: {
+    padding: 0,
+    textAlign: 'left',
     width: '100%',
   },
   navBtn_prev: {
