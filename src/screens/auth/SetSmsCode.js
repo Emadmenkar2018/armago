@@ -10,6 +10,7 @@ import {
   Alert,
   TouchableOpacity,
   Platform,
+  SafeAreaView,
 } from 'react-native';
 import {colors} from '../../common/colors';
 import {images} from '../../common/images';
@@ -90,50 +91,56 @@ export default class SetSmsCode extends Component {
     const phoneNumber = this.props.navigation.state.params.phone;
 
     return (
-      <KeyboardAvoidingView
-        style={{flex: 1}}
-        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
-        <View style={styles.main}>
-          <View style={styles.sectionTop}>
-            <Image source={images.logo} style={styles.logo} />
-            <Text style={styles.tlabel}>
-              {'Please enter the code sent to the number you provided'}
-            </Text>
-          </View>
-          <View style={styles.sectionMiddle}>
-            <Input
-              label="Enter Code"
-              placeholder="Code"
-              style={styles.input}
-              onChangeText={(value) => this.setState({code: value})}
-              keyboardType={'numeric'}
-            />
-            <Text>Didn't receive?</Text>
-            <TouchableOpacity onPress={() => this.resendCode(phoneNumber)}>
-              <Text
-                style={{color: colors.lightBlue, fontSize: 20, marginTop: 10}}>
-                Resend the code
+      <SafeAreaView style={styles.container}>
+        <KeyboardAvoidingView
+          style={{flex: 1}}
+          behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
+          <View style={styles.main}>
+            <View style={styles.sectionTop}>
+              <Image source={images.logo} style={styles.logo} />
+              <Text style={styles.tlabel}>
+                {'Please enter the code sent to the number you provided'}
               </Text>
-            </TouchableOpacity>
-          </View>
-          <View style={styles.sectionBottom}>
-            <View style={{flex: 1, alignItems: 'flex-start'}}>
-              <Button
-                buttonStyle={styles.navBtn_prev}
-                icon={<Icon name={'chevron-left'} size={60} color="#fff" />}
-                onPress={() => navigate('SetPhone')}
-              />
             </View>
-            <View style={{flex: 1, alignItems: 'flex-end'}}>
-              <Button
-                buttonStyle={styles.navBtn_next}
-                icon={<Icon name={'chevron-right'} size={60} color="#fff" />}
-                onPress={() => this.next(navigate, phoneNumber)}
+            <View style={styles.sectionMiddle}>
+              <Input
+                label="Enter Code"
+                placeholder="Code"
+                style={styles.input}
+                onChangeText={(value) => this.setState({code: value})}
+                keyboardType={'numeric'}
               />
+              <Text>Didn't receive?</Text>
+              <TouchableOpacity onPress={() => this.resendCode(phoneNumber)}>
+                <Text
+                  style={{
+                    color: colors.lightBlue,
+                    fontSize: 20,
+                    marginTop: 10,
+                  }}>
+                  Resend the code
+                </Text>
+              </TouchableOpacity>
+            </View>
+            <View style={styles.sectionBottom}>
+              <View style={{flex: 1, alignItems: 'flex-start'}}>
+                <Button
+                  buttonStyle={styles.navBtn_prev}
+                  icon={<Icon name={'chevron-left'} size={60} color="#fff" />}
+                  onPress={() => navigate('SetPhone')}
+                />
+              </View>
+              <View style={{flex: 1, alignItems: 'flex-end'}}>
+                <Button
+                  buttonStyle={styles.navBtn_next}
+                  icon={<Icon name={'chevron-right'} size={60} color="#fff" />}
+                  onPress={() => this.next(navigate, phoneNumber)}
+                />
+              </View>
             </View>
           </View>
-        </View>
-      </KeyboardAvoidingView>
+        </KeyboardAvoidingView>
+      </SafeAreaView>
     );
   }
 }
