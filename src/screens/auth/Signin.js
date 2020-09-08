@@ -9,6 +9,7 @@ import {
   TouchableOpacity,
   Platform,
   Alert,
+  SafeAreaView,
 } from 'react-native';
 import {images} from '../../common/images';
 import AntDesign from 'react-native-vector-icons/AntDesign';
@@ -61,7 +62,7 @@ export default class Signin extends Component {
           }
         })
         .catch((err) => {
-          console.log(err);
+          console.log(err.response, '[ERROR]');
           Alert.alert(err.response.data.errors.msg.replace('_', ' '));
         });
     } catch (error) {
@@ -187,75 +188,79 @@ export default class Signin extends Component {
   render() {
     const {navigate} = this.props.navigation;
     return (
-      <View style={styles.container}>
-        <View style={styles.main}>
-          <Image source={images.logo} style={styles.logo} />
+      <SafeAreaView style={styles.container}>
+        <View style={styles.container}>
+          <View style={styles.main}>
+            <Image source={images.logo} style={styles.logo} />
 
-          <TouchableOpacity
-            onPress={this.handleFacebookSignIn}
-            style={[styles.btn, {backgroundColor: '#3d589a'}]}>
-            <AntDesign
-              name="facebook-square"
-              size={24}
-              color="white"
-              style={{marginHorizontal: 12}}
-            />
-            <Text style={{color: 'white'}}>Sign up with Facebook</Text>
-          </TouchableOpacity>
-
-          <TouchableOpacity
-            onPress={this.handleGoogleSignIn}
-            style={styles.btn}>
-            <AntDesign
-              name="google"
-              size={24}
-              color="white"
-              style={{marginHorizontal: 12}}
-            />
-            <Text style={{color: 'white', marginLeft: 12}}>
-              Sign up with Google
-            </Text>
-          </TouchableOpacity>
-
-          {Platform.OS === 'ios' && (
             <TouchableOpacity
-              style={[
-                styles.btn,
-                {backgroundColor: '#f0f0f0', borderWidth: 0.3},
-              ]}
-              onPress={this.handleApplSignIn}>
-              <FontAwesome
-                name="apple"
+              onPress={this.handleFacebookSignIn}
+              style={[styles.btn, {backgroundColor: '#3d589a'}]}>
+              <AntDesign
+                name="facebook-square"
                 size={24}
-                color="black"
+                color="white"
                 style={{marginHorizontal: 12}}
               />
-              <Text style={{color: 'black', marginLeft: 24}}>
-                Sign in with Apple
+              <Text style={{color: 'white'}}>Sign up with Facebook</Text>
+            </TouchableOpacity>
+
+            <TouchableOpacity
+              onPress={this.handleGoogleSignIn}
+              style={styles.btn}>
+              <AntDesign
+                name="google"
+                size={24}
+                color="white"
+                style={{marginHorizontal: 12}}
+              />
+              <Text style={{color: 'white', marginLeft: 12}}>
+                Sign up with Google
               </Text>
             </TouchableOpacity>
-          )}
-          <Text style={styles.text1}>{'- Or -'}</Text>
-          <TouchableOpacity
-            style={styles.circle}
-            onPress={() => navigate('SetPhone')}>
-            <View
-              style={[
-                styles.btn,
-                {backgroundColor: '#f0f0f0', borderWidth: 0.3},
-              ]}>
-              <FontAwesome
-                name="phone"
-                size={24}
-                color="black"
-                style={{marginHorizontal: 12}}
-              />
-              <Text style={{color: 'black', marginLeft: 24}}>Phone Number</Text>
-            </View>
-          </TouchableOpacity>
+
+            {Platform.OS === 'ios' && (
+              <TouchableOpacity
+                style={[
+                  styles.btn,
+                  {backgroundColor: '#f0f0f0', borderWidth: 0.3},
+                ]}
+                onPress={this.handleApplSignIn}>
+                <FontAwesome
+                  name="apple"
+                  size={24}
+                  color="black"
+                  style={{marginHorizontal: 12}}
+                />
+                <Text style={{color: 'black', marginLeft: 24}}>
+                  Sign in with Apple
+                </Text>
+              </TouchableOpacity>
+            )}
+            <Text style={styles.text1}>{'- Or -'}</Text>
+            <TouchableOpacity
+              style={styles.circle}
+              onPress={() => navigate('SetPhone')}>
+              <View
+                style={[
+                  styles.btn,
+                  {backgroundColor: '#f0f0f0', borderWidth: 0.3},
+                ]}>
+                <FontAwesome
+                  name="phone"
+                  size={24}
+                  color="black"
+                  style={{marginHorizontal: 12}}
+                />
+                <Text style={{color: 'black', marginLeft: 24}}>
+                  Phone Number
+                </Text>
+              </View>
+            </TouchableOpacity>
+          </View>
+          <Image source={images.bottombar} style={styles.oval} />
         </View>
-        <Image source={images.bottombar} style={styles.oval} />
-      </View>
+      </SafeAreaView>
     );
   }
 }

@@ -2,6 +2,7 @@
 import React, {useState, useEffect} from 'react';
 import {useSelector, useDispatch} from 'react-redux';
 import {
+  Alert,
   View,
   Text,
   StyleSheet,
@@ -67,6 +68,19 @@ export default (props) => {
       logout(navigate);
     });
   };
+  const deleteAlert = () =>
+    Alert.alert(
+      'Delete Account',
+      'Are you sure you want to delete your account?',
+      [
+        {
+          text: 'Cancel',
+          style: 'cancel',
+        },
+        {text: 'Delete', onPress: () => deleteAccount()},
+      ],
+      {cancelable: true},
+    );
   const {navigate} = props.navigation;
   return (
     <>
@@ -362,7 +376,7 @@ export default (props) => {
           <View style={[styles.row, styles.divider_section]} />
           <TouchableOpacity
             style={[styles.row, styles.divider]}
-            onPress={() => deleteAccount()}>
+            onPress={() => deleteAlert()}>
             <Text style={styles.btnText}>{'Delete Account'}</Text>
           </TouchableOpacity>
           <View style={[styles.row, styles.divider_section]} />
