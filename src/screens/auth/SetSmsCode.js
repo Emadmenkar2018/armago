@@ -6,9 +6,10 @@ import {
   Text,
   StyleSheet,
   Image,
+  KeyboardAvoidingView,
   Alert,
   TouchableOpacity,
-  ScrollView,
+  Platform,
 } from 'react-native';
 import {colors} from '../../common/colors';
 import {images} from '../../common/images';
@@ -89,8 +90,9 @@ export default class SetSmsCode extends Component {
     const phoneNumber = this.props.navigation.state.params.phone;
 
     return (
-      <ScrollView
-        contentContainerStyle={!this.state.isKeyboardOpen && styles.container}>
+      <KeyboardAvoidingView
+        style={{flex: 1}}
+        behavior={Platform.OS == 'ios' ? 'padding' : 'height'}>
         <View style={styles.main}>
           <View style={styles.sectionTop}>
             <Image source={images.logo} style={styles.logo} />
@@ -131,7 +133,7 @@ export default class SetSmsCode extends Component {
             </View>
           </View>
         </View>
-      </ScrollView>
+      </KeyboardAvoidingView>
     );
   }
 }
@@ -148,13 +150,11 @@ const styles = StyleSheet.create({
     marginTop: 8,
   },
   sectionTop: {
-    flex: 1,
     alignItems: 'center',
     marginHorizontal: 50,
-    marginVertical: 50,
+    paddingVertical: 50,
   },
   sectionMiddle: {
-    flex: 3,
     width: '100%',
     alignItems: 'center',
     justifyContent: 'flex-start',
@@ -169,18 +169,16 @@ const styles = StyleSheet.create({
     paddingVertical: 20,
   },
   logo: {
-    flex: 1,
     width: 250,
     height: 50,
     resizeMode: 'contain',
   },
   tlabel: {
     color: 'grey',
-    fontSize: 20,
-    fontWeight: '600',
-    top: 20,
+    fontSize: 18,
     fontFamily: 'ProximaNova-Regular',
     textAlign: 'center',
+    marginTop: 20,
   },
   input: {
     width: '100%',
