@@ -12,7 +12,7 @@ import {
   Platform,
   TextInput,
 } from 'react-native';
-import {findIndex} from 'lodash';
+import {findIndex, get} from 'lodash';
 import {CountryCodeList} from './CountryCodes';
 import {colors} from '../../common/colors';
 import {images} from '../../common/images';
@@ -47,17 +47,30 @@ export default class SetPhone extends Component {
     if (this.state.phone === '') {
       Alert.alert('Please input your phone number.');
     } else {
+      const params = get(this.props, 'navigation.state.params', null);
       const {phone, country} = this.state;
-      let payload = '';
+      let phoneNum = '';
       if (country && country.callingCode.length > 0) {
-        payload = `+${country.callingCode[0]}${phone}`;
+        phoneNum = `+${country.callingCode[0]}${phone}`;
       } else {
-        payload = `+44${phone}`;
+        phoneNum = `+44${phone}`;
       }
-      APIKit.sendSMSCode({phone: payload})
+      let payload = {
+        phone: phoneNum,
+      };
+      if (params) {
+        const {provider, googleAuth, fbAuth} = params;
+        payload = {
+          ...payload,
+          provider,
+          googleAuth,
+          fbAuth,
+        };
+      }
+      APIKit.sendSMSCode(payload)
         .then(({data}) => {
           if (data.success) {
-            navigate('SetSmsCode', {phone: this.state.phone});
+            navigate('SetSmsCode', {phone: phoneNum});
           }
         })
         .catch((error) => {
