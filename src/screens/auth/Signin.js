@@ -11,6 +11,7 @@ import {
   Alert,
   SafeAreaView,
 } from 'react-native';
+import {get} from 'lodash';
 import {images} from '../../common/images';
 import AntDesign from 'react-native-vector-icons/AntDesign';
 import {colors} from '../../common/colors';
@@ -35,11 +36,6 @@ export default class Signin extends Component {
     try {
       await GoogleSignin.hasPlayServices();
       const userInfo = await GoogleSignin.signIn();
-      console.log(userInfo);
-      console.log(userInfo.user.name);
-      console.log(userInfo.user.email);
-      console.log(userInfo.user.id);
-      console.log(userInfo.user.photo);
       const {navigate} = this.props.navigation;
 
       await GoogleSignin.revokeAccess();
@@ -62,8 +58,19 @@ export default class Signin extends Component {
           }
         })
         .catch((err) => {
-          console.log(err.response, '[ERROR]');
-          Alert.alert(err.response.data.errors.msg.replace('_', ' '));
+          const error = get(err.response, 'data.errors.msg', '');
+          if (error === 'NOT_PHONE_NUMBER') {
+            navigate('SetPhone', {
+              provider: 'google',
+              googleAuth: {
+                id: userInfo.user.id,
+                token: userInfo.idToken,
+              },
+            });
+          } else {
+            console.log(err.response, '[ERROR]');
+            Alert.alert(err.response.data.errors.msg.replace('_', ' '));
+          }
         });
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
@@ -94,7 +101,6 @@ export default class Signin extends Component {
             AppleAuthRequestScope.FULL_NAME,
           ],
         });
-        console.log(appleAuthRequestResponse);
         if (appleAuthRequestResponse.email === null) {
           Alert.alert('Please share your email address');
           return;
@@ -116,7 +122,19 @@ export default class Signin extends Component {
             }
           })
           .catch((err) => {
-            console.log(err);
+            const error = get(err.response, 'data.errors.msg', '');
+            if (error === 'NOT_PHONE_NUMBER') {
+              navigate('SetPhone', {
+                provider: 'apple',
+                googleAuth: {
+                  id: appleAuthRequestResponse.user,
+                  token: appleAuthRequestResponse.identityToken,
+                },
+              });
+            } else {
+              console.log(err.response, '[ERROR]');
+              Alert.alert(err.response.data.errors.msg.replace('_', ' '));
+            }
           });
       } else {
         Alert.alert(
@@ -170,7 +188,21 @@ export default class Signin extends Component {
                     }
                   })
                   .catch((err) => {
-                    console.log(err);
+                    const error = get(err.response, 'data.errors.msg', '');
+                    if (error === 'NOT_PHONE_NUMBER') {
+                      navigate('SetPhone', {
+                        provider: 'facebook',
+                        googleAuth: {
+                          id: json.id,
+                          token: accessToken,
+                        },
+                      });
+                    } else {
+                      console.log(err.response, '[ERROR]');
+                      Alert.alert(
+                        err.response.data.errors.msg.replace('_', ' '),
+                      );
+                    }
                   });
               })
               .catch((e) => {
