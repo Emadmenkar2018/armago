@@ -32,7 +32,7 @@ export default class SetDetail extends Component {
     };
   }
 
-  componentWillMount() {
+  UNSAFE_componentWillMount() {
     const {user} = this.props.navigation.state.params;
     if (user) {
       this.setState({email: user.email});
@@ -131,6 +131,7 @@ export default class SetDetail extends Component {
               label="Email"
               placeholder="Enter Your Email"
               style={styles.input}
+              value={this.state.email}
               onChangeText={(value) => this.setState({email: value})}
             />
 

@@ -80,12 +80,13 @@ export default class SetSmsCode extends Component {
                   : navigate('Home');
               })
               .catch((error) => {
-                console.log(error && error.response);
+                console.log(error.response.data, '[ERROR LOGIN]');
                 Alert.alert(error.response.data.errors.msg.replace('_', ' '));
               });
           }
         })
-        .catch(() => {
+        .catch(e => {
+          console.log(e.response.data, '[ERROR VERIFICATION]');
           Alert.alert('Please check that your phone number is correct');
         });
     }

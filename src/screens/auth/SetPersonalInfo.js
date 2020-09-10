@@ -13,6 +13,7 @@ import {
   ScrollView,
   ActivityIndicator,
 } from 'react-native';
+import {get} from 'lodash';
 import {colors} from '../../common/colors';
 import {images} from '../../common/images';
 import {Input, Icon, Button} from 'react-native-elements';
@@ -31,8 +32,8 @@ export default class SetPersonalInfo extends Component {
   constructor(props) {
     super(props);
     this.state = {
-      firstname: '',
-      lastname: '',
+      firstname: get(this.props, 'navigation.state.params.user.firstname', ''),
+      lastname: get(this.props, 'navigation.state.params.user.lastname', ''),
       gender: 'male',
       lat: '',
       long: '',
@@ -58,20 +59,20 @@ export default class SetPersonalInfo extends Component {
       month: 1,
       day: 1,
       photo: null,
-      imageUrl: null,
+      imageUrl: get(this.props, 'navigation.state.params.user.photo', null),
       isUploading: false,
     };
   }
 
-  componentWillMount() {
-    const {user} = this.props.navigation.state.params;
-    if (user) {
-      this.setState({
-        firstname: user.firstname,
-        lastname: user.lastname,
-      });
-    }
-  }
+  // UNSAFE_componentWillMount() {
+  //   const {user} = this.props.navigation.state.params;
+  //   if (user) {
+  //     this.setState({
+  //       firstname: user.firstname,
+  //       lastname: user.lastname,
+  //     });
+  //   }
+  // }
 
   componentDidMount() {
     var that = this;
@@ -97,13 +98,24 @@ export default class SetPersonalInfo extends Component {
     //get profile from server
     APIKit.getprofile().then(
       (response) => {
-        console.log('getting profile');
         const data = response.data;
         that.setState({
-          firstname: data.firstName,
-          lastname: data.lastName,
+          firstname: get(
+            this.props,
+            'navigation.state.params.user.firstname',
+            data.firstname,
+          ),
+          lastname: get(
+            this.props,
+            'navigation.state.params.user.lastname',
+            data.firstname,
+          ),
           gender: data.gender,
-          imageUrl: data.imageUrl,
+          imageUrl: get(
+            this.props,
+            'navigation.state.params.user.photo',
+            data.imageUrl,
+          ),
         });
       },
       (error) => {
@@ -466,7 +478,12 @@ export default class SetPersonalInfo extends Component {
                     <Image
                       source={
                         this.state.photo == null
-                          ? images.AddPicture
+                          ? this.props.navigation.state.params.user.photo
+                            ? {
+                                uri: this.props.navigation.state.params.user
+                                  .photo,
+                              }
+                            : images.AddPicture
                           : {uri: this.state.photo.uri}
                       }
                       style={[styles.racket, {margin: 10}]}

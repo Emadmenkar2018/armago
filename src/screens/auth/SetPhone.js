@@ -75,7 +75,10 @@ export default class SetPhone extends Component {
           if (data.success) {
             let props = {phone: phoneNum};
             if (user) {
-              props.user = user;
+              props = {
+                ...props,
+                user,
+              };
             }
             navigate('SetSmsCode', props);
           }

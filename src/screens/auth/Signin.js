@@ -65,11 +65,12 @@ export default class Signin extends Component {
               googleAuth: {
                 id: userInfo.user.id,
                 token: userInfo.idToken,
-                user: {
-                  email: userInfo.user.email,
-                  firstname: userInfo.user.givenName,
-                  lastname: userInfo.user.familyName,
-                },
+              },
+              user: {
+                email: userInfo.user.email,
+                firstname: userInfo.user.givenName,
+                lastname: userInfo.user.familyName,
+                photo: userInfo.user.photo,
               },
             });
           } else {
@@ -139,6 +140,7 @@ export default class Signin extends Component {
                   email: appleAuthRequestResponse.email,
                   firstname: appleAuthRequestResponse.fullName.givenName,
                   lastname: appleAuthRequestResponse.fullName.familyName,
+                  photo: null,
                 },
               });
             } else {
@@ -210,6 +212,7 @@ export default class Signin extends Component {
                           email: json.email,
                           firstname: json.name,
                           lastname: json.name,
+                          photo: json.picture.data.url,
                         },
                       });
                     } else {
