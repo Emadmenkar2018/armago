@@ -21,8 +21,8 @@ import AsyncStorage from '@react-native-community/async-storage';
 const supportedURL = 'https://google.com';
 export default class SetDetail extends Component {
   state = null;
-  constructor (props) {
-    super (props);
+  constructor(props) {
+    super(props);
     this.state = {
       email: '',
       phone: '',
@@ -32,11 +32,18 @@ export default class SetDetail extends Component {
     };
   }
 
-  next (navigate, phoneNumber) {
+  componentWillMount() {
+    const {user} = this.props.navigation.state.params;
+    if (user) {
+      this.setState({email: user.email});
+    }
+  }
+
+  next(navigate, phoneNumber) {
     if (this.state.email === '') {
-      Alert.alert ('Please type your email address');
+      Alert.alert('Please type your email address');
     } else if (!this.state.checked1 || !this.state.checked3) {
-      Alert.alert ('Please agree consent');
+      Alert.alert('Please agree consent');
     } else {
       //register with email and phone number
       const payload = {
@@ -44,13 +51,13 @@ export default class SetDetail extends Component {
         email: this.state.email,
         provider: 'local',
       };
-      APIKit.register (payload)
-        .then (async ({data}) => {
-          console.log (data);
+      APIKit.register(payload)
+        .then(async ({data}) => {
+          console.log(data);
           const token = data.token;
           //set token to call other api
-          setClientToken (token);
-          await AsyncStorage.removeItem ('usedBefore');
+          setClientToken(token);
+          await AsyncStorage.removeItem('usedBefore');
 
           const user = data.user;
           const profile = {
@@ -65,7 +72,7 @@ export default class SetDetail extends Component {
             imageUrl: null,
             fullfilled: false,
           };
-          await APIKit.profile (profile);
+          await APIKit.profile(profile);
           const availability = {
             sun: [1, 1, 1],
             mon: [1, 1, 1],
@@ -75,7 +82,7 @@ export default class SetDetail extends Component {
             fri: [1, 1, 1],
             sat: [1, 1, 1],
           };
-          await APIKit.setavaliablity ({availability});
+          await APIKit.setavaliablity({availability});
           const setting = {
             location: [{lat: 0, lng: 0, address: ''}],
             distance: [0, 5],
@@ -91,18 +98,24 @@ export default class SetDetail extends Component {
               sounds: false,
             },
           };
-          APIKit.setSetting (setting).then (resp => {
+          let props = {};
+          if (this.props.navigation.state.params.user) {
+            props = {
+              user: this.props.navigation.state.params.user,
+            };
+          }
+          APIKit.setSetting(setting).then((resp) => {
             const fullfilled = user.fullfilled;
-            !fullfilled ? navigate ('SetPersonalInfo') : navigate ('Home');
+            !fullfilled ? navigate('SetPersonalInfo', props) : navigate('Home');
           });
         })
-        .catch (error => {
-          console.log (error && error.response);
+        .catch((error) => {
+          console.log(error && error.response);
         });
     }
   }
 
-  render () {
+  render() {
     const {navigate} = this.props.navigation;
     const phoneNumber = this.props.navigation.state.params.phone;
 
@@ -118,7 +131,7 @@ export default class SetDetail extends Component {
               label="Email"
               placeholder="Enter Your Email"
               style={styles.input}
-              onChangeText={value => this.setState ({email: value})}
+              onChangeText={(value) => this.setState({email: value})}
             />
 
             <Text style={styles.label}>{'Marketing Consent'}</Text>
@@ -131,7 +144,7 @@ export default class SetDetail extends Component {
                 uncheckedIcon={<Image source={images.unchecked} />}
                 style={styles.checkbox}
                 checked={this.state.checked1}
-                onPress={() => this.setState ({checked1: !this.state.checked1})}
+                onPress={() => this.setState({checked1: !this.state.checked1})}
               />
               <OpenURLButton url={supportedURL}>
                 <Text style={styles.sublabel}>
@@ -154,7 +167,7 @@ export default class SetDetail extends Component {
                 uncheckedIcon={<Image source={images.unchecked} />}
                 checked={this.state.checked2}
                 style={styles.checkbox}
-                onPress={() => this.setState ({checked2: !this.state.checked2})}
+                onPress={() => this.setState({checked2: !this.state.checked2})}
               />
               <OpenURLButton url={supportedURL}>
                 <Text style={styles.sublabel}>
@@ -171,11 +184,10 @@ export default class SetDetail extends Component {
                 uncheckedIcon={<Image source={images.unchecked} />}
                 checked={this.state.checked3}
                 style={styles.checkbox}
-                onPress={() => this.setState ({checked3: !this.state.checked3})}
+                onPress={() => this.setState({checked3: !this.state.checked3})}
               />
               <TouchableOpacity
-                onPress={() => navigate ('Eula', {backUrl: 'SetDetail'})}
-              >
+                onPress={() => navigate('Eula', {backUrl: 'SetDetail'})}>
                 <Text style={styles.sublabel}>
                   {'I agree to the '}
                   <Text style={{color: colors.biglightBlue}}>EULA</Text>
@@ -188,14 +200,14 @@ export default class SetDetail extends Component {
               <Button
                 buttonStyle={styles.navBtn_prev}
                 icon={<Icon name={'chevron-left'} size={60} color="#fff" />}
-                onPress={() => navigate ('SetSmsCode')}
+                onPress={() => navigate('SetSmsCode')}
               />
             </View>
             <View style={{flex: 1, alignItems: 'flex-end'}}>
               <Button
                 buttonStyle={styles.navBtn_next}
                 icon={<Icon name={'chevron-right'} size={60} color="#fff" />}
-                onPress={() => this.next (navigate, phoneNumber)}
+                onPress={() => this.next(navigate, phoneNumber)}
               />
             </View>
           </View>
@@ -205,7 +217,7 @@ export default class SetDetail extends Component {
   }
 }
 
-const styles = StyleSheet.create ({
+const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
@@ -256,24 +268,24 @@ const styles = StyleSheet.create ({
     width: '100%',
     marginLeft: 25,
     textAlign: 'left',
-    fontSize: RFValue (13, 580),
+    fontSize: RFValue(13, 580),
     color: '#86939e',
     fontWeight: '600',
     fontFamily: 'ProximaNova-Regular',
   },
   checkbox: {
-    width: responsiveScreenWidth (10),
+    width: responsiveScreenWidth(10),
     alignItems: 'flex-end',
     alignSelf: 'flex-end',
     alignContent: 'flex-end',
   },
   sublabel: {
-    width: responsiveScreenWidth (65),
+    width: responsiveScreenWidth(65),
     top: 15,
     left: -25,
     textAlign: 'left',
     paddingLeft: 20,
-    fontSize: RFValue (13, 580),
+    fontSize: RFValue(13, 580),
     color: '#86939e',
     fontWeight: '600',
     fontFamily: 'ProximaNova-Regular',

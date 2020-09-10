@@ -63,6 +63,7 @@ APIKit.interceptors.response.use(
 //set smscode 'api/sendsmscode', /api/verifycode
 APIKit.sendSMSCode = (payload) => APIKit.post('api/sendsmscode', payload);
 APIKit.verifyCode = (payload) => APIKit.post('api/verifycode', payload);
+APIKit.resendCode = () => APIKit.get('api/resendcode');
 
 // register with phone and email
 APIKit.register = (payload) => APIKit.post('api/register', payload);

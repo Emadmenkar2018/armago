@@ -63,6 +63,16 @@ export default class SetPersonalInfo extends Component {
     };
   }
 
+  componentWillMount() {
+    const {user} = this.props.navigation.state.params;
+    if (user) {
+      this.setState({
+        firstname: user.firstname,
+        lastname: user.lastname,
+      });
+    }
+  }
+
   componentDidMount() {
     var that = this;
     const _monthRange = [];
