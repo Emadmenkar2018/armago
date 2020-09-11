@@ -44,13 +44,20 @@ export default class SetSmsCode extends Component {
       Alert.alert('Please verify your phone with the code');
     } else {
       const payload = {phone: phone, code: this.state.code};
-      console.log(payload);
       APIKit.verifyCode(payload)
         .then(({data}) => {
           console.log(data);
+          const userInfo = this.props.navigation.state.params.user;
           if (!data.existed) {
             // set user Phone in LocatStorage
-            navigate('SetDetail', {phone: phone});
+            let props = {phone: phone};
+            if (userInfo) {
+              props = {
+                ...props,
+                user: userInfo,
+              };
+            }
+            navigate('SetDetail', props);
           } else {
             //login with that phone number
             APIKit.login({identifier: phone, provider: 'local'})
@@ -62,15 +69,24 @@ export default class SetSmsCode extends Component {
                 setClientToken(token);
                 const user = data.user;
                 const fullfilled = user.fullfilled;
-                !fullfilled ? navigate('SetPersonalInfo') : navigate('Home');
+                let props = {};
+                if (userInfo) {
+                  props = {
+                    user: userInfo,
+                  };
+                }
+                !fullfilled
+                  ? navigate('SetPersonalInfo', props)
+                  : navigate('Home');
               })
               .catch((error) => {
-                console.log(error && error.response);
+                console.log(error.response.data, '[ERROR LOGIN]');
                 Alert.alert(error.response.data.errors.msg.replace('_', ' '));
               });
           }
         })
-        .catch(() => {
+        .catch(e => {
+          console.log(e.response.data, '[ERROR VERIFICATION]');
           Alert.alert('Please check that your phone number is correct');
         });
     }

@@ -66,6 +66,12 @@ export default class Signin extends Component {
                 id: userInfo.user.id,
                 token: userInfo.idToken,
               },
+              user: {
+                email: userInfo.user.email,
+                firstname: userInfo.user.givenName,
+                lastname: userInfo.user.familyName,
+                photo: userInfo.user.photo,
+              },
             });
           } else {
             console.log(err.response, '[ERROR]');
@@ -126,13 +132,19 @@ export default class Signin extends Component {
             if (error === 'NOT_PHONE_NUMBER') {
               navigate('SetPhone', {
                 provider: 'apple',
-                googleAuth: {
+                appleAuth: {
                   id: appleAuthRequestResponse.user,
                   token: appleAuthRequestResponse.identityToken,
                 },
+                user: {
+                  email: appleAuthRequestResponse.email,
+                  firstname: appleAuthRequestResponse.fullName.givenName,
+                  lastname: appleAuthRequestResponse.fullName.familyName,
+                  photo: null,
+                },
               });
             } else {
-              console.log(err.response, '[ERROR]');
+              console.log(err.response.data.errors.msg, '[ERROR]');
               Alert.alert(err.response.data.errors.msg.replace('_', ' '));
             }
           });
@@ -166,10 +178,6 @@ export default class Signin extends Component {
               .then((response) => response.json())
               .then((json) => {
                 // Some user object has been set up somewhere, build that user here
-                // console.log(json.name);
-                // console.log(json.email);
-                // console.log(json.id);
-                // console.log(json.picture.data.url);
 
                 APIKit.social_login({
                   provider: 'facebook',
@@ -195,6 +203,12 @@ export default class Signin extends Component {
                         googleAuth: {
                           id: json.id,
                           token: accessToken,
+                        },
+                        user: {
+                          email: json.email,
+                          firstname: json.name.split(' ')[0],
+                          lastname: json.name.split(' ')[1],
+                          photo: json.picture.data.url,
                         },
                       });
                     } else {

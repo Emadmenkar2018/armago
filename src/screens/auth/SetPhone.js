@@ -58,11 +58,14 @@ export default class SetPhone extends Component {
       let payload = {
         phone: phoneNum,
       };
+      let user = null;
       if (params) {
-        const {provider, googleAuth, fbAuth} = params;
+        const {provider, googleAuth, fbAuth, appleAuth} = params;
+        user = params.user;
         payload = {
           ...payload,
           provider,
+          appleAuth,
           googleAuth,
           fbAuth,
         };
@@ -70,7 +73,14 @@ export default class SetPhone extends Component {
       APIKit.sendSMSCode(payload)
         .then(({data}) => {
           if (data.success) {
-            navigate('SetSmsCode', {phone: phoneNum});
+            let props = {phone: phoneNum};
+            if (user) {
+              props = {
+                ...props,
+                user,
+              };
+            }
+            navigate('SetSmsCode', props);
           }
         })
         .catch((error) => {

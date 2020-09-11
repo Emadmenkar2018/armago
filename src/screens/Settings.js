@@ -14,6 +14,7 @@ import {
   Platform,
   Linking,
 } from 'react-native';
+import DeleteAccountModal from './DeleteAccountModal';
 import {LongHeader} from '../components/longHeader';
 import {colors} from '../common/colors';
 import {images} from '../common/images';
@@ -33,6 +34,7 @@ export default (props) => {
     (state) => state.main.data.profile.location,
   );
 
+  const [deleteAccountModal, showDeleteAccount] = useState(false);
   const [curLocation, setCurLocation] = useState('Bristal, UK');
 
   useEffect(() => {
@@ -63,24 +65,10 @@ export default (props) => {
   };
   const deleteAccount = () => {
     APIKit.deleteAccount().then((resp) => {
-      console.log('deleteAccount', resp);
       const {navigate} = props.navigation;
       logout(navigate);
     });
   };
-  const deleteAlert = () =>
-    Alert.alert(
-      'Delete Account',
-      'Are you sure you want to delete your account?',
-      [
-        {
-          text: 'Cancel',
-          style: 'cancel',
-        },
-        {text: 'Delete', onPress: () => deleteAccount()},
-      ],
-      {cancelable: true},
-    );
   const {navigate} = props.navigation;
   return (
     <>
@@ -89,6 +77,11 @@ export default (props) => {
         barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
       />
       <SafeAreaView style={styles.container}>
+        <DeleteAccountModal 
+        visible={deleteAccountModal}
+        onCancel={() => showDeleteAccount(false)}
+        onDelete={deleteAccount}
+        />
         <LongHeader
           title={'Settings'}
           dark={true}
@@ -376,7 +369,7 @@ export default (props) => {
           <View style={[styles.row, styles.divider_section]} />
           <TouchableOpacity
             style={[styles.row, styles.divider]}
-            onPress={() => deleteAlert()}>
+            onPress={() => showDeleteAccount(true)}>
             <Text style={styles.btnText}>{'Delete Account'}</Text>
           </TouchableOpacity>
           <View style={[styles.row, styles.divider_section]} />
