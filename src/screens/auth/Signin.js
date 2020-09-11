@@ -144,7 +144,7 @@ export default class Signin extends Component {
                 },
               });
             } else {
-              console.log(err.response, '[ERROR]');
+              console.log(err.response.data.errors.msg, '[ERROR]');
               Alert.alert(err.response.data.errors.msg.replace('_', ' '));
             }
           });
@@ -178,10 +178,6 @@ export default class Signin extends Component {
               .then((response) => response.json())
               .then((json) => {
                 // Some user object has been set up somewhere, build that user here
-                console.log(json.name);
-                console.log(json.email);
-                console.log(json.id);
-                console.log(json.picture.data.url);
 
                 APIKit.social_login({
                   provider: 'facebook',
@@ -210,8 +206,8 @@ export default class Signin extends Component {
                         },
                         user: {
                           email: json.email,
-                          firstname: json.name,
-                          lastname: json.name,
+                          firstname: json.name.split(' ')[0],
+                          lastname: json.name.split(' ')[1],
                           photo: json.picture.data.url,
                         },
                       });
