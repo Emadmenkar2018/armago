@@ -7,18 +7,19 @@ import {
   Image,
   Alert,
   TouchableOpacity,
+  Linking,
 } from 'react-native';
 import {colors} from '../../common/colors';
 import {images} from '../../common/images';
 import {Input, CheckBox, Icon, Button} from 'react-native-elements';
 import {RFValue} from 'react-native-responsive-fontsize';
 import {KeyboardAwareScrollView} from 'react-native-keyboard-aware-scroll-view';
-import {OpenURLButton} from '../../components/openWebLinking';
 import {responsiveScreenWidth} from 'react-native-responsive-dimensions';
 import APIKit, {setClientToken} from '../../services/api';
 import AsyncStorage from '@react-native-community/async-storage';
 
-const supportedURL = 'https://google.com';
+const termsURL = 'http://armago.uk/terms';
+const privacyURL = 'http://armago.uk/privacy';
 export default class SetDetail extends Component {
   state = null;
   constructor(props) {
@@ -115,6 +116,10 @@ export default class SetDetail extends Component {
     }
   }
 
+  goToLink = (link) => {
+    Linking.openURL(link);
+  };
+
   render() {
     const {navigate} = this.props.navigation;
     const phoneNumber = this.props.navigation.state.params.phone;
@@ -147,19 +152,20 @@ export default class SetDetail extends Component {
                 checked={this.state.checked1}
                 onPress={() => this.setState({checked1: !this.state.checked1})}
               />
-              <OpenURLButton url={supportedURL}>
-                <Text style={styles.sublabel}>
-                  <Text>{'By ticking this box you agree to the '}</Text>
-
-                  <Text style={{color: colors.biglightBlue}}>
-                    {'terms and conditions'}
-                  </Text>
-                  <Text>{' of GameOn and to the '}</Text>
-                  <Text style={{color: colors.biglightBlue}}>
-                    {'privacy policy'}
-                  </Text>
+              <Text style={styles.sublabel}>
+                <Text>{'By ticking this box you agree to the '}</Text>
+                <Text
+                  style={{color: colors.biglightBlue}}
+                  onPress={() => this.goToLink(termsURL)}>
+                  {'terms and conditions'}
                 </Text>
-              </OpenURLButton>
+                <Text>{' of GameOn and to the '}</Text>
+                <Text
+                  style={{color: colors.biglightBlue}}
+                  onPress={() => this.goToLink(privacyURL)}>
+                  {'privacy policy'}
+                </Text>
+              </Text>
             </View>
             <View style={{flexDirection: 'row', flex: 1}}>
               <CheckBox
@@ -170,13 +176,11 @@ export default class SetDetail extends Component {
                 style={styles.checkbox}
                 onPress={() => this.setState({checked2: !this.state.checked2})}
               />
-              <OpenURLButton url={supportedURL}>
-                <Text style={styles.sublabel}>
-                  {
-                    'By ticking this box you agree you would like to receive marketing communications by email'
-                  }
-                </Text>
-              </OpenURLButton>
+              <Text style={styles.sublabel}>
+                {
+                  'By ticking this box you agree you would like to receive marketing communications by email'
+                }
+              </Text>
             </View>
             <View style={{flexDirection: 'row', flex: 1}}>
               <CheckBox
