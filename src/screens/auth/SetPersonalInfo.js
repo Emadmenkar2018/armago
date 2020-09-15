@@ -136,6 +136,7 @@ export default class SetPersonalInfo extends Component {
               message: 'This App needs to Access your location',
             },
           );
+          console.log({ granted }, '[GRANTED]')
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
             //To Check, If Permission is granted
             that.callLocation(that);
@@ -478,7 +479,8 @@ export default class SetPersonalInfo extends Component {
                     <Image
                       source={
                         this.state.photo == null
-                          ? this.props.navigation.state.params.user.photo
+                          ? this.props.navigation.state.params.user &&
+                            this.props.navigation.state.params.user.photo
                             ? {
                                 uri: this.props.navigation.state.params.user
                                   .photo,
