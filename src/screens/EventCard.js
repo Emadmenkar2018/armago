@@ -71,7 +71,7 @@ export default class EventCard extends Component {
           flip={false}
           clickable={true}
           onFlipEnd={(isFlipEnd) => {
-            console.log('isFlipEnd', isFlipEnd);
+            // console.log('isFlipEnd', isFlipEnd);
           }}
           useNativeDriver={false}>
           {/* Face Side */}

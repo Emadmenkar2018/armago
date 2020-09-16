@@ -22,19 +22,19 @@ const sortByDate = (a, b) => {
 export default (state = initialState, action) => {
   switch (action.type) {
     case Actions.SET_CONTACTS:
-      console.log('SET_CONTACTS', action.payload);
+      // console.log('SET_CONTACTS', action.payload);
       return {...state, contacts: action.payload};
     case Actions.ADD_HISTORY:
-      console.log('ADD_HISTORY', action.payload);
+      // console.log('ADD_HISTORY', action.payload);
       const newHistory = action.payload.filter(
         (msg) => !state.history.find((h) => h._id === msg._id),
       );
       const history = [...state.history, ...newHistory];
-      console.log('HISTORY', history);
+      // console.log('HISTORY', history);
       history.sort(sortByDate);
       return {...state, history: history};
     case Actions.CLEAR_HISTORY:
-      console.log('clear history');
+      // console.log('clear history');
       return {...state, history: []};
     case Actions.SET_CUR_USER:
       return {...state, curUser: action.payload};

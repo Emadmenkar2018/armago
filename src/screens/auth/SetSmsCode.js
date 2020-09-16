@@ -46,7 +46,7 @@ export default class SetSmsCode extends Component {
       const payload = {phone: phone, code: this.state.code};
       APIKit.verifyCode(payload)
         .then(({data}) => {
-          console.log(data);
+          // console.log(data);
           const userInfo = this.props.navigation.state.params.user;
           if (!data.existed) {
             // set user Phone in LocatStorage
@@ -63,7 +63,7 @@ export default class SetSmsCode extends Component {
             APIKit.login({identifier: phone, provider: 'local'})
               // eslint-disable-next-line no-shadow
               .then(({data}) => {
-                console.log(data);
+                // console.log(data);
                 const token = data.token;
                 //set token to call other api
                 setClientToken(token);
@@ -80,13 +80,13 @@ export default class SetSmsCode extends Component {
                   : navigate('Home');
               })
               .catch((error) => {
-                console.log(error.response.data, '[ERROR LOGIN]');
+                // console.log(error.response.data, '[ERROR LOGIN]');
                 Alert.alert(error.response.data.errors.msg.replace('_', ' '));
               });
           }
         })
         .catch(e => {
-          console.log(e.response.data, '[ERROR VERIFICATION]');
+          // console.log(e.response.data, '[ERROR VERIFICATION]');
           Alert.alert('Please check that your phone number is correct');
         });
     }
@@ -95,7 +95,7 @@ export default class SetSmsCode extends Component {
     const payload = {phone: phoneNumber};
     APIKit.sendSMSCode(payload)
       .then(({data}) => {
-        console.log(data);
+        // console.log(data);
         // if(data.success) navigate('SetSmsCode', phone);
       })
       .catch(() => {

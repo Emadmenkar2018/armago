@@ -74,24 +74,24 @@ export default class Signin extends Component {
               },
             });
           } else {
-            console.log(err.response, '[ERROR]');
+            // console.log(err.response, '[ERROR]');
             Alert.alert(err.response.data.errors.msg.replace('_', ' '));
           }
         });
     } catch (error) {
       if (error.code === statusCodes.SIGN_IN_CANCELLED) {
-        console.log('signin cancelled');
+        // console.log('signin cancelled');
         // user cancelled the login flow
       } else if (error.code === statusCodes.IN_PROGRESS) {
-        console.log('signin in progress');
+        // console.log('signin in progress');
         // operation (f.e. sign in) is in progress already
       } else if (error.code === statusCodes.PLAY_SERVICES_NOT_AVAILABLE) {
-        console.log('signin play service not available');
+        // console.log('signin play service not available');
         // play services not available or outdated
       } else {
         // some other error happened
-        console.log('unknown error');
-        console.log(error);
+        // console.log('unknown error');
+        // console.log(error);
       }
     }
   };
@@ -144,7 +144,7 @@ export default class Signin extends Component {
                 },
               });
             } else {
-              console.log(err.response.data.errors.msg, '[ERROR]');
+              // console.log(err.response.data.errors.msg, '[ERROR]');
               Alert.alert(err.response.data.errors.msg.replace('_', ' '));
             }
           });
@@ -154,7 +154,7 @@ export default class Signin extends Component {
         );
       }
     } catch (e) {
-      console.log(e);
+      // console.log(e);
     }
   };
   handleFacebookSignIn = async () => {
@@ -212,7 +212,7 @@ export default class Signin extends Component {
                         },
                       });
                     } else {
-                      console.log(err.response, '[ERROR]');
+                      // console.log(err.response, '[ERROR]');
                       Alert.alert(
                         err.response.data.errors.msg.replace('_', ' '),
                       );
@@ -221,7 +221,7 @@ export default class Signin extends Component {
               })
               .catch((e) => {
                 // reject('ERROR GETTING DATA FROM FACEBOOK');
-                console.log(e);
+                // console.log(e);
               });
           });
         }

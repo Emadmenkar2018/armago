@@ -19,13 +19,13 @@ export const setClientToken = (token) => {
     } else {
       config.headers.Authorization = undefined;
     }
-    console.log('interceptor', config);
+    // console.log('interceptor', config);
     return config;
   });
 };
 
 export const clearClientToken = () => {
-  console.log('clear token');
+  // console.log('clear token');
   APIKit.interceptors.request.eject(tokenInterceptor);
   tokenInterceptor = null;
 };
@@ -42,15 +42,15 @@ APIKit.interceptors.response.use(
     return response;
   },
   async (error) => {
-    console.log(error && error.response);
+    // console.log(error && error.response);
     if (!error || !error.response) {
       return;
     }
-    console.log('interceptor : ' + error.response.status);
+    // console.log('interceptor : ' + error.response.status);
     if (error.response.status === 401) {
       //refresh token with old one
       const old_token = await AsyncStorage.getItem('userToken');
-      console.log(old_token);
+      // console.log(old_token);
       return Promise.reject(error);
       // send login screen for now.
     }

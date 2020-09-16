@@ -24,19 +24,19 @@ export default class ChooseAbility extends Component {
 
   componentDidMount() {
     // get sports ability
-    console.log('choose ability');
+    // console.log('choose ability');
     // eslint-disable-next-line react/no-did-mount-set-state
     this.setState({profileSports: this.profile_sports});
     APIKit.getability().then(
       (response) => {
-        console.log('getting sports ability list');
+        // console.log('getting sports ability list');
         const sports = response.data;
         this.setState({ablity: sports});
-        console.log(this.state.ablity);
+        // console.log(this.state.ablity);
         this.setState({profileSports: this.profile_sports});
       },
       (error) => {
-        console.log(error);
+        // console.log(error);
       },
     );
   }
@@ -45,11 +45,11 @@ export default class ChooseAbility extends Component {
     const payload = {ability: this.state.ablity};
     APIKit.setability(payload).then(
       (response) => {
-        console.log(response.data);
+        // console.log(response.data);
         navigate('SetBioUniversity');
       },
       (error) => {
-        console.log(error);
+        // console.log(error);
       },
     );
   }
@@ -119,7 +119,7 @@ export default class ChooseAbility extends Component {
                     value={_value}
                     thumbTintColor="#2ecc71"
                     onValueChange={(val) => {
-                      console.log(this.state.ablity);
+                      // console.log(this.state.ablity);
                       let newArray = [...this.state.ablity];
                       const elementIdx = this.state.ablity.findIndex(
                         (element) => element.sportId === prop.id,
@@ -147,7 +147,7 @@ export default class ChooseAbility extends Component {
                         level: _level,
                       };
                       this.setState({ablity: newArray});
-                      console.log(this.state.ablity);
+                      // console.log(this.state.ablity);
                     }}
                   />
                   <View style={styles.textCon}>

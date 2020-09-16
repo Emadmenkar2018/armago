@@ -68,7 +68,7 @@ export default class SetDetail extends Component {
       APIKit.register (payload)
         .then (async ({data}) => {
           await AsyncStorage.removeItem ('usedBefore');
-          console.log (data);
+          // console.log (data);
           const token = data.token;
           //set token to call other api
           setClientToken (token);
@@ -99,7 +99,7 @@ export default class SetDetail extends Component {
             sat: [1, 1, 1],
           };
           var resp = await APIKit.setavaliablity ({availability});
-          console.log (resp);
+          // console.log (resp);
           const setting = {
             location: [{lat: 0, lng: 0, address: ''}],
             distance: [0, 5],
@@ -121,11 +121,11 @@ export default class SetDetail extends Component {
               !fullfilled ? navigate ('SetPersonalInfo') : navigate ('Home');
             })
             .catch (error => {
-              console.log (error && error.response);
+              // console.log (error && error.response);
             });
         })
         .catch (error => {
-          console.log (error && error.response);
+          // console.log (error && error.response);
           Alert.alert (error.response.data.errors.msg.replace ('_', ' '));
         });
     }

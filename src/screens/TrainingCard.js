@@ -17,7 +17,7 @@ const weekdays = ['SUN', 'MON', 'TUE', 'WED', 'THU', 'FRI', 'SAT'];
 export default class TrainingCard extends Component {
   constructor(props) {
     super(props);
-    console.log(this.props.training.availability[0].start);
+    // console.log(this.props.training.availability[0].start);
     let start = null;
     let end = null;
     if (
@@ -55,7 +55,7 @@ export default class TrainingCard extends Component {
           flip={false}
           clickable={true}
           onFlipEnd={(isFlipEnd) => {
-            console.log('isFlipEnd', isFlipEnd);
+            // console.log('isFlipEnd', isFlipEnd);
           }}
           useNativeDriver={false}>
           {/* Face Side */}

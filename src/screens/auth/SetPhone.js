@@ -84,7 +84,7 @@ export default class SetPhone extends Component {
           }
         })
         .catch((error) => {
-          console.log(error, '[ERROR]');
+          // console.log(error, '[ERROR]');
           Alert.alert(error.response.data.errors.msg.replace('_', ' '));
         });
     }

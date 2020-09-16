@@ -26,7 +26,7 @@ import {Dropdown} from 'react-native-material-dropdown';
 import APIKit from '../services/api';
 
 function DateView(props) {
-  console.log(props);
+  // console.log(props);
   return (
     <View style={styles.item}>
       <View style={styles.btn_date}>
@@ -120,11 +120,11 @@ export default (props) => {
           myAvaliablity[w].includes('1') ||
           myAvaliablity[w].includes('true')),
     );
-    console.log('availableDays', availableDays);
+    // console.log('availableDays', availableDays);
     setAvailability(availableDays);
   }, [myAvaliablity, props.user.availability]);
   useEffect(() => {
-    console.log('userCard', props.universities);
+    // console.log('userCard', props.universities);
     const university = props.universities.find(
       (uni) => uni._id === props.user.bio.university,
     );
@@ -140,12 +140,12 @@ export default (props) => {
     setReason('');
     setReasonTxt('');
     setReportModalVisible(true);
-    console.log('modal:true');
+    // console.log('modal:true');
   };
 
   const confirmReportUesr = () => {
     APIKit.reportUser({user: props.user.id, reason}).then((resp) => {
-      console.log('report user', resp.data);
+      // console.log('report user', resp.data);
       setReportModalVisible(false);
       props.handleReportUser();
     });
@@ -181,7 +181,7 @@ export default (props) => {
                   data={reasons}
                   onChangeText={(txt) => {
                     setReason(txt);
-                    console.log(txt);
+                    // console.log(txt);
                   }}
                 />
               </View>

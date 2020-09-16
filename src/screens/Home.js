@@ -98,15 +98,15 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    console.log('svg', images.chat);
+    // console.log('svg', images.chat);
     AsyncStorage.getItem('usedBefore', (err, result) => {
       if (err) {
       } else {
         if (result == null) {
-          console.log('null value recieved', result);
+          // console.log('null value recieved', result);
           this.setState({modalVisible: true});
         } else {
-          console.log('result', result);
+          // console.log('result', result);
         }
       }
     });
@@ -114,11 +114,12 @@ class Home extends Component {
       'usedBefore',
       JSON.stringify({value: 'true'}),
       (err, result) => {
-        console.log('error', err, 'result', result);
+        // console.log('error', err, 'result', result);
       },
     );
     APIKit.getCards()
       .then((resp) => {
+        console.log('cards',resp.data)
         this.setState({allcards: resp.data});
       })
       .catch(this.onAxiosError);
@@ -129,10 +130,10 @@ class Home extends Component {
       .catch(this.onAxiosError);
     APIKit.getSetting()
       .then((resp) => {
-        console.log('setting', resp.data);
+        // console.log('setting', resp.data);
         this.props.setSetting(resp.data);
         this.setState({userId: resp.data.userId});
-        console.log('userId', resp.data.userId);
+        // console.log('userId', resp.data.userId);
         this.props.socket.emit('User:Joined', resp.data.userId);
       })
       .catch(this.onAxiosError);
@@ -143,7 +144,7 @@ class Home extends Component {
       .catch(this.onAxiosError);
     APIKit.getTeams()
       .then((resp) => {
-        console.log(resp.data.docs);
+        // console.log(resp.data.docs);
         this.props.setTeams(resp.data.docs);
       })
       .catch(this.onAxiosError);
@@ -171,10 +172,10 @@ class Home extends Component {
       })
       .catch(this.onAxiosError);
     this.props.socket.on('Online:Users', (onlineUsers) => {
-      console.log('Online:Users', onlineUsers);
+      // console.log('Online:Users', onlineUsers);
     });
     this.props.socket.on('History', (history) => {
-      console.log('Home History', history);
+      // console.log('Home History', history);
       if (
         history.from === this.state.userId &&
         history.to === this.props.curUser.userId
@@ -184,8 +185,8 @@ class Home extends Component {
       }
     });
     this.props.socket.on('Message', (msg) => {
-      console.log(msg);
-      console.log(this.props.curUser);
+      // console.log(msg);
+      // console.log(this.props.curUser);
       if (
         this.props.curUser.userId === msg.from ||
         this.props.curUser.userId === msg.to
@@ -225,8 +226,8 @@ class Home extends Component {
       );
     });
     this.props.socket.on('Game:Matched', (matchUserData) => {
-      console.log(matchUserData);
-      console.log(this.props.profile);
+      // console.log(matchUserData);
+      // console.log(this.props.profile);
       if (matchUserData.userId === this.state.userId) {
         this.setState({
           matchUser: matchUserData.partnerProfile,
@@ -242,11 +243,11 @@ class Home extends Component {
       }
     });
     this.props.socket.on('Chat:Read', (data) => {
-      console.log('Chat:Read', data);
+      // console.log('Chat:Read', data);
     });
   }
   onAxiosError = (err) => {
-    console.log('HOME', err);
+    // console.log('HOME', err);
     if (this.removeItemValue()) {
       this.props.navigation.navigate('Signin');
     }
@@ -308,7 +309,7 @@ class Home extends Component {
         Geocoder.from(position.coords.latitude, position.coords.longitude)
           .then((json) => {
             const fullAddress = json.results[0].formatted_address;
-            console.log(fullAddress);
+            // console.log(fullAddress);
             this.setState({address: fullAddress});
             if (this.props.profile.gender) {
               APIKit.profile({
@@ -576,13 +577,13 @@ class Home extends Component {
             onSwipedLeft={() => {
               APIKit.cardGame({partner: user.id, enable: false}).then(
                 (resp) => {
-                  console.log(resp);
+                  // console.log(resp);
                 },
               );
             }}
             onSwipedRight={() => {
               APIKit.cardGame({partner: user.id, enable: true}).then((resp) => {
-                console.log(resp);
+                // console.log(resp);
               });
             }}>
             <UserCard
@@ -610,25 +611,25 @@ class Home extends Component {
             style={styles.card}
             key={'team' + index}
             onSwipedLeft={() => {
-              console.log(this.props.setting);
+              // console.log(this.props.setting);
               APIKit.rejectTeam(
                 {
                   player: this.state.userId,
                 },
                 team.chief,
               ).then((resp) => {
-                console.log(resp);
+                // console.log(resp);
               });
             }}
             onSwipedRight={() => {
-              console.log(this.props.setting);
+              // console.log(this.props.setting);
               APIKit.joinTeam(
                 {
                   player: this.state.userId,
                 },
                 team.chief,
               ).then((resp) => {
-                console.log(resp);
+                // console.log(resp);
                 APIKit.getTeams().then((resp1) => {
                   this.props.setTeams(resp1.data.docs);
                 });
@@ -671,13 +672,13 @@ class Home extends Component {
             style={styles.card}
             key={'trial' + index}
             onSwipedLeft={() => {
-              console.log('left');
+              // console.log('left');
               APIKit.cardJoin({
                 cardId: trial.id,
                 status: false,
                 cardType: 'trial',
               }).then((resp) => {
-                console.log(resp);
+                // console.log(resp);
               });
             }}
             onSwipedRight={() => {

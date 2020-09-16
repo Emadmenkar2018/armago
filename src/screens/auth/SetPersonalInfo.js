@@ -119,7 +119,7 @@ export default class SetPersonalInfo extends Component {
         });
       },
       (error) => {
-        console.log(error);
+        // console.log(error);
       },
     );
     //get current location, lat & long
@@ -136,7 +136,7 @@ export default class SetPersonalInfo extends Component {
               message: 'This App needs to Access your location',
             },
           );
-          console.log({ granted }, '[GRANTED]')
+          // console.log({ granted }, '[GRANTED]')
           if (granted === PermissionsAndroid.RESULTS.GRANTED) {
             //To Check, If Permission is granted
             that.callLocation(that);
@@ -145,7 +145,7 @@ export default class SetPersonalInfo extends Component {
           }
         } catch (err) {
           alert('err', err);
-          console.warn(err);
+          // console.warn(err);
         }
       }
       requestLocationPermission();
@@ -167,7 +167,7 @@ export default class SetPersonalInfo extends Component {
         Geocoder.from(position.coords.latitude, position.coords.longitude)
           .then((json) => {
             var fullAddress = json.results[0].formatted_address;
-            console.log(fullAddress);
+            // console.log(fullAddress);
             APIKit.getSetting().then(({data}) => {
               const setting = {
                 ...data,
@@ -179,9 +179,9 @@ export default class SetPersonalInfo extends Component {
                   },
                 ],
               };
-              console.log(data);
+              // console.log(data);
               APIKit.setSetting(setting).then((resp) => {
-                console.log(resp);
+                // console.log(resp);
                 this.setState({setting});
               });
               this.setState({address: fullAddress});
@@ -204,7 +204,7 @@ export default class SetPersonalInfo extends Component {
         name: this.state.photo.fileName,
         type: this.state.photo.type,
       });
-      console.log(data);
+      // console.log(data);
       // show uploading
       this.setState({isUploading: true});
       APIKit.uploadImage({
@@ -212,11 +212,11 @@ export default class SetPersonalInfo extends Component {
         name: this.state.photo.fileName,
       })
         .then((resp) => {
-          console.log('--resp', resp);
+          // console.log('--resp', resp);
           this.setState({imageUrl: resp.data.imageUrl});
         })
         .catch((error) => {
-          console.error('err', error);
+          // console.error('err', error);
         })
         .finally(() => {
           this.setState({isUploading: false});
@@ -231,26 +231,26 @@ export default class SetPersonalInfo extends Component {
     };
 
     ImagePicker.showImagePicker(options, (res) => {
-      console.log('Response = ', res);
+      // console.log('Response = ', res);
 
       if (res.didCancel) {
-        console.log('User cancelled image picker');
+        // console.log('User cancelled image picker');
       } else if (res.error) {
-        console.log('ImagePicker Error: ', res.error);
+        // console.log('ImagePicker Error: ', res.error);
       } else if (res.customButton) {
-        console.log('User tapped custom button: ', res.customButton);
+        // console.log('User tapped custom button: ', res.customButton);
         alert(res.customButton);
       } else {
         if (res.uri) {
           this.setState({photo: res});
-          console.log(res);
+          // console.log(res);
           if (res.width > 500 || res.height > 500) {
             let newWidth = 500,
               newHeight = 500;
             if (res.width > res.height) {
               newHeight = (res.height / res.width) * 500;
             }
-            console.log('compressing', res.width);
+            // console.log('compressing', res.width);
             this.setState({isUploading: true});
             ImageResizer.createResizedImage(
               res.uri,
@@ -274,11 +274,11 @@ export default class SetPersonalInfo extends Component {
                     this.fileUpload();
                   })
                   .catch((err) => {
-                    console.log('loading image error:', err);
+                    // console.log('loading image error:', err);
                   });
               })
               .catch((err) => {
-                console.log('Image Compress Error:', err);
+                // console.log('Image Compress Error:', err);
                 this.setState({isUploading: false});
                 Alert.alert('Image Compress Failed.');
               });
@@ -343,11 +343,11 @@ export default class SetPersonalInfo extends Component {
         fullfilled: false,
       }).then(
         (response) => {
-          console.log(response);
+          // console.log(response);
           navigate('ChooseSports');
         },
         (error) => {
-          console.log(error);
+          // console.log(error);
         },
       );
     }

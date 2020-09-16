@@ -54,7 +54,7 @@ export default class SetDetail extends Component {
       };
       APIKit.register(payload)
         .then(async ({data}) => {
-          console.log(data);
+          // console.log(data);
           const token = data.token;
           //set token to call other api
           setClientToken(token);
@@ -111,7 +111,7 @@ export default class SetDetail extends Component {
           });
         })
         .catch((error) => {
-          console.log(error && error.response);
+          // console.log(error && error.response);
         });
     }
   }

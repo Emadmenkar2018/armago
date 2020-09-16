@@ -21,17 +21,17 @@ export default class SetBioUniversity extends Component {
   }
 
   next(navigate) {
-    console.log(this.state.bio + this.state.university);
+    // console.log(this.state.bio + this.state.university);
     const payload = {
       bio: {description: this.state.bio, university: this.state.university},
     };
     APIKit.setbiouniversity(payload).then(
       (response) => {
-        console.log(response);
+        // console.log(response);
         navigate('SetAvailability');
       },
       (error) => {
-        console.log(error);
+        // console.log(error);
       },
     );
   }
@@ -46,11 +46,11 @@ export default class SetBioUniversity extends Component {
         newArray.forEach((val, idx) => {
           newArray[idx] = {...newArray[idx], label: val.name, value: val._id};
         });
-        console.log(newArray);
+        // console.log(newArray);
         APIKit.getbiouniversity().then(
           // eslint-disable-next-line no-shadow
           (response) => {
-            console.log(response);
+            // console.log(response);
             var bio =
               typeof response.data.description !== 'undefined'
                 ? response.data.description
@@ -64,8 +64,8 @@ export default class SetBioUniversity extends Component {
               university: university,
               universities: newArray,
             });
-            console.log(this.state.bio);
-            console.log(this.state.university);
+            // console.log(this.state.bio);
+            // console.log(this.state.university);
           },
           () => {},
         );

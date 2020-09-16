@@ -42,9 +42,9 @@ export default class ChooseSports extends Component {
   componentDidMount() {
     APIKit.getsports().then(
       (response) => {
-        console.log('getting sports list');
+        // console.log('getting sports list');
         const sports = response.data;
-        console.log(sports);
+        // console.log(sports);
         sports.map((value, index) => {
           value.checked = false;
         });
@@ -55,20 +55,20 @@ export default class ChooseSports extends Component {
             if (typeof response !== 'undefined') {
               this.setState({selectedSports: response.data});
             }
-            console.log(response.data);
+            // console.log(response.data);
           },
           (error) => {
-            console.log(error);
+            // console.log(error);
           },
         );
       },
       (error) => {
-        console.log(error);
+        // console.log(error);
       },
     );
   }
   next(navigate) {
-    console.log(this.state.selectedSports);
+    // console.log(this.state.selectedSports);
     if (this.state.selectedSports.length === 0) {
       Alert.alert('select at least one');
     } else {
@@ -80,16 +80,16 @@ export default class ChooseSports extends Component {
       const payload = {sports: sports_payload};
       APIKit.setsports(payload).then(
         (response) => {
-          console.log(response);
+          // console.log(response);
           APIKit.getSetting().then((resp) => {
             let setting = resp.data;
-            console.log(resp.data);
+            // console.log(resp.data);
             setting.gender = sports_payload.map((sport) => ({
               sport,
               value: 'both',
             }));
             APIKit.setSetting(setting).then((resp) => {
-              console.log(resp);
+              // console.log(resp);
               navigate('ChooseAbility', {
                 profile_sports: this.state.selectedSports,
               });
@@ -97,14 +97,14 @@ export default class ChooseSports extends Component {
           });
         },
         (error) => {
-          console.log(error);
+          // console.log(error);
         },
       );
     }
   }
   render() {
     const {navigate} = this.props.navigation;
-    console.log(this.state.sports.length);
+    // console.log(this.state.sports.length);
     return (
       <ScrollView contentContainerStyle={styles.container}>
         <View style={styles.main}>
@@ -121,7 +121,7 @@ export default class ChooseSports extends Component {
             {/* <View style={styles.middleSection}> */}
             {this.state.sports.map((prop, key) => {
               if (prop.enable) {
-                console.log('enabled');
+                // console.log('enabled');
                 prop.id = prop._id;
                 return (
                   <TouchableOpacity
@@ -137,7 +137,7 @@ export default class ChooseSports extends Component {
                       } else {
                         arr.push(prop);
                       }
-                      console.log(arr);
+                      // console.log(arr);
                       this.setState({selectedSports: arr});
                     }}>
                     <View style={styles.item}>
@@ -158,7 +158,7 @@ export default class ChooseSports extends Component {
                   </TouchableOpacity>
                 );
               } else {
-                console.log('disabled');
+                // console.log('disabled');
                 return (
                   <View style={styles.item} key={prop._id}>
                     <View>

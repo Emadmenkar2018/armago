@@ -166,10 +166,10 @@ export default class SetAvailability extends Component {
             eve: availability.sat[2],
           },
         });
-        console.log(this.state);
+        // console.log(this.state);
       },
       (error) => {
-        console.log(error);
+        // console.log(error);
       },
     );
   }
@@ -216,7 +216,7 @@ export default class SetAvailability extends Component {
     };
     APIKit.setavaliablity(payload).then(
       (response) => {
-        console.log(response);
+        // console.log(response);
         APIKit.getprofile().then(({data}) => {
           APIKit.profile({...data, fullfilled: true}).then((profile) => {
             console.log(profile.data);
@@ -225,7 +225,7 @@ export default class SetAvailability extends Component {
         });
       },
       (error) => {
-        console.log(error);
+        // console.log(error);
       },
     );
   }

@@ -16,7 +16,7 @@ export default class TrialAccept extends Component {
       checked1: false,
       checked2: true,
     };
-    console.log(props.navigation.state.params);
+    // console.log(props.navigation.state.params);
   }
 
   handleRefresh = () => {

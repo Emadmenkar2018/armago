@@ -21,14 +21,14 @@ export default (props) => {
   const sports = useSelector((state) => state.main.data.sports);
   const userId = useSelector((state) => state.main.data.setting.userId);
   const rejectTeam = (team) => {
-    console.log(team);
+    // console.log(team);
     APIKit.rejectTeam(
       {
         player: userId,
       },
       team.chief,
     ).then((resp) => {
-      console.log(resp);
+      // console.log(resp);
       APIKit.getTeams().then((re) => {
         dispatch(Actions.setTeams(re.data.docs));
       });
