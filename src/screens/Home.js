@@ -119,7 +119,7 @@ class Home extends Component {
     );
     APIKit.getCards()
       .then((resp) => {
-        console.log('cards',resp.data)
+        // console.log('cards',resp.data)
         this.setState({allcards: resp.data});
       })
       .catch(this.onAxiosError);
@@ -142,9 +142,16 @@ class Home extends Component {
         this.props.setContacts(resp1.data);
       })
       .catch(this.onAxiosError);
+
+      // here to set matches
+    // APIKit.getContacts()
+    //   .then((resp1) => {
+    //     this.props.setContacts(resp1.data);
+    //   })
+    //   .catch(this.onAxiosError);
+    
     APIKit.getTeams()
-      .then((resp) => {
-        // console.log(resp.data.docs);
+      .then((resp) => { 
         this.props.setTeams(resp.data.docs);
       })
       .catch(this.onAxiosError);
@@ -153,6 +160,8 @@ class Home extends Component {
         this.props.setSports(resp.data);
       })
       .catch(this.onAxiosError);
+
+
     APIKit.getprofile()
       .then((resp) => {
         if (this.state.latitude) {
@@ -171,6 +180,8 @@ class Home extends Component {
         }
       })
       .catch(this.onAxiosError);
+
+
     this.props.socket.on('Online:Users', (onlineUsers) => {
       // console.log('Online:Users', onlineUsers);
     });
@@ -226,7 +237,7 @@ class Home extends Component {
       );
     });
     this.props.socket.on('Game:Matched', (matchUserData) => {
-      // console.log(matchUserData);
+      console.log('matchUserData',matchUserData);
       // console.log(this.props.profile);
       if (matchUserData.userId === this.state.userId) {
         this.setState({
@@ -577,13 +588,14 @@ class Home extends Component {
             onSwipedLeft={() => {
               APIKit.cardGame({partner: user.id, enable: false}).then(
                 (resp) => {
-                  // console.log(resp);
-                },
-              );
+                  console.log(resp);
+                }).catch(err => {
+                  console.log('err',err)
+              })
             }}
-            onSwipedRight={() => {
+            onSwipedRight={() => { 
               APIKit.cardGame({partner: user.id, enable: true}).then((resp) => {
-                // console.log(resp);
+                console.log(resp);
               });
             }}>
             <UserCard
@@ -667,6 +679,7 @@ class Home extends Component {
         );
       });
       trials.map((trial, index) => {
+        // console.log('re',trial)
         cards.push(
           <Card
             style={styles.card}
@@ -682,6 +695,7 @@ class Home extends Component {
               });
             }}
             onSwipedRight={() => {
+              console.log('het')
               // console.log('right');
               // APIKit.cardJoin({
               //   cardId: trial.id,

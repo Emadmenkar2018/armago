@@ -24,10 +24,17 @@ export const {width, height} = Dimensions.get('window');
 const KEYS_TO_FILTERS_NEWMATCHES = ['firstName'];
 const KEYS_TO_FILTERS_MESSAGES = ['firstName', 'latest'];
 export default (props) => {
+
   const contacts = useSelector((state) => state.main.chat.contacts);
+
   const [searchTerm, setSearchTerm] = useState('');
+ 
+
 
   const setting = useSelector((state) => state.main.data.setting);
+  
+
+
   const socket = useSelector((state) => state.main.chat.socket);
   const dispatch = useDispatch();
 
@@ -47,6 +54,7 @@ export default (props) => {
         }
         return -1;
       });
+      
     const filtered_Messages = contacts
       .filter((co) => co.count)
       .filter(createFilter(searchTerm, KEYS_TO_FILTERS_MESSAGES))
@@ -57,8 +65,7 @@ export default (props) => {
           return 0;
         }
         return -1;
-      });
-    console.log('filtered_Messages', filtered_Messages);
+      }); 
     return (
       <>
         <AppStatusBar

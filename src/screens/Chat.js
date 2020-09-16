@@ -8,6 +8,8 @@ import {
   SafeAreaView,
   TouchableOpacity,
   Platform,
+  KeyboardAvoidingView,
+  ImageBackground
 } from 'react-native';
 import {LongHeader} from '../components/longHeader';
 import {colors} from '../common/colors';
@@ -235,30 +237,36 @@ const ChatScreen = (props) => {
 
   const render = () => {
     return (
-      <GiftedChat
-        isTyping={isTyping}
-        messages={history.map((msg, index) => {
-          return {
-            _id: 'msg' + index,
-            text: msg.msg,
-            sent: msg.status,
-            createdAt: new Date(msg.createdAt),
-            user: {
-              _id: msg.from,
-              name: props.user.firstName,
-              avatar: props.user.imageUrl,
-            },
-          };
-        })}
-        onSend={(msg) => onSend(msg)}
-        onInputTextChanged={(text) => onTyping(text)}
-        renderBubble={renderBubble}
-        renderTime={renderTime}
-        renderFooter={renderFooter}
-        user={{
-          _id: setting.userId,
-        }}
-      />
+      // <View style={{ flex: 1 , zIndex:1, backgroundColor:'#fff'}}>
+      
+           <GiftedChat
+
+              isTyping={isTyping}
+              messages={history.map((msg, index) => {
+                return {
+                  _id: 'msg' + index,
+                  text: msg.msg,
+                  sent: msg.status,
+                  createdAt: new Date(msg.createdAt),
+                  user: {
+                    _id: msg.from,
+                    name: props.user.firstName,
+                    avatar: props.user.imageUrl,
+                  },
+                };
+              })}
+              onSend={(msg) => onSend(msg)}
+              onInputTextChanged={(text) => onTyping(text)}
+              renderBubble={renderBubble}
+              renderTime={renderTime}
+              renderFooter={renderFooter}
+              user={{
+                _id: setting.userId,
+              }}
+            /> 
+    //   </View>
+      
+ 
     );
   };
   return render();
@@ -298,76 +306,95 @@ export default (props) => {
     );
     console.log('availableDays', availableDays);
     return (
-      <>
-        <AppStatusBar
-          backgroundColor={colors.lightgreen}
-          barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
-        />
-        <SafeAreaView style={styles.container}>
-          <LongHeader
-            title={user.firstName}
-            avatar={{uri: user.imageUrl}}
-            dark={true}
-            left={colors.lightgreen}
-            route={'Messages'}
-            navigate={navigate}
-            bcolor={colors.gray}
-            rightIcon={'ellipsis1'}
-            rightMenu={true}
-            userId={user.userId}
-          />
-          <View
-            style={[
-              {
-                backgroundColor: colors.darkBlue,
-                padding: 15,
-                width: '80%',
-                justifyContent: 'center',
-                textAlign: 'center',
-                alignSelf: 'center',
-                borderRadius: 20,
-                marginVertical: 20,
-              },
-              changeStyle,
-            ]}>
-            <Text style={styles.text6}>{'Matching Availability'}</Text>
-            <View style={{paddingVertical: 20}}>
-              {!togglePanel
-                ? availableDays
-                    .slice(0, 2)
-                    .map((day) => (
+      
+      <View  style={{ flex: 1 , zIndex:1}}>
+
+            <AppStatusBar
+            backgroundColor={colors.lightgreen}
+            barStyle={Platform.OS === 'ios' ? 'dark-content' : 'light-content'}
+          />   
+
+        <KeyboardAvoidingView style={{ flex: 1,zIndex:-1}}  behavior={'scroll'} keyboardVerticalOffset={10} enabled={true}  > 
+
+        <ImageBackground 
+          style ={styles.fitimage}
+          source={require('../../assets/background.png')}> 
+
+             <LongHeader
+              title={user.firstName}
+              avatar={{uri: user.imageUrl}}
+              dark={true}
+              left={colors.lightgreen}
+              route={'Messages'}
+              navigate={navigate}
+              bcolor={colors.gray}
+              rightIcon={'ellipsis1'}
+              rightMenu={true}
+              userId={user.userId}
+            /> 
+             <View
+              style={[
+                {
+                  backgroundColor: colors.darkBlue,
+                  padding: 15,
+                  width: '80%',
+                  justifyContent: 'center',
+                  textAlign: 'center',
+                  alignSelf: 'center',
+                  borderRadius: 20,
+                  marginVertical: 20,
+                },
+                changeStyle,
+              ]}>
+              <Text style={styles.text6}>{'Matching Availability'}</Text>
+              <View style={{paddingVertical: 20}}>
+                {!togglePanel
+                  ? availableDays
+                      .slice(0, 2)
+                      .map((day) => (
+                        <DateView
+                          key={day}
+                          data={fullWeekDays[day]}
+                          value={user.availability[day]}
+                        />
+                      ))
+                  : weekdays.map((day) => (
                       <DateView
                         key={day}
                         data={fullWeekDays[day]}
                         value={user.availability[day]}
                       />
-                    ))
-                : weekdays.map((day) => (
-                    <DateView
-                      key={day}
-                      data={fullWeekDays[day]}
-                      value={user.availability[day]}
-                    />
-                  ))}
+                    ))}
+              </View> 
+
+              <TouchableOpacity
+                style={{
+                  position: 'absolute',
+                  bottom: 0,
+                  alignItems: 'center',
+                  justifyContent: 'center',
+                  alignSelf: 'center',
+                }}
+                onPress={() =>
+                  togglePanel ? onTogglePanel(false) : onTogglePanel(true)
+                }>
+                <AntDesign name={arrowIcon} size={30} color={'white'} />
+              </TouchableOpacity>
             </View>
 
-            <TouchableOpacity
-              style={{
-                position: 'absolute',
-                bottom: 0,
-                alignItems: 'center',
-                justifyContent: 'center',
-                alignSelf: 'center',
-              }}
-              onPress={() =>
-                togglePanel ? onTogglePanel(false) : onTogglePanel(true)
-              }>
-              <AntDesign name={arrowIcon} size={30} color={'white'} />
-            </TouchableOpacity>
-          </View>
-          <ChatScreen user={user} />
-        </SafeAreaView>
-      </>
+
+          
+              
+                  <ChatScreen user={user} />
+
+              </ImageBackground>
+
+            </KeyboardAvoidingView>
+    </View>
+        
+        
+           
+          
     );
   };
   return render();
@@ -376,6 +403,12 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
   },
+  fitimage : {
+    width : '100%',
+    height : '100%', 
+    zIndex:-1
+    
+  }, 
   main: {
     flex: 1,
     flexDirection: 'column',
